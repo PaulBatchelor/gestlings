@@ -1,0 +1,17 @@
+OS=$(uname -s)
+
+BUFSIZE=256
+
+if [ "$#" -gt 0 ]
+then
+BUFSIZE=$1
+fi
+
+if [ "$OS" == "Darwin" ]
+then
+jackd -d coreaudio -r 44100
+elif [ "$OS" == "Linux" ]
+then
+amixer -Dhw:D3 sset 'PCM' 100%
+jackd -d alsa -d hw:D3 -r 44100 -p$BUFSIZE
+fi

@@ -1,0 +1,34 @@
+#+TITLE: Simple Path
+The first Gestling!
+
+Now that it's possible to build GestVM programs inside
+of Lua, I am now focusing on the next immediate need, which
+is to build some abstractions that will help automate the
+building of these programs.
+
+At the lowest level, Lua evaluates an Uxn program as a
+string. A sensible abstraction on top of this would be a
+lua table of Uxn words represented as strings.
+
+A lua table could then be populated using a set of
+procedures.
+
+Finally, the sequence of procedures could be abstracted
+further into a construct for Gesture known as a "path",
+similar in concept to a path discussed in the context of
+graph theory in computer science.
+
+At this point, there is now a reasonably concise way to
+describe a simple path using Lua syntax. To my eyes, it's
+a notation that is a fairly good compromise between
+readability and ease of input (it's text and there's not
+a lot of type).
+
+Future investigations will investigate ways
+to notate gestures without having to make it easy to input.
+(example: math mode in TeX makes very readible mathematical
+notation, but sometimes the syntax used to generated it
+can be clunky to type and confusing to read).
+
+The generated gesture program can be used inside of
+a sndkit patch to control the melody of a sound.
