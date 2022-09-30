@@ -1,29 +1,213 @@
 #+TITLE: Simple Path
 The first Gestling!
+* Top Level Map
+Below is the top level "map" of the program. Chunks of
+code have been abstracted out as named  code blocks,
+denoted by "<<" and ">>".
 
+This should provide a gist of what is happening in the
+program.
+
+#+NAME: simple_path.lua
+#+BEGIN_SRC lua :tangle simple_path.lua
+<<procedures>>
+
+patch =
+<<sndkit_patch>>
+
+program_words = {}
+
+<<generate_macros>>
+
+-- I forget what this is called
+table.insert(program_words, "|0100")
+
+mklabel(program_words, "mel")
+
+<<vertex_shorthand_for_gesture_path>>
+
+path =
+<<gesture_path_as_lua_structure>>
+
+mkpath(program_words, path)
+mkjump(program_words, "mel")
+
+program_tal = table.concat(program_words, " ")
+compile_tal(program_tal)
+lil(patch)
+#+END_SRC
+* Overview
 Now that it's possible to build GestVM programs inside
 of Lua, I am now focusing on the next immediate need, which
 is to build some abstractions that will help automate the
 building of these programs.
-
+* TAL as a lua table of tokens, or "words"
 At the lowest level, Lua evaluates an Uxn program as a
 string. A sensible abstraction on top of this would be a
 lua table of Uxn words represented as strings.
-
+* Building Tables Via Procedures
 A lua table could then be populated using a set of
 procedures.
 
+=mkmacro= creates TAL macro. Since we aren't writing
+TAL code directly, this isn't strictly needed. But this
+original code was based off of handwritten TAL, so they
+stay.
+
+#+NAME: generate_macros
+#+BEGIN_SRC lua
+mkmacro(program_words, "NUM", {"#24", "DEO"})
+mkmacro(program_words, "DEN", {"#25", "DEO"})
+mkmacro(program_words, "NEXT", {"#26", "DEO"})
+mkmacro(program_words, "NOTE", {"#33", "ADD", "NEXT"})
+mkmacro(program_words, "BHVR", {"#27", "DEO"})
+#+END_SRC
+
+=mklabel= creates a TAL label, used for jumps and
+the like.
+
+=mknum= turns a lua value into an Uxn value that
+gets pused onto the stack. '4' would be '#04', 12 would
+be '#0c', 16 would be '#10', etc.
+
+=mknote= adds a "note", which is really a matter of
+setting the next value. A break is also added, which is
+a subtle yet important part of the program logic that
+makes it work with GestVM.
+
+=mkdur= sets the duration (rate?) scaling factor. This is
+represented
+as a fraction =num/den=. a value of =1/2= would give it
+a time half the rate of the conductor signal (a half note?).
+A value of =2/1= makes it twice the rate of a conudctor
+(an eigth note?).
+
+=mkbehavior= adds an instruction that changes the so-called
+"behavior" of the Gesture. In other words, when we travel
+from point A to B, how do we ge there? Linear, exponetial,
+and step are some of the options.
+
+#+NAME: procedures
+#+BEGIN_SRC lua
+function mkmacro(words, name, program)
+    table.insert(words, "%" .. name)
+    table.insert(words, "{")
+    for _,v in pairs(program)
+    do
+        table.insert(words, v)
+    end
+    table.insert(words, "}")
+end
+
+function mklabel(words, label)
+    table.insert(words, "@" .. label)
+end
+
+function mknum(words, val)
+    table.insert(words, "#" .. string.format("%02x", val))
+end
+
+function mknote(words, note)
+    table.insert(words, "#" .. string.format("%02x", note))
+    table.insert(words, "NOTE")
+    table.insert(words, "BRK")
+end
+
+function mkdur(words, num, den)
+    mknum(words, num)
+    table.insert(words, "NUM")
+    mknum(words, den)
+    table.insert(words, "DEN")
+end
+
+function mkbehavior(words, id)
+    mknum(words, id)
+    table.insert(words, "BHVR")
+end
+
+function mkjump(words, label)
+    table.insert(words, ";" .. label)
+    table.insert(words, "JMP2")
+end
+
+function compile_tal(tal)
+    lil([[
+    gmemnew mem
+    gestvmnew gvm
+    ]])
+
+    gestvm_compile("mem", program_tal)
+    lil("gmemcpy [grab mem] [grab gvm]")
+end
+#+END_SRC
+* Construct "path" structure using Lua syntax
 Finally, the sequence of procedures could be abstracted
 further into a construct for Gesture known as a "path",
 similar in concept to a path discussed in the context of
 graph theory in computer science.
 
+The data constructed by =path= can be parsed and converetd
+into TAL code via lua procedures using the =mkpath=
+procedure.
+
+#+NAME: procedures
+#+BEGIN_SRC lua
+function mkpath(words, path)
+    for _, v in pairs(path)
+    do
+        if v.note ~= nil then
+            mknote(program_words, v.note)
+        end
+
+        if v.dur ~= nil then
+            mkdur(program_words, v.dur[1], v.dur[2])
+        end
+
+        if v.bhvr ~= nil then
+            mkbehavior(program_words, v.bhvr)
+        end
+    end
+end
+#+END_SRC
+
 At this point, there is now a reasonably concise way to
-describe a simple path using Lua syntax. To my eyes, it's
+describe a simple path using Lua syntax.
+
+#+NAME: gesture_path_as_lua_structure
+#+BEGIN_SRC lua
+{
+    v(7, {1,2}, 2),
+    v(2, {1, 1}),
+    v(4),
+    v(9, {1, 2}, 3)
+}
+#+END_SRC
+
+For brevity, a functioned called =v= is used as a shorthand
+to produce vertices in the gesture path. A vertex contains
+the note, the duration of that note (represented as rate
+scaling amount, whose fractional value
+is represented a tuple), and the behavior.
+
+#+NAME: vertex_shorthand_for_gesture_path
+#+BEGIN_SRC lua
+
+v = function (note, dur, behavior)
+    x = {}
+
+    x.note = note
+    x.dur = dur
+    x.bhvr = behavior
+
+    return x
+end
+#+END_SRC
+
+To my eyes, this is a notation
 a notation that is a fairly good compromise between
 readability and ease of input (it's text and there's not
 a lot of type).
-
+* Future
 Future investigations will investigate ways
 to notate gestures without having to make it easy to input.
 (example: math mode in TeX makes very readible mathematical
@@ -32,3 +216,39 @@ can be clunky to type and confusing to read).
 
 The generated gesture program can be used inside of
 a sndkit patch to control the melody of a sound.
+
+Here is the sndkit patch, stored as a lua string.
+
+#+NAME: sndkit_patch
+#+BEGIN_SRC lua
+[[
+phasor 2 0
+
+hold zz
+regset zz 0
+
+gestvmnode [grab gvm] [gmemsym [grab mem] mel] [regget 0]
+
+mtof zz
+blsaw zz
+mul zz 0.5
+
+butlp zz 800
+
+dup
+dup
+verbity zz zz 0.1 0.1 0.1
+drop
+mul zz [dblin -15]
+dcblocker zz
+add zz zz
+
+unhold [regget 0]
+
+wavout zz simple_path.wav
+
+computes 10
+]]
+
+
+#+END_SRC

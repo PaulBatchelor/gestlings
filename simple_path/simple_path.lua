@@ -1,5 +1,3 @@
-program_words = {}
-
 function mkmacro(words, name, program)
     table.insert(words, "%" .. name)
     table.insert(words, "{")
@@ -50,7 +48,6 @@ function compile_tal(tal)
     gestvm_compile("mem", program_tal)
     lil("gmemcpy [grab mem] [grab gvm]")
 end
-
 function mkpath(words, path)
     for _, v in pairs(path)
     do
@@ -68,7 +65,8 @@ function mkpath(words, path)
     end
 end
 
-patch = [[
+patch =
+[[
 phasor 2 0
 
 hold zz
@@ -97,16 +95,9 @@ wavout zz simple_path.wav
 computes 10
 ]]
 
-v = function (note, dur, behavior)
-    x = {}
 
-    x.note = note
-    x.dur = dur
-    x.bhvr = behavior
 
-    return x
-end
-
+program_words = {}
 
 mkmacro(program_words, "NUM", {"#24", "DEO"})
 mkmacro(program_words, "DEN", {"#25", "DEO"})
@@ -119,7 +110,19 @@ table.insert(program_words, "|0100")
 
 mklabel(program_words, "mel")
 
-path = {
+
+v = function (note, dur, behavior)
+    x = {}
+
+    x.note = note
+    x.dur = dur
+    x.bhvr = behavior
+
+    return x
+end
+
+path =
+{
     v(7, {1,2}, 2),
     v(2, {1, 1}),
     v(4),
