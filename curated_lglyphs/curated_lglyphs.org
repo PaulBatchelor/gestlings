@@ -1,0 +1,283 @@
+#+TITLE: 36 Curated L-Glyphs
+* Overview
+I am working on a notation system for these Gestlings,
+and this is my very first initial (digital) experiment.
+
+The style of notation is something I'm inclined to call
+=brutalist notation=, because it is optimized for the
+digital medium it lives on: pixels.
+
+Below are 36 curated =L-Glyphs=, so called because of their
+funny L shape. These are components of a larger
+whole, which is why they have the shape that they do.
+
+@!(dofile "curated_lglyphs/curated_lglyphs.janet")!@
+
+An L Glyph is made up of 4 4x4 pixel tiles called
+=radicals=. Radicals can be mixed and matched to create
+potentially hundreds or possibly thousands of combinations,
+but the idea is to find ones that are visually distinct and
+aesthetically pleasing.
+
+These initial 36 were done by hand. While I wasn't trying
+to design these to be easy to write, I found it was trivial
+to turn many of the symbols I had in mind into strokes.
+
+These symbols don't mean anything yet. Eventually, they
+will turn into a number system used to represent the
+duration of a particular segment of a gesture in
+numerator-denominator format.
+* Tangled Source
+To be tangled using worgle. If you have the source code,
+this can be done
+with =worgle curated_lglyphs/curated_lglyphs.org=.
+
+#+NAME: curated_lglyphs.janet
+#+BEGIN_SRC janet :tangle curated_lglyphs/curated_lglyphs.janet
+<<operations>>
+<<tilemap_and_main_canvas>>
+<<layout>>
+<<glyph_and_radical_data>>
+
+(for y 0 boxrows
+  (for x 0 boxcols
+    (def glyphreg (get-block center x y))
+    (def glyphpos (+ (* y boxrows) x))
+    (if (< glyphpos (length glyphs))
+      (do
+        (def gl (glyphs glyphpos))
+        (draw-glyph bp tilemap glyphreg gl)
+        (outline-glyph bp glyphreg)))))
+
+
+(def geneva9 (btprnt/macfont-load "fonts/geneva_9"))
+(btprnt/macfont-textbox
+ bp geneva9
+ main
+ 8 (- 256 17) "36 curated L-glyphs" 1)
+
+(print "<img src=\"data:image/png;base64,")
+(print (btprnt/write-png bp))
+(print "\" alt=\"36 Curated L-Glyphs\">")
+
+(btprnt/del bp)
+(btprnt/del tilemap)
+#+END_SRC
+* Operations
+#+NAME: operations
+#+BEGIN_SRC janet
+(defn loadbuf-v2 [filename gwidth gheight cols rows]
+  (var xpos 0)
+  (var ypos 0)
+  (def onbit ((string/bytes "#") 0))
+  (def offbit ((string/bytes "-") 0))
+
+  # btprnt usually does this automatically
+  # handle non-multiples of 8
+  (def stride
+    (let (w (* gwidth cols))
+      (if (= (% w 8) 0)
+        cols
+        (+ cols 1))))
+
+  (def height (* rows gheight))
+
+  (var buf (buffer/new-filled (* stride height)))
+  (var f (file/open filename :r))
+  (var linepos 0)
+
+  (defn pixel [x y s]
+    (var off (math/floor (/ x 8)))
+    (var pos (+ (* y stride) off))
+    (var bitpos (- x (* off 8)))
+
+    (if (= s 1)
+      (set (buf pos)
+           (bor (buf pos) (blshift 1 bitpos)))
+      (set (buf pos)
+           (band (buf pos) (bnot (blshift 1 bitpos))))))
+
+  (loop [line :iterate (:read f :line)]
+    (var a (string/bytes line))
+    (if (or (= (a 0) onbit) (= (a 0) offbit))
+      (do
+        #(prin (string line))
+        (if (>= linepos gheight)
+          # end of glyph. get ready for next glyph.
+          (do
+            (set linepos 0)
+            (set xpos (+ xpos 1))
+
+            # possibly go to new road if at the end
+
+            (if (>= xpos cols)
+              (do
+                (set xpos 0)
+                (set ypos (+ ypos 1))))))
+        # add bits to row, then get ready for next row
+        (for i 0 (length a)
+          (cond
+            (>= i gwidth)
+            '()
+            (= (a i) offbit)
+            (pixel
+              (+ (* xpos gwidth) i)
+              (+ (* ypos gheight) linepos)
+              0)
+            (= (a i) onbit)
+            (pixel
+              (+ (* xpos gwidth) i)
+              (+ (* ypos gheight) linepos)
+              1))
+          )
+        (set linepos (+ linepos 1)))))
+
+  (file/close f)
+  buf)
+
+(defn draw-subglyph [bp map reg glyph x y]
+  (btprnt/tile
+    bp
+    map
+    reg
+    (+ x 2) (+ y 2)
+    (glyph 0) (glyph 1)
+    4 4
+    2 1))
+
+(defn draw-glyph [bp tilemap reg glyph]
+  (draw-subglyph bp tilemap reg (glyph 0) 0 0)
+  (draw-subglyph bp tilemap reg (glyph 1) 0 8)
+  (draw-subglyph bp tilemap reg (glyph 2) 0 16)
+  (draw-subglyph bp tilemap reg (glyph 3) 8 16))
+
+(defn outline-glyph [bp reg]
+  (btprnt/hline bp reg 0 0 12 1)
+  (btprnt/hline bp reg 0 27 20 1)
+  (btprnt/vline bp reg 0 0 27 1)
+  (btprnt/vline bp reg 11 0 17 1)
+  (btprnt/hline bp reg 11 16 8 1)
+  (btprnt/vline bp reg 19 16 11 1))
+
+#+END_SRC
+* Tilemap and Main Canvas
+TODO: words.
+
+#+NAME: tilemap_and_main_canvas
+#+BEGIN_SRC janet
+(def buf (loadbuf-v2 "curated_lglyphs/radicals.txt" 4 4 8 8))
+
+(def tilemap (btprnt/new 64 64))
+
+(btprnt/drawbits tilemap buf
+@[0 0 64 64]
+0 0 64 64
+0 0)
+
+(def bp (btprnt/new 256 256))
+#+END_SRC
+* Layout
+TODO: words.
+
+#+NAME: layout
+#+BEGIN_SRC janet
+(def main @[0 0 256 256])
+(def padding 8)
+(def boxwidth 20)
+(def boxheight 28)
+(def boxrows 6)
+(def boxcols 6)
+(def total-width
+  (+ (* boxwidth boxcols) (* padding (- boxcols 1))))
+(def total-height
+  (+ (* boxheight boxrows) (* padding (- boxrows 1))))
+
+(defn get-block [reg col row]
+  (array
+    (+ (reg 0)
+       (* (+ boxwidth padding) col))
+    (+ (reg 1)
+       (* (+ boxheight padding) row))
+    boxwidth
+    boxheight))
+
+(def center (btprnt/centerbox bp main total-width total-height))
+#+END_SRC
+
+* Glyph and Radical Data
+TODO: write words.
+
+#+NAME: glyph_and_radical_data
+#+BEGIN_SRC janet
+(def empty @[0 0])
+(def dot @[1 0])
+(def box @[2 0])
+(def vline @[3 0])
+(def tee @[4 0])
+(def knee @[5 0])
+(def rtee @[6 0])
+(def block @[7 0])
+(def ltee @[0 1])
+(def tstub @[1 1])
+(def bstub @[2 1])
+(def btee @[3 1])
+(def lstub @[4 1])
+(def tcap @[5 1])
+(def rcap @[6 1])
+(def rstub @[7 1])
+(def lcap @[0 2])
+(def bcap @[1 2])
+
+(def glyphs
+  @[
+    # row 1
+    @[tstub vline bstub empty]
+    @[dot empty dot empty]
+    @[dot dot dot empty]
+    @[dot dot dot dot]
+    @[empty empty box empty]
+    @[empty vline box empty]
+
+    # row 2
+    @[empty dot box dot]
+    @[empty vline knee rtee]
+    @[tee vline bstub empty]
+    @[box box box box]
+    @[tee vline knee rtee]
+    @[box vline knee rtee]
+
+    # row 3
+    @[empty empty ltee rtee]
+    @[empty empty box box]
+    @[dot empty box box]
+    @[empty vline btee box]
+    @[dot dot lstub rtee]
+    @[box vline knee dot]
+
+    # row 4
+    @[empty tcap knee rcap]
+    @[empty dot bcap empty]
+    @[tstub vline knee dot]
+    @[empty dot knee dot]
+    @[empty box dot box]
+    @[empty box dot dot]
+
+
+    # row 5
+    @[empty tcap dot rcap]
+    @[empty empty lstub rstub]
+    @[empty empty ltee rcap]
+    @[empty tcap btee empty]
+    @[empty tcap knee rcap]
+    @[box empty box empty]
+
+    # row 6
+    @[box empty empty dot]
+    @[box box lcap dot]
+    @[dot empty lstub rstub]
+    @[tstub vline bstub dot ]
+    @[empty empty lstub box]
+    @[tcap vline dot dot]
+
+    ])
+#+END_SRC
