@@ -28,9 +28,20 @@ will turn into a number system used to represent the
 duration of a particular segment of a gesture in
 numerator-denominator format.
 * Tangled Source
+This is the top-level entry point, depicting the
+main program code. All the abstractions and data leading
+up to this point have been abstracted away.
+
 To be tangled using worgle. If you have the source code,
 this can be done
 with =worgle curated_lglyphs/curated_lglyphs.org=.
+
+This program builds up a proof-of-concept interterface
+for procedurally generating L-Glyphs. 36 are stored in
+an array called =glyphs=, and the visible code below
+takes these glyphs and places them on a 6x6 layout. An
+L-shaped outline is drawn between each one to show the
+bounds.
 
 #+NAME: curated_lglyphs.janet
 #+BEGIN_SRC janet :tangle curated_lglyphs/curated_lglyphs.janet
@@ -64,6 +75,26 @@ with =worgle curated_lglyphs/curated_lglyphs.org=.
 (btprnt/del tilemap)
 #+END_SRC
 * Operations
+A number of key operations are constructed to created
+these glyphs in a procedural way. These build on top
+of the BTPRNT 1-bit graphics library.
+** Load a Tilemap
+BTPRNT provides tile map
+functionality for drawing with tiles, but does not have
+any great means of drawing the tile map itself.
+
+The solution here is to write a janet function that parses
+a text file containing a tile map. This allows tile maps to
+be constructed using a text editor. The function for this
+is called =loadbuf-v2=. Version 1 (not here)
+originally comes from the Candy Crystal Rainbow Codex code.
+It has been improved and now works with arbitrary sized
+tile sizes. In this case, our tiles are 4x4.
+
+The output of this is a Janet buffer containing raw bitmap.
+After it is transferred to a btprnt buffer, it can be
+used as a tilemap.
+
 #+NAME: operations
 #+BEGIN_SRC janet
 (defn loadbuf-v2 [filename gwidth gheight cols rows]
@@ -134,23 +165,64 @@ with =worgle curated_lglyphs/curated_lglyphs.org=.
 
   (file/close f)
   buf)
+#+END_SRC
+** Draw Radical
+A radical is a single 4x4 tile from the tile map. It is
+drawn using the function =draw-radical=.
 
-(defn draw-subglyph [bp map reg glyph x y]
+To
+draw a radical is to draw a tile using the btprnt function
+=btprnt/tile=.
+
+Tiles are located using a (column, row)
+convention, which gets turned into a 2-element array with
+Janet called =rad=.
+
+Note that a 2x scaling factor is used. This makes the
+L glyphs a bit more readable.
+
+#+NAME: operations
+#+BEGIN_SRC janet
+(defn draw-radical [bp map reg rad x y]
   (btprnt/tile
     bp
     map
     reg
     (+ x 2) (+ y 2)
-    (glyph 0) (glyph 1)
+    (rad 0) (rad 1)
     4 4
     2 1))
+#+END_SRC
+** Draw Glyph
+A single L-glyph is drawn with =draw-glyph=.
 
+This draws and places 4 radicals, and therefore makes
+4 calls to =draw-radical=.
+
+A glyph is represented as a 4-element array of radicals.
+They are ordered top down left to right, with the
+first element being the topmost radical, and the last
+element being the radical that forms the "L".
+
+#+NAME: operations
+#+BEGIN_SRC
 (defn draw-glyph [bp tilemap reg glyph]
-  (draw-subglyph bp tilemap reg (glyph 0) 0 0)
-  (draw-subglyph bp tilemap reg (glyph 1) 0 8)
-  (draw-subglyph bp tilemap reg (glyph 2) 0 16)
-  (draw-subglyph bp tilemap reg (glyph 3) 8 16))
+  (draw-radical bp tilemap reg (glyph 0) 0 0)
+  (draw-radical bp tilemap reg (glyph 1) 0 8)
+  (draw-radical bp tilemap reg (glyph 2) 0 16)
+  (draw-radical bp tilemap reg (glyph 3) 8 16))
+#+END_SRC
+** Outline Glyph
+The =outline-glyph= function draws an outline around
+a 2x scaled L-glyph with some padding. Horizontal
+and vertical line primitives are used via =btprnt/hline=
+and =btprnt/vline=.
 
+I'm prety sure I got the numbers right, but there was
+a little trial and error involved.
+
+#+NAME: operations
+#+BEGIN_SRC janet
 (defn outline-glyph [bp reg]
   (btprnt/hline bp reg 0 0 12 1)
   (btprnt/hline bp reg 0 27 20 1)
@@ -158,10 +230,39 @@ with =worgle curated_lglyphs/curated_lglyphs.org=.
   (btprnt/vline bp reg 11 0 17 1)
   (btprnt/hline bp reg 11 16 8 1)
   (btprnt/vline bp reg 19 16 11 1))
-
 #+END_SRC
+** Get Block
+The =get-block= function produces a region to draw an
+L-glyph, given its column and row position in the layout.
+The =draw-glyph= function can then draw in a local
+coordinate space, while allowing the results to appear in
+the right spot globally.
+
+This function is location-dependent because it implicitely
+uses the =boxwidth= and =boxheight= definitions.
+
+#+NAME: get-block
+#+BEGIN_SRC janet
+(defn get-block [reg col row]
+  (array
+    (+ (reg 0)
+       (* (+ boxwidth padding) col))
+    (+ (reg 1)
+       (* (+ boxheight padding) row))
+    boxwidth
+    boxheight))
+#+END_SRC
+
 * Tilemap and Main Canvas
-TODO: words.
+It is at this part of the code that we create the
+initial tilemap and main canvas to draw on.
+
+Both the tilemap and main canvas are their own instances
+of btprnt.
+
+The tilemap is generated first by loading the radicals
+into a janet buffer via =loadbuf-v2=, then writing it
+to the btprnt instance =tilemap= via =btprnt/drawbits=.
 
 #+NAME: tilemap_and_main_canvas
 #+BEGIN_SRC janet
@@ -177,7 +278,9 @@ TODO: words.
 (def bp (btprnt/new 256 256))
 #+END_SRC
 * Layout
-TODO: words.
+The layout of this drawing is a 6x6 array of L-glyphs.
+These get arranged with a bit of padding in between, and
+are all made to be centered around the main canvas.
 
 #+NAME: layout
 #+BEGIN_SRC janet
@@ -191,23 +294,24 @@ TODO: words.
   (+ (* boxwidth boxcols) (* padding (- boxcols 1))))
 (def total-height
   (+ (* boxheight boxrows) (* padding (- boxrows 1))))
-
-(defn get-block [reg col row]
-  (array
-    (+ (reg 0)
-       (* (+ boxwidth padding) col))
-    (+ (reg 1)
-       (* (+ boxheight padding) row))
-    boxwidth
-    boxheight))
-
 (def center (btprnt/centerbox bp main total-width total-height))
+<<get-block>>
 #+END_SRC
-
 * Glyph and Radical Data
-TODO: write words.
+Enough abstraction has been built up in Janet so that
+glyphs and undelrying radicals components can be expressed
+in a human readable way. The curated glyphs are stored as
+data below.
 
 #+NAME: glyph_and_radical_data
+#+BEGIN_SRC janet
+<<radicals>>
+<<glyphs>>
+#+END_SRC
+** Radicals
+TODO: words.
+
+#+NAME: radicals
 #+BEGIN_SRC janet
 (def empty @[0 0])
 (def dot @[1 0])
@@ -227,7 +331,12 @@ TODO: write words.
 (def rstub @[7 1])
 (def lcap @[0 2])
 (def bcap @[1 2])
+#+END_SRC
+** Glyphs
+TODO: words.
 
+#+NAME: glyphs
+#+BEGIN_SRC janet
 (def glyphs
   @[
     # row 1
