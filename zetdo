@@ -1,0 +1,944 @@
+#!/bin/sh
+
+mkgroup() {
+    weewiki zet mkgroup $1 > /dev/null
+    weewiki zet link @$1 @zetdo > /dev/null
+}
+
+presentation () {
+    weewiki zet ergoify |\
+    awk -F '\t' \
+        '$3 ~ /^>/ {print substr($2, 0, 8), $1, substr($3, 2)}'
+}
+
+grouplist() {
+    weewiki zet var list state @$1 | presentation
+}
+
+setstate() {
+    weewiki zet var link $1 state @$2
+}
+
+history() {
+UUID=$(weewiki zet resolve $1)
+
+if [[ ! $? -eq 0 ]]
+then
+    exit 1
+fi
+
+if [[ $# -eq 1 ]]
+then
+sqlite3 a.db <<EOF
+.mode tabs
+SELECT datetime(time, "localtime"), UUID, substr(value, 2) from wikizet
+WHERE UUID IN
+(SELECT UUID from wikizet where value like "#$UUID")
+and VALUE like ">%"
+ORDER BY strftime("%s", time) ASC;
+EOF
+else
+sqlite3 a.db <<EOF
+.mode tabs
+SELECT datetime(time, "localtime") as time_local,
+substr(value, 2) from wikizet
+WHERE UUID IN
+(SELECT UUID from wikizet where value like "#$UUID")
+and VALUE like ">%"
+and strftime('%Y-%m-%d', time_local) BETWEEN '$2' AND '$3'
+ORDER BY strftime("%s", time_local) ASC;
+EOF
+fi
+}
+
+lstadd (){
+    UUID=$(weewiki zet resolve $1)
+
+    if [[ $? -eq 0 ]]
+    then
+        sqlite3 a.db <<EOF
+INSERT INTO zetdo_priority (UUID)
+VALUES('$UUID');
+EOF
+    fi
+}
+
+lstdel (){
+    UUID=$(weewiki zet resolve $1)
+
+    if [[ $? -eq 0 ]]
+    then
+        sqlite3 a.db <<EOF
+DELETE FROM zetdo_priority
+WHERE UUID is '$UUID'
+EOF
+    fi
+}
+
+agendanosubtasks() {
+    agenda_query() {
+    cat <<EOF
+.mode tabs
+SELECT
+e.time,
+zetdo_priority.UUID,
+e.value,
+score
+FROM zetdo_priority
+INNER JOIN (SELECT
+UUID,
+time,
+value from wikizet
+WHERE value like ">%"
+) e
+ON zetdo_priority.UUID = e.UUID
+ORDER BY score DESC
+;
+EOF
+}
+
+    agenda_query |\
+        sqlite3 a.db |\
+        weewiki zet ergoify |\
+        awk -F "\t" '{print $4":", "["substr($2,1,8)"]", substr($3, 2)}'
+}
+
+# original agenda code, very slow
+agenda() {
+    ZETDO_UUID=$(weewiki zet resolve @zetdo)
+    DONE_UUID=$(weewiki zet resolve @DONE)
+
+    agenda_query() {
+    cat <<EOF
+.mode tabs
+CREATE TEMPORARY VIEW tzetdo AS SELECT * FROM
+wikizet where UUID in (SELECT UUID from wikizet
+WHERE value IS '#' || '$ZETDO_UUID');
+
+SELECT time, agenda.UUID, value, score,
+IFNULL(t.NTODO, 0),
+IFNULL(t.nsubtasks, 0)
+FROM (SELECT
+e.time as time,
+zetdo_priority.UUID as UUID,
+e.value as value,
+score
+FROM zetdo_priority
+INNER JOIN (SELECT UUID, time,
+    value from wikizet
+) e
+ON zetdo_priority.UUID = e.UUID
+) agenda
+
+LEFT JOIN
+(
+    SELECT parent_UUID, COUNT(subtasks.UUID) as nsubtasks,
+    SUM(TODO) as NTODO
+    FROM tzetdo
+    INNER JOIN (
+        SELECT a.UUID, parent_UUID, b.TODOval NOT NULL as TODO from
+        (select UUID as UUID,
+        substr(value, 2) as parent_UUID
+        FROM wikizet
+        WHERE UUID in
+            (SELECT UUID FROM wikizet WHERE value LIKE '\$state:%')) a
+
+        LEFT JOIN (
+            SELECT UUID as UUID, value as TODOval FROM
+            wikizet WHERE value IS '\$state:#$DONE_UUID'
+        ) b
+
+        on a.UUID = b.UUID
+    ) subtasks
+    on tzetdo.UUID = subtasks.parent_UUID
+    WHERE value LIKE '>%'
+    GROUP BY parent_UUID
+ ) t
+ ON t.parent_UUID = agenda.UUID
+
+WHERE value like ">%"
+ORDER BY score DESC
+
+;
+EOF
+}
+    read -r -d '' AWK_QUERY <<EOM
+{
+    total=""
+
+    if (\$6 > 0) {
+        total="("\$5"/"\$6")"
+    }
+
+    print \$4":",
+        "["substr(\$2,1,8)"]",
+        substr(\$3, 2),
+        total
+}
+EOM
+    agenda_query |\
+        sqlite3 a.db |\
+        weewiki zet ergoify |\
+        awk -F "\t" "$AWK_QUERY"
+
+}
+
+
+# Faster version of agenda with subtasks
+agenda2() {
+    agenda_query() {
+    cat <<EOF
+.mode tabs
+SELECT
+e.time,
+zetdo_priority.UUID,
+e.value,
+score
+FROM zetdo_priority
+INNER JOIN (SELECT
+UUID,
+time,
+value from wikizet
+WHERE value like ">%"
+) e
+ON zetdo_priority.UUID = e.UUID
+ORDER BY score DESC
+;
+EOF
+}
+read -r -d '' AWK_QUERY <<EOM
+BEGIN {
+    "weewiki zet resolve @zetdo" | getline ZETDO_UUID
+    "weewiki zet resolve @DONE" | getline DONE_UUID
+    count = 0
+}
+
+function nsubtasks(UUID, showdone) {
+    "./zetdo nsubtasks " \
+    UUID \
+    " TODO" | getline todo
+
+
+group_id_query= " "
+
+if (showdone) {
+group_id_query= " AND substr(state, 9) IS '" DONE_UUID "'"
+}
+
+
+cmd = "sqlite3 a.db <<EOF \n\
+SELECT COUNT(UUID) \n\
+FROM wikizet \n\
+INNER JOIN \
+    (SELECT UUID as ID, value as state \
+    FROM wikizet WHERE value LIKE '" "\\\" "\$state:%' \
+    ) states \n\
+    ON wikizet.UUID = states.ID \n\
+WHERE UUID in \n\
+    (SELECT UUID \n\
+    FROM wikizet \n\
+    WHERE UUID in \n\
+        (SELECT UUID \n\
+            from wikizet \n\
+            WHERE \n\
+            UUID in \n\
+                (SELECT UUID \n\
+                FROM wikizet \n\
+                WHERE value IS '#' || '" ZETDO_UUID "') \n\
+        AND value LIKE '" "\\\" "\$state:%') \n\
+    AND value IS '#' || '" UUID "') \n\
+AND value like '>%' \n" group_id_query " \n\
+; \n\
+EOF"
+    cmd | getline total
+    return total
+}
+
+{
+    print \$0 "\t" nsubtasks(\$2, 1) "\t" nsubtasks(\$2, 0)
+}
+EOM
+
+    read -r -d '' DISPLAY <<EOM
+{
+    total=""
+
+    if (\$6 > 0) {
+        total="("\$5"/"\$6")"
+    }
+
+    print \$4":",
+        "["substr(\$2,1,8)"]",
+        substr(\$3, 2),
+        total
+}
+EOM
+
+
+    agenda_query |\
+        sqlite3 a.db |\
+        awk -F "\t" "$AWK_QUERY" |\
+        weewiki zet ergoify |\
+        awk -F "\t" "$DISPLAY"
+}
+
+upvote(){
+    UUID=$(weewiki zet resolve $1)
+    if [[ $? -eq 0 ]]
+    then
+        AMT=1
+
+        if [[ ! -z $2 ]]
+        then
+           AMT=$2
+        fi
+
+        sqlite3 a.db <<EOF
+UPDATE zetdo_priority
+SET score = score + $AMT
+WHERE UUID is '$UUID'
+EOF
+    fi
+}
+
+downvote(){
+    UUID=$(weewiki zet resolve $1)
+    if [[ $? -eq 0 ]]
+    then
+        AMT=1
+
+        if [[ ! -z $2 ]]
+        then
+           AMT=$2
+        fi
+        sqlite3 a.db <<EOF
+UPDATE zetdo_priority
+SET score = score - $AMT
+WHERE UUID is '$UUID';
+EOF
+    fi
+}
+
+create_list() {
+        sqlite3 a.db <<EOF
+CREATE TABLE IF NOT EXISTS zetdo_priority(
+UUID TEXT UNIQUE,
+score INT DEFAULT 0
+);
+EOF
+}
+
+lstexp() {
+    query() {
+        cat <<EOF
+.mode tabs
+SELECT UUID, score from zetdo_priority
+EOF
+    }
+    query | sqlite3 a.db
+}
+
+lstimp() {
+    create_list
+    read -r -d '' QUERY <<EOF
+{
+print "INSERT OR REPLACE INTO zetdo_priority(UUID, score) " \
+"VALUES(" \
+"'" \$1 "', "\
+\$2 \
+");"
+}
+EOF
+    awk -F "\t" "$QUERY" | sqlite3 a.db
+}
+
+tags() {
+    query() {
+    cat <<EOF
+SELECT SUBSTR(value, 2) FROM wikizet
+WHERE UUID in (SELECT UUID FROM wikizet
+INNER JOIN
+    (SELECT '#' || UUID AS addr from wikizet
+    WHERE value IS '@zetdo' LIMIT 1) g
+    where value = addr)
+AND value like '@%'
+;
+EOF
+    }
+
+    query | sqlite3 a.db
+}
+
+lstdone() {
+    UUID=$(weewiki zet resolve $1)
+    if [[ "$?" -eq 0 ]]
+    then
+        setstate $UUID DONE
+        lstdel $UUID
+    fi
+}
+
+blurb() {
+    UUID=$(weewiki zet resolve $1)
+    if [[ "$?" -eq 0 ]]
+    then
+        weewiki zet var new $UUID blurb
+        weewiki zet var set $UUID blurb
+    fi
+}
+
+boxit() {
+    read -r -d '' SCRIPT <<EOF
+BEGIN {
+    NROWS=58
+    printf "+"
+    for (i = 0; i < NROWS; i++) {
+        printf "-"
+    }
+    printf "+\n"
+}
+
+{
+    lsize = length(\$0)
+    lspace = (NROWS - lsize) / 2
+    rspace = lspace
+
+    if (lsize % 2 != 0) rspace--;
+
+    printf "|"
+
+    for (i = 0; i < lspace; i++) {
+        printf " "
+    }
+
+    printf \$0
+
+    for (i = 0; i < rspace; i++) {
+        printf " "
+    }
+
+    printf "|\n"
+}
+
+END {
+    printf "+"
+    for (i = 0; i < NROWS; i++) {
+        printf "-"
+    }
+    printf "+\n"
+}
+EOF
+
+awk "$SCRIPT"
+}
+
+subtasks () {
+    ZETDO_UUID=$(weewiki zet resolve @zetdo)
+    ITEM_UUID=$(weewiki zet resolve $1)
+
+    if [[ ! $? -eq 0 ]]
+    then
+        exit 1
+    fi
+query() {
+    sqlite3 a.db <<EOF
+.mode tabs
+SELECT time, UUID, value, substr(state, 9)
+FROM wikizet
+
+INNER JOIN
+    (SELECT UUID as ID, value as state
+    FROM wikizet WHERE value LIKE '\$state:%'
+    ) states
+    ON wikizet.UUID = states.ID
+
+WHERE UUID in
+    (SELECT UUID
+    FROM wikizet
+    WHERE UUID in
+        (SELECT UUID
+            from wikizet
+            WHERE
+            UUID in
+                (SELECT UUID
+                FROM wikizet
+                WHERE value IS '#' || '$ZETDO_UUID')
+        AND value LIKE '\$state:%')
+    AND value IS '#' || '$ITEM_UUID')
+AND value like '>%'
+;
+EOF
+}
+
+if [[ $# -eq 2 ]]
+then
+    GROUP_UUID=$(weewiki zet resolve @$2)
+    if [[ ! $? -eq 0 ]]
+    then
+        exit 1
+    fi
+    query |\
+        awk \
+            -vID=$GROUP_UUID -F "\t" \
+            '$4 ~ ID {print  $1 "\t" $2 "\t" $3}' |\
+        presentation
+else
+    query | presentation
+fi
+}
+
+nsubtasks () {
+    ZETDO_UUID=$(weewiki zet resolve @zetdo)
+    ITEM_UUID=$(weewiki zet resolve $1)
+
+    if [[ ! $? -eq 0 ]]
+    then
+        exit 1
+    fi
+
+    GROUP_ID_QUERY=""
+    if [[ $# -eq 2 ]]
+    then
+        GROUP_UUID=$(weewiki zet resolve @$2)
+        GROUP_ID_QUERY="AND substr(state, 9) IS '$GROUP_UUID'"
+    fi
+query() {
+    sqlite3 a.db <<EOF
+.mode tabs
+SELECT COUNT(UUID)
+FROM wikizet
+
+INNER JOIN
+    (SELECT UUID as ID, value as state
+    FROM wikizet WHERE value LIKE '\$state:%'
+    ) states
+    ON wikizet.UUID = states.ID
+
+WHERE UUID in
+    (SELECT UUID
+    FROM wikizet
+    WHERE UUID in
+        (SELECT UUID
+            from wikizet
+            WHERE
+            UUID in
+                (SELECT UUID
+                FROM wikizet
+                WHERE value IS '#' || '$ZETDO_UUID')
+        AND value LIKE '\$state:%')
+    AND value IS '#' || '$ITEM_UUID')
+AND value like '>%'
+$GROUP_ID_QUERY
+;
+EOF
+}
+query
+# if [[ $# -eq 2 ]]
+# then
+#     GROUP_UUID=$(weewiki zet resolve @$2)
+#     if [[ ! $? -eq 0 ]]
+#     then
+#         exit 1
+#     fi
+#     query |\
+#         awk \
+#             -vID=$GROUP_UUID -F "\t" \
+#             '$4 ~ ID {print  $1 "\t" $2 "\t" $3}' |\
+#         presentation
+# else
+#     query | presentation
+# fi
+}
+
+searchit () {
+    #weewiki zet search $1 | presentation
+ZETDO_UUID=$(weewiki zet resolve @zetdo)
+SEARCHTERM=$1
+
+query() {
+sqlite3 a.db <<EOF
+.mode tabs
+select time, UUID, value from wikizet
+WHERE UUID $2 in (SELECT UUID FROM wikizet
+WHERE value LIKE '\$state:%'
+)
+AND UUID in
+(SELECT UUID FROM wikizet
+    WHERE value IS '#' || "$ZETDO_UUID")
+
+AND value MATCH "$SEARCHTERM"
+AND value LIKE ">%"
+;
+EOF
+}
+
+    read -r -d '' AWK_QUERY <<EOM
+{
+    print "["substr(\$2,1,8)"]",
+        substr(\$3, 2),
+        total
+    print "---"
+}
+EOM
+
+printf "Tasks\n" | boxit
+
+query $1 | weewiki zet ergoify | awk -F "\t" "$AWK_QUERY" |\
+    fold -s -w 60
+
+printf "Comments\n" | boxit
+
+query $1 NOT | weewiki zet ergoify | awk -F "\t" "$AWK_QUERY" |\
+    fold -s -w 60
+
+}
+
+getblurb() {
+    weewiki zet var get $1 blurb 2>/dev/null | awk '{print substr($0, 2)}'
+}
+
+getinfo () {
+    TASK_UUID=$(weewiki zet resolve $1)
+    if [[ ! $? -eq 0 ]]
+    then
+        exit 1
+    fi
+    printf "UUID:\t$TASK_UUID\n"
+    printf "ergoID:\tg%s\n" $(weewiki zet ergo $TASK_UUID)
+    printf "Title:\t"
+    sqlite3 a.db <<EOF
+SELECT substr(value, 2) FROM wikizet where
+UUID is '$TASK_UUID' and VALUE like '>%';
+EOF
+    printf "State:\t"
+
+    STATE_UUID=$(sqlite3 a.db <<EOF
+SELECT substr(value, 9) FROM wikizet where
+UUID is '$TASK_UUID' and VALUE like '\$state:%';
+EOF
+)
+    sqlite3 a.db <<EOF
+SELECT substr(value, 2) FROM wikizet where
+UUID is '$STATE_UUID' and VALUE like '@%';
+EOF
+
+    TAGS=$(weewiki zet tags $TASK_UUID | sed "/^zetdo$/d" |\
+        awk '{printf $0 " "}')
+
+    if [ ! -z "$TAGS" ]
+    then
+        printf "Tags:\t$TAGS\n"
+    fi
+
+    BLURB=$(getblurb $TASK_UUID)
+
+    if [ ! -z "$BLURB" ]
+    then
+        printf "Blurb:\t$BLURB\n"
+    fi
+
+}
+
+function stopwatch () {
+    ITEM_UUID=$(weewiki zet resolve $1)
+
+    if [[ ! $? -eq 0 ]]
+    then
+        exit 1
+    fi
+
+
+    START=$(date +%s)
+    printf "Clocking in for g%s.\n" \
+           $(weewiki zet ergo $ITEM_UUID | \
+                 awk '{print substr($0, 1, 8)}')
+    read -p "Press any key to stop" -n1
+    STOP=$(date +%s)
+    DUR=$(printf "$STOP - $START\n" | bc)
+    DUR_UUID=$(weewiki zet var create duration)
+    weewiki zet var set $DUR_UUID duration $DUR
+    weewiki zet link $DUR_UUID @zetdo
+    weewiki zet link $DUR_UUID $ITEM_UUID
+
+    printf "%d seconds elapsed\n" $DUR
+
+}
+
+function zetdo_init () {
+    weewiki zet mkgroup zetdo > /dev/null
+    mkgroup TODO
+    mkgroup DONE
+    mkgroup WIP
+    mkgroup WAIT
+}
+
+#########################
+# begin command parsing #
+#########################
+
+if [[ "$#" -eq 0 ]]
+then
+    echo "Enter a command."
+    exit 1
+fi
+
+case $1 in
+    "create")
+        weewiki create
+        zetdo_init
+        create_list
+        ;;
+    "create_list")
+        create_list
+        ;;
+    "add")
+        read -p "say: " answer
+        UUID=$(weewiki zet rawsay "$answer" @zetdo)
+        weewiki zet var new $UUID state
+        weewiki zet var link $UUID state @TODO
+        printf "g%s\n" $(weewiki zet ergo $UUID)
+        ;;
+    "tasks")
+        if [[ "$#" -eq 1 ]]
+        then
+            grouplist TODO
+            exit 1
+        else
+            grouplist $2
+        fi
+        ;;
+    "done")
+        if [[ ! "$#" -eq 2 ]]
+        then
+            echo "Usage: done uuid"
+            exit 1
+        fi
+        setstate $2 DONE
+        ;;
+    "set")
+        if [[ ! "$#" -eq 3 ]]
+        then
+            echo "Usage: set uuid group"
+            exit 1
+        fi
+        setstate $2 $3
+        ;;
+    "ls")
+        grouplist $2
+        ;;
+    "comment")
+        weewiki zet resolve $2 > /dev/null
+        if [[ $? -eq 0 ]]
+        then
+            read -p "comment: " answer
+            weewiki zet rawsay "$answer" @zetdo $2 > /dev/null
+        fi
+        ;;
+    "history")
+        if [[ $# -eq 1 ]]
+        then
+            echo "Usage: history UUID [start end]"
+            exit 1
+        fi
+
+        if [[ "$#" -eq 2 ]]
+        then
+            history $2
+        else
+            if [[ "$3" = "today" ]]
+            then
+                today=$(date +"%Y-%m-%d")
+                history $2 $today $today
+            else
+                history $2 $3 $4
+            fi
+        fi
+
+        ;;
+    "export")
+        weewiki zet export zetdo
+        ;;
+    "rebuild")
+
+        if [[ $# -eq 1 ]]
+        then
+            echo "Usage: rebuild file.tsv"
+            exit 1
+        fi
+        if [[ -e "a.db" ]]
+        then
+            weewiki clear
+            weewiki vacuum
+        else
+            weewiki create
+        fi
+
+        weewiki zet import < $2
+        ;;
+    "mkgroup")
+        if [[ $# -eq 1 ]]
+        then
+            echo "Usage: mkgroup GROUP"
+            exit 1
+        fi
+        mkgroup $2
+        ;;
+    "tag")
+        if [[ $# -lt 2 ]]
+        then
+            echo "Usage: tag UUID GROUP"
+            exit 1
+        fi
+        weewiki zet tie $2 @$3
+        ;;
+    "entry")
+        if [[ $# -eq 1 ]]
+        then
+            echo "Usage: entry UUID"
+            exit 1
+        fi
+        weewiki zet entry $2 | cut -f 1,3 | grep -v "^-"
+        ;;
+    "blurb")
+        if [[ $# -eq 1 ]]
+        then
+            echo "Usage: blurb UUID"
+            exit 1
+        fi
+        blurb $2
+        ;;
+    "touch")
+        if [[ $# -eq 1 ]]
+        then
+            echo "Usage: touch UUID"
+            exit 1
+        fi
+        weewiki zet var touch $2 state
+        ;;
+    "lstadd")
+        if [[ ! "$#" -eq 2 ]]
+        then
+            echo "Usage: $1 UUID"
+            exit 1
+        fi
+        lstadd $2
+        ;;
+    "lstdel")
+        if [[ ! "$#" -eq 2 ]]
+        then
+            echo "Usage: $1 UUID"
+            exit 1
+        fi
+        lstdel $2
+        ;;
+    "agenda")
+        agenda2
+        ;;
+    "agendanosubtasks")
+        agendanosubtasks
+        ;;
+    "uv")
+        if [[ "$#" -lt 2 ]]
+        then
+            echo "Usage: $1 UUID (amt)"
+            exit 1
+        fi
+        upvote $2 $3
+        ;;
+    "dv")
+        if [[ "$#" -lt 2 ]]
+        then
+            echo "Usage: $1 UUID (amt)"
+            exit 1
+        fi
+        downvote $2 $3
+        ;;
+    "lstexp")
+        lstexp
+        ;;
+    "lstimp")
+        lstimp
+        ;;
+    "tags")
+        tags
+        ;;
+    "lstdone")
+        if [[ ! "$#" -eq 2 ]]
+        then
+            echo "Usage: $1 UUID"
+            exit 1
+        fi
+        lstdone $2
+        ;;
+
+    "boxit")
+        boxit
+        ;;
+    "tagged")
+        if [[ ! "$#" -eq 2 ]]
+        then
+            echo "Usage: $1 GROUP"
+            exit 1
+        fi
+        subtasks @$2 TODO
+        ;;
+    "subtasks")
+        if [[ "$#" -lt 2 ]]
+        then
+            echo "Usage: $1 UUID [STATE]"
+            exit 1
+        fi
+        subtasks $2 $3
+        ;;
+    "nsubtasks")
+        if [[ "$#" -lt 2 ]]
+        then
+            echo "Usage: $1 UUID [STATE]"
+            exit 1
+        fi
+        nsubtasks $2 $3
+        ;;
+    "getblurb")
+        if [[ "$#" -lt 2 ]]
+        then
+            echo "Usage: $1 UUID"
+            exit 1
+        fi
+        getblurb $2
+        ;;
+    "belongs")
+        if [[ "$#" -lt 2 ]]
+        then
+            echo "Usage: $1 UUID"
+            exit 1
+        fi
+        weewiki zet tags $2
+        ;;
+    "search")
+        if [[ "$#" -lt 2 ]]
+        then
+            echo "Usage: $1 keywords"
+            exit 1
+        fi
+        searchit $2
+        ;;
+    "info")
+        if [[ "$#" -lt 2 ]]
+        then
+            echo "Usage: $1 keywords"
+            exit 1
+        fi
+        getinfo $2 | fold -s -w 60
+        ;;
+    "stopwatch")
+        if [[ "$#" -lt 2 ]]
+        then
+            echo "Usage: $1 UUID"
+            exit 1
+        fi
+        stopwatch $2
+        ;;
+    *)
+        echo "$0: could not find command '$1'"
+        ;;
+esac

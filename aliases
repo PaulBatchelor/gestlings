@@ -1,0 +1,86 @@
+alias zet="weewiki zet"
+alias zetdo="rlwrap ./zetdo"
+alias wip="./zetdo tasks WIP"
+alias agenda="./zetdo agenda"
+alias dv="./zetdo dv"
+alias uv="./zetdo uv"
+alias comment="./zetdo comment"
+alias tasks="./zetdo tasks"
+alias tagged="./zetdo tagged"
+alias zdi="./zetdo info"
+alias stopwatch="./zetdo stopwatch"
+
+hist_noless() {
+    UUID=$(weewiki zet resolve $1)
+
+    if [[ ! $? -eq 0 ]]
+    then
+        return 1
+    fi
+
+    ./zetdo entry $UUID |\
+        cut -f 2 |\
+        grep "^>" |\
+        tail -n 1 |\
+        sed "s/^>//" |\
+        fold -s -w 58 | ./zetdo boxit
+
+    #BLURB=$(zetdo getblurb $UUID)
+
+read -r -d '' SCRIPT <<EOF
+BEGIN {
+    nrows = 0
+}
+{
+    nrows++
+    printf "|"
+    printf \$0
+    for (i = 0; i < 58 - length(\$0); i++) {
+        printf " "
+    }
+    printf "|\n"
+}
+END {
+    if (nrows > 0) {
+
+        printf "+"
+        for (i = 0; i < 58; i++) {
+            printf "-"
+        }
+        printf "+\n"
+    }
+}
+EOF
+
+    ./zetdo getblurb $UUID | fold -s -w 58 |\
+        awk "$SCRIPT"
+
+    ./zetdo history $@ | zet ergoify | awk -F"\t" \
+    '{print $1" ["substr($2, 1, 8)"]""\n\n"$3"\n---"}' | fold -s -w 60
+}
+
+hist () {
+    hist_noless $1 | less
+}
+
+dumpzet() {
+    ./zetdo export > zetdo.tsv
+    ./zetdo lstexp > priority.tsv
+}
+
+buildzet() {
+    ./zetdo rebuild zetdo.tsv
+    ./zetdo lstimp < priority.tsv
+}
+
+# the general convention now is for all uncompleted subtasks
+# to have a state of TODO
+subtasks() {
+    zetdo subtasks $1 TODO
+}
+
+# resolves id to first 8 digits
+
+id8() {
+    weewiki zet resolve $1 | awk '{print substr($0, 1, 8)}'
+}
