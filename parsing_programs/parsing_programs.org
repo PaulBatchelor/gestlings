@@ -1,4 +1,5 @@
 #+TITLE: Parsing Programs
+* Literate Programming, Weewiki, and Worgle
 The Gestlings project makes heavy use of
 =literate programming=, a programming style that attempts
 to melt natural language and program structure together.
@@ -38,3 +39,16 @@ of the literate program using =janet=. The =Loom= does
 most of this via =worgmap=, except that in that case, the
 pages are dynamically named and generated. In Gestlings, the
 names page names would be persistent.
+* Scope of Program Structure Parser
+The goal of this document is to outline and implement
+a set of usable operations that work on Worgle's
+metadata output. These operations will built up on one
+another, eventually making it possible to reconstruct
+entire documents with embedded information useful for
+navigating the document.
+
+The scope of this functionality is only concerned with
+producing weewiki output. Tangling code will not be
+considered.
+* Phase 1: Generating Documents
+* Phase 2: Map Generation
