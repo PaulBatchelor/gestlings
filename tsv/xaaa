@@ -19,3 +19,13 @@
 2022-10-12 10:19:17	7b51098c-d505-43b7-8ac3-08623f8600ca	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
 2022-10-12 10:19:58	42fcd8d0-12ed-475a-bfb7-77aaa8b72f0f	>hello. I am setting up the gestlings zet.
 -	42fcd8d0-12ed-475a-bfb7-77aaa8b72f0f	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2022-10-13 09:58:03	eccd2aff-4b91-4b36-acb1-bbd56fe76350	>create re-usable code for loading tilemaps
+-	eccd2aff-4b91-4b36-acb1-bbd56fe76350	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-10-13 09:58:03	eccd2aff-4b91-4b36-acb1-bbd56fe76350	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-10-13 10:01:43	5e8c8798-a487-40e2-9445-8639f5d6e17a	>working on some initial words now. not going to add it to weewiki though, because I think I'm going to introduce a new workflow via worgle.
+-	5e8c8798-a487-40e2-9445-8639f5d6e17a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5e8c8798-a487-40e2-9445-8639f5d6e17a	#eccd2aff-4b91-4b36-acb1-bbd56fe76350
+-	5e8c8798-a487-40e2-9445-8639f5d6e17a	#7b51098c-d505-43b7-8ac3-08623f8600ca
+2022-10-13 11:13:59	ac57b1b3-6ff4-45b8-b54d-4c9a9c7ec902	>some initial ramblings started in !parsing_programs. This will eventually turn into literate program I think.
+-	ac57b1b3-6ff4-45b8-b54d-4c9a9c7ec902	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ac57b1b3-6ff4-45b8-b54d-4c9a9c7ec902	#7b51098c-d505-43b7-8ac3-08623f8600ca

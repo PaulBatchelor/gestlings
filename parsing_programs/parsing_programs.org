@@ -1,0 +1,40 @@
+#+TITLE: Parsing Programs
+The Gestlings project makes heavy use of
+=literate programming=, a programming style that attempts
+to melt natural language and program structure together.
+
+I've been using this for myself, and in truth, I'm still
+not sure it's a great idea. But here I am, after all these
+years, still compelled to try it.
+
+Gestlings is a creative research endeavor about exploring
+ideas. Literate programming forces the author-programmer
+to articulate what they are thinking. And what is research
+but thinking deeply and articulating thoughts for others
+to understand?
+
+In past systems, such as the Loom, I've used my Worgle,
+Tangler for literate programs, and Weewiki, my wiki engine,
+together with pretty good results. It is my hope to try
+integrate these even more than previously.
+
+A big reason why Weewiki and Worgle work well together is
+that they they both read org markup (or "orgdown", as some
+would prefer to call it). A literate program written in
+Worgle can become a wiki page in Weewiki with no
+modifications. The problem is that pages can end up being
+quite long, with no meaningful ways to navigate it.
+
+The problem of navigation and "mapping" a program can be
+solved using Worgle's metadata export feature. This
+metadata holds things like code block names and locations,
+headers, and text. This can provide a great deal of information
+about program structure in a language-agnostic way.
+
+Here's the concept to explore: instead of linking worgle
+programs directly to weewiki, export metadata, and then
+have wiki pages dynamically reconstruct portions or all
+of the literate program using =janet=. The =Loom= does
+most of this via =worgmap=, except that in that case, the
+pages are dynamically named and generated. In Gestlings, the
+names page names would be persistent.
