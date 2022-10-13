@@ -1,0 +1,101 @@
+#+TITLE: loadtiles
+* Gesture Notation is Made up Of Tiles
+In order to notate gesture structures, the use of tiles
+is required, or at the very least, highly encouraged.
+The proposed system (which has not been established at
+the time of writing) uses a system inspired by brutalist
+aesthetics which will be referred to as
+=brutalist gesture notation=, meaning that notation is
+specifically optimized for the medium it lives on: digital
+pixels. The symbols, glyphs, and sigils used to describe
+Gesture are made up of smaller components, which can be
+efficiently maintained as rectangular chunks of pixels
+known as =tiles=. Tiles that are the same size can be
+packed together in a grid in what is known as a =tilemap=.
+
+There is more than one way to make a tilemap. The author
+has opted to use a text editor. Text editors are a familiar
+keyboard-driven interface, and are suitable enough for
+making sets of small monochrome tiles. Text also happens to
+be a very convenient format.
+* The Loadtiles Function
+=loadtiles= is a function that reads a specially formatted
+text file containing data a =tilemap=, and assembles it
+into a raw in-memory tilemap via a Janet Buffer.
+
+Most of this code has already been been implemented
+in @!(ref "curated_lglyphs")!@ as =loadbuf_v2=. This
+version aims to clean things up a bit. The goal is to make
+this a re-usable component.
+
+#+NAME: loadtiles.janet
+#+BEGIN_SRC janet
+(defn loadtiles [filename gwidth gheight cols rows]
+  (var xpos 0)
+  (var ypos 0)
+  (def onbit ((string/bytes "#") 0))
+  (def offbit ((string/bytes "-") 0))
+
+  # btprnt usually does this automatically
+  # handle non-multiples of 8
+  (def stride
+    (let (w (* gwidth cols))
+      (if (= (% w 8) 0)
+        cols
+        (+ cols 1))))
+
+  (def height (* rows gheight))
+
+  (var buf (buffer/new-filled (* stride height)))
+  (var f (file/open filename :r))
+  (var linepos 0)
+
+  (defn pixel [x y s]
+    (var off (math/floor (/ x 8)))
+    (var pos (+ (* y stride) off))
+    (var bitpos (- x (* off 8)))
+
+    (if (= s 1)
+      (set (buf pos)
+           (bor (buf pos) (blshift 1 bitpos)))
+      (set (buf pos)
+           (band (buf pos) (bnot (blshift 1 bitpos))))))
+
+  (loop [line :iterate (:read f :line)]
+    (var a (string/bytes line))
+    (if (or (= (a 0) onbit) (= (a 0) offbit))
+      (do
+        #(prin (string line))
+        (if (>= linepos gheight)
+          # end of glyph. get ready for next glyph.
+          (do
+            (set linepos 0)
+            (set xpos (+ xpos 1))
+
+            # possibly go to new road if at the end
+
+            (if (>= xpos cols)
+              (do
+                (set xpos 0)
+                (set ypos (+ ypos 1))))))
+        # add bits to row, then get ready for next row
+        (for i 0 (length a)
+          (cond
+            (>= i gwidth)
+            '()
+            (= (a i) offbit)
+            (pixel
+              (+ (* xpos gwidth) i)
+              (+ (* ypos gheight) linepos)
+              0)
+            (= (a i) onbit)
+            (pixel
+              (+ (* xpos gwidth) i)
+              (+ (* ypos gheight) linepos)
+              1))
+          )
+        (set linepos (+ linepos 1)))))
+
+  (file/close f)
+  buf)
+#+END_SRC
