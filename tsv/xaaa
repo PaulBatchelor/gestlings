@@ -29,3 +29,6 @@
 2022-10-13 11:13:59	ac57b1b3-6ff4-45b8-b54d-4c9a9c7ec902	>some initial ramblings started in !parsing_programs. This will eventually turn into literate program I think.
 -	ac57b1b3-6ff4-45b8-b54d-4c9a9c7ec902	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	ac57b1b3-6ff4-45b8-b54d-4c9a9c7ec902	#7b51098c-d505-43b7-8ac3-08623f8600ca
+2022-10-14 00:06:06	85b82e0f-9ff2-49d8-b13c-c4778f2bc6f5	>nighttime words. Still very high level. I need more time to familiarize myself with the SQLite metadata structure, and then come up with the appropriate operations. Weewiki Janet has SQLite bindings, so we should have everything we need to get started with code.
+-	85b82e0f-9ff2-49d8-b13c-c4778f2bc6f5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	85b82e0f-9ff2-49d8-b13c-c4778f2bc6f5	#7b51098c-d505-43b7-8ac3-08623f8600ca

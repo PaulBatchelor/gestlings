@@ -2,22 +2,27 @@
 * Literate Programming, Weewiki, and Worgle
 The Gestlings project makes heavy use of
 =literate programming=, a programming style that attempts
-to melt natural language and program structure together.
+to melt together structures
+found in natural language and computer programs.
 
-I've been using this for myself, and in truth, I'm still
+I've been using this paradigm quite a bit for myself,
+and in truth, I'm still
 not sure it's a great idea. But here I am, after all these
 years, still compelled to try it.
 
-Gestlings is a creative research endeavor about exploring
-ideas. Literate programming forces the author-programmer
+Gestlings is a creative research endeavor that only
+wishes to deeply think about particular ideas and concepts.
+Literate
+programming forces the author-programmer
 to articulate what they are thinking. And what is research
 but thinking deeply and articulating thoughts for others
 to understand?
 
-In past systems, such as the Loom, I've used my Worgle,
-Tangler for literate programs, and Weewiki, my wiki engine,
-together with pretty good results. It is my hope to try
-integrate these even more than previously.
+In past systems, such as the Loom, I've used Worgle,
+my Tangler for literate programs, together with Weewiki,
+my wiki engine, and have had decent success with the
+combination. It is my hope to try
+integrate these even more than previous attempts.
 
 A big reason why Weewiki and Worgle work well together is
 that they they both read org markup (or "orgdown", as some
@@ -27,7 +32,13 @@ modifications. The problem is that pages can end up being
 quite long, with no meaningful ways to navigate it.
 
 The problem of navigation and "mapping" a program can be
-solved using Worgle's metadata export feature. This
+solved using Worgle's metadata export feature.
+
+A solution to the navigation or "mapping" problem in
+presenting Worgle literate programs (a process known as 
+"Weaving", the opposite of "tangling") may be found in
+Worgle's metadata export feature.
+This
 metadata holds things like code block names and locations,
 headers, and text. This can provide a great deal of information
 about program structure in a language-agnostic way.
@@ -51,4 +62,10 @@ The scope of this functionality is only concerned with
 producing weewiki output. Tangling code will not be
 considered.
 * Phase 1: Generating Documents
+The first phase in parsing the metadata of a literate program
+is to recreate the original org document. In theory,
+all the components are there.
 * Phase 2: Map Generation
+Once it can be shown that a document of a literate program
+can be produced from its metadata, the next step is to
+augment it with better navigation.
