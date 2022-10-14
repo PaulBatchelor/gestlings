@@ -21,7 +21,7 @@
 -	42fcd8d0-12ed-475a-bfb7-77aaa8b72f0f	#53a2e179-eb60-4c13-b749-59d5d3b893c5
 2022-10-13 09:58:03	eccd2aff-4b91-4b36-acb1-bbd56fe76350	>create re-usable code for loading tilemaps
 -	eccd2aff-4b91-4b36-acb1-bbd56fe76350	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-10-13 09:58:03	eccd2aff-4b91-4b36-acb1-bbd56fe76350	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-10-14 00:11:03	eccd2aff-4b91-4b36-acb1-bbd56fe76350	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-10-13 10:01:43	5e8c8798-a487-40e2-9445-8639f5d6e17a	>working on some initial words now. not going to add it to weewiki though, because I think I'm going to introduce a new workflow via worgle.
 -	5e8c8798-a487-40e2-9445-8639f5d6e17a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	5e8c8798-a487-40e2-9445-8639f5d6e17a	#eccd2aff-4b91-4b36-acb1-bbd56fe76350
@@ -32,3 +32,12 @@
 2022-10-14 00:06:06	85b82e0f-9ff2-49d8-b13c-c4778f2bc6f5	>nighttime words. Still very high level. I need more time to familiarize myself with the SQLite metadata structure, and then come up with the appropriate operations. Weewiki Janet has SQLite bindings, so we should have everything we need to get started with code.
 -	85b82e0f-9ff2-49d8-b13c-c4778f2bc6f5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	85b82e0f-9ff2-49d8-b13c-c4778f2bc6f5	#7b51098c-d505-43b7-8ac3-08623f8600ca
+2022-10-14 00:10:58	1d0e621c-9baa-4443-a6cc-bd28b1f2eb36	>I do not file like explaining myself for this one. LISP is also very awkard to break up into code blocks. If it works (and I assume it will work), it's good enough for now.
+-	1d0e621c-9baa-4443-a6cc-bd28b1f2eb36	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1d0e621c-9baa-4443-a6cc-bd28b1f2eb36	#eccd2aff-4b91-4b36-acb1-bbd56fe76350
+2022-10-14 00:11:20	c6cc71ef-8106-4a2f-853e-2b8e118ad95e	>Create gesture sigils page
+-	c6cc71ef-8106-4a2f-853e-2b8e118ad95e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-10-14 00:11:20	c6cc71ef-8106-4a2f-853e-2b8e118ad95e	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-10-14 00:11:58	9e6f013d-4c84-4eba-9240-bb6ca765c7bc	>I have some initial prototype characters that would be nice to digitize and display.
+-	9e6f013d-4c84-4eba-9240-bb6ca765c7bc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9e6f013d-4c84-4eba-9240-bb6ca765c7bc	#c6cc71ef-8106-4a2f-853e-2b8e118ad95e
