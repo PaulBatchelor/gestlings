@@ -61,10 +61,120 @@ navigating the document.
 The scope of this functionality is only concerned with
 producing weewiki output. Tangling code will not be
 considered.
+* Tangling
+#+NAME: progparse.janet
+#+BEGIN_SRC janet :tangle progparse.janet
+<<progparse>>
+#+END_SRC
 * Phase 1: Generating Documents
 The first phase in parsing the metadata of a literate program
 is to recreate the original org document. In theory,
 all the components are there.
+** Opening/Closing the Metadata
+#+NAME: progparse
+#+BEGIN_SRC janet
+(defn open-metadata [name program]
+  (table
+    :db (sqlite3/open name)
+    :program program))
+#+END_SRC
+
+#+NAME: progparse
+#+BEGIN_SRC janet
+(defn close-metadata [md] (sqlite3/close (md :db)))
+#+END_SRC
+** Getting the Resource List
+Text in worgle document is broken up in to components
+known as =resources=. The inventory of these resources
+is placed in the =resource list=.
+
+The janet function =reslist= returns this list given
+a valid program id.
+
+#+NAME: progparse
+#+BEGIN_SRC janet
+(defn reslist [md]
+  (sqlite3/eval
+    (md :db)
+    (string/format
+      (string
+        "SELECT id, type FROM resources WHERE program=%d "
+        "ORDER by id ASC")
+      (md :program))))
+#+END_SRC
+** Type Checking
+Hard coded in a lookup table here, but it is feasible
+(though highly unlikely) for these values to change. See
+the schema for `reslist` for a key.
+
+#+NAME: progparse
+#+BEGIN_SRC janet
+(defn is-file? [id] (= id 0))
+(defn is-block? [id] (= id 1))
+(defn is-segment? [id] (= id 2))
+(defn is-header? [id] (= id 3))
+(defn is-content? [id] (= id 4))
+(defn is-blockref? [id] (= id 5))
+#+END_SRC
+** Section Headers
+*** Getting Header Data
+#+NAME: progparse
+#+BEGIN_SRC janet
+(defn get-header [md id]
+  ((sqlite3/eval
+     (md :db)
+     (string/format
+       "SELECT * FROM headers WHERE id=%d AND program=%d"
+       id (md :program))) 0))
+#+END_SRC
+*** Printing Header Data
+** Content
+Content refers to text in between section headers.
+*** Getting Content Data
+#+NAME: progparse
+#+BEGIN_SRC janet
+(defn get-content [md id]
+  ((sqlite3/eval
+     (md :db)
+     (string/format
+       "SELECT * FROM content WHERE id=%d AND program=%d"
+       id (md :program))) 0))
+#+END_SRC
+*** Printing Content Data
+** Block References
+*** Getting Block Reference Data
+#+NAME: progparse
+#+BEGIN_SRC janet
+(defn get-blockref [md id]
+  ((sqlite3/eval
+     (md :db)
+     (string/format
+       "SELECT * FROM blkref WHERE id=%d AND program=%d"
+       id (md :program))) 0))
+#+END_SRC
+*** Printing Block Reference Data
+** Code Blocks
+#+NAME: progparse
+#+BEGIN_SRC janet
+(defn get-block [md id]
+  ((sqlite3/eval
+     (md :db)
+     (string/format
+       "SELECT * FROM blocks WHERE id=%d AND program=%d"
+       id (md :program))) 0))
+#+END_SRC
+** Segments
+#+NAME: progparse
+#+BEGIN_SRC janet
+(defn get-segment [md id]
+  ((sqlite3/eval
+     (md :db)
+     (string/format
+       "SELECT * FROM segments WHERE id=%d AND program=%d"
+       id (md :program))) 0))
+#+END_SRC
+** Tangled Files
+*** Getting File Data
 * Phase 2: Map Generation
 Once it can be shown that a document of a literate program
 can be produced from its metadata, the next step is to
