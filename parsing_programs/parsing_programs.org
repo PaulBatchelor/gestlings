@@ -65,6 +65,7 @@ considered.
 #+NAME: progparse.janet
 #+BEGIN_SRC janet :tangle progparse.janet
 <<progparse>>
+<<codeblock-string>>
 #+END_SRC
 * Phase 1: Generating Documents
 The first phase in parsing the metadata of a literate program
@@ -154,6 +155,7 @@ Content refers to text in between section headers.
 #+END_SRC
 *** Printing Block Reference Data
 ** Code Blocks
+*** Getting Code Blocks
 #+NAME: progparse
 #+BEGIN_SRC janet
 (defn get-block [md id]
@@ -162,6 +164,47 @@ Content refers to text in between section headers.
      (string/format
        "SELECT * FROM blocks WHERE id=%d AND program=%d"
        id (md :program))) 0))
+#+END_SRC
+*** Printing Code Blocks
+The =codeblock-string= function creates an org-compatible
+codeblock from a block id and reference to an open metadata
+handle.
+
+The gist of this functionality is: get the code block
+metadata from the id, then use that to look up segments.
+Segments are either chunks of text, or references to named
+other named codeblocks. If they are the latter, pass them
+to the optionally =block-handler= callback to handle them.
+
+#+NAME: codeblock-string
+#+BEGIN_SRC janet
+(defn codeblock-string [md id &opt block-handler]
+  (default block-handler
+    (fn [md b] (string "<<" (b "str") ">>")))
+
+  (def block (get-block md id))
+
+  (var seg-id (block "head_segment"))
+  (def block-segs (array/new (block "nsegs")))
+  (def nsegs (block "nsegs"))
+  (var lines @[])
+
+  (array/push lines (string "#+NAME: " (block "name")))
+  (array/push lines "#+BEGIN_SRC")
+  (for n 0 nsegs 
+    (var cur-seg (get-segment md seg-id))
+    (set (block-segs n) cur-seg)
+    (set seg-id (cur-seg "next_segment")))
+
+  (each b block-segs
+    (cond
+      (= (b "type") 1)
+      (array/push lines (block-handler md b))
+      (= (b "type") 0)
+      (array/push lines (b "str"))))
+
+  (close-metadata md)
+  (string (string/join lines "\n") "#+END_SRC"))
 #+END_SRC
 ** Segments
 #+NAME: progparse
