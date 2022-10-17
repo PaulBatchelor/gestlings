@@ -41,3 +41,6 @@
 2022-10-14 00:11:58	9e6f013d-4c84-4eba-9240-bb6ca765c7bc	>I have some initial prototype characters that would be nice to digitize and display.
 -	9e6f013d-4c84-4eba-9240-bb6ca765c7bc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	9e6f013d-4c84-4eba-9240-bb6ca765c7bc	#c6cc71ef-8106-4a2f-853e-2b8e118ad95e
+2022-10-17 10:10:31	e0b64625-7644-430a-85ce-32c4b66dd970	>some good initial work has been done generating code blocks, but I forgot to factor in subblocks. studying the worgmap weewiki export code today, and should hopefully have that figured out.
+-	e0b64625-7644-430a-85ce-32c4b66dd970	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e0b64625-7644-430a-85ce-32c4b66dd970	#7b51098c-d505-43b7-8ac3-08623f8600ca
