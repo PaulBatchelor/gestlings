@@ -147,11 +147,13 @@ Content refers to text in between section headers.
 #+NAME: progparse
 #+BEGIN_SRC janet
 (defn get-blockref [md id]
-  ((sqlite3/eval
+  (def q (sqlite3/eval
      (md :db)
      (string/format
        "SELECT * FROM blkref WHERE id=%d AND program=%d"
-       id (md :program))) 0))
+       id (md :program))))
+
+  (if (> (length q) 0) (q 0) nil))
 #+END_SRC
 *** Printing Block Reference Data
 ** Code Blocks
@@ -205,6 +207,90 @@ to the optionally =block-handler= callback to handle them.
 
   (close-metadata md)
   (string (string/join lines "\n") "#+END_SRC"))
+#+END_SRC
+
+Regenerating a particular codeblock from Worgle's Metadata
+can be considered a non-trivial task. What makes codeblock
+regeneration complicated is that a named codeblock can
+actually have more than one block, called a =subblock=. A
+block reference will contain information for both the
+block and subblock. Due to the way Worgle populates metdata,
+some values will have to be computed from the data.
+
+See the comments in the code below for some clarification
+on the procedure.
+
+Much more information about codeblock regeneration can be
+found in the Worgmap core operations code.
+
+#+NAME: codeblock-string
+#+BEGIN_SRC janet
+(defn codeblock-string-v2 [md id]
+  # get block reference data
+  (def br (get-blockref md id))
+
+  # Find next block reference, if there is one
+  (def next-br-query
+    (sqlite3/eval
+      (md :db)
+      (string
+        "SELECT * FROM blkref WHERE "
+        "program == " (md :program) " AND "
+        "ref == " (br "ref") " AND "
+        "pos == " (+ (br "pos") 1))))
+
+  (defn handle-seg [s]
+    (cond
+      (= (s "type") 1) (string "<<" (s "str") ">>")
+      (= (s "type") 0) (s "str")))
+
+  # Get code block being referenced
+  (def block (get-block md (br "ref")))
+
+  # Compute number of segments in subblock.
+  # If there's another block reference, subtract their
+  # segment offsets. Otherwise, subtract segment offset
+  # from total.
+
+  (def nsegs
+    (if (> (length next-br-query) 0)
+      (- ((next-br-query 0) "segoff") (br "segoff"))
+      (- (block "nsegs") (br "segoff"))))
+
+  (pp next-br-query)
+  (pp nsegs)
+
+  (def lines (array/new nsegs))
+  (var next-seg nil)
+
+  # Finding the head segment of the subblock requires
+  # looking at the last segment of the previous subblock
+  # that last segment will point to the head of the current
+  # block. If there is no previous subblock, it's just the
+  # head segment stored in the block struct.
+
+  (if (> (br "prev_lastseg") 0)
+    (do
+      (def prevseg (get-segment md (br "prev_lastseg")))
+      (def head (get-segment  md (prevseg "next_segment")))
+      (set next-seg head)
+      (array/push lines (handle-seg head)))
+    (do
+      (def head (get-segment md (block "head_segment")))
+      (set next-seg head)
+      (array/push
+        lines
+        (handle-seg head))))
+
+  (for i 1 nsegs
+    (def seg (get-segment md (next-seg "next_segment")))
+    (array/push lines (handle-seg seg))
+    (set next-seg seg))
+  (string
+    "#+NAME: " (block "name") "\n"
+    "#+BEGIN_SRC\n"
+    (string/join lines "\n")
+    "#+END_SRC\n"))
 #+END_SRC
 ** Segments
 #+NAME: progparse

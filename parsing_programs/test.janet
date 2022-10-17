@@ -55,5 +55,5 @@
 #   (progparse/close-metadata md)
 #   (string (string/join lines "\n") "#+END_SRC"))
 
-# TODO how to render specific block?
-(print (progparse/codeblock-string md 18))
+(print (progparse/codeblock-string-v2 md 23))
+(print (progparse/codeblock-string-v2 md 7))
