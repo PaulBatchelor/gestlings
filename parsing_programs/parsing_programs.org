@@ -66,11 +66,42 @@ considered.
 #+BEGIN_SRC janet :tangle progparse.janet
 <<progparse>>
 <<codeblock-string>>
+<<docgen>>
 #+END_SRC
 * Phase 1: Generating Documents
 The first phase in parsing the metadata of a literate program
 is to recreate the original org document. In theory,
 all the components are there.
+** Top Level Document Generator
+#+NAME: docgen
+#+BEGIN_SRC janet
+(defn docgen [program title]
+  (org (string "#+TITLE: " title "\n"))
+
+  (def md (open-metadata "a.db" program))
+  (def reslist (reslist md))
+  (each res reslist
+    (cond
+      (is-header? (res "type"))
+      (do
+        (def header (get-header md (res "id")))
+        (org
+          (string
+            "* " 
+            (header "section") " " (header "name")"\n")))
+
+      (is-content? (res "type"))
+      (do
+        (def content (get-content md (res "id")))
+        (org (content "content")))
+      (is-blockref? (res "type"))
+      (do
+        (def blockref 
+          (get-blockref md (res "id")))
+        (def block 
+          (get-block md (blockref "ref")))
+        (org (codeblock-string-v2 md (res "id")))))))
+#+END_SRC
 ** Opening/Closing the Metadata
 #+NAME: progparse
 #+BEGIN_SRC janet
@@ -172,43 +203,6 @@ The =codeblock-string= function creates an org-compatible
 codeblock from a block id and reference to an open metadata
 handle.
 
-The gist of this functionality is: get the code block
-metadata from the id, then use that to look up segments.
-Segments are either chunks of text, or references to named
-other named codeblocks. If they are the latter, pass them
-to the optionally =block-handler= callback to handle them.
-
-#+NAME: codeblock-string
-#+BEGIN_SRC janet
-(defn codeblock-string [md id &opt block-handler]
-  (default block-handler
-    (fn [md b] (string "<<" (b "str") ">>")))
-
-  (def block (get-block md id))
-
-  (var seg-id (block "head_segment"))
-  (def block-segs (array/new (block "nsegs")))
-  (def nsegs (block "nsegs"))
-  (var lines @[])
-
-  (array/push lines (string "#+NAME: " (block "name")))
-  (array/push lines "#+BEGIN_SRC")
-  (for n 0 nsegs 
-    (var cur-seg (get-segment md seg-id))
-    (set (block-segs n) cur-seg)
-    (set seg-id (cur-seg "next_segment")))
-
-  (each b block-segs
-    (cond
-      (= (b "type") 1)
-      (array/push lines (block-handler md b))
-      (= (b "type") 0)
-      (array/push lines (b "str"))))
-
-  (close-metadata md)
-  (string (string/join lines "\n") "#+END_SRC"))
-#+END_SRC
-
 Regenerating a particular codeblock from Worgle's Metadata
 can be considered a non-trivial task. What makes codeblock
 regeneration complicated is that a named codeblock can
@@ -241,6 +235,9 @@ found in the Worgmap core operations code.
 
   (defn handle-seg [s]
     (cond
+      # I think named codeblocks at the end of a string
+      # appends another extra string. A bug.
+      (nil? (s "str")) (pp s)
       (= (s "type") 1) (string "<<" (s "str") ">>")
       (= (s "type") 0) (s "str")))
 
@@ -256,9 +253,6 @@ found in the Worgmap core operations code.
     (if (> (length next-br-query) 0)
       (- ((next-br-query 0) "segoff") (br "segoff"))
       (- (block "nsegs") (br "segoff"))))
-
-  (pp next-br-query)
-  (pp nsegs)
 
   (def lines (array/new nsegs))
   (var next-seg nil)
@@ -286,6 +280,7 @@ found in the Worgmap core operations code.
     (def seg (get-segment md (next-seg "next_segment")))
     (array/push lines (handle-seg seg))
     (set next-seg seg))
+
   (string
     "#+NAME: " (block "name") "\n"
     "#+BEGIN_SRC\n"
@@ -296,6 +291,7 @@ found in the Worgmap core operations code.
 #+NAME: progparse
 #+BEGIN_SRC janet
 (defn get-segment [md id]
+  (pp id)
   ((sqlite3/eval
      (md :db)
      (string/format

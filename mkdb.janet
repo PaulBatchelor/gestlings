@@ -7,10 +7,11 @@
 
 (ww-add-page "logs" `@!(zet/messages "logs")!@
 `)
+(ww-add-page "curated_lglyphs" `@!(progparse/docgen 0 "Curated L Glyphs")!@
+`)
 
 # linked pages
 
-(ww-add-link "curated_lglyphs" "curated_lglyphs/curated_lglyphs.org")
 (ww-add-link "simple_path" "simple_path/simple_path.org")
 (ww-add-link "index" "index.org")
 (ww-add-link "protosigils" "protosigils/protosigils.org")
