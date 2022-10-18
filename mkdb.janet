@@ -13,6 +13,7 @@
 (ww-add-link "curated_lglyphs" "curated_lglyphs/curated_lglyphs.org")
 (ww-add-link "simple_path" "simple_path/simple_path.org")
 (ww-add-link "index" "index.org")
+(ww-add-link "protosigils" "protosigils/protosigils.org")
 
 # sync and close
 
