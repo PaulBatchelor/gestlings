@@ -73,10 +73,23 @@ The first phase in parsing the metadata of a literate program
 is to recreate the original org document. In theory,
 all the components are there.
 ** Top Level Document Generator
+The =docgen= program will produce a suitable weewiki
+page for the id stored in =program=, using =title=
+as the title for a page (worgle doesn't have title
+export, yet).
+
+The function iterates through the metadata (assuming
+metadata exists for the program id), assembling the
+entire document as one org string and then parsing it in
+one go using the =org= function. Previously, this was
+done using multiple calls to smaller parts of Org, but
+this was causing things to crash (oops).
+
 #+NAME: docgen
 #+BEGIN_SRC janet
 (defn docgen [program title]
-  (org (string "#+TITLE: " title "\n"))
+  (var lines @[])
+  (array/push lines (string "#+TITLE: " title "\n"))
 
   (def md (open-metadata "a.db" program))
   (def reslist (reslist md))
@@ -85,22 +98,32 @@ all the components are there.
       (is-header? (res "type"))
       (do
         (def header (get-header md (res "id")))
-        (org
+        (array/push
+          lines
           (string
-            "* " 
+            (string/join
+              (array/new-filled (header "level") "*"))
+            " "
             (header "section") " " (header "name")"\n")))
 
       (is-content? (res "type"))
       (do
         (def content (get-content md (res "id")))
-        (org (content "content")))
+        (array/push lines (content "content")))
       (is-blockref? (res "type"))
       (do
-        (def blockref 
+        (def blockref
           (get-blockref md (res "id")))
-        (def block 
+        (def block
           (get-block md (blockref "ref")))
-        (org (codeblock-string-v2 md (res "id")))))))
+        (def code (codeblock-string md (res "id")))
+        (array/push lines code))))
+
+  (def orgstr (string/join lines ""))
+  (def fp (file/open "output.org" :w))
+  (file/write fp orgstr)
+  (file/close fp)
+  (org orgstr))
 #+END_SRC
 ** Opening/Closing the Metadata
 #+NAME: progparse
@@ -219,7 +242,7 @@ found in the Worgmap core operations code.
 
 #+NAME: codeblock-string
 #+BEGIN_SRC janet
-(defn codeblock-string-v2 [md id]
+(defn codeblock-string [md id]
   # get block reference data
   (def br (get-blockref md id))
 
@@ -235,9 +258,6 @@ found in the Worgmap core operations code.
 
   (defn handle-seg [s]
     (cond
-      # I think named codeblocks at the end of a string
-      # appends another extra string. A bug.
-      (nil? (s "str")) (pp s)
       (= (s "type") 1) (string "<<" (s "str") ">>")
       (= (s "type") 0) (s "str")))
 
@@ -281,6 +301,9 @@ found in the Worgmap core operations code.
     (array/push lines (handle-seg seg))
     (set next-seg seg))
 
+  (if-not (= (string/slice (array/peek lines) -2) "\n")
+    (array/push lines "\n"))
+
   (string
     "#+NAME: " (block "name") "\n"
     "#+BEGIN_SRC\n"
@@ -291,7 +314,6 @@ found in the Worgmap core operations code.
 #+NAME: progparse
 #+BEGIN_SRC janet
 (defn get-segment [md id]
-  (pp id)
   ((sqlite3/eval
      (md :db)
      (string/format

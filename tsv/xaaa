@@ -47,3 +47,15 @@
 2022-10-18 09:48:41	395cb573-c98d-4892-919a-6b0d46ccfe66	>creating page !protosigils
 -	395cb573-c98d-4892-919a-6b0d46ccfe66	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	395cb573-c98d-4892-919a-6b0d46ccfe66	#c6cc71ef-8106-4a2f-853e-2b8e118ad95e
+2022-10-20 10:00:51	862249bf-81fe-4cd0-ace6-e0a6f6dbe099	>I think we are at a point where we are able to weave literate programs that look very similar to worgmap/vanilla weewiki. no "mapping" yet. that's for another time.
+-	862249bf-81fe-4cd0-ace6-e0a6f6dbe099	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	862249bf-81fe-4cd0-ace6-e0a6f6dbe099	#7b51098c-d505-43b7-8ac3-08623f8600ca
+2022-10-20 10:01:34	935c194e-1498-40e9-9e2a-dea19793be73	>what we still need to do is build some tooling that automates the tangling-to-metadata process. I imagine it will be a combination of Make and Janet.
+-	935c194e-1498-40e9-9e2a-dea19793be73	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	935c194e-1498-40e9-9e2a-dea19793be73	#7b51098c-d505-43b7-8ac3-08623f8600ca
+2022-10-20 10:03:29	b5b2e644-6f63-4d7e-88d3-12a7a0fee2b1	>initial words and symbols entered in. no actual rendering done yet. see !protosigils.
+-	b5b2e644-6f63-4d7e-88d3-12a7a0fee2b1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b5b2e644-6f63-4d7e-88d3-12a7a0fee2b1	#c6cc71ef-8106-4a2f-853e-2b8e118ad95e
+2022-10-20 10:07:24	9dc97556-2b38-4ad1-8040-00755c72903e	>the page rendering is still messing up code block generation. it looks like the =#+END= statement needs a line break sometimes.
+-	9dc97556-2b38-4ad1-8040-00755c72903e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9dc97556-2b38-4ad1-8040-00755c72903e	#7b51098c-d505-43b7-8ac3-08623f8600ca
