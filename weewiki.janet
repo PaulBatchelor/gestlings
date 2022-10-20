@@ -108,3 +108,4 @@
 (import ergo)
 (import zet)
 (import progparse)
+(import programs)

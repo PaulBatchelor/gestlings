@@ -309,7 +309,7 @@ data below.
 <<glyphs>>
 #+END_SRC
 ** Radicals
-TODO: words.
+TODO: add some words.
 
 #+NAME: radicals
 #+BEGIN_SRC janet
@@ -333,7 +333,7 @@ TODO: words.
 (def bcap @[1 2])
 #+END_SRC
 ** Glyphs
-TODO: words.
+TODO: describe glyphs.
 
 #+NAME: glyphs
 #+BEGIN_SRC janet
