@@ -6,7 +6,10 @@
 # unlinked pages
 
 (ww-add-page "logs" `@!(zet/messages "logs")!@`)
-(ww-add-page "curated_lglyphs" `@!(progparse/docgen 0 "Curated L Glyphs")!@`)
+(ww-add-page "curated_lglyphs" `@!(progparse/docgen
+(programs/programs "curated_lglyphs/curated_lglyphs.org")
+"Curated L Glyphs")!@
+`)
 
 # linked pages
 
