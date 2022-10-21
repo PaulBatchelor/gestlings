@@ -27,6 +27,43 @@ These symbols don't mean anything yet. Eventually, they
 will turn into a number system used to represent the
 duration of a particular segment of a gesture in
 numerator-denominator format.
+* Some Thoughts
+These L-Glyphs are forms thaat will eventually eventually
+be used to represent numbers for the scaling factor of
+a gesture target value, so my mind was initially in the
+mode of counting systems.
+
+I was just working with Mayan
+counting systems, and had a modification that extended
+the base and allowed more numbers. But it turns out
+I didn't even have enough pixel space for that (it could be
+done with 8x8 pixels, but even that was too much to ask
+for). The "L" shape came into being because it was the
+only space that was available.
+
+The first row of glyphs, I was thinking about counting
+systems. Making some glyphs that could resemble one, two,
+three, four, five, and six.
+
+The second row, I decided to relax a little bit on trying
+to make numbers, and just improvised a little bit, seeing
+what various radical combinations could look like.
+
+I return back to thinking about number systems in row 3,
+with the idea that glyph could be split into two groups of
+two radicals, with one group acting like the MSBs, and the
+other the LSBs. I am messing around with this duality here.
+
+In row 4, 
+I am reminded that the "cap" radical exists, and begin
+playing with that. I am also thinking about the triplet
+grouping involving the corner, and how nice and symmetrical
+these forms look.
+
+Row 5 revisits the idea of the 2-radical shape.
+
+By row 6, I am out of ideas. So I squeezed a few weird
+ones out.
 * Tangled Source
 This is the top-level entry point, depicting the
 main program code. All the abstractions and data leading
@@ -299,7 +336,7 @@ are all made to be centered around the main canvas.
 #+END_SRC
 * Glyph and Radical Data
 Enough abstraction has been built up in Janet so that
-glyphs and undelrying radicals components can be expressed
+glyphs and underlying radicals components can be expressed
 in a human readable way. The curated glyphs are stored as
 data below.
 
@@ -309,7 +346,41 @@ data below.
 <<glyphs>>
 #+END_SRC
 ** Radicals
-TODO: add some words.
+Radicals are small 4x4 pixel components that build up an
+L-Glyph. These have been typed up in a text file, and
+loaded up into memory as a tilemap. The relative locations
+are stored below, with human readable names.
+
+Radicals can be found in the
+file =curated_lglyphs/radicals.txt=.
+
+=empty= is a an empty box. Nothing in it.
+
+=dot= produces a "dot" in the center.
+
+A =box= is the inverse of a =dot=, which creates an
+outline around the edges.
+
+=vline= produces a vertical line.
+
+=tee= makes a T shape. There's also =rtee=, =ltee=, and
+=btee= for tees skewed, right, left, and bottom,
+respectively.
+
+=knee= creates L-shaped Knee, intended for the corner.
+
+=block= is the opposite of =empty= everything is on,
+creating a big blob. This was used for making layouts
+and borders were done correctly, and shouldn't actually
+be used.
+
+A cap creates little brackets. =lcap=, =rcap=, =tcap=,
+and =bcap= stand for left, rigth, top, and bottom caps.
+
+A stub is a half-line, intended to be used in situations
+where you want a line to end uneventfully. =lstub=,
+=rstub=, =tstub=, and =bstub= refer to left, right, top,
+and bottom stubs.
 
 #+NAME: radicals
 #+BEGIN_SRC janet
@@ -333,7 +404,10 @@ TODO: add some words.
 (def bcap @[1 2])
 #+END_SRC
 ** Glyphs
-TODO: describe glyphs.
+A glyph is represented as a 4-element array containing
+its radicals in the following order: top, middle, bottom,
+right. These glyphs are stored inside of an array called
+=glyphs=.
 
 #+NAME: glyphs
 #+BEGIN_SRC janet
