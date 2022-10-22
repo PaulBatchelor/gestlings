@@ -8,4 +8,4 @@ PGNAME=$1
 
 
 weewiki add $PGNAME
-weewiki set $PGNAME "@!(wikipage \"parsing_programs\")!@"
+weewiki set $PGNAME "@!(wikipage \"$PGNAME\")!@"

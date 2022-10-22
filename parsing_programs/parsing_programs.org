@@ -74,9 +74,7 @@ is to recreate the original org document. In theory,
 all the components are there.
 ** Top Level Document Generator
 The =docgen= program will produce a suitable weewiki
-page for the id stored in =program=, using =title=
-as the title for a page (worgle doesn't have title
-export, yet).
+page for the id stored in =program=.
 
 The function iterates through the metadata (assuming
 metadata exists for the program id), assembling the
@@ -87,9 +85,9 @@ this was causing things to crash (oops).
 
 #+NAME: docgen
 #+BEGIN_SRC janet
-(defn docgen [program title]
+(defn docgen [program]
   (var lines @[])
-  (array/push lines (string "#+TITLE: " title "\n"))
+  # (array/push lines (string "#+TITLE: " title "\n"))
 
   (def md (open-metadata "a.db" program))
   (def reslist (reslist md))
@@ -126,7 +124,7 @@ this was causing things to crash (oops).
   (org orgstr))
 
 (defn wikipage [page]
-  (docgen (page :id) (page :title)))
+  (docgen (page :id)))
 #+END_SRC
 ** Opening/Closing the Metadata
 #+NAME: progparse

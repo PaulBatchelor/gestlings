@@ -112,3 +112,9 @@
 
 (defn wikipage [pgname]
   (progparse/wikipage (programs/pages pgname)))
+
+(defn bpimg [bp alt]
+  (print "<img src=\"data:image/png;base64,")
+  (print (btprnt/write-png bp))
+  (print (string/format
+           "\" alt=\"%s\">" alt)))
