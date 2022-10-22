@@ -12,6 +12,8 @@
 `)
 (ww-add-page "simple_path" `@!(wikipage "simple_path")!@
 `)
+(ww-add-page "loadtiles" `@!(wikipage "loadtiles")!@
+`)
 
 # linked pages
 

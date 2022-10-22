@@ -22,6 +22,14 @@
  :tangled "simple_path/simple_path.lua"
  :title "Simple Path"
  }
+
+ "loadtiles"
+ @{
+ :id 3
+ :org "loadtiles/loadtiles.org"
+ :tangled "loadtiles/loadtiles.janet"
+ :title "Loading Tilemaps From a File"
+ }
 })
 
 (defn get-id [pgname]

@@ -29,7 +29,7 @@ version aims to clean things up a bit. The goal is to make
 this a re-usable component.
 
 #+NAME: loadtiles.janet
-#+BEGIN_SRC janet
+#+BEGIN_SRC janet :tangle loadtiles/loadtiles.janet
 (defn loadtiles [filename gwidth gheight cols rows]
   (var xpos 0)
   (var ypos 0)
