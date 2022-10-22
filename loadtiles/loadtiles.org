@@ -23,6 +23,12 @@ be a very convenient format.
 text file containing data a =tilemap=, and assembles it
 into a raw in-memory tilemap via a Janet Buffer.
 
+The =filename= argument points to the locatino of
+the text file containing the tilemap. =gwidth= and
+=gheight= refer to the pixel dimensions of an
+individual glyph. =cols= and =rows= refer to the size
+of the tilemap.
+
 Most of this code has already been been implemented
 in @!(ref "curated_lglyphs")!@ as =loadbuf_v2=. This
 version aims to clean things up a bit. The goal is to make
@@ -38,22 +44,32 @@ this a re-usable component.
 
   # btprnt usually does this automatically
   # handle non-multiples of 8
-  (def stride
-    (let (w (* gwidth cols))
-      (if (= (% w 8) 0)
-        cols
-        (+ cols 1))))
+  # (def stride
+  #   (let (w (* gwidth cols))
+  #     (if (= (% w 8) 0)
+  #       (/ w 8)
+  #       (+ (math/floor (/ w 8)) 1))))
 
+  (def total-size
+    (let (sz (* gwidth gheight cols rows))
+      (if (= (% sz 8) 0)
+        (/ sz 8)
+        (+ (math/floor (/ sz 8)) 1))))
+
+  (def stride (* cols gwidth))
   (def height (* rows gheight))
 
-  (var buf (buffer/new-filled (* stride height)))
+  #(var buf (buffer/new-filled (* stride height)))
+  (var buf (buffer/new-filled total-size))
   (var f (file/open filename :r))
   (var linepos 0)
 
+  # turns out janet bitmaps tightly pack bits without
+  # zero-padding rows up to the nearest byte
   (defn pixel [x y s]
-    (var off (math/floor (/ x 8)))
-    (var pos (+ (* y stride) off))
-    (var bitpos (- x (* off 8)))
+    (def pos-in-bits (+ (* stride y) x))
+    (def pos (brshift pos-in-bits 3))
+    (def bitpos (- pos-in-bits (blshift pos 3)))
 
     (if (= s 1)
       (set (buf pos)
@@ -65,7 +81,6 @@ this a re-usable component.
     (var a (string/bytes line))
     (if (or (= (a 0) onbit) (= (a 0) offbit))
       (do
-        #(prin (string line))
         (if (>= linepos gheight)
           # end of glyph. get ready for next glyph.
           (do
