@@ -13,4 +13,4 @@
 (tangle-rule)
 
 (each prog programs/pages
-  (tangle (prog :janet) (prog :org)))
+  (tangle (prog :tangled) (prog :org)))

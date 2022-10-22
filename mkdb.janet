@@ -10,10 +10,11 @@
 `)
 (ww-add-page "curated_lglyphs" `@!(wikipage "curated_lglyphs")!@
 `)
+(ww-add-page "simple_path" `@!(wikipage "simple_path")!@
+`)
 
 # linked pages
 
-(ww-add-link "simple_path" "simple_path/simple_path.org")
 (ww-add-link "index" "index.org")
 (ww-add-link "protosigils" "protosigils/protosigils.org")
 

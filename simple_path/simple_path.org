@@ -9,7 +9,7 @@ This should provide a gist of what is happening in the
 program.
 
 #+NAME: simple_path.lua
-#+BEGIN_SRC lua :tangle simple_path.lua
+#+BEGIN_SRC lua :tangle simple_path/simple_path.lua
 <<procedures>>
 
 patch =
