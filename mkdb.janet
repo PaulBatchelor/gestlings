@@ -14,11 +14,11 @@
 `)
 (ww-add-page "loadtiles" `@!(wikipage "loadtiles")!@
 `)
+(ww-add-page "protosigils" `@!(wikipage "protosigils")!@`)
 
 # linked pages
 
 (ww-add-link "index" "index.org")
-(ww-add-link "protosigils" "protosigils/protosigils.org")
 
 # sync and close
 
