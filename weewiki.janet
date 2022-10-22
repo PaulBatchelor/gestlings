@@ -107,5 +107,8 @@
 
 (import ergo)
 (import zet)
-(import progparse)
 (import programs)
+(import progparse)
+
+(defn wikipage [pgname]
+  (progparse/wikipage (programs/pages pgname)))

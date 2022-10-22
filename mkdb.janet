@@ -6,13 +6,9 @@
 # unlinked pages
 
 (ww-add-page "logs" `@!(zet/messages "logs")!@`)
-(ww-add-page "curated_lglyphs" `@!(progparse/docgen
-(programs/programs "curated_lglyphs/curated_lglyphs.org")
-"Curated L Glyphs")!@
+(ww-add-page "parsing_programs" `@!(wikipage "parsing_programs")!@
 `)
-(ww-add-page "parsing_programs" `@!(progparse/docgen
-(programs/programs "parsing_programs/parsing_programs.org")
-"Parsing Programs")!@
+(ww-add-page "curated_lglyphs" `@!(wikipage "curated_lglyphs")!@
 `)
 
 # linked pages

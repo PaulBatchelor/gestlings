@@ -124,6 +124,9 @@ this was causing things to crash (oops).
   (file/write fp orgstr)
   (file/close fp)
   (org orgstr))
+
+(defn wikipage [page]
+  (docgen (page :id) (page :title)))
 #+END_SRC
 ** Opening/Closing the Metadata
 #+NAME: progparse
