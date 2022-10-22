@@ -10,6 +10,10 @@
 (programs/programs "curated_lglyphs/curated_lglyphs.org")
 "Curated L Glyphs")!@
 `)
+(ww-add-page "parsing_programs" `@!(progparse/docgen
+(programs/programs "parsing_programs/parsing_programs.org")
+"Parsing Programs")!@
+`)
 
 # linked pages
 

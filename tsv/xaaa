@@ -59,3 +59,10 @@
 2022-10-20 10:07:24	9dc97556-2b38-4ad1-8040-00755c72903e	>the page rendering is still messing up code block generation. it looks like the =#+END= statement needs a line break sometimes.
 -	9dc97556-2b38-4ad1-8040-00755c72903e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	9dc97556-2b38-4ad1-8040-00755c72903e	#7b51098c-d505-43b7-8ac3-08623f8600ca
+2022-10-22 09:41:49	ad7f30d9-d327-47fa-9f81-547f4a07baf6	>nearly done. If I can add another org file to this setup without too much trouble, I think it's there.
+-	ad7f30d9-d327-47fa-9f81-547f4a07baf6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ad7f30d9-d327-47fa-9f81-547f4a07baf6	#7b51098c-d505-43b7-8ac3-08623f8600ca
+2022-10-22 09:42:14	0223af47-63c6-4161-a6c2-5ae7015b3868	>create "map" interface in !parsing_programs.
+-	0223af47-63c6-4161-a6c2-5ae7015b3868	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-10-22 09:42:14	0223af47-63c6-4161-a6c2-5ae7015b3868	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-10-22 09:44:07	0223af47-63c6-4161-a6c2-5ae7015b3868	$blurb:>Now that the initial workflow has been set up (#glrjsawq), thinking about constructing some more high-level "maps" like table of contents should and code block maps should come next.

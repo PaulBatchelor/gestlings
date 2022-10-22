@@ -4,3 +4,4 @@ rule tangle
     command = $tangler $in
 
 build curated_lglyphs/curated_lglyphs.janet: tangle curated_lglyphs/curated_lglyphs.org
+build progparse.janet: tangle parsing_programs/parsing_programs.org
