@@ -36,7 +36,7 @@ combinations).
 * Some Notes For Those Protosigils
 There's not too much more to say about these so-called
 "protosigils". My first instinct, similar
-to the @!(ref "curated_lglyhphs" "L Glyphs")!@, was to
+to the @!(ref "curated_lglyphs" "L Glyphs")!@, was to
 think about numbers, since those are useful for representing
 sets of things like pitches. The first eight sigils were
 inspired by the chinese numbers 1-8. The last 4 were
