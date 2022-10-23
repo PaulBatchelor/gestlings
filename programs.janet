@@ -33,8 +33,16 @@
  :org "protosigils/protosigils.org"
  :tangled "protosigils/protosigils.janet"
  }
+ 
+ "protodiacritics"
+ @{
+ :id 5
+ :org "protodiacritics/protodiacritics.org"
+ :tangled "protodiacritics/protodiacritis.janet"
+ }
 })
 
+# TODO: move this out of this file.
 (defn get-id [pgname]
  (print pgname)
  (let (pg (pages pgname))

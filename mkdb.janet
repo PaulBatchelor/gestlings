@@ -15,6 +15,7 @@
 (ww-add-page "loadtiles" `@!(wikipage "loadtiles")!@
 `)
 (ww-add-page "protosigils" `@!(wikipage "protosigils")!@`)
+(ww-add-page "protodiacritics" `@!(wikipage "protodiacritics")!@`)
 
 # linked pages
 
