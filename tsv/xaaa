@@ -66,3 +66,25 @@
 -	0223af47-63c6-4161-a6c2-5ae7015b3868	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2022-10-22 09:42:14	0223af47-63c6-4161-a6c2-5ae7015b3868	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
 2022-10-22 09:44:07	0223af47-63c6-4161-a6c2-5ae7015b3868	$blurb:>Now that the initial workflow has been set up (#glrjsawq), thinking about constructing some more high-level "maps" like table of contents should and code block maps should come next.
+2022-10-23 09:50:09	5bf7f8d8-b7ea-4568-b0e5-fcf555d9381f	>initial drawing created. I'm probably going to see if there are any more words needed.
+-	5bf7f8d8-b7ea-4568-b0e5-fcf555d9381f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5bf7f8d8-b7ea-4568-b0e5-fcf555d9381f	#c6cc71ef-8106-4a2f-853e-2b8e118ad95e
+2022-10-23 09:50:29	39de570e-d38d-47ed-bdea-fd15c7e16d4c	>create prototype behavior diacritics
+-	39de570e-d38d-47ed-bdea-fd15c7e16d4c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-10-23 09:50:29	39de570e-d38d-47ed-bdea-fd15c7e16d4c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-10-23 09:51:17	00220f35-8e2d-41b5-a12f-17986ce03e4a	>establish initial runeset for behaviors, values, and durations
+-	00220f35-8e2d-41b5-a12f-17986ce03e4a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-10-23 09:51:17	00220f35-8e2d-41b5-a12f-17986ce03e4a	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-10-23 09:51:54	ced05062-250d-457b-9ca1-92a5eb12c3ea	>create notation for !simple_path
+-	ced05062-250d-457b-9ca1-92a5eb12c3ea	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-10-23 09:51:54	ced05062-250d-457b-9ca1-92a5eb12c3ea	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-10-23 10:02:59	d3649038-30ed-4e6d-b5fc-95062b3f78f8	>create gestured version of the opening phrase in The Swan
+-	d3649038-30ed-4e6d-b5fc-95062b3f78f8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-10-23 10:02:59	d3649038-30ed-4e6d-b5fc-95062b3f78f8	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-10-23 10:03:15	57466e56-3c16-4b22-982e-274288c4ebb3	>taken from my other zetdo
+-	57466e56-3c16-4b22-982e-274288c4ebb3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	57466e56-3c16-4b22-982e-274288c4ebb3	#d3649038-30ed-4e6d-b5fc-95062b3f78f8
+2022-10-23 10:12:58	6895cead-24ae-4778-b077-c06bd541db15	>create ramptree proof-of-concept
+-	6895cead-24ae-4778-b077-c06bd541db15	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-10-23 10:12:58	6895cead-24ae-4778-b077-c06bd541db15	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-10-23 10:13:48	6895cead-24ae-4778-b077-c06bd541db15	$blurb:>this should answer definitively "Can gestvm make gestures equivalent to those in gest?"

@@ -1,0 +1,120 @@
+#+TITLE: Protosigils
+* Prelude: 12 Protosigils
+@!(dofile "protosigils/protosigils.janet")!@
+* An attempt to define a Sigil
+In this early stage of notating Gesture, the so-called
+"sigil" is perhaps the most important component. It is
+the part that conveys the value of the Gesture at
+that point in time.
+
+"Sigil" is a working term at the moment. I like the
+associations that come to mind when I use it. It may come
+to be that what I refer to as the entire "Gesture Glyph"
+may become the "Gesture Sigil". Going to see what happens
+naturally. But today, the Sigil is the scalar value component
+of the Gesture.
+
+(Rune perhaps? I like the sound of rune. Runes inside of
+sigils.)
+
+A sigil sits at the center of the glyph. It is the largest
+component, given a 16x16 area of pixels. The convention
+at the moment will be to treat this as a 7x7 area of tiles
+with a 1px margin around it.
+
+For now, constructed sigils will follow the rules of basic
+Square Kufic calligraphy. I very much enjoy the aesthetic of
+Kufic, and think it's beauty would be quite applicable to
+1-bit pixel art and tesselations (the medium of Gesture
+notation).
+
+Kufic rules state that there must be a balanced amount of
+black and white tiles in every area. As a result of this,
+there are 4 2x2 tile combinations that cannot exist: all
+black, all white, and diagonals/checkerboard (2
+combinations).
+* Some Notes For Those Protosigils
+There's not too much more to say about these so-called
+"protosigils". My first instinct, similar
+to the @!(ref "curated_lglyhphs" "L Glyphs")!@, was to
+think about numbers, since those are useful for representing
+sets of things like pitches. The first eight sigils were
+inspired by the chinese numbers 1-8. The last 4 were
+done earlier: a center-oriented diamond, exploring
+asymmetry, asymmetry and texture, and a simple nested box.
+
+These were all sketched by hand initially, which forces one
+to move slower. It's definitely a different feeling working
+by hand.
+* Tangled Code
+The image above was generated using the code below.
+This is the first time an attempt has been made to re-use
+code in gestlings. This marks the debut of
+the @!(ref "loadtiles")!@ utility, which in the future
+will be quite helpful in designing the core runeset
+(sigilset? glyphset? the terminology is fluid at the
+moment).
+
+The re-usable code that may be extracted from this later
+is the =gen-tilemap= code, a wrapper around loadtiles
+that does the extra step of saving it to a new btprnt
+buffer.
+
+#+NAME: protosigils.janet
+#+BEGIN_SRC janet :tangle protosigils/protosigils.janet
+(do
+(def loadtiles-file (dofile "loadtiles/loadtiles.janet"))
+
+(def loadtiles ((loadtiles-file 'loadtiles) :value))
+
+(defn gen-tilemap [filename gw gh ncols nrows]
+  (def buf
+    (loadtiles filename gw gh ncols nrows))
+
+  (def w (* ncols gw))
+  (def h (* nrows gh))
+
+  (def bp (btprnt/new w h))
+
+  (btprnt/drawbits
+    bp buf
+    @[0 0 w h]
+    0 0 w h
+    0 0)
+
+  bp)
+
+(def tilemap (gen-tilemap
+               "protosigils/protosigils.txt"
+               7 7 3 4))
+
+(def total-width 256)
+(def total-height 256)
+(def bp (btprnt/new total-width total-height))
+(def main @[0 0 total-width total-height])
+(def center (btprnt/border bp main 24))
+
+(btprnt/outline bp center 1)
+
+(defn draw-sigil [bp center pos]
+  (def gridbox
+    (btprnt/grid bp center 3 4 (pos 0) (pos 1)))
+  (def gridbox-center (btprnt/centerbox bp gridbox 32 32))
+  (btprnt/outline bp gridbox-center 1)
+
+  (btprnt/tile bp tilemap gridbox-center
+               2 2
+               (pos 0) (pos 1) 7 7 4 1))
+(for y 0 4
+  (for x 0 3
+    (draw-sigil bp center @[x y])))
+
+(def chicago_12 (btprnt/macfont-load "fonts/chicago_12"))
+(btprnt/macfont-textbox
+ bp chicago_12
+ main
+ 8 (- 256 17) "protosigils" 1)
+
+ (bpimg bp "protosigils")
+ (btprnt/del bp))
+#+END_SRC
