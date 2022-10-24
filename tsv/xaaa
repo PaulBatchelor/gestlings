@@ -37,7 +37,7 @@
 -	1d0e621c-9baa-4443-a6cc-bd28b1f2eb36	#eccd2aff-4b91-4b36-acb1-bbd56fe76350
 2022-10-14 00:11:20	c6cc71ef-8106-4a2f-853e-2b8e118ad95e	>Create gesture sigils page
 -	c6cc71ef-8106-4a2f-853e-2b8e118ad95e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-10-14 00:11:20	c6cc71ef-8106-4a2f-853e-2b8e118ad95e	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-10-24 10:29:25	c6cc71ef-8106-4a2f-853e-2b8e118ad95e	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-10-14 00:11:58	9e6f013d-4c84-4eba-9240-bb6ca765c7bc	>I have some initial prototype characters that would be nice to digitize and display.
 -	9e6f013d-4c84-4eba-9240-bb6ca765c7bc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	9e6f013d-4c84-4eba-9240-bb6ca765c7bc	#c6cc71ef-8106-4a2f-853e-2b8e118ad95e
@@ -88,3 +88,15 @@
 -	6895cead-24ae-4778-b077-c06bd541db15	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2022-10-23 10:12:58	6895cead-24ae-4778-b077-c06bd541db15	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
 2022-10-23 10:13:48	6895cead-24ae-4778-b077-c06bd541db15	$blurb:>this should answer definitively "Can gestvm make gestures equivalent to those in gest?"
+2022-10-24 10:31:34	512ffe35-db45-4930-9e38-c8334c4b658d	>is "runeset" the right word? Otherwise something like glyph components would work, but that sounds sterile.
+-	512ffe35-db45-4930-9e38-c8334c4b658d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	512ffe35-db45-4930-9e38-c8334c4b658d	#00220f35-8e2d-41b5-a12f-17986ce03e4a
+2022-10-24 10:32:30	f26f6e22-42f4-4746-b6ee-bfc81fc219d2	>I want to call the whole glyph a "sigil", and be able to notate using a collection of sigils. But I don't know if that's the proper usage of the term.
+-	f26f6e22-42f4-4746-b6ee-bfc81fc219d2	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f26f6e22-42f4-4746-b6ee-bfc81fc219d2	#00220f35-8e2d-41b5-a12f-17986ce03e4a
+2022-10-24 10:33:55	061cf943-9588-4494-b9a7-ff781d9dfc57	>"rune" seems a bit more fundamental than a sigil, so it makes sense to me that runes could be the components that make sigils. L-Glyphs would be a kind of Rune, Behavior Diacritics would be a kind of rune.
+-	061cf943-9588-4494-b9a7-ff781d9dfc57	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	061cf943-9588-4494-b9a7-ff781d9dfc57	#00220f35-8e2d-41b5-a12f-17986ce03e4a
+2022-10-24 10:50:14	9b6550e5-5e6e-40fc-a019-bcc07ab28dff	>a thought: A "sigil" can be used to describe the core gesture glyph. The center is the "symbol", representing values. The diacritics mark the behavior, and the runes below indicate duration.
+-	9b6550e5-5e6e-40fc-a019-bcc07ab28dff	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9b6550e5-5e6e-40fc-a019-bcc07ab28dff	#00220f35-8e2d-41b5-a12f-17986ce03e4a
