@@ -38,7 +38,7 @@
  @{
  :id 5
  :org "protodiacritics/protodiacritics.org"
- :tangled "protodiacritics/protodiacritis.janet"
+ :tangled "protodiacritics/protodiacritics.janet"
  }
 })
 
