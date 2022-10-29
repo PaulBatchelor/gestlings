@@ -113,4 +113,31 @@ this a re-usable component.
 
   (file/close f)
   buf)
+<<gen-tilemap>>
+#+END_SRC
+* Generating a Tilemap
+Initially built while making @!(ref "protosigils")!@, the
+=gen-tilemap= will load a text file into a btprnt buffer.
+In addition to calling =loadbits= to load the file into
+a Janet buffer, it will also call on =drawbits= to actually
+place those into a newly allocated btprnt buffer.
+
+#+NAME: gen-tilemap
+#+BEGIN_SRC janet
+(defn gen-tilemap [filename gw gh ncols nrows]
+  (def buf
+    (loadtiles filename gw gh ncols nrows))
+
+  (def w (* ncols gw))
+  (def h (* nrows gh))
+
+  (def bp (btprnt/new w h))
+
+  (btprnt/drawbits
+    bp buf
+    @[0 0 w h]
+    0 0 w h
+    0 0)
+
+  bp)
 #+END_SRC
