@@ -33,12 +33,19 @@
  :org "protosigils/protosigils.org"
  :tangled "protosigils/protosigils.janet"
  }
- 
+
  "protodiacritics"
  @{
  :id 5
  :org "protodiacritics/protodiacritics.org"
  :tangled "protodiacritics/protodiacritics.janet"
+ }
+
+ "radicals"
+ @{
+ :id 6
+ :org "radicals/radicals.org"
+ :tangled @["radicals/radicals.txt" "radicals/radicals.janet"]
  }
 })
 

@@ -100,3 +100,9 @@
 2022-10-24 10:50:14	9b6550e5-5e6e-40fc-a019-bcc07ab28dff	>a thought: A "sigil" can be used to describe the core gesture glyph. The center is the "symbol", representing values. The diacritics mark the behavior, and the runes below indicate duration.
 -	9b6550e5-5e6e-40fc-a019-bcc07ab28dff	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	9b6550e5-5e6e-40fc-a019-bcc07ab28dff	#00220f35-8e2d-41b5-a12f-17986ce03e4a
+2022-10-30 16:22:27	a0ce057b-8fa7-4f08-bccb-7b6c65318229	>diacritics and l-glyphs seem to have many radicals in common. Making a radicals org file that tangles to a file loadable by !loadtiles would be a good initial step.
+-	a0ce057b-8fa7-4f08-bccb-7b6c65318229	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a0ce057b-8fa7-4f08-bccb-7b6c65318229	#00220f35-8e2d-41b5-a12f-17986ce03e4a
+2022-10-30 16:26:14	f915e442-53f5-425f-b6f3-de6a509c54ba	>still not sure how to best represent the structures higher than a radical for things like l-glyphs and diacritics. It's more than just a bunch of radicals strung together, they actually have a meaning at this point. The interface should convey this meaning.
+-	f915e442-53f5-425f-b6f3-de6a509c54ba	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f915e442-53f5-425f-b6f3-de6a509c54ba	#00220f35-8e2d-41b5-a12f-17986ce03e4a

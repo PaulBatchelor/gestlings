@@ -13,4 +13,6 @@
 (tangle-rule)
 
 (each prog programs/pages
-  (tangle (prog :tangled) (prog :org)))
+  (if (array? (prog :tangled))
+    (tangle (string/join (prog :tangled) " ") (prog :org))
+    (tangle (prog :tangled) (prog :org))))

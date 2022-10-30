@@ -1,0 +1,86 @@
+#+TITLE: Radicals
+* Radicals?
+In the Brutalist Gesture Notation system, the =radical=
+is a 4x4 block of 1-bit pixels. It is considered the
+core building block for things
+like @!(ref "curated_lglyphs" "L-Glyphs")!@ and @!(
+ref "protodiacritics" "Diacritics")!@. They are considered
+a core building block for these components.
+
+The name "radical" is a term borrowed from the Chinese
+writing system. Chinese characters, especially those in
+simplified chinese, are often made up of smaller parts
+called radicals.
+* Tangled File Output
+Radicals are saved in a text file, to be parsed by
+utilities found in @!(ref "loadtiles")!@.
+
+#+NAME: radicals.txt
+#+BEGIN_SRC txt :tangle radicals/radicals.txt
+<<radicals>>
+#+END_SRC
+* Janet Macros
+Assuming this is loaded into a 6x6 tilemap, this janet
+file provides names for each radical, as well as their
+location.
+#+NAME: radicals.janet
+#+BEGIN_SRC txt :tangle radicals/radicals.janet
+<<entries>>
+#+END_SRC
+* Radicals
+** Empty Space
+It is a natural choice to set the initial tile to be
+an empty space.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+----
+----
+----
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def empty @[0 0])
+#+END_SRC
+** Dot
+The "dot" serves as a wonderful ornamentation. It is
+completely centered, and as a nice 2x2 size to it.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+-##-
+-##-
+----
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def empty @[1 0])
+#+END_SRC
+** Block
+** Box
+** Vertical Line
+** Tees
+*** Top/Bottom Tee
+*** Left/Right Tee
+** Stubs
+*** Top/Bottom Stub
+*** Left/Right Stub
+** Stripes and Pipes
+** Knees
+*** Top Knees
+*** Bottom Knees
+** Squiggles
+*** Suiggle 1
+*** Suiggle 2
+** Brackets
+*** Top/Bottom Bracket
+*** Left/Right Bracket
+** Lines
+*** Horiztonal
+*** Vertical
+*** Left/Right
+*** Top/Bottom
