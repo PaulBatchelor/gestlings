@@ -61,26 +61,445 @@ completely centered, and as a nice 2x2 size to it.
 (def empty @[1 0])
 #+END_SRC
 ** Block
+A block is the opposite of empty space. It's completely
+filled. This can sometimes be useful for debugging.
+Otherwise, it probably should be avoided. This one tends
+to be too bulky.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+####
+####
+####
+####
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def block @[2 0])
+#+END_SRC
 ** Box
-** Vertical Line
+A box outlines the area wit a 1 pixel border. It also
+happens to be the inverse of a dot.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+####
+#--#
+#--#
+####
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def box @[3 0])
+#+END_SRC
 ** Tees
+A "T" shape. These make for good end points.
 *** Top/Bottom Tee
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+####
+####
+-##-
+#+END_SRC
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+-##-
+####
+####
+----
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def ttee @[4 0])
+(def btee @[5 0])
+#+END_SRC
 *** Left/Right Tee
+#+NAME: radicals
+#+BEGIN_SRC txt
+-##-
+-###
+-###
+-##-
+#+END_SRC
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+-##-
+###-
+###-
+-##-
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def ltee @[0 1])
+(def rtee @[1 1])
+#+END_SRC
 ** Stubs
+Stubs are understated ways to end paths.
 *** Top/Bottom Stub
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+-##-
+-##-
+-##-
+#+END_SRC
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+-##-
+-##-
+-##-
+----
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def tstub @[1 1])
+(def bstub @[2 1])
+#+END_SRC
 *** Left/Right Stub
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+-###
+-###
+----
+#+END_SRC
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+###-
+###-
+----
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def lstub @[3 1])
+(def rstub @[4 1])
+#+END_SRC
 ** Stripes and Pipes
+Stripes produce a center line, both vertically and
+horizontally.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+-##-
+-##-
+-##-
+-##-
+#+END_SRC
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+####
+####
+----
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def vstripe @[4 1])
+(def hstripe @[5 1])
+#+END_SRC
+
+Pipes are the inverse of stripes. They get their name
+because their edges make it look like a pipe.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+#--#
+#--#
+#--#
+#--#
+#+END_SRC
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+####
+----
+----
+####
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def vpipe @[5 1])
+(def hpipe @[0 2])
+#+END_SRC
 ** Knees
+Knees add a bend to a path. They particularly useful for
+L-Glyphs.
 *** Top Knees
+Top Left.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+-###
+-###
+-##-
+#+END_SRC
+
+Top Right.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+###-
+###-
+-##-
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def tlknee @[1 2])
+(def trknee @[2 2])
+#+END_SRC
 *** Bottom Knees
+Bottom Left.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+-##-
+-###
+-###
+----
+#+END_SRC
+
+Bottom Right.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+-##-
+###-
+###-
+----
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def blknee @[3 2])
+(def brknee @[4 2])
+#+END_SRC
 ** Squiggles
-*** Suiggle 1
-*** Suiggle 2
+Squiggles are S or Z shapes that can be connected
+together to from a suiqggly line. These are typically
+used for diacritics.
+
+Squiggle 1:
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+-###
+-###
+###-
+###-
+#+END_SRC
+
+Squiggle 2:
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+###-
+###-
+-###
+-###
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def squig1 @[5 2])
+(def squig2 @[0 3])
+#+END_SRC
 ** Brackets
+These are another "capper" for paths.
 *** Top/Bottom Bracket
+Top Bracket.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+####
+#--#
+#--#
+#+END_SRC
+
+Bottom Bracket.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+#--#
+#--#
+####
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def tbrack @[1 3])
+(def bbrack @[2 3])
+#+END_SRC
 *** Left/Right Bracket
+Left Bracket.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+-###
+-#--
+-#--
+-###
+#+END_SRC
+
+Right Bracket.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+-###
+---#
+---#
+-###
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def lbrack @[4 3])
+(def rbrack @[5 3])
+#+END_SRC
 ** Lines
-*** Horiztonal
-*** Vertical
-*** Left/Right
+Occasionally, one needs lines that are off to the side.
+But only occasionally.
+
 *** Top/Bottom
+Top Line.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+####
+####
+----
+----
+#+END_SRC
+
+Bottom Line.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+----
+----
+####
+####
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def tline @[0 4])
+(def bline @[1 4])
+#+END_SRC
+*** Left/Right
+Left Line.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+##--
+##--
+##--
+##--
+#+END_SRC
+
+
+Right Line.
+
+#+NAME: radicals
+#+BEGIN_SRC txt
+--##
+--##
+--##
+--##
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(def lline @[1 4])
+(def rline @[2 4])
+#+END_SRC
+* Demo
+Here's a map of all the diacritics. It would be
+very cool to turn this into an image map at some point.
+
+@!(dofile "radicals/radical_demo.janet")!@
+
+#+NAME: radical_demo.janet
+#+BEGIN_SRC janet :tangle radicals/radical_demo.janet
+(do
+  (def loadtiles-file (dofile "loadtiles/loadtiles.janet"))
+  (def gen-tilemap ((loadtiles-file 'gen-tilemap) :value))
+  (def rmap
+    (gen-tilemap "radicals/radicals.txt" 4 4 6 6))
+
+  (def bp (btprnt/new 256 256))
+  (def canvas @[0 0 256 256])
+  (def padding 2)
+  (def zoom 4)
+  (def sz (+ 5 (* 6 (+ (* 4 zoom) (* 2 padding)))))
+  (def main (btprnt/centerbox bp canvas sz sz))
+  (def border
+    (btprnt/centerbox bp canvas
+                      (+ sz 36)
+                      (+ sz 36)))
+
+  (btprnt/outline bp main 1)
+
+  (for x 0 6
+    (btprnt/vline
+      bp main
+      (+ (* 4 zoom)
+         (* 2 padding)
+         (* (+ (* 4 zoom) (* 2 padding) 1) x))
+      0
+      (main 3)
+      1))
+
+  (for y 0 6
+    (btprnt/hline
+      bp main
+      0
+      (+ (* 4 zoom)
+         (* 2 padding)
+         (* (+ (* 4 zoom) (* 2 padding) 1) y))
+      (main 3)
+      1))
+
+  (for y 0 6
+    (for x 0 6
+      (btprnt/tile
+        bp rmap main
+        (+ padding (* (+ (* 4 zoom) (* 2 padding) 1) x))
+        (+ padding (* (+ (* 4 zoom) (* 2 padding) 1) y))
+        x y
+        4 4 zoom 1)))
+
+  (def chicago_12 (btprnt/macfont-load "fonts/chicago_12"))
+  (def text "Core Radicals")
+
+  (btprnt/macfont-textbox
+    bp chicago_12
+    border
+    (math/floor
+      (- (/ (border 2) 2)
+         (/ (btprnt/macfont-linewidth chicago_12 text) 2)))
+    0 text 1)
+
+  (bpimg bp "radicals")
+  (btprnt/del bp)
+  (btprnt/del rmap))
+#+END_SRC
