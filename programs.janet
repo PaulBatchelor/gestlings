@@ -59,7 +59,7 @@
  @{
  :id 8
  :org "runes/runes.org"
- :tangled "runes/runes.txt" 
+ :tangled @["runes/runes.txt" "runes/runes.janet"]
  }
 })
 

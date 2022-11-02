@@ -15,5 +15,172 @@ the @!(ref "loadtiles")!@ function.
 
 #+NAME: runes.txt
 #+BEGIN_SRC txt :tangle runes/runes.txt
-
+<<runes>>
 #+END_SRC
+
+A corresponding janet file called "runes.janet" will
+be used to help look up runes in a tile map (8x8 tilemap,
+or 64 runes max).
+
+#+NAME: runes.janet
+#+BEGIN_SRC janet :tangle runes/runes.janet
+<<entries>>
+#+END_SRC
+* Empty Space
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+-------
+-------
+-------
+-------
+-------
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define yi @[0 0])
+#+END_SRC
+* Chinese Number Inspired Runes
+These are runes based on the chinese numbers 1-8.
+** One ("yi1")
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+#-----#
+#-###-#
+#-----#
+#######
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define yi @[1 0])
+#+END_SRC
+** Two ("er4")
+#+NAME: runes
+#+BEGIN_SRC txt
+###-###
+#-----#
+#-###-#
+-------
+-#####-
+-------
+###-###
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define er @[2 0])
+#+END_SRC
+** Three ("san1")
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+-#####-
+-------
+#-###-#
+-------
+-#####-
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define san @[3 0])
+#+END_SRC
+** Four ("si4")
+#+NAME: runes
+#+BEGIN_SRC txt
+###-###
+#-#-#-#
+###-###
+#-----#
+#-###-#
+#-----#
+#######
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define si @[4 0])
+#+END_SRC
+** Five ("wu3")
+Five was a difficult one to port over, so I
+didn't bother.
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+-#####-
+---#---
+##-#-##
+---#---
+-#####-
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define wu @[5 0])
+#+END_SRC
+** Six ("liu4")
+The character is in here if you look hard enough.
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-#-#-#-
+##-#-##
+-------
+-#####-
+-------
+-#-#-#-
+---#---
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define liu @[6 0])
+#+END_SRC
+** Seven ("qi1")
+#+NAME: runes
+#+BEGIN_SRC txt
+-#####-
+-#---#-
+---#---
+#-###-#
+#--#--#
+##-##-#
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define qi @[7 0])
+#+END_SRC
+** Eight ("ba1")
+#+NAME: runes
+#+BEGIN_SRC txt
+#######
+#-----#
+#-###-#
+#-#-#-#
+#-#-#-#
+#-----#
+#######
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define ba @[0 1])
+#+END_SRC
+* Some Early Prototypes
+These are some early sigils I worked out.
+* Sanskit Inspired
+These are sets adapted from the Candy Crystal Codex, which
+were loosely inspired by Sanskrit symbols.
+
+These may adhere to Kufic rules, but maybe not.

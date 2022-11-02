@@ -17,6 +17,24 @@ drawing library used is =btprnt=, a drawing library for
 #+BEGIN_SRC janet :tangle sigils/sigils.janet
 
 #+END_SRC
-* Drawing L Glyphs For Duration
+* Drawing L Glyphs For Duration and Rate Scaling
+A Sigil has two special glyphs that sit on the bottom left
+and right corners of the Sigil, known as L-Glyphs. These
+convey the rate scaling value as a fractional value: left
+is numerator, right is denominator.
+
+Rate scaling refers to manipulating the speed of the
+underlying phasor controlling the Gesture
+signal. The phasor is resynthesized from an input
+phasor signal (this algorithm is known as a =rephasor=),
+so the the phasor's speed is always relative to that of
+the input phasor. A rate scaling factor of 2 doubles
+the speed of phasor, making it twice as fast. A value of
+0.5 (or 1/2) makes the phasor twice as slow.
+
+Inverting the fraction, rate scaling turns into duration.
+A rate of 1/2 becomes a duration of 2 periods, or "beats".
+Using duration can sometimes be a more intuitive way to
+think about Gesture.
 * Drawing Diacritics For Behavior
 * Drawing Runes for Values
