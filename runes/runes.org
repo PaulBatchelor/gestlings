@@ -1,0 +1,19 @@
+#+TITLE: Runes
+* Overview
+Runes are the name given to the main glyph in
+a @!(ref "sigils" "gesture sigil")!@. They are represented
+as 7x7 1-bit tiles, and typically conform to the aesthetic
+rules of Square Kufic calligraphy which impose a balance
+of black and white tiles.
+
+When rendering a Gesture Sigil, the Rune gets doubled in
+size to take up a 14x14 pixel space inside of a 16x16
+pixel area. The remaining pixels serve as padding.
+* Tangled Files
+Runes are stored in a text file format readable by
+the @!(ref "loadtiles")!@ function.
+
+#+NAME: runes.txt
+#+BEGIN_SRC txt :tangle runes/runes.txt
+
+#+END_SRC

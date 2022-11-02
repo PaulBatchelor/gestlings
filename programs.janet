@@ -47,6 +47,20 @@
  :org "radicals/radicals.org"
  :tangled @["radicals/radicals.txt" "radicals/radicals.janet"]
  }
+
+ "sigils"
+ @{
+ :id 7
+ :org "sigils/sigils.org"
+ :tangled "sigils/sigils.janet" 
+ }
+ 
+ "runes"
+ @{
+ :id 8
+ :org "runes/runes.org"
+ :tangled "runes/runes.txt" 
+ }
 })
 
 # TODO: move this out of this file.

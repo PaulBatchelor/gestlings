@@ -1,0 +1,22 @@
+#+TITLE: Gesture Sigils
+* Overview
+A =sigil= or =gesture sigil= refers to a combination of
+symbols that come together to describe the state of a
+Gesture at a particular point in time. A sigil will convey
+the three main components of a Gesture: value, duration,
+and behavior.
+
+This document aims to specify a core set of sigils to work
+with that can be used to unambiguously notate gesture.
+Notation is generated using Janet, the built-in scripting
+language for the wiki engine used here (weewiki). The
+drawing library used is =btprnt=, a drawing library for
+1-bit graphics.
+* Tangled File
+#+NAME: sigils.janet
+#+BEGIN_SRC janet :tangle sigils/sigils.janet
+
+#+END_SRC
+* Drawing L Glyphs For Duration
+* Drawing Diacritics For Behavior
+* Drawing Runes for Values

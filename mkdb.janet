@@ -17,6 +17,8 @@
 (ww-add-page "protosigils" `@!(wikipage "protosigils")!@`)
 (ww-add-page "protodiacritics" `@!(wikipage "protodiacritics")!@`)
 (ww-add-page "radicals" `@!(wikipage "radicals")!@`)
+(ww-add-page "sigils" `@!(wikipage "sigils")!@`)
+(ww-add-page "runes" `@!(wikipage "runes")!@`)
 
 # linked pages
 
