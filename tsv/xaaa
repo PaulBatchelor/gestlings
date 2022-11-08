@@ -121,3 +121,15 @@
 2022-11-08 11:49:34	ab463508-39f9-46c4-a9f4-aee45a85bfc8	>adding more runes to !runes this morning. hoping to add some Candy Crystal Rainbow Codex symbols as well.
 -	ab463508-39f9-46c4-a9f4-aee45a85bfc8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	ab463508-39f9-46c4-a9f4-aee45a85bfc8	#00220f35-8e2d-41b5-a12f-17986ce03e4a
+2022-11-08 11:52:24	80ecc972-db22-4337-bda9-7f816e2f16a8	>it feels like I've taken a mini vacation from this project. This past weekend I instead built a Euclidean Rhythm Generator. I'll tie it into gesture somehow eventually.
+-	80ecc972-db22-4337-bda9-7f816e2f16a8	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2022-11-08 11:53:19	ae9cf965-912d-4f8d-aff7-179984ab3974	>euclidean rhythms and gesture
+-	ae9cf965-912d-4f8d-aff7-179984ab3974	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-11-08 11:53:20	ae9cf965-912d-4f8d-aff7-179984ab3974	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-11-08 11:54:24	ae9cf965-912d-4f8d-aff7-179984ab3974	$blurb:>recently a euclidean rhythm generator has been added to sndkit. It would be neat to try and tie it into the gestlings project somehow.
+2022-11-08 11:57:13	6bd66dfe-2b83-4af2-850d-a2ef52356582	>rhythmic sequences are harder to bring into Gesture. In some ways it's the antithesis of Gesture, which promotes continuous over discrete. I think there could be common ground if one sees the clock signal as a kind of Gesture (phasor to clock). Temporal skewing could be explored here.
+-	6bd66dfe-2b83-4af2-850d-a2ef52356582	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	6bd66dfe-2b83-4af2-850d-a2ef52356582	#ae9cf965-912d-4f8d-aff7-179984ab3974
+2022-11-08 11:58:07	87873a0e-d237-4626-915d-0e6a2bf36594	>Gestures do have rhythm! maybe there's some way to actually embed these kinds of rhythmic profiles into gesture paths.
+-	87873a0e-d237-4626-915d-0e6a2bf36594	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	87873a0e-d237-4626-915d-0e6a2bf36594	#ae9cf965-912d-4f8d-aff7-179984ab3974
