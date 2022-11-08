@@ -266,4 +266,71 @@ clearest.
 These are sets adapted from the Candy Crystal Codex, which
 were loosely inspired by Sanskrit symbols.
 
+The Codex symbols are 8x8. They will need to scrunch into
+7x7.
+
 These may adhere to Kufic rules, but maybe not.
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+-#####-
+-#--#--
+-#--#--
+-#--#--
+-#--#--
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define sanskrit1 @[5 1])
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+---#---
+-#####-
+---#-#-
+---#---
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define sanskrit2 @[6 1])
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+-#---#-
+-#--##-
+-#---#-
+-##-##-
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define sanskrit3 @[6 1])
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+-----#-
+---###-
+-#-#-#-
+-###-#-
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define sanskrit4 @[7 1])
+#+END_SRC
