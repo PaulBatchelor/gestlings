@@ -179,6 +179,89 @@ The character is in here if you look hard enough.
 #+END_SRC
 * Some Early Prototypes
 These are some early sigils I worked out.
+** Diamond
+My first instinct was to draw a diamond. I always
+like starting at the center, and then going out.
+This also reminds me of one of those oriental rug patterns.
+
+#+NAME: runes
+#+BEGIN_SRC txt
+##---##
+#--#--#
+--###--
+-##-##-
+--###--
+#--#--#
+##---##
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define diamond @[1 1])
+#+END_SRC
+** Asymmetrical
+I tried going against my instinct of starting in the center,
+and instead tried to do something that was lopsided and
+asymetrical. Kufic rules enforce a certain kind of balance
+and order.
+
+#+NAME: runes
+#+BEGIN_SRC txt
+##-####
+#-----#
+#-#-#--
+--#-#-#
+#---#--
+#-####-
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define asymm @[2 1])
+#+END_SRC
+** T Tile
+Playing with asymmetry more, I wanted to explore using
+tesselations and motifs within the limited space.
+
+This was built up using a "T" radical.
+
+These kinds of runes to me are less rune, more texture.
+
+#+NAME: runes
+#+BEGIN_SRC txt
+###---#
+-#--#-#
+---##--
+-#--#-#
+###---#
+----#--
+-#-###-
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define ttile @[3 1])
+#+END_SRC
+** Box in a Box
+The Box. Inside a Box. Runes like these are always the
+clearest.
+
+#+NAME: runes
+#+BEGIN_SRC txt
+#######
+#-----#
+#-###-#
+#-#-#-#
+#-###-#
+#-----#
+#######
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+(define box-in-box @[4 1])
+#+END_SRC
 * Sanskit Inspired
 These are sets adapted from the Candy Crystal Codex, which
 were loosely inspired by Sanskrit symbols.
