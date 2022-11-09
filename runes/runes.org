@@ -24,7 +24,58 @@ or 64 runes max).
 
 #+NAME: runes.janet
 #+BEGIN_SRC janet :tangle runes/runes.janet
-<<entries>>
+(def runes @{
+<<entries2>>
+})
+(do
+  (def loadtiles-file (dofile "loadtiles/loadtiles.janet"))
+  (def gen-tilemap ((loadtiles-file 'gen-tilemap) :value))
+  (def tmap
+    (gen-tilemap "runes/runes.txt" 7 7 8 8))
+
+  (def canvas @[0 0 (* 48 8) (* 48 8)])
+  (def bp (btprnt/new (canvas 2) (canvas 3)))
+
+  (def zoom 2)
+
+  (def geneva9 (btprnt/macfont-load "fonts/geneva_9"))
+
+
+  (each k (keys runes)
+    (def glyph (runes k))
+    (def grid (btprnt/grid
+                bp canvas 8 8 (glyph 0) (glyph 1)))
+    (def text (string k))
+
+    (btprnt/macfont-textbox
+      bp geneva9 
+      grid
+      (math/floor
+        (- (/ (grid 2) 2)
+           (/ (btprnt/macfont-linewidth geneva9 text) 2)))
+      (- (grid 3) 13) text 1)
+
+    (def center (btprnt/centerbox 
+                  bp
+                  grid
+                  (+ (* 7 zoom) 2)
+                  (+ (* 7 zoom) 2)))
+
+    (btprnt/outline bp center 1)
+    (btprnt/tile
+      bp tmap
+      center
+      1 1
+      (glyph 0) (glyph 1)
+      7 7
+      zoom 1)
+    )
+
+
+  (btprnt/write-pbm bp "runes.pbm")
+  (btprnt/del bp)
+  (btprnt/del tmap)
+  )
 #+END_SRC
 * Empty Space
 #+NAME: runes
@@ -38,9 +89,9 @@ or 64 runes max).
 -------
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define yi @[0 0])
+:empty @[0 0]
 #+END_SRC
 * Chinese Number Inspired Runes
 These are runes based on the chinese numbers 1-8.
@@ -56,9 +107,9 @@ These are runes based on the chinese numbers 1-8.
 -------
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define yi @[1 0])
+:yi @[1 0]
 #+END_SRC
 ** Two ("er4")
 #+NAME: runes
@@ -72,9 +123,9 @@ These are runes based on the chinese numbers 1-8.
 ###-###
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define er @[2 0])
+:er @[2 0]
 #+END_SRC
 ** Three ("san1")
 #+NAME: runes
@@ -88,9 +139,9 @@ These are runes based on the chinese numbers 1-8.
 -------
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define san @[3 0])
+:san @[3 0]
 #+END_SRC
 ** Four ("si4")
 #+NAME: runes
@@ -104,9 +155,9 @@ These are runes based on the chinese numbers 1-8.
 #######
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define si @[4 0])
+:si @[4 0]
 #+END_SRC
 ** Five ("wu3")
 Five was a difficult one to port over, so I
@@ -123,9 +174,9 @@ didn't bother.
 -------
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define wu @[5 0])
+:wu @[5 0]
 #+END_SRC
 ** Six ("liu4")
 The character is in here if you look hard enough.
@@ -141,9 +192,9 @@ The character is in here if you look hard enough.
 ---#---
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define liu @[6 0])
+:liu @[6 0]
 #+END_SRC
 ** Seven ("qi1")
 #+NAME: runes
@@ -157,9 +208,9 @@ The character is in here if you look hard enough.
 -------
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define qi @[7 0])
+:qi @[7 0]
 #+END_SRC
 ** Eight ("ba1")
 #+NAME: runes
@@ -173,9 +224,9 @@ The character is in here if you look hard enough.
 #######
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define ba @[0 1])
+:ba @[0 1]
 #+END_SRC
 * Some Early Prototypes
 These are some early sigils I worked out.
@@ -195,9 +246,9 @@ This also reminds me of one of those oriental rug patterns.
 ##---##
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define diamond @[1 1])
+:diamond @[1 1]
 #+END_SRC
 ** Asymmetrical
 I tried going against my instinct of starting in the center,
@@ -216,9 +267,9 @@ and order.
 -------
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define asymm @[2 1])
+:asym @[2 1]
 #+END_SRC
 ** T Tile
 Playing with asymmetry more, I wanted to explore using
@@ -239,9 +290,9 @@ These kinds of runes to me are less rune, more texture.
 -#-###-
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define ttile @[3 1])
+:ttile @[3 1]
 #+END_SRC
 ** Box in a Box
 The Box. Inside a Box. Runes like these are always the
@@ -258,11 +309,11 @@ clearest.
 #######
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define box-in-box @[4 1])
+:boxinbox @[4 1]
 #+END_SRC
-* Sanskit Inspired
+* Sanskrit Inspired
 These are sets adapted from the Candy Crystal Codex, which
 were loosely inspired by Sanskrit symbols.
 
@@ -270,6 +321,13 @@ The Codex symbols are 8x8. They will need to scrunch into
 7x7.
 
 These may adhere to Kufic rules, but maybe not.
+
+The Codex was originally going to
+be written in generative Kufic, but I didn't have the
+code ready for that. The Sanskrit glyphs were a backup.
+Funnily enough, these Sanskrit symbols I made are perhaps
+more apt for this system than some of the initial
+Kufic symbols I wrote.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -282,9 +340,9 @@ These may adhere to Kufic rules, but maybe not.
 -------
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define sanskrit1 @[5 1])
+:sanskrit1 @[5 1]
 #+END_SRC
 
 #+NAME: runes
@@ -298,9 +356,9 @@ These may adhere to Kufic rules, but maybe not.
 -------
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define sanskrit2 @[6 1])
+:sanskrit2 @[6 1]
 #+END_SRC
 
 #+NAME: runes
@@ -314,9 +372,9 @@ These may adhere to Kufic rules, but maybe not.
 -------
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define sanskrit3 @[6 1])
+:sanskrit3 @[7 1]
 #+END_SRC
 
 #+NAME: runes
@@ -330,7 +388,184 @@ These may adhere to Kufic rules, but maybe not.
 -------
 #+END_SRC
 
-#+NAME: entries
+#+NAME: entries2
 #+BEGIN_SRC janet
-(define sanskrit4 @[7 1])
+:sanskrit4 @[0 2]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+---#---
+-#####-
+-#---#-
+-#####-
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit5 @[1 2]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+----#--
+-#-###-
+-###-#-
+-#-----
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit6 @[2 2]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+-###-##
+-#-#-#-
+-###-#-
+--#--#-
+--####-
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit7 @[3 2]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+----#--
+-####--
+-#--#--
+-#-----
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit8 @[4 2]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+##-####
+-#---#-
+-----#-
+-#-###-
+####---
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit9 @[5 2]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+--#--#-
+--#--#-
+-##--#-
+-----#-
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit10 @[6 2]
+#+END_SRC
+
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+---#---
+--####-
+-----#-
+-----#-
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit11 @[7 2]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+--#--#-
+--####-
+--#--#-
+-----#-
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit12 @[0 3]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+-#-#-#-
+-###-#-
+-----#-
+-#####-
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit13 @[1 3]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+###-###
+-#---#-
+-#####-
+-#-#-#-
+-#-###-
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit14 @[2 3]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+-#-#-#-
+-#-#-#-
+-#---#-
+-##----
+-------
+#+END_SRC
+
+#+NAME: entries2
+#+BEGIN_SRC janet
+:sanskrit15 @[3 3]
 #+END_SRC
