@@ -1,4 +1,10 @@
 #+TITLE: Runes
+@!
+(do
+  (def runes (dofile "runes/runes.janet"))
+  (def runes-png ((runes 'runes-png) :value))
+  (runes-png))
+!@
 * Overview
 Runes are the name given to the main glyph in
 a @!(ref "sigils" "gesture sigil")!@. They are represented
@@ -27,7 +33,8 @@ or 64 runes max).
 (def runes @{
 <<entries>>
 })
-(do
+
+(defn runes-png []
   (def loadtiles-file (dofile "loadtiles/loadtiles.janet"))
   (def gen-tilemap ((loadtiles-file 'gen-tilemap) :value))
   (def tmap
@@ -72,10 +79,9 @@ or 64 runes max).
     )
 
 
-  (btprnt/write-pbm bp "runes.pbm")
+  (bpimg bp "runeset chart")
   (btprnt/del bp)
-  (btprnt/del tmap)
-  )
+  (btprnt/del tmap))
 #+END_SRC
 * Empty Space
 empty space.

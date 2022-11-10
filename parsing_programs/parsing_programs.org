@@ -97,7 +97,6 @@ this was causing things to crash (oops).
       (is-header? (res "type"))
       (do
         (def header (get-header md (res "id")))
-        (print (header "name"))
         (array/push
           lines
           (string
