@@ -25,7 +25,7 @@ or 64 runes max).
 #+NAME: runes.janet
 #+BEGIN_SRC janet :tangle runes/runes.janet
 (def runes @{
-<<entries2>>
+<<entries>>
 })
 (do
   (def loadtiles-file (dofile "loadtiles/loadtiles.janet"))
@@ -89,7 +89,7 @@ or 64 runes max).
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :empty @[0 0]
 #+END_SRC
@@ -107,7 +107,7 @@ These are runes based on the chinese numbers 1-8.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :yi @[1 0]
 #+END_SRC
@@ -123,7 +123,7 @@ These are runes based on the chinese numbers 1-8.
 ###-###
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :er @[2 0]
 #+END_SRC
@@ -139,7 +139,7 @@ These are runes based on the chinese numbers 1-8.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :san @[3 0]
 #+END_SRC
@@ -155,7 +155,7 @@ These are runes based on the chinese numbers 1-8.
 #######
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :si @[4 0]
 #+END_SRC
@@ -174,7 +174,7 @@ didn't bother.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :wu @[5 0]
 #+END_SRC
@@ -192,7 +192,7 @@ The character is in here if you look hard enough.
 ---#---
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :liu @[6 0]
 #+END_SRC
@@ -208,7 +208,7 @@ The character is in here if you look hard enough.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :qi @[7 0]
 #+END_SRC
@@ -224,7 +224,7 @@ The character is in here if you look hard enough.
 #######
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :ba @[0 1]
 #+END_SRC
@@ -246,7 +246,7 @@ This also reminds me of one of those oriental rug patterns.
 ##---##
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :diamond @[1 1]
 #+END_SRC
@@ -267,7 +267,7 @@ and order.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :asym @[2 1]
 #+END_SRC
@@ -290,7 +290,7 @@ These kinds of runes to me are less rune, more texture.
 -#-###-
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :ttile @[3 1]
 #+END_SRC
@@ -309,7 +309,7 @@ clearest.
 #######
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :boxinbox @[4 1]
 #+END_SRC
@@ -340,7 +340,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit1 @[5 1]
 #+END_SRC
@@ -356,7 +356,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit2 @[6 1]
 #+END_SRC
@@ -372,7 +372,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit3 @[7 1]
 #+END_SRC
@@ -388,7 +388,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit4 @[0 2]
 #+END_SRC
@@ -404,7 +404,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit5 @[1 2]
 #+END_SRC
@@ -420,7 +420,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit6 @[2 2]
 #+END_SRC
@@ -436,7 +436,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit7 @[3 2]
 #+END_SRC
@@ -452,7 +452,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit8 @[4 2]
 #+END_SRC
@@ -468,7 +468,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit9 @[5 2]
 #+END_SRC
@@ -484,7 +484,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit10 @[6 2]
 #+END_SRC
@@ -501,7 +501,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit11 @[7 2]
 #+END_SRC
@@ -517,7 +517,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit12 @[0 3]
 #+END_SRC
@@ -533,7 +533,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit13 @[1 3]
 #+END_SRC
@@ -549,7 +549,7 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit14 @[2 3]
 #+END_SRC
@@ -565,7 +565,199 @@ Kufic symbols I wrote.
 -------
 #+END_SRC
 
-#+NAME: entries2
+#+NAME: entries
 #+BEGIN_SRC janet
 :sanskrit15 @[3 3]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+-----#-
+-#####-
+---#-#-
+--####-
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit16 @[4 3]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+-#-#-#-
+-#-###-
+-#---#-
+-#####-
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit17 @[5 3]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+---#---
+-###---
+-#-###-
+-###---
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit18 @[6 3]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+--------
+#######
+---#---
+---###-
+---#---
+--####-
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit19 @[7 3]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+-----#-
+-#####-
+-#-----
+-#####-
+---#-#-
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit20 @[0 4]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+--#--#-
+-#####-
+-----#-
+-#####-
+-----#-
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit21 @[1 4]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#-#-###
+--#--#-
+--##-#-
+-----#-
+-#####-
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit22 @[2 4]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+##-#-##
+---#-#-
+-###-#-
+-#-###-
+-#-----
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit23 @[3 4]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+-##-###
+-##-#--
+----#--
+-#####-
+-#---#-
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit24 @[4 4]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+-#---#-
+-#####-
+---#---
+--##---
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit25 @[5 4]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+#######
+-#-#-#-
+-#-#-#-
+---#-##
+---#---
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit26 @[6 4]
+#+END_SRC
+
+#+NAME: runes
+#+BEGIN_SRC txt
+-------
+###-###
+-#---#-
+-#####-
+---#---
+---#---
+-------
+#+END_SRC
+
+#+NAME: entries
+#+BEGIN_SRC janet
+:sanskrit27 @[7 4]
 #+END_SRC
