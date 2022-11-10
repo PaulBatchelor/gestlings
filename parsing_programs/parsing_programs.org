@@ -85,11 +85,12 @@ this was causing things to crash (oops).
 
 #+NAME: docgen
 #+BEGIN_SRC janet
-(defn docgen [program]
+(defn docgen [program &opt db]
+  (default db "a.db")
   (var lines @[])
   # (array/push lines (string "#+TITLE: " title "\n"))
 
-  (def md (open-metadata "a.db" program))
+  (def md (open-metadata db program))
   (def reslist (reslist md))
   (each res reslist
     (cond
