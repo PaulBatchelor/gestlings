@@ -78,6 +78,8 @@ or 64 runes max).
   )
 #+END_SRC
 * Empty Space
+empty space.
+
 #+NAME: runes
 #+BEGIN_SRC txt
 -------
@@ -329,6 +331,12 @@ Funnily enough, these Sanskrit symbols I made are perhaps
 more apt for this system than some of the initial
 Kufic symbols I wrote.
 
+These runes will be introduced the proper Candy Crystal
+Codex way, using procedurally generated names and
+descriptions.
+** ryshar
+kigoh zusod cimee.
+
 #+NAME: runes
 #+BEGIN_SRC txt
 -------
@@ -342,8 +350,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit1 @[5 1]
+:ryshar @[5 1]
 #+END_SRC
+** haerabeek
+shocasheh zhemaej chomuz.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -358,8 +368,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit2 @[6 1]
+:haerabeek @[6 1]
 #+END_SRC
+** che
+beenodeet cham laim.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -374,8 +386,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit3 @[7 1]
+:che @[7 1]
 #+END_SRC
+** kat
+pamaim rasab baifaevai shaer kae sutygi.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -390,8 +404,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit4 @[0 2]
+:kat @[0 2]
 #+END_SRC
+** lubigis
+chaezeepab sheenaic shebyfer tog ship.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -406,8 +422,11 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit5 @[1 2]
+:lubigis @[1 2]
 #+END_SRC
+** kyvi
+kohyjyg ripalais higanait maveekej baifavai gegohep
+nujypysh.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -422,8 +441,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit6 @[2 2]
+:nahaisheed @[2 2]
 #+END_SRC
+** med
+gaeg gaifeevyj siledog.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -438,8 +459,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit7 @[3 2]
+:med @[3 2]
 #+END_SRC
+** nip
+hukeeb semol zhuchyn.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -454,8 +477,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit8 @[4 2]
+:nip @[4 2]
 #+END_SRC
+** shaichorip
+wil caecozheh paben dagos wai zefa gaekocash.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -470,8 +495,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit9 @[5 2]
+:shaichorip @[5 2]
 #+END_SRC
+** hetachae
+lamev cucaif docyzhev wukydi pozedaech sudeech bizaim.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -486,9 +513,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit10 @[6 2]
+:hetachae @[6 2]
 #+END_SRC
-
+** jofaep
+vaig weeriduk johobaep.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -503,8 +531,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit11 @[7 2]
+:jofaep @[7 2]
 #+END_SRC
+** fyshee
+to ca fakatae gaik.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -519,8 +549,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit12 @[0 3]
+:fyshee @[0 3]
 #+END_SRC
+** jupyshaet
+beez daedai sher sa.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -535,8 +567,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit13 @[1 3]
+:jupyshaet @[1 3]
 #+END_SRC
+** bechak
+wosegeep tyk tiwae fad ca dosuf fakaej seefaeban haisymaeh.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -551,8 +585,11 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit14 @[2 3]
+:bechak @[2 3]
 #+END_SRC
+** baechived
+fas chuwyhais haijyg zhezitaet shop jaigitizh faelae
+zhaishaig shacoc.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -567,8 +604,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit15 @[3 3]
+:baechived @[3 3]
 #+END_SRC
+** wypen
+ca chyfug rifosh dan hapy zhomer.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -583,8 +622,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit16 @[4 3]
+:wypen @[4 3]
 #+END_SRC
+** kaekaek
+zhyjaif wiceev mozy hi bae.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -599,8 +640,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit17 @[5 3]
+:kaekaek @[5 3]
 #+END_SRC
+** suchai
+taepyt seefikaem zopeev ludu ceeh.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -615,8 +658,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit18 @[6 3]
+:suchai @[6 3]
 #+END_SRC
+** paipuchev
+saiche ty pukyr shelee mydevoch.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -631,8 +676,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit19 @[7 3]
+:paipuchev @[7 3]
 #+END_SRC
+** zaimep
+lee jainaiz railyzhaem zhicoh.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -647,8 +694,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit20 @[0 4]
+:zaimep @[0 4]
 #+END_SRC
+** shaishik
+jeesheezhai wesyb cydam feetun bairet.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -663,8 +712,11 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit21 @[1 4]
+:shaishik @[1 4]
 #+END_SRC
+** wozhish
+laigivy jechaif jir kokanep heechaih zhabi maeshigysh
+lael jih.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -679,8 +731,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit22 @[2 4]
+:wozhish @[2 4]
 #+END_SRC
+** ser
+lonemae nywaih bykul shebaebaez.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -695,8 +749,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit23 @[3 4]
+:ser @[3 4]
 #+END_SRC
+** ciweet
+taguchaij geesheemi wap.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -711,8 +767,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit24 @[4 4]
+:ciweet @[4 4]
 #+END_SRC
+** gaecaijag
+zhaenigiv vichaiheb ka chicozec dic zige.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -727,8 +785,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit25 @[5 4]
+:gaecaijag @[5 4]
 #+END_SRC
+** neteevib
+nec bod zhig jo let bochepaek hudich.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -743,8 +803,10 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit26 @[6 4]
+:neteevib @[6 4]
 #+END_SRC
+** paizheez
+zhoned fumo dosh zhaimaed.
 
 #+NAME: runes
 #+BEGIN_SRC txt
@@ -759,5 +821,5 @@ Kufic symbols I wrote.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:sanskrit27 @[7 4]
+:raetaeteb @[7 4]
 #+END_SRC
