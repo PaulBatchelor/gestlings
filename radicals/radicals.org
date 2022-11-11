@@ -25,7 +25,9 @@ file provides names for each radical, as well as their
 location.
 #+NAME: radicals.janet
 #+BEGIN_SRC txt :tangle radicals/radicals.janet
+(def radicals @{
 <<entries>>
+})
 #+END_SRC
 * Radicals
 ** Empty Space
@@ -42,7 +44,7 @@ an empty space.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def empty @[0 0])
+:empty @[0 0]
 #+END_SRC
 ** Dot
 The "dot" serves as a wonderful ornamentation. It is
@@ -58,7 +60,7 @@ completely centered, and as a nice 2x2 size to it.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def empty @[1 0])
+:dot @[1 0]
 #+END_SRC
 ** Block
 A block is the opposite of empty space. It's completely
@@ -76,7 +78,7 @@ to be too bulky.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def block @[2 0])
+:block @[2 0]
 #+END_SRC
 ** Box
 A box outlines the area wit a 1 pixel border. It also
@@ -92,7 +94,7 @@ happens to be the inverse of a dot.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def box @[3 0])
+:box @[3 0]
 #+END_SRC
 ** Tees
 A "T" shape. These make for good end points.
@@ -115,8 +117,8 @@ A "T" shape. These make for good end points.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def ttee @[4 0])
-(def btee @[5 0])
+:ttee @[4 0]
+:btee @[5 0]
 #+END_SRC
 *** Left/Right Tee
 #+NAME: radicals
@@ -137,8 +139,8 @@ A "T" shape. These make for good end points.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def ltee @[0 1])
-(def rtee @[1 1])
+:ltee @[0 1]
+:rtee @[1 1]
 #+END_SRC
 ** Stubs
 Stubs are understated ways to end paths.
@@ -161,8 +163,8 @@ Stubs are understated ways to end paths.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def tstub @[1 1])
-(def bstub @[2 1])
+:tstub @[1 1]
+:bstub @[2 1]
 #+END_SRC
 *** Left/Right Stub
 #+NAME: radicals
@@ -183,8 +185,8 @@ Stubs are understated ways to end paths.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def lstub @[3 1])
-(def rstub @[4 1])
+:lstub @[3 1]
+:rstub @[4 1]
 #+END_SRC
 ** Stripes and Pipes
 Stripes produce a center line, both vertically and
@@ -208,8 +210,8 @@ horizontally.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def vstripe @[4 1])
-(def hstripe @[5 1])
+:vstripe @[4 1]
+:hstripe @[5 1]
 #+END_SRC
 
 Pipes are the inverse of stripes. They get their name
@@ -233,8 +235,8 @@ because their edges make it look like a pipe.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def vpipe @[5 1])
-(def hpipe @[0 2])
+:vpipe @[5 1]
+:hpipe @[0 2]
 #+END_SRC
 ** Knees
 Knees add a bend to a path. They particularly useful for
@@ -262,8 +264,8 @@ Top Right.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def tlknee @[1 2])
-(def trknee @[2 2])
+:tlknee @[1 2]
+:trknee @[2 2]
 #+END_SRC
 *** Bottom Knees
 Bottom Left.
@@ -288,8 +290,8 @@ Bottom Right.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def blknee @[3 2])
-(def brknee @[4 2])
+:blknee @[3 2]
+:brknee @[4 2]
 #+END_SRC
 ** Squiggles
 Squiggles are S or Z shapes that can be connected
@@ -318,8 +320,8 @@ Squiggle 2:
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def squig1 @[5 2])
-(def squig2 @[0 3])
+:squig1 @[5 2]
+:squig2 @[0 3]
 #+END_SRC
 ** Brackets
 These are another "capper" for paths.
@@ -346,8 +348,8 @@ Bottom Bracket.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def tbrack @[1 3])
-(def bbrack @[2 3])
+:tbrack @[1 3]
+:bbrack @[2 3]
 #+END_SRC
 *** Left/Right Bracket
 Left Bracket.
@@ -372,8 +374,8 @@ Right Bracket.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def lbrack @[4 3])
-(def rbrack @[5 3])
+:lbrack @[4 3]
+:rbrack @[5 3]
 #+END_SRC
 ** Lines
 Occasionally, one needs lines that are off to the side.
@@ -402,8 +404,8 @@ Bottom Line.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def tline @[0 4])
-(def bline @[1 4])
+:tline @[0 4]
+:bline @[1 4]
 #+END_SRC
 *** Left/Right
 Left Line.
@@ -429,11 +431,11 @@ Right Line.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-(def lline @[1 4])
-(def rline @[2 4])
+:lline @[1 4]
+:rline @[2 4]
 #+END_SRC
 * Demo
-Here's a map of all the diacritics. It would be
+Here's the tile map of all the diacritics. It would be
 very cool to turn this into an image map at some point.
 
 @!(dofile "radicals/radical_demo.janet")!@
