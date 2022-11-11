@@ -1,12 +1,12 @@
 #+TITLE: Radicals
-@!(
+@!
 (do
   (def radicals (dofile "radicals/radicals.janet"))
   (def radicals-bp ((radicals 'radicals-bp) :value))
   (def bp (radicals-bp))
   (bpimg bp "radicals glyph sheet")
   (btprnt/del bp))
-)!@
+!@
 * Radicals?
 In the Brutalist Gesture Notation system, the =radical=
 is a 4x4 block of 1-bit pixels. It is considered the
