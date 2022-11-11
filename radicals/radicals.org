@@ -1,4 +1,12 @@
 #+TITLE: Radicals
+@!(
+(do
+  (def radicals (dofile "radicals/radicals.janet"))
+  (def radicals-bp ((radicals 'radicals-bp) :value))
+  (def bp (radicals-bp))
+  (bpimg bp "radicals glyph sheet")
+  (btprnt/del bp))
+)!@
 * Radicals?
 In the Brutalist Gesture Notation system, the =radical=
 is a 4x4 block of 1-bit pixels. It is considered the
@@ -28,6 +36,54 @@ location.
 (def radicals @{
 <<entries>>
 })
+
+(defn radicals-bp []
+  (def loadtiles-file (dofile "loadtiles/loadtiles.janet"))
+  (def gen-tilemap ((loadtiles-file 'gen-tilemap) :value))
+  (def tmap
+    (gen-tilemap "radicals/radicals.txt" 4 4 6 6))
+
+  (def canvas @[0 0 (* 48 6) (* 48 6)])
+  (def bp (btprnt/new (canvas 2) (canvas 3)))
+
+  (def zoom 2)
+
+  (def geneva9 (btprnt/macfont-load "fonts/geneva_9"))
+
+
+  (each k (keys radicals )
+    (def glyph (radicals k))
+    (def grid (btprnt/grid
+                bp canvas 6 6 (glyph 0) (glyph 1)))
+    (def text (string k))
+
+    (btprnt/macfont-textbox
+      bp geneva9 
+      grid
+      (math/floor
+        (- (/ (grid 2) 2)
+           (/ (btprnt/macfont-linewidth geneva9 text) 2)))
+      (- (grid 3) 13) text 1)
+
+    (def center (btprnt/centerbox 
+                  bp
+                  grid
+                  (+ (* 4 zoom) 2)
+                  (+ (* 4 zoom) 2)))
+
+    (btprnt/outline bp center 1)
+    (btprnt/tile
+      bp tmap
+      center
+      1 1
+      (glyph 0) (glyph 1)
+      4 4
+      zoom 1)
+    )
+
+
+  (btprnt/del tmap)
+  bp)
 #+END_SRC
 * Radicals
 ** Empty Space
@@ -163,8 +219,8 @@ Stubs are understated ways to end paths.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:tstub @[1 1]
-:bstub @[2 1]
+:tstub @[2 1]
+:bstub @[3 1]
 #+END_SRC
 *** Left/Right Stub
 #+NAME: radicals
@@ -185,8 +241,8 @@ Stubs are understated ways to end paths.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:lstub @[3 1]
-:rstub @[4 1]
+:lstub @[4 1]
+:rstub @[5 1]
 #+END_SRC
 ** Stripes and Pipes
 Stripes produce a center line, both vertically and
@@ -210,8 +266,8 @@ horizontally.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:vstripe @[4 1]
-:hstripe @[5 1]
+:vstripe @[0 2]
+:hstripe @[1 2]
 #+END_SRC
 
 Pipes are the inverse of stripes. They get their name
@@ -235,8 +291,8 @@ because their edges make it look like a pipe.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:vpipe @[5 1]
-:hpipe @[0 2]
+:vpipe @[2 2]
+:hpipe @[3 2]
 #+END_SRC
 ** Knees
 Knees add a bend to a path. They particularly useful for
@@ -264,8 +320,8 @@ Top Right.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:tlknee @[1 2]
-:trknee @[2 2]
+:tlknee @[4 2]
+:trknee @[5 2]
 #+END_SRC
 *** Bottom Knees
 Bottom Left.
@@ -290,8 +346,8 @@ Bottom Right.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:blknee @[3 2]
-:brknee @[4 2]
+:blknee @[0 3]
+:brknee @[1 3]
 #+END_SRC
 ** Squiggles
 Squiggles are S or Z shapes that can be connected
@@ -320,8 +376,8 @@ Squiggle 2:
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:squig1 @[5 2]
-:squig2 @[0 3]
+:squig1 @[2 3]
+:squig2 @[3 3]
 #+END_SRC
 ** Brackets
 These are another "capper" for paths.
@@ -348,8 +404,8 @@ Bottom Bracket.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:tbrack @[1 3]
-:bbrack @[2 3]
+:tbrack @[4 3]
+:bbrack @[5 3]
 #+END_SRC
 *** Left/Right Bracket
 Left Bracket.
@@ -374,8 +430,8 @@ Right Bracket.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:lbrack @[4 3]
-:rbrack @[5 3]
+:lbrack @[0 4]
+:rbrack @[1 4]
 #+END_SRC
 ** Lines
 Occasionally, one needs lines that are off to the side.
@@ -404,8 +460,8 @@ Bottom Line.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:tline @[0 4]
-:bline @[1 4]
+:tline @[2 4]
+:bline @[3 4]
 #+END_SRC
 *** Left/Right
 Left Line.
@@ -431,8 +487,8 @@ Right Line.
 
 #+NAME: entries
 #+BEGIN_SRC janet
-:lline @[1 4]
-:rline @[2 4]
+:lline @[4 4]
+:rline @[5 4]
 #+END_SRC
 * Demo
 Here's the tile map of all the diacritics. It would be
