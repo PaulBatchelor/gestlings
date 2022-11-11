@@ -2,7 +2,7 @@
 @!
 (do
   (def runes (dofile "runes/runes.janet"))
-  (def runes-png ((runes 'runes-png) :value))
+  (def runes-bp ((runes 'runes-bp) :value))
   (def bp (runes-bp))
   (bpimg bp "runeset chart")
   (btprnt/del bp))
