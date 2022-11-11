@@ -3,7 +3,9 @@
 (do
   (def runes (dofile "runes/runes.janet"))
   (def runes-png ((runes 'runes-png) :value))
-  (runes-png))
+  (def bp (runes-bp))
+  (bpimg bp "runeset chart")
+  (btprnt/del bp))
 !@
 * Overview
 Runes are the name given to the main glyph in
@@ -34,7 +36,7 @@ or 64 runes max).
 <<entries>>
 })
 
-(defn runes-png []
+(defn runes-bp []
   (def loadtiles-file (dofile "loadtiles/loadtiles.janet"))
   (def gen-tilemap ((loadtiles-file 'gen-tilemap) :value))
   (def tmap
@@ -79,9 +81,8 @@ or 64 runes max).
     )
 
 
-  (bpimg bp "runeset chart")
-  (btprnt/del bp)
-  (btprnt/del tmap))
+  (btprnt/del tmap)
+  bp)
 #+END_SRC
 * Empty Space
 empty space.

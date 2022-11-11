@@ -15,7 +15,47 @@ drawing library used is =btprnt=, a drawing library for
 * Tangled File
 #+NAME: sigils.janet
 #+BEGIN_SRC janet :tangle sigils/sigils.janet
+<<sigil-writer>>
+<<components>>
+(def sw (sigil-writer-create))
+(def bp (btprnt/new 256 256))
+(def canvas @[0 0 256 256])
+(def center (btprnt/centerbox bp canvas 26 26))
+(btprnt/outline bp center 1)
 
+(rune bp center sw :yi)
+
+(btprnt/write-pbm bp "sigils.pbm")
+(btprnt/del bp)
+(sigil-writer-clean sw)
+#+END_SRC
+* Loading and Initializing a Sigil Writer
+A Sigil Writer is a construct that contains all the
+data needed to produce sigils. This includes tilemaps
+for both @!(ref "radicals")!@ and @!(ref "runes")!@.
+
+A Sigil Writer, once initialized, can then be passed
+to drawing funcitons to draw components of a sigil.
+
+A Sigil Writer can be created with =sigil-writer-create=.
+
+#+NAME: sigil-writer
+#+BEGIN_SRC janet
+(defn sigil-writer-create []
+  (def loadtiles-file (dofile "loadtiles/loadtiles.janet"))
+  (def gen-tilemap ((loadtiles-file 'gen-tilemap) :value))
+  (def runes-file (dofile "runes/runes.janet"))
+  (var sw @{})
+  (put sw :runes-tmap
+       (gen-tilemap "runes/runes.txt" 7 7 8 8))
+  (put sw :runes-names ((runes-file 'runes) :value))
+  (put sw :radicals-tmap
+       (gen-tilemap "radicals/radicals.txt" 4 4 6 6))
+  sw)
+
+(defn sigil-writer-clean [sw]
+  (btprnt/del (sw :runes-tmap))
+  (btprnt/del (sw :radicals-tmap)))
 #+END_SRC
 * Drawing L Glyphs For Duration and Rate Scaling
 A Sigil has two special glyphs that sit on the bottom left
@@ -38,3 +78,27 @@ Using duration can sometimes be a more intuitive way to
 think about Gesture.
 * Drawing Diacritics For Behavior
 * Drawing Runes for Values
+@!(ref "runes" "Runes")!@ are symbols used to represent
+the =value= component of a gesture node inside a sigil.
+
+The rune is placed at the center of the sigil and scaled
+2x to be 14px in size. A 16px square is allocated for the
+rune, leaving a 1px border around it.
+
+The surrounding border of the rune area is 4px thick, this
+plus the 1px offset makes a total offset of 5px. There is
+an additional 1px border around the entire sigil which
+adds an additional 1px.
+
+#+NAME: components
+#+BEGIN_SRC janet
+(defn rune [bp reg sw name]
+  (def glyph ((sw :runes-names) name))
+  (btprnt/tile
+    bp (sw :runes-tmap)
+    reg
+    6 6
+    (glyph 0) (glyph 1)
+    7 7
+    2 1))
+#+END_SRC
