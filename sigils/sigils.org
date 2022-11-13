@@ -23,8 +23,8 @@ drawing library used is =btprnt=, a drawing library for
 (def center (btprnt/centerbox bp canvas 26 26))
 (btprnt/outline bp center 1)
 
-(rune bp center sw :yi)
-
+(rune bp center sw :er)
+(lglyphs bp center sw 14 11)
 (btprnt/write-pbm bp "sigils.pbm")
 (btprnt/del bp)
 (sigil-writer-clean sw)
@@ -45,12 +45,14 @@ A Sigil Writer can be created with =sigil-writer-create=.
   (def loadtiles-file (dofile "loadtiles/loadtiles.janet"))
   (def gen-tilemap ((loadtiles-file 'gen-tilemap) :value))
   (def runes-file (dofile "runes/runes.janet"))
+  (def radicals-file (dofile "radicals/radicals.janet"))
   (var sw @{})
   (put sw :runes-tmap
        (gen-tilemap "runes/runes.txt" 7 7 8 8))
   (put sw :runes-names ((runes-file 'runes) :value))
   (put sw :radicals-tmap
        (gen-tilemap "radicals/radicals.txt" 4 4 6 6))
+  (put sw :radicals-names ((radicals-file 'radicals) :value))
   sw)
 
 (defn sigil-writer-clean [sw]
@@ -76,6 +78,141 @@ Inverting the fraction, rate scaling turns into duration.
 A rate of 1/2 becomes a duration of 2 periods, or "beats".
 Using duration can sometimes be a more intuitive way to
 think about Gesture.
+** Generic Left L-Glyph
+To draw a generic left L-glpyh, use =left-glyph=.
+
+#+NAME: generic-lglyphs
+#+BEGIN_SRC janet
+(defn left-glyph [bp reg sw a b c d]
+  (def rad-a ((sw :radicals-names) a))
+  (def rad-b ((sw :radicals-names) b))
+  (def rad-c ((sw :radicals-names) c))
+  (def rad-d ((sw :radicals-names) d))
+
+  (btprnt/tile
+    bp (sw :radicals-tmap)
+    reg
+    1 13
+    (rad-a 0) (rad-a 1)
+    4 4
+    1 1)
+  (btprnt/tile
+    bp (sw :radicals-tmap)
+    reg
+    1 17
+    (rad-b 0) (rad-b 1)
+    4 4
+    1 1)
+  (btprnt/tile
+    bp (sw :radicals-tmap)
+    reg
+    1 21
+    (rad-c 0) (rad-c 1)
+    4 4
+    1 1)
+  (btprnt/tile
+    bp (sw :radicals-tmap)
+    reg
+    5 21
+    (rad-d 0) (rad-d 1)
+    4 4
+    1 1))
+#+END_SRC
+** Generic Right L Glyph
+=right-glyph= works similarly to =left-glyph=, just in the
+opposite direction.
+
+#+NAME: generic-lglyphs
+#+BEGIN_SRC janet
+(defn right-glyph [bp reg sw a b c d]
+  (def rad-a ((sw :radicals-names) a))
+  (def rad-b ((sw :radicals-names) b))
+  (def rad-c ((sw :radicals-names) c))
+  (def rad-d ((sw :radicals-names) d))
+
+  (btprnt/tile
+    bp (sw :radicals-tmap)
+    reg
+    21 13
+    (rad-a 0) (rad-a 1)
+    4 4
+    1 1)
+  (btprnt/tile
+    bp (sw :radicals-tmap)
+    reg
+    21 17
+    (rad-b 0) (rad-b 1)
+    4 4
+    1 1)
+  (btprnt/tile
+    bp (sw :radicals-tmap)
+    reg
+    21 21
+    (rad-c 0) (rad-c 1)
+    4 4
+    1 1)
+  (btprnt/tile
+    bp (sw :radicals-tmap)
+    reg
+    17 21
+    (rad-d 0) (rad-d 1)
+    4 4
+    1 1))
+#+END_SRC
+** Using a Number Set for L Glyphs
+Groups of 4 radicals form to make a single L glyph.
+The table below curates a set of L glyphs to be used
+to represent numerical values. Each entry is an array of
+4 radicals, or an array of 2 arrays which each consist
+of 4 radicals. The latter is required when left and
+right L glyphs need different radicals.
+#+NAME: numbers
+#+BEGIN_SRC janet
+(def numbers @{
+  0 @[:empty :empty :empty :empty]
+  1 @[@[:empty :tstub :blknee :rstub]
+      @[:empty :tstub :brknee :lstub]]
+  2 @[:empty :dot :dot :empty]
+  3 @[:empty :dot :dot :dot]
+  4 @[:empty :empty :box :empty]
+  5 @[:empty :dot :box :empty]
+  6 @[:empty :dot :box :dot]
+  7 @[@[:empty :tstub :blknee :rtee]
+      @[:empty :tstub :brknee :ltee]]
+  8 @[@[:empty :ttee :blknee :rtee]
+      @[:empty :ttee :brknee :ltee]]
+  9 @[@[:empty :ttee :dot :rtee]
+      @[:empty :ttee :dot :ltee]]
+  10 @[@[:empty :dot :box :rtee]
+       @[:empty :dot :box :ltee]]
+  11 @[:empty :box :dot :dot]
+  12 @[:empty :box :dot :box]
+  13 @[@[:empty :box :dot :rstub]
+       @[:empty :box :dot :lstub]]
+  14 @[@[:empty :box :box :rstub]
+       @[:empty :box :box :lstub]]
+  15 @[@[:empty :tstub :box :rstub]
+       @[:empty :tstub :box :lstub]]
+  })
+#+END_SRC
+** Drawing L Glyphs
+#+NAME: components
+#+BEGIN_SRC janet
+<<generic-lglyphs>>
+<<numbers>>
+
+(defn get-glyph [num val pos]
+  (def a (num val))
+  (if (= (length a) 4) a (a pos)))
+
+(defn lglyphs [bp reg sw num den]
+  (def l (get-glyph numbers num 0))
+  (def r (get-glyph numbers den 1))
+  (left-glyph bp reg sw (l 0) (l 1) (l 2) (l 3))
+  (right-glyph bp reg sw (r 0) (r 1) (r 2) (r 3))
+
+  )
+#+END_SRC
 * Drawing Diacritics For Behavior
 * Drawing Runes for Values
 @!(ref "runes" "Runes")!@ are symbols used to represent
