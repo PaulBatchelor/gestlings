@@ -144,3 +144,9 @@
 2022-11-13 21:55:55	3fd9f7e5-2216-435e-8953-fad49ae34de9	>create glyph sheet for numbers
 -	3fd9f7e5-2216-435e-8953-fad49ae34de9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2022-11-13 21:55:55	3fd9f7e5-2216-435e-8953-fad49ae34de9	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-11-13 22:04:38	4aff5e9d-792b-469e-87da-2b6c75189e4d	>numbers 0-15 have been added to the the system. Larger numbers will come eventually, but this is a good start.
+-	4aff5e9d-792b-469e-87da-2b6c75189e4d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4aff5e9d-792b-469e-87da-2b6c75189e4d	#00220f35-8e2d-41b5-a12f-17986ce03e4a
+2022-11-13 22:06:37	11127a8a-dff3-4017-a829-379baa90db55	>numbers 0-15, maybe 1-16 are fine.
+-	11127a8a-dff3-4017-a829-379baa90db55	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	11127a8a-dff3-4017-a829-379baa90db55	#3fd9f7e5-2216-435e-8953-fad49ae34de9
