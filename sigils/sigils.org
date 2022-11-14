@@ -17,21 +17,14 @@ drawing library used is =btprnt=, a drawing library for
 #+BEGIN_SRC janet :tangle sigils/sigils.janet
 <<sigil-writer>>
 <<components>>
+<<sigil>>
 (def sw (sigil-writer-create))
 (def bp (btprnt/new 256 256))
 (def canvas @[0 0 256 256])
 (def center (btprnt/centerbox bp canvas 26 26))
 (btprnt/outline bp center 1)
 
-(rune bp center sw :er)
-(lglyphs bp center sw 14 11)
-# (draw-diacritic
-#   bp center sw
-#   #@[:lstub :hstripe :block :hstripe :hstripe :rstub]
-#   @[:empty :empty :dot :empty :empty]
-#   @[:dot :box :btee :dot]
-#   )
-(diacritic bp center sw :gliss-large)
+(sigil bp center sw :yi 1 1 :gliss-small)
 (btprnt/write-pbm bp "sigils.pbm")
 (btprnt/del bp)
 (sigil-writer-clean sw)
@@ -66,7 +59,28 @@ A Sigil Writer can be created with =sigil-writer-create=.
   (btprnt/del (sw :runes-tmap))
   (btprnt/del (sw :radicals-tmap)))
 #+END_SRC
-* Drawing L Glyphs For Duration and Rate Scaling
+* Drawing a Sigil
+The funciton =sigil= will draw a sigil. =bp= is the
+instance of btprnt. =glyph= is the region containing
+the bounding box for a glyph. =sw= is an instance of
+the sigil writer.
+
+The =val=, =num=, =den=,
+and =behavior= are all the components that make up
+a single sigil. =num= and =den= are the
+numerator/denominator fractional pair that make up
+rate multiplier. =value= refers to a name of
+a @!(ref "runes" "rune")!@. Behavior forms the behavior.
+
+#+NAME: sigil
+#+BEGIN_SRC janet
+(defn sigil [bp glyph sw value num den behavior]
+  (rune bp glyph sw value)
+  (lglyphs bp glyph sw num den)
+  (diacritic bp glyph sw behavior))
+#+END_SRC
+* Components
+** Drawing L Glyphs For Duration and Rate Scaling
 A Sigil has two special glyphs that sit on the bottom left
 and right corners of the Sigil, known as L-Glyphs. These
 convey the rate scaling value as a fractional value: left
@@ -85,7 +99,7 @@ Inverting the fraction, rate scaling turns into duration.
 A rate of 1/2 becomes a duration of 2 periods, or "beats".
 Using duration can sometimes be a more intuitive way to
 think about Gesture.
-** Generic Left L-Glyph
+*** Generic Left L-Glyph
 To draw a generic left L-glpyh, use =left-glyph=.
 
 #+NAME: generic-lglyphs
@@ -125,7 +139,7 @@ To draw a generic left L-glpyh, use =left-glyph=.
     4 4
     1 1))
 #+END_SRC
-** Generic Right L Glyph
+*** Generic Right L Glyph
 =right-glyph= works similarly to =left-glyph=, just in the
 opposite direction.
 
@@ -166,7 +180,7 @@ opposite direction.
     4 4
     1 1))
 #+END_SRC
-** Using a Number Set for L Glyphs
+*** Using a Number Set for L Glyphs
 Groups of 4 radicals form to make a single L glyph.
 The table below curates a set of L glyphs to be used
 to represent numerical values. Each entry is an array of
@@ -202,7 +216,7 @@ right L glyphs need different radicals.
        @[:empty :tstub :box :lstub]]
   })
 #+END_SRC
-** Drawing L Glyphs
+*** Drawing L Glyphs
 #+NAME: components
 #+BEGIN_SRC janet
 <<generic-lglyphs>>
@@ -220,12 +234,12 @@ right L glyphs need different radicals.
 
   )
 #+END_SRC
-* Drawing Diacritics For Behavior
+** Drawing Diacritics For Behavior
 Diacritics, or the markings that go above the main
 rune, denote the =behavior= of that particular
 sigil, which inidicates the interpolation method for
 which the current value goes to the next value.
-** Generic Diacritic
+*** Generic Diacritic
 Like L-Glyphs, these are built of radicals. There
 can be either 5 or 6 radicals. When there are 5 radicals,
 there is a single middle radical.
@@ -275,7 +289,7 @@ there is a single middle radical.
                     (draw-side-radical
                       bp glyph sw (side-rads 3) @[1 1])))))
 #+END_SRC
-** Diacritic look-up table for Behaviors
+*** Diacritic look-up table for Behaviors
 #+NAME: behaviors
 #+BEGIN_SRC janet
 (def behaviors @{
@@ -301,7 +315,7 @@ there is a single middle radical.
       @[:empty :empty :box :empty]]
 })
 #+END_SRC
-** Drawing Specific Diacritics
+*** Drawing Specific Diacritics
 These will look up values from the =behaviors=
 table.
 
@@ -313,7 +327,7 @@ table.
   (def dia (behaviors name))
   (draw-diacritic bp reg sw (dia 0) (dia 1)))
 #+END_SRC
-* Drawing Runes for Values
+** Drawing Runes for Values
 @!(ref "runes" "Runes")!@ are symbols used to represent
 the =value= component of a gesture node inside a sigil.
 
