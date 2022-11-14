@@ -1,4 +1,12 @@
 #+TITLE: Gesture Sigils
+@!
+(do
+  (def sigils (dofile "sigils/sigils.janet"))
+  (def sigils-bp ((sigils 'sigils-bp) :value))
+  (def bp (sigils-bp))
+  (bpimg bp "some examples of gesture sigils")
+  (btprnt/del bp))
+!@
 * Overview
 A =sigil= or =gesture sigil= refers to a combination of
 symbols that come together to describe the state of a
@@ -18,16 +26,29 @@ drawing library used is =btprnt=, a drawing library for
 <<sigil-writer>>
 <<components>>
 <<sigil>>
-(def sw (sigil-writer-create))
-(def bp (btprnt/new 256 256))
-(def canvas @[0 0 256 256])
-(def center (btprnt/centerbox bp canvas 26 26))
-(btprnt/outline bp center 1)
-
-(sigil bp center sw :yi 1 1 :gliss-small)
-(btprnt/write-pbm bp "sigils.pbm")
-(btprnt/del bp)
-(sigil-writer-clean sw)
+(defn sigils-bp []
+  (def sw (sigil-writer-create))
+  (def bp (btprnt/new 256 256))
+  (def canvas @[0 0 256 256])
+  (def sig
+    (array
+      @[:yi 1 1 :gliss-small]
+      @[:yi 1 1 :gliss-small]
+      @[:yi 1 1 :gliss-small]
+      @[:yi 1 1 :gliss-small]
+      @[:yi 1 1 :gliss-small]
+      @[:yi 1 1 :gliss-small]
+      @[:yi 1 1 :gliss-small]
+      @[:yi 1 1 :gliss-small])
+    )
+  (for row 0 (length sig)
+    (for col 0 (length (array row))
+      (def gridlet (btprnt/grid bp canvas 8 8 row col))
+      (def center (btprnt/centerbox bp gridlet 26 26))
+      (btprnt/outline bp center 1)
+      (sigil bp center sw :yi 1 1 :gliss-small)))
+  (sigil-writer-clean sw)
+  bp)
 #+END_SRC
 * Loading and Initializing a Sigil Writer
 A Sigil Writer is a construct that contains all the
