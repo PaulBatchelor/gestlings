@@ -26,29 +26,7 @@ drawing library used is =btprnt=, a drawing library for
 <<sigil-writer>>
 <<components>>
 <<sigil>>
-(defn sigils-bp []
-  (def sw (sigil-writer-create))
-  (def bp (btprnt/new 256 256))
-  (def canvas @[0 0 256 256])
-  (def sig
-    (array
-      @[:yi 1 1 :gliss-small]
-      @[:yi 1 1 :gliss-small]
-      @[:yi 1 1 :gliss-small]
-      @[:yi 1 1 :gliss-small]
-      @[:yi 1 1 :gliss-small]
-      @[:yi 1 1 :gliss-small]
-      @[:yi 1 1 :gliss-small]
-      @[:yi 1 1 :gliss-small])
-    )
-  (for row 0 (length sig)
-    (for col 0 (length (array row))
-      (def gridlet (btprnt/grid bp canvas 8 8 row col))
-      (def center (btprnt/centerbox bp gridlet 26 26))
-      (btprnt/outline bp center 1)
-      (sigil bp center sw :yi 1 1 :gliss-small)))
-  (sigil-writer-clean sw)
-  bp)
+<<sigils-demo>>
 #+END_SRC
 * Loading and Initializing a Sigil Writer
 A Sigil Writer is a construct that contains all the
@@ -235,6 +213,7 @@ right L glyphs need different radicals.
        @[:empty :box :box :lstub]]
   15 @[@[:empty :tstub :box :rstub]
        @[:empty :tstub :box :lstub]]
+  16 @[:tbrack :tstub :box :empty]
   })
 #+END_SRC
 *** Drawing L Glyphs
@@ -314,6 +293,8 @@ there is a single middle radical.
 #+NAME: behaviors
 #+BEGIN_SRC janet
 (def behaviors @{
+  :empty
+    @[@[:empty :empty :empty :empty :empty] nil]
   :step
     @[@[:empty :empty :dot :empty :empty] nil]
   :linear
@@ -326,14 +307,14 @@ there is a single middle radical.
     @[@[:empty :blknee :hstripe :brknee :empty]
       nil]
   :gliss-small
-    @[@[:empty :blknee :hstripe :brknee :empty]
-      @[:empty :empty :dot :empty]]
-  :gliss-med
-    @[@[:empty :blknee :hstripe :brknee :empty]
-      @[:empty :empty :dot :dot]]
+    @[@[:dot :blknee :hstripe :brknee :dot]
+      @[:empty :empty :empty :empty]]
+  :gliss-medium
+    @[@[:lbrack :blknee :hstripe :brknee :rbrack]
+      @[:empty :empty :empty :empty]]
   :gliss-large
-    @[@[:empty :blknee :hstripe :brknee :empty]
-      @[:empty :empty :box :empty]]
+    @[@[:box :blknee :hstripe :brknee :box]
+      @[:empty :empty :empty :empty]]
 })
 #+END_SRC
 *** Drawing Specific Diacritics
@@ -372,4 +353,102 @@ adds an additional 1px.
     (glyph 0) (glyph 1)
     7 7
     2 1))
+#+END_SRC
+* Some sample sigils
+A small demo showcasing the kinds of sigils that
+can be made with this interface.
+
+#+NAME: sigils-demo
+#+BEGIN_SRC janet
+(defn sigils-bp []
+  (def sw (sigil-writer-create))
+  (def bp (btprnt/new 256 256))
+  (def canvas @[0 0 256 256])
+  (def sig
+    (array
+      (array
+        @[:yi 1 2 :gliss-small]
+        @[:er 3 4 :gliss-medium]
+        @[:san 5 6 :gliss-large]
+        @[:si 7 8 :step]
+        @[:wu 9 10 :linear]
+        @[:liu 11 12 :expon]
+        @[:qi 13 14 :empty]
+        @[:ba 15 16 :gliss-small])
+      (array
+        @[:diamond 1 1 :linear]
+        @[:asym 3 1 :step]
+        @[:ttile 2 3 :step]
+        @[:boxinbox 8 4 :gliss-small]
+        @[:ryshar 1 1 :gliss-small]
+        @[:haerabeek 2 2 :gliss-small]
+        @[:che 1 1 :gliss-small]
+        @[:kat 2 1 :expon])
+      (array
+        @[:lubigis 1 1 :step]
+        @[:nahaisheed 4 1 :step]
+        @[:med 4 1 :step]
+        @[:nip 4 1 :gliss-small]
+        @[:shaichorip 4 1 :gliss-medium]
+        @[:hetachae 2 1 :gliss-small]
+        @[:jofaep 2 1 :expon]
+        @[:fyshee 2 1 :gliss-large])
+      (array
+        @[:jupyshaet 1 12 :gliss-large]
+        @[:bechak 1 12 :gliss-medium]
+        @[:baechived 1 13 :gliss-medium]
+        @[:wypen 10 2 :gliss-large]
+        @[:kaekaek 9 1 :gliss-medium]
+        @[:suchai 7 4 :gliss-medium]
+        @[:paipuchev 2 1 :gliss-small]
+        @[:zaimep 1 3 :step])
+      (array
+        @[:shaishik 15 13 :step]
+        @[:wozhish 14 1 :expon]
+        @[:ser 3 3 :linear]
+        @[:ciweet 5 5 :linear]
+        @[:gaecaijag 4 5 :gliss-small]
+        @[:neteevib 3 7 :step]
+        @[:raetaeteb 8 2 :step]
+        @[:ba 2 5 :step])
+      (array
+        @[:qi 6 4 :step]
+        @[:liu 9 2 :gliss-small]
+        @[:wu 9 1 :expon]
+        @[:si 6 5 :expon]
+        @[:san 9 4 :linear]
+        @[:er 3 7 :linear]
+        @[:yi 4 2 :linear]
+        @[:med 4 8 :gliss-large])
+      (array
+        @[:jupyshaet 1 1 :linear]
+        @[:nip 1 2 :step]
+        @[:nahaisheed 1 3 :linear]
+        @[:shaichorip 1 4 :step]
+        @[:fyshee 4 1 :expon]
+        @[:boxinbox 3 1 :expon]
+        @[:jofaep 2 1 :gliss-small]
+        @[:lubigis 1 1 :gliss-medium])
+      (array
+        @[:suchai 8 7 :linear]
+        @[:bechak 7 6 :step]
+        @[:asym 6 5 :linear]
+        @[:wypen 5 4 :step]
+        @[:hetachae 4 3 :expon]
+        @[:ryshar 3 2 :expon]
+        @[:paipuchev 1 2 :gliss-small]
+        @[:zaimep 3 4 :gliss-medium])
+      ))
+
+  (def nrows 8)
+  (def ncols 8)
+  (for row 0 nrows
+    (for col 0 ncols
+      (def gridlet (btprnt/grid bp canvas 8 8 col row))
+      (def center (btprnt/centerbox bp gridlet 26 26))
+      (def s ((sig row) col))
+      (btprnt/outline bp center 1)
+      (sigil bp center sw (s 0) (s 1) (s 2) (s 3))))
+  (sigil-writer-clean sw)
+  bp)
 #+END_SRC
