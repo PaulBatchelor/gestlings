@@ -1,0 +1,22 @@
+#+TITLE: Layout
+This document concerns itself with how to
+arrange @!(ref "sigils" "gesture sigils")!@ on a page,
+and implements an interface for doing so.
+
+The notation style used to represent Gesture is
+fundamentally a tessellation. Sigils, like tiles, are
+optimally arranged on a grid. A sequence of Sigils are
+threaded together with a line to form a Path.
+
+Movement from sigil to the next can happen in 4
+directions: up, down, left, right. Diagonal movement
+is not permitted.
+
+The preferred way to arrange sigils is on a spiral, with
+the beginning sigil at the center. The thread (line)
+connecting the sigils together outlines the sequential
+order. 16 sigils create a nice even 4x4 spiral.
+
+Movements are typically one unit away. One unit is 32
+pixels. A sigil takes up the center 26x26 pixels. The
+remaining pixels create whitespace.

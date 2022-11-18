@@ -61,6 +61,13 @@
  :org "runes/runes.org"
  :tangled @["runes/runes.txt" "runes/runes.janet"]
  }
+
+ "layout"
+ @{
+ :id 9
+ :org "layout/layout.org"
+ :tangled @["layout/layout.janet"]
+ }
 })
 
 # TODO: move this out of this file.

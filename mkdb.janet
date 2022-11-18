@@ -19,6 +19,7 @@
 (ww-add-page "radicals" `@!(wikipage "radicals")!@`)
 (ww-add-page "sigils" `@!(wikipage "sigils")!@`)
 (ww-add-page "runes" `@!(wikipage "runes")!@`)
+(ww-add-page "layout" `@!(wikipage "layout")!@`)
 
 # linked pages
 
