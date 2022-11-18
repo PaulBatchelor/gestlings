@@ -1,4 +1,6 @@
 #+TITLE: Layout
+@!(dofile "layout/test.janet")!@
+
 This document concerns itself with how to
 arrange @!(ref "sigils" "gesture sigils")!@ on a page,
 and implements an interface for doing so.
