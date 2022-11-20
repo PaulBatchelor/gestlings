@@ -10,8 +10,6 @@
 `)
 (ww-add-page "curated_lglyphs" `@!(wikipage "curated_lglyphs")!@
 `)
-(ww-add-page "simple_path" `@!(wikipage "simple_path")!@
-`)
 (ww-add-page "loadtiles" `@!(wikipage "loadtiles")!@
 `)
 (ww-add-page "protosigils" `@!(wikipage "protosigils")!@`)
@@ -20,6 +18,7 @@
 (ww-add-page "sigils" `@!(wikipage "sigils")!@`)
 (ww-add-page "runes" `@!(wikipage "runes")!@`)
 (ww-add-page "layout" `@!(wikipage "layout")!@`)
+(ww-add-page "simple_path" `@!(wikipage "simple_path")!@`)
 
 # linked pages
 

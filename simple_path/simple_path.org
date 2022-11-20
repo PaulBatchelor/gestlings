@@ -214,13 +214,7 @@ To my eyes, this is a notation
 a notation that is a fairly good compromise between
 readability and ease of input (it's text and there's not
 a lot of type).
-* Future
-Future investigations will investigate ways
-to notate gestures without having to make it easy to input.
-(example: math mode in TeX makes very readible mathematical
-notation, but sometimes the syntax used to generated it
-can be clunky to type and confusing to read).
-
+* Sndkit Patch
 The generated gesture program can be used inside of
 a sndkit patch to control the melody of a sound.
 
@@ -229,7 +223,7 @@ Here is the sndkit patch, stored as a lua string.
 #+NAME: sndkit_patch
 #+BEGIN_SRC lua
 [[
-phasor [expr 89 / 60] 0
+phasor [expr 96 / 60] 0
 
 hold zz
 regset zz 0
@@ -252,10 +246,83 @@ add zz zz
 
 unhold [regget 0]
 
-wavout zz simple_path.wav
+wavouts zz simple_path.wav
 
 computes 10
 ]]
-
-
 #+END_SRC
+* Notation
+Here is the path represented using Gesture Notation.
+
+@!(do
+(def bp (btprnt/new 256 256))
+(def canvas @[0 0 256 256])
+(def main (btprnt/border bp canvas 8))
+(def sw (sigils/sigil-writer-create))
+
+(def right (fn [s] (layout/move-right bp main s)))
+(def left (fn [s] (layout/move-left bp main s)))
+(def up (fn [s] (layout/move-up bp main s)))
+(def down (fn [s] (layout/move-down bp main s)))
+
+(var sigil (btprnt/centerbox bp main 25 25))
+(btprnt/outline bp sigil 1)
+(sigils/sigil bp sigil sw :yi 2 1 :gliss-small)
+
+(set sigil (right sigil))
+(btprnt/outline bp sigil 1)
+(sigils/sigil bp sigil sw :er 2 1 :gliss-small)
+
+(set sigil (up sigil))
+(btprnt/outline bp sigil 1)
+(sigils/sigil bp sigil sw :yi 2 1 :gliss-small)
+
+(set sigil (left sigil))
+(btprnt/outline bp sigil 1)
+(sigils/sigil bp sigil sw :san 2 5 :gliss-small)
+
+(set sigil (left sigil))
+(btprnt/outline bp sigil 1)
+(sigils/sigil bp sigil sw :yi 2 1 :gliss-small)
+
+(set sigil (down sigil))
+(btprnt/outline bp sigil 1)
+(sigils/sigil bp sigil sw :si 2 1 :gliss-small)
+
+(set sigil (down sigil))
+(btprnt/outline bp sigil 1)
+(sigils/sigil bp sigil sw :wu 2 1 :gliss-small)
+
+(set sigil (right sigil))
+(btprnt/outline bp sigil 1)
+(sigils/sigil bp sigil sw :er 2 3 :gliss-small)
+
+(set sigil (right sigil))
+(btprnt/outline bp sigil 1)
+(sigils/sigil bp sigil sw :liu 1 1 :gliss-large)
+
+(btprnt/outline bp main 1)
+
+(bpimg bp "Notation for Simple Gesture")
+
+(btprnt/del bp)
+(sigils/sigil-writer-clean sw)
+)!@
+* Future
+Try to build more abstractions for notation.
+
+Explore non-linear gesture paths, and coordinated
+gesture path networks.
+
+Make more interesting sounds that lend themselves
+more to being =anthropomorphic=. Things that talk and
+breathe. Vocal synthesis and things that somewhat
+resemble the voice in their own way.
+
+Work on developing an =Organynth= sound: sounds that are
+unquestionably synthetic in origin, but also contain
+organic qualaties and behavior. This is a problem that
+is a mix of finding the right DSP (I believe
+physical models for things like the human voice have
+potential), and developing the right way to control
+these algorithms (this is where Gesture comes in).

@@ -109,6 +109,8 @@
 (import zet)
 (import programs)
 (import progparse)
+(import layout/layout :as layout)
+(import sigils/sigils :as sigils)
 
 (defn wikipage [pgname]
   (progparse/wikipage (programs/pages pgname)))

@@ -1,6 +1,5 @@
 #+TITLE: Layout
-@!(dofile "layout/test.janet")!@
-
+* Overview
 This document concerns itself with how to
 arrange @!(ref "sigils" "gesture sigils")!@ on a page,
 and implements an interface for doing so.
@@ -8,7 +7,15 @@ and implements an interface for doing so.
 The notation style used to represent Gesture is
 fundamentally a tessellation. Sigils, like tiles, are
 optimally arranged on a grid. A sequence of Sigils are
-threaded together with a line to form a Path.
+threaded together with a line to form a Path such
+as this one:
+
+@!(dofile "layout/test.janet")!@
+
+The basic way to set up layout is to create a region for
+the sigils to inhabit, create the region for the first
+sigil inside of the region, draw the sigil, then move
+the region to where the next region will be drawn.
 
 Movement from sigil to the next can happen in 4
 directions: up, down, left, right. Diagonal movement
@@ -22,3 +29,98 @@ order. 16 sigils create a nice even 4x4 spiral.
 Movements are typically one unit away. One unit is 32
 pixels. A sigil takes up the center 26x26 pixels. The
 remaining pixels create whitespace.
+* Tangled Files
+Tangled to janet file =layout/layout.janet=.
+
+#+NAME: layout.janet
+#+BEGIN_SRC janet :tangle layout/layout.janet
+<<movement>>
+#+END_SRC
+* Movement
+Movement can happen in 4 directions: up, down, left, right.
+The current movement is limited to 1 sigil unit, which is the
+space of a 32x32 pixel square.
+** Move Up
+#+NAME: movement
+#+BEGIN_SRC janet
+(defn move-up [bp main sigil]
+  (btprnt/rect-filled
+    bp main
+    (+ (- (sigil 0) (main 0)) (- 12 3))
+    (- (- (sigil 1) (main 1)) 7)
+    7 6 1)
+
+  (btprnt/rect-filled
+    bp main
+    (+ (- (sigil 0) (main 0)) (- 12 6))
+    (- (- (sigil 1) (main 1)) 6)
+    13 2 1)
+  (array
+    (sigil 0) 
+    (- (sigil 1) 32)
+    (sigil 2)
+    (sigil 3)))
+#+END_SRC
+** Move Down
+#+NAME: movement
+#+BEGIN_SRC janet
+(defn move-down [bp main sigil]
+  (btprnt/rect-filled
+    bp main
+    (+ (- (sigil 0) (main 0)) (- 12 3))
+    (+ (- (sigil 1) (main 1)) 25)
+    6 7 1)
+
+  (btprnt/rect-filled
+    bp main
+    (+ (- (sigil 0) (main 0)) (- 12 6))
+    (+ (+ (- (sigil 1) (main 1)) 25) 4)
+    13 2 1)
+  (array
+    (sigil 0) 
+    (+ (sigil 1) 32)
+    (sigil 2)
+    (sigil 3)))
+#+END_SRC
+** Move Left
+#+NAME: movement
+#+BEGIN_SRC janet
+(defn move-left [bp main sigil]
+  (btprnt/rect-filled
+    bp main
+    (- (- (sigil 0) (main 0)) 7)
+    (+ (- (sigil 1) (main 1)) (- 12 3))
+    6 7 1)
+
+  (btprnt/rect-filled
+    bp main
+    (- (- (sigil 0) (main 0)) 6)
+    (+ (- (sigil 1) (main 1)) (- 12 6))
+    2 13 1)
+  (array
+    (- (sigil 0) 32)
+    (sigil 1) 
+    (sigil 2)
+    (sigil 3)))
+#+END_SRC
+** Move Right
+#+NAME: movement
+#+BEGIN_SRC janet
+(defn move-right [bp main sigil]
+  (btprnt/rect-filled
+    bp main
+    (+ (- (sigil 0) (main 0)) 25)
+    (+ (- (sigil 1) (main 1)) (- 12 3))
+    6 7 1)
+
+  (btprnt/rect-filled
+    bp main
+    (+ (+ (- (sigil 0) (main 0)) 25) 4)
+    (+ (- (sigil 1) (main 1)) (- 12 6))
+    2 13 1)
+  (array
+    (+ (sigil 0) 32)
+    (sigil 1) 
+    (sigil 2)
+    (sigil 3)))
+#+END_SRC

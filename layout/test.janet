@@ -98,7 +98,6 @@
 (print "<img src=\"data:image/png;base64,")
 (print (btprnt/write-png bp))
 (print (string/format
-       "\" alt=\"%s\">" "test image"))
-(btprnt/write-pbm bp "out.pbm")
+       "\" alt=\"%s\">" "layout test image"))
 
 (btprnt/del bp)

@@ -140,7 +140,7 @@
 -	0ec0aa67-431d-4c7f-a356-94eecb128b94	#53a2e179-eb60-4c13-b749-59d5d3b893c5
 2022-11-11 10:26:21	5087c400-5905-42de-b2f2-2f094bbe9793	>create interface for gesture notation layout
 -	5087c400-5905-42de-b2f2-2f094bbe9793	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-11-20 10:30:24	5087c400-5905-42de-b2f2-2f094bbe9793	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
+2022-11-20 10:50:05	5087c400-5905-42de-b2f2-2f094bbe9793	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
 2022-11-13 21:55:55	3fd9f7e5-2216-435e-8953-fad49ae34de9	>create glyph sheet for numbers
 -	3fd9f7e5-2216-435e-8953-fad49ae34de9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2022-11-13 21:55:55	3fd9f7e5-2216-435e-8953-fad49ae34de9	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
@@ -167,3 +167,12 @@
 2022-11-20 10:31:56	6e72a5d1-2e57-46ca-b27c-aad89de010f5	>the notation system tends to favor groups of 9 or 16 cuz of the spirals. going to make a new path that is 9 steps long, and notate that. this is going to be important, as it will set a few precedents.
 -	6e72a5d1-2e57-46ca-b27c-aad89de010f5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	6e72a5d1-2e57-46ca-b27c-aad89de010f5	#ced05062-250d-457b-9ca1-92a5eb12c3ea
+2022-11-20 10:50:26	8cb621c6-6b0f-4b34-a54c-153825b06569	>oops there is more to do here...
+-	8cb621c6-6b0f-4b34-a54c-153825b06569	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8cb621c6-6b0f-4b34-a54c-153825b06569	#5087c400-5905-42de-b2f2-2f094bbe9793
+2022-11-20 11:09:05	685b4fc4-4a23-411c-a392-51a494be8054	>create gesture notation page
+-	685b4fc4-4a23-411c-a392-51a494be8054	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-11-20 11:09:05	685b4fc4-4a23-411c-a392-51a494be8054	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-11-20 11:09:37	a9ffb38d-ce67-49cd-b223-61ae81eb8e56	>create re-usable interface for generated TAL code
+-	a9ffb38d-ce67-49cd-b223-61ae81eb8e56	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-11-20 11:09:37	a9ffb38d-ce67-49cd-b223-61ae81eb8e56	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e

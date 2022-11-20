@@ -67,7 +67,7 @@ end
 
 patch =
 [[
-phasor [expr 89 / 60] 0
+phasor [expr 96 / 60] 0
 
 hold zz
 regset zz 0
@@ -90,12 +90,10 @@ add zz zz
 
 unhold [regget 0]
 
-wavout zz simple_path.wav
+wavouts zz simple_path.wav
 
 computes 10
 ]]
-
-
 
 program_words = {}
 
