@@ -67,7 +67,7 @@ end
 
 patch =
 [[
-phasor 2 0
+phasor [expr 89 / 60] 0
 
 hold zz
 regset zz 0
@@ -123,10 +123,17 @@ end
 
 path =
 {
-    v(7, {1,2}, 2),
-    v(2, {1, 1}),
-    v(4),
-    v(9, {1, 2}, 3)
+    v(7, {2,1}, 2),
+    v(5),
+    v(7),
+    v(0, {2,5}),
+
+    v(7, {2,1}, 2),
+    v(10),
+    v(9),
+    v(5, {2,3}),
+
+    v(3, {1, 1}, 3)
 }
 
 mkpath(program_words, path)
