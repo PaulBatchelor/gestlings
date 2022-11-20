@@ -74,7 +74,7 @@
 2022-10-30 16:16:13	39de570e-d38d-47ed-bdea-fd15c7e16d4c	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-10-23 09:51:17	00220f35-8e2d-41b5-a12f-17986ce03e4a	>establish initial runeset for behaviors, values, and durations
 -	00220f35-8e2d-41b5-a12f-17986ce03e4a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-11-18 10:56:14	00220f35-8e2d-41b5-a12f-17986ce03e4a	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
+2022-11-18 12:23:43	00220f35-8e2d-41b5-a12f-17986ce03e4a	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-10-23 09:51:54	ced05062-250d-457b-9ca1-92a5eb12c3ea	>create notation for !simple_path
 -	ced05062-250d-457b-9ca1-92a5eb12c3ea	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2022-10-23 09:51:54	ced05062-250d-457b-9ca1-92a5eb12c3ea	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
@@ -158,3 +158,6 @@
 2022-11-18 10:56:23	e6a8cd7d-15b8-4ff7-b4cb-df5aca7956b5	>adding initial words
 -	e6a8cd7d-15b8-4ff7-b4cb-df5aca7956b5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	e6a8cd7d-15b8-4ff7-b4cb-df5aca7956b5	#5087c400-5905-42de-b2f2-2f094bbe9793
+2022-11-18 12:24:24	b458eb5d-26fe-4c4d-8be4-32139fb33b7b	>initial prototype created. now need to turn it into a literate program.
+-	b458eb5d-26fe-4c4d-8be4-32139fb33b7b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b458eb5d-26fe-4c4d-8be4-32139fb33b7b	#5087c400-5905-42de-b2f2-2f094bbe9793
