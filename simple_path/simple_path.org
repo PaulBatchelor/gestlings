@@ -198,7 +198,6 @@ is represented a tuple), and the behavior.
 
 #+NAME: vertex_shorthand_for_gesture_path
 #+BEGIN_SRC lua
-
 v = function (note, dur, behavior)
     x = {}
 
