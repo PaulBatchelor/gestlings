@@ -76,17 +76,3 @@
  :tangled @["tal/tal.lua"]
  }
 })
-
-# TODO: move this out of this file.
-(defn get-id [pgname]
- (print pgname)
- (let (pg (pages pgname))
-  (pg :id)))
-
-# Could this be done better?
-(defn get-id-from-file [file]
- (var pgname nil)
- (each p pages
-  (if (= (p :org) file) (set pgname (p :id))))
- pgname)
-
