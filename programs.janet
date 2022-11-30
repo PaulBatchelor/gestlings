@@ -68,6 +68,13 @@
  :org "layout/layout.org"
  :tangled @["layout/layout.janet"]
  }
+
+ "tal"
+ @{
+ :id 10 
+ :org "tal/tal.org"
+ :tangled @["tal/tal.lua"]
+ }
 })
 
 # TODO: move this out of this file.

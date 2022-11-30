@@ -1,0 +1,67 @@
+#+TITLE: Tal (via Lua)
+* To Provide Some Context
+Tal is the assembly language used to construct programs
+written in Uxn. Uxn is the VM used to sequence gestures
+in GestVM. GestVM is the gesture synthesizer of choice
+when building things for Gestlings.
+
+Similar to how sounds are made in LIL via Lua metaprogramming,
+the goal of this document is to build an interface that
+generates Tal code from Lua.
+
+Much of this is based off of the code found in @!(ref
+"simple_path")!@.
+* Tangled Files
+#+NAME: tal/tal.lua
+#+BEGIN_SRC lua :tangle tal/tal.lua
+function mkmacro(words, name, program)
+    table.insert(words, "%" .. name)
+    table.insert(words, "{")
+    for _,v in pairs(program)
+    do
+        table.insert(words, v)
+    end
+    table.insert(words, "}")
+end
+
+function mklabel(words, label)
+    table.insert(words, "@" .. label)
+end
+
+function mknum(words, val)
+    table.insert(words, "#" .. string.format("%02x", val))
+end
+
+function mknote(words, note)
+    table.insert(words, "#" .. string.format("%02x", note))
+    table.insert(words, "NOTE")
+    table.insert(words, "BRK")
+end
+
+function mkdur(words, num, den)
+    mknum(words, num)
+    table.insert(words, "NUM")
+    mknum(words, den)
+    table.insert(words, "DEN")
+end
+
+function mkbehavior(words, id)
+    mknum(words, id)
+    table.insert(words, "BHVR")
+end
+
+function mkjump(words, label)
+    table.insert(words, ";" .. label)
+    table.insert(words, "JMP2")
+end
+
+function compile_tal(tal)
+    lil([[
+    gmemnew mem
+    gestvmnew gvm
+    ]])
+
+    gestvm_compile("mem", program_tal)
+    lil("gmemcpy [grab mem] [grab gvm]")
+end
+#+END_SRC

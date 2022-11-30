@@ -19,6 +19,7 @@
 (ww-add-page "runes" `@!(wikipage "runes")!@`)
 (ww-add-page "layout" `@!(wikipage "layout")!@`)
 (ww-add-page "simple_path" `@!(wikipage "simple_path")!@`)
+(ww-add-page "tal" `@!(wikipage "tal")!@`)
 
 # linked pages
 

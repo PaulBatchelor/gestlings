@@ -108,7 +108,6 @@ table.insert(program_words, "|0100")
 
 mklabel(program_words, "mel")
 
-
 v = function (note, dur, behavior)
     x = {}
 
