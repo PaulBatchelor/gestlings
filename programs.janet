@@ -75,4 +75,11 @@
  :org "tal/tal.org"
  :tangled @["tal/tal.lua"]
  }
+ 
+ "path"
+ @{
+ :id 11 
+ :org "path/path.org"
+ :tangled @["path/path.lua"]
+ }
 })

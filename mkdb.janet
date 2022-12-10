@@ -20,6 +20,7 @@
 (ww-add-page "layout" `@!(wikipage "layout")!@`)
 (ww-add-page "simple_path" `@!(wikipage "simple_path")!@`)
 (ww-add-page "tal" `@!(wikipage "tal")!@`)
+(ww-add-page "path" `@!(wikipage "path")!@`)
 
 # linked pages
 

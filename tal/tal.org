@@ -12,9 +12,10 @@ generates Tal code from Lua.
 Much of this is based off of the code found in @!(ref
 "simple_path")!@.
 * Tangled Files
-#+NAME: tal/tal.lua
+#+NAME: tal.lua
 #+BEGIN_SRC lua :tangle tal/tal.lua
-function mkmacro(words, name, program)
+local tal = {}
+function tal.macro(words, name, program)
     table.insert(words, "%" .. name)
     table.insert(words, "{")
     for _,v in pairs(program)
@@ -24,44 +25,48 @@ function mkmacro(words, name, program)
     table.insert(words, "}")
 end
 
-function mklabel(words, label)
+function tal.label(words, label)
     table.insert(words, "@" .. label)
 end
 
-function mknum(words, val)
+function tal.num(words, val)
     table.insert(words, "#" .. string.format("%02x", val))
 end
 
-function mknote(words, note)
+function tal.note(words, note)
     table.insert(words, "#" .. string.format("%02x", note))
     table.insert(words, "NOTE")
     table.insert(words, "BRK")
 end
 
-function mkdur(words, num, den)
-    mknum(words, num)
+function tal.dur(words, num, den)
+    tal.num(words, num)
     table.insert(words, "NUM")
-    mknum(words, den)
+    tal.num(words, den)
     table.insert(words, "DEN")
 end
 
-function mkbehavior(words, id)
-    mknum(words, id)
+function tal.behavior(words, id)
+    tal.num(words, id)
     table.insert(words, "BHVR")
 end
 
-function mkjump(words, label)
+function tal.jump(words, label)
     table.insert(words, ";" .. label)
     table.insert(words, "JMP2")
 end
 
-function compile_tal(tal)
-    lil([[
-    gmemnew mem
-    gestvmnew gvm
-    ]])
-
-    gestvm_compile("mem", program_tal)
-    lil("gmemcpy [grab mem] [grab gvm]")
+function tal.membuf(bufname)
+    lil(string.format("gmemnew %s", bufname))
 end
+
+function tal.compile(program, bufname, gvmname)
+    gestvm_compile(bufname, program)
+    lil("gmemcpy [grab " .. 
+        bufname .. 
+        "] " .. 
+        gvmname)
+end
+
+return tal
 #+END_SRC

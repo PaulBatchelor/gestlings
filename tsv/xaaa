@@ -194,3 +194,5 @@
 2022-11-30 11:36:44	19c49f32-db72-404e-bc0d-9c29bed73769	>I created an initial patch yesterday. I need to update mnolth though, because there were some new (small) things I had to introduce to sndkit. The butbp filter, for instance. Also, division. I guess I never needed it up to this point.
 -	19c49f32-db72-404e-bc0d-9c29bed73769	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	19c49f32-db72-404e-bc0d-9c29bed73769	#db62727e-6744-417b-8ac3-5dc160075403
+2022-12-02 10:44:59	3581dba9-eac6-40f6-b434-7b60a9195507	>officially beginning my baby steps into birdsong.
+-	3581dba9-eac6-40f6-b434-7b60a9195507	#53a2e179-eb60-4c13-b749-59d5d3b893c5
