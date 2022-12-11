@@ -1,0 +1,6 @@
+GESTKU=$1
+NAME=$(basename $GESTKU)
+NAME=${NAME%.lua}
+
+mnolua gestku/render.lua $NAME
+ffmpeg -y -loop 1 -i $NAME.pbm -i $NAME.wav -c:v libx264 -tune stillimage -c:a aac -b:a 256k -pix_fmt yuv420p -shortest $NAME.mp4
