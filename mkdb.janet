@@ -6,12 +6,9 @@
 # unlinked pages
 
 (ww-add-page "logs" `@!(zet/messages "logs")!@`)
-(ww-add-page "parsing_programs" `@!(wikipage "parsing_programs")!@
-`)
-(ww-add-page "curated_lglyphs" `@!(wikipage "curated_lglyphs")!@
-`)
-(ww-add-page "loadtiles" `@!(wikipage "loadtiles")!@
-`)
+(ww-add-page "parsing_programs" `@!(wikipage "parsing_programs")!@`)
+(ww-add-page "curated_lglyphs" `@!(wikipage "curated_lglyphs")!@`)
+(ww-add-page "loadtiles" `@!(wikipage "loadtiles")!@`)
 (ww-add-page "protosigils" `@!(wikipage "protosigils")!@`)
 (ww-add-page "protodiacritics" `@!(wikipage "protodiacritics")!@`)
 (ww-add-page "radicals" `@!(wikipage "radicals")!@`)
