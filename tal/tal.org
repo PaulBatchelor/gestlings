@@ -39,6 +39,12 @@ function tal.note(words, note)
     table.insert(words, "BRK")
 end
 
+function tal.val(words, note)
+    table.insert(words, "#" .. string.format("%02x", note))
+    table.insert(words, "NEXT")
+    table.insert(words, "BRK")
+end
+
 function tal.dur(words, num, den)
     tal.num(words, num)
     table.insert(words, "NUM")

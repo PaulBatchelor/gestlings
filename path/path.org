@@ -27,8 +27,8 @@ local Path = {}
 function Path.path(tal, words, path)
     for _, v in pairs(path)
     do
-        if v.note ~= nil then
-            tal.note(words, v.note)
+        if v.val ~= nil then
+            tal.val(words, v.val)
         end
 
         if v.dur ~= nil then
