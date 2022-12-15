@@ -1,0 +1,33 @@
+#+TITLE: Gestku
+* Uninhibited Gesture
+There is a need for regular (almost daily) practice. A
+workflow and format that meets the demands of this kind
+of output must reduce the friction involved in creation.
+The word I have chosen to describe this is "uninhibited"
+(stolen from the book title "the uninhibited brush"). The
+gestlings are studies of gesture, therefore gestku are
+=uninhibited gesture=.
+
+Gestku is a word that "Gesture" and "Haiku". Gestku is
+not related to the Haiku art form, but is inspired by the
+it's form and structure.
+
+The focus of the Gestku is to establish regular practice
+using Gesture (via gestvm) to construct sound objects.
+Ideally, Gestku should also be made in a day, and hopefully
+in one sitting.
+
+For Gestku, output is less important than process,
+code is more important than theoretical words. Anything
+that directs flow without worrying so much about direction
+itself is Gestku.
+* Gestku Format
+A Gestku consists of a 11-second snippet of audio, produced
+using =mnolth= code (written in lua via =mnolua=). There
+is also a graphic produced: some kind of black and white
+tesselation/mosaic that depicts the sound somehow.
+
+The process of gestku is typically developed using live
+coding, via a combination of mnort and vim.
+* Messages
+@!(zet/messages "gestku")!@
