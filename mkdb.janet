@@ -22,6 +22,7 @@
 # linked pages
 
 (ww-add-link "index" "index.org")
+(ww-add-link "gestku" "gestku/gestku.org")
 
 # sync and close
 
