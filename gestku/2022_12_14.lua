@@ -1,8 +1,8 @@
 --[[
-REGINA (IS LATE FOR WORK)
+ROBO-GIGUE
 
 -- <@>
-dofile("gestku/2022_12_13.lua")
+dofile("gestku/2022_12_14.lua")
 rtsetup()
 setup()
 -- </@>
@@ -63,7 +63,7 @@ end
 function patch_setup()
     out = [[
 glswapper [grab glive]
-param [expr 60 / 60]
+param [expr 180 / 60]
 phasor zz 0
 hold zz
 regset zz 0
@@ -117,21 +117,41 @@ end
 -- <@>
 function mkpatch()
     lil(patch_setup())
-    lil("regset [gensine [tabnew 8192]] 1")
-    mkvoice("pitch", "gate", 1.5, 0.4)
-    mkvoice("pitch2", "gate2", 1.3, 0.4)
+    -- lil("param 8000")
+
+    gestvmnode("[glget [grab glive]]",
+        "mem",
+        "pitch",
+        "[regget 0]")
+    lil("dup")
+    lil("sub zz 24")
+    lil("mtof zz")
+    lil("glottis zz 0.9")
+    lil("swap")
+    lil("add zz 12")
+    lil("mtof zz")
+    lil("bitnoise zz 1")
+    lil("mul zz 0.5")
     lil("add zz zz")
-    mkvoice("pitch3", "gate3", 1.1, 0.4)
-    lil("add zz zz")
-    lil("dup; dup; bigverb zz zz 0.95 8000")
-    lil("drop; mul zz [dblin -10]; dcblocker zz")
-    lil("swap; mul zz [dblin -4]; add zz zz")
+    lil("valp1 zz 1000")
+    gestvmnode("[glget [grab glive]]",
+        "mem",
+        "phonemes",
+        "[regget 0]")
+    lil("mul zz 0.2")
+    lil("vowelmorph zz zz 0.1")
+    lil("dcblocker zz")
+    lil("chorus zz 0.3 1 0.5 0.007")
+    lil("peakeq zz 80 60 4")
+    lil("dup; dup; verbity zz zz 0.9 0.1 0.1")
+    lil("drop; dcblocker zz; mul zz 0.2; add zz zz")
     lil([[
 tenv [tick] 0.01 9.5 1.3
 mul zz zz
 unhold [regget 0]
 gldone [grab glive]
 ]])
+lil("unholdall")
 end
 -- </@>
 
@@ -167,96 +187,30 @@ end
 function sound()
     words = {}
     tal_setup(words)
-
-    qt = {1, 1}
-    et = {2, 1}
-    qt4 = {1, 4}
-    sx = {4, 1}
-    sx3 = {4, 3}
-    ts = {8, 1}
-
     mkseq(words, "pitch", {
-        mknote(0, qt),
-        mknote(-3, qt),
-
-        mknote(-5, sx),
-        mknote(-3, sx),
-        mknote(-1, sx),
-
-        mknote(-5, sx),
-        mknote(-3, sx),
-        mknote(-1, sx),
-        mknote(0, {1, 1}),
-        mknote(-1, {2, 1}),
-
-        mknote(0, qt),
-
-        mknote(-3, {4, 3}),
-        mknote(-1, {4, 1}),
-        mknote(0, {1, 2}),
-
-        mknote(2, {1, 1}),
-
-        mknote(0, {1, 4}),
+        {72, {2, 2}, 2},
+        {75, {2, 2}, 2},
+        {70, {2, 3}, 2},
+        {72, {2, 2}, 2},
+        {75, {2, 2}, 2},
+        {70, {2, 3}, 2},
+        {72, {2, 2}, 2},
+        {75, {2, 2}, 2},
+        {70, {2, 3}, 2},
+        {84, {1, 2}, 0},
     })
 
-    mkseq(words, "gate", {
-        {1, {1, 7}, 1},
-    })
-
-    mkseq(words, "pitch2", {
-        mknote(0, qt),
-        mknote(0, qt),
-
-        mknote(2, qt),
-        mknote(0, qt),
-
-        mknote(2, qt),
-        mknote(4, qt),
-
-        mknote(5, et),
-        mknote(9, et),
-        mknote(7, qt),
-
-        mknote(0, et),
-        mknote(12, qt),
-        mknote(11, et),
-        mknote(12, qt4),
-
-    })
-
-    mkseq(words, "gate2", {
-        {0, qt, 1},
-        {1, {1, 13}, 1},
-    })
-
-    mkseq(words, "pitch3", {
-        mknote(5 - 12, {1, 3}),
-
-        mknote(5 - 12, qt),
-        mknote(2 - 12, qt),
-
-        mknote(0 - 12, sx),
-        mknote(2 - 12, sx),
-        mknote(4 - 12, sx),
-        mknote(0 - 12, sx),
-        mknote(2 - 12, sx),
-        mknote(4 - 12, sx),
-
-        mknote(5 - 12, qt),
-        mknote(4 - 12, et),
-
-        mknote(5 - 12, et),
-        mknote(4 - 12, et),
-        mknote(7 - 12, qt),
-
-        mknote(0 - 12, qt),
-
-    })
-
-    mkseq(words, "gate3", {
-        {0, {1, 3}, 1},
-        {1, {1, 9}, 1},
+    mkseq(words, "phonemes", {
+        {0, {2, 1}, 2},
+        {1, {2, 1}, 2},
+        {2, {2, 1}, 2},
+        {3, {2, 1}, 2},
+        {4, {2, 1}, 2},
+        {0, {2, 1}, 2},
+        {1, {2, 1}, 2},
+        {2, {2, 1}, 2},
+        {3, {2, 1}, 2},
+        {4, {1, 3}, 3},
     })
 
     compile_tal(words)
@@ -278,18 +232,15 @@ end
 function G.symbol()
     return [[
 ---###---
-----#----
----------
-####-####
-#-#---#-#
+-###-###-
+-#-----#-
+-#-#-#-#-
+##-----##
+#-------#
 #-#-#-#-#
-#---#---#
-----#----
---#####--
---#---#--
---#---#--
---#---#--
---#---#--
+#-#-#-#-#
+#-------#
+#########
 ]]
 end
 
