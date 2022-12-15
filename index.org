@@ -1,2 +1,37 @@
 Gestlings are a collection of studies exploring the medium
 of Gesture.
+
+@!(ref "logs")!@: general logs.
+
+@!(ref "simple_path")!@: a proof of concept path.
+
+@!(ref "curated_lglyphs")!@: prototype L-glyphs for
+gesture notation.
+
+@!(ref "protodiacritics")!@: test diacritics for
+gesture notation.
+
+@!(ref "protosigils")!@: testing out sigil forms.
+
+@!(ref "sigils")!@: functions for producing a single
+gesture sigil.
+
+@!(ref "layout")!@: system for sigil layout.
+
+@!(ref "loadtiles")!@: function for loading tilesets from
+a text file.
+
+@!(ref "parsing_programs")!@: utility used to convert
+literate programs written in Worgle into single pages in
+weewiki.
+
+@!(ref "path")!@: utility to produce gesture paths.
+
+@!(ref "radicals")!@: radicial component of a gesture sigil.
+
+@!(ref "runes")!@: rune component of a gesture sigil.
+
+@!(ref "tal")!@: metaprogramming the Tal language from Lua.
+
+@!(ref "gestku")!@: uninhibited gesture haikus.
+
