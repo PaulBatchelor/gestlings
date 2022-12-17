@@ -28,8 +28,71 @@ Proportional durations are only relative to the path they
 belong to. Different paths can have different proportions,
 allowing for interesting polyrhythms to occur.
 
-By default, a morpheme takes up one beat, however it's
+By default, a morpheme takes up one beat, however its
 duration can be stretched and squashed to fit inside beats
 bars, or units smaller than beats.
 
-To be continued...
+The term "morpheme" is a term borrowed from linguistics
+used to describe an atomic unit in language. It's pretty
+close to what is being done in this context, and of all
+the common "phemes" used in linguistics (phoneme, grapheme,
+morpheme), the best fit for Gesture.
+
+To convert proportional durations to actual durations
+(expressed,as rate multipliers in Gesture), find the
+least common multiple for all the path lengths, rescale
+the paths so their lengths match, then convert to rate
+multiplier values using the LCM and the morpheme scaling
+factor. Note that *duration* is a unit describes the overall
+time, while *length* describes the sum of all the ratio
+units for a path when duration is expressed in proportional
+terms.
+
+The process of converting a morpheme structure into gesture
+paths can be done with the =morpheme= function, defined
+in lua code below. It takes in a morpheme structure =m=,
+and a scaling value =r=.
+
+The morpheme structure =m= should be a table key-value
+pairs, where the key is the name of the gesture, and the
+value is a @!(ref "path" "gesture path")!@ using
+proportional notation.
+
+For example:
+
+#+BEGIN_SRC lua
+morpheme({
+    a={{60, 3, 3}, {67, 1, 3}, {58, 2, 3}},
+    b={{63, 1, 3}, {65, 1, 3}, {63, 1, 3}, {62, 1, 3}}
+}, {1, 3})
+#+END_SRC
+
+Should yield:
+
+#+BEGIN_SRC lua
+{
+    a={
+        {60, {2, 3}, 3},
+        {67, {2, 1}}, 3},
+        {58, {1, 1}, 3}
+    },
+    b={
+        {63, {4,3}, 3},
+        {65, {4,3}, 3},
+        {63, {4,3}, 3},
+        {62, {4,3}, 3}
+    }
+}
+#+END_SRC
+
+#+NAME: morpheme.lua
+#+BEGIN_SRC lua :tangle morpheme/morpheme.lua
+function morpheme(m, r)
+    -- Get lengths of each gesture path
+    -- Find LCM of path lengths
+    -- rescale paths
+    -- convert to rate multiplier
+    -- simplify multiplier fractions, if possible
+    -- check to make sure multiplier values are in range
+end
+#+END_SRC
