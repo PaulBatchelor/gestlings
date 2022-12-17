@@ -1,0 +1,35 @@
+#+TITLE: Gesture Morphemes
+A =morpheme=, in the context of gesture, is a construct
+that's used to construct Coordinated Gesture Paths (CGP).
+CGP are gesture paths that run parallel to one another, and
+are tightly related somehow, to the point where modifying
+one path could require modifying all the other paths. Using
+morphemes, CGPs can be constructed simultaneously, one
+slice at a time.
+
+A morpheme is made up of a set of gesture paths, where
+every path has an identical duration. Keeping the duration
+the same is important to the design of the morpheme, as
+it is what allows morphemes to be put together in a
+sequence without having to worry about the underlying
+gestures going out of sync.
+
+To ensure that paths encapsulated in a morpheme
+always have the same duration, a proportional duration
+system is used. Rather than use the rate multiplier
+fractional value represented as two integer values, a
+proportional duration is represented as a single positive
+non-zero integer. This unit indicates how long a particular
+segment is relative to the path. So, if a gesture path
+had a segment with value of 1, a segment with a value of 3
+would be 3 times longer.
+
+Proportional durations are only relative to the path they
+belong to. Different paths can have different proportions,
+allowing for interesting polyrhythms to occur.
+
+By default, a morpheme takes up one beat, however it's
+duration can be stretched and squashed to fit inside beats
+bars, or units smaller than beats.
+
+To be continued...
