@@ -1,0 +1,29 @@
+#+TITLE: Temporal Weight
+=Temporal Weight= is a technique in musical sequencing
+that is used to help give notes microtiming. It is
+particularly useful in the context of lyricism.
+
+In the temporal weight system, notes (or, in the context
+of Gesture, vertices, nodes, and points), are given mass
+which can bend time (tempo) around them like a
+gravitational field. As mass increases, tempo increases.
+As mass decreases, tempo decreases. A mass can also be
+negative, indicating that it the tempo it manipulates
+is slower than the original tempo.
+
+A =temporal inertia= value can be used to control the
+responsiveness to changes in mass. The larger the inertia,
+the slower the response.
+
+Implementing temporal weight in a gesture signal generator
+can be done by adding some kind of modulator to the
+conductor signal's tempo parameter, and then using a signal
+from the GSG to feed back into the modulator and control it.
+Inside the GSG program, the state of the current mass and
+inertia can be changed every time a new gesture segment
+begins.
+
+The interesting thing about temporal weight is that it is a
+concept that requires thinking about Gesture as both a
+continuous process in DSP as well as a discrete one in
+the GSG program.
