@@ -2,6 +2,12 @@ morpheme = require("morpheme/morpheme")
 tal = require("tal/tal")
 path = require("path/path")
 pprint = require("util/pprint")
+lang = require("morpheme/testlang")
+
+Space = lpeg.S(" \n\t")^0
+Duration = lpeg.C(lpeg.R("09")^1)
+Value = lpeg.C(lpeg.R("az","AZ")^1)
+Behavior = lpeg.S("~+/_")
 
 lil([[
 gmemnew mem
@@ -54,25 +60,35 @@ tal.start(words)
 --mp = verts(m)
 mp = {}
 
---append(m, mp)
 append_morpheme(mp, {1, 3}, {
     a={{60, 3, 2}, {67, 1, 2}, {58, 2, 3}},
     b={{63, 1, 2}, {65, 1, 2}, {63, 1, 2}, {62, 1, 2}}
 })
 
+notes = {
+    tt = 59,
+    d = 60,
+    r = 62,
+    me = 63,
+    f = 65,
+    s = 67,
+    l = 68,
+    te = 70,
+    t = 71,
+    D = 72,
+    R = 74,
+    Me = 75,
+}
+
+
+function seq(str)
+    return lang.eval(str, notes)
+end
+
+
 append_morpheme(mp, {1, 3}, {
-    a={{72, 1, 2}, {70, 1, 2}, {74, 2, 3}},
-    b={
-        {60, 2, 2},
-        {62, 2, 2},
-        {63, 2, 2},
-        {65, 2, 2},
-        {67, 2, 2},
-        {65, 2, 2},
-        {59, 1, 2},
-        {60, 1, 2},
-        {62, 2, 2},
-    }
+    a=seq("d1 s D2^ Me2~"),
+    b=seq("d2~ r me f s f tt1 d r2")
 })
 
 compile_paths(words, mp)
