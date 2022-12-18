@@ -1,4 +1,5 @@
 #+TITLE: Gesture Morphemes
+* Overview
 A =morpheme=, in the context of gesture, is a construct
 that's used to construct Coordinated Gesture Paths (CGP).
 CGP are gesture paths that run parallel to one another, and
@@ -7,13 +8,19 @@ one path could require modifying all the other paths. Using
 morphemes, CGPs can be constructed simultaneously, one
 slice at a time.
 
+The term "morpheme" is a term borrowed from linguistics
+used to describe an atomic unit in language. It's pretty
+close to what is being done in this context, and of all
+the common "phemes" used in linguistics (phoneme, grapheme,
+morpheme), the best fit for Gesture.
+* Structure
 A morpheme is made up of a set of gesture paths, where
 every path has an identical duration. Keeping the duration
 the same is important to the design of the morpheme, as
 it is what allows morphemes to be put together in a
 sequence without having to worry about the underlying
 gestures going out of sync.
-
+* Proportional Duration
 To ensure that paths encapsulated in a morpheme
 always have the same duration, a proportional duration
 system is used. Rather than use the rate multiplier
@@ -27,38 +34,30 @@ would be 3 times longer.
 Proportional durations are only relative to the path they
 belong to. Different paths can have different proportions,
 allowing for interesting polyrhythms to occur.
-
+* Timescaling
 By default, a morpheme takes up one beat, however its
 duration can be stretched and squashed to fit inside beats
 bars, or units smaller than beats.
-
-The term "morpheme" is a term borrowed from linguistics
-used to describe an atomic unit in language. It's pretty
-close to what is being done in this context, and of all
-the common "phemes" used in linguistics (phoneme, grapheme,
-morpheme), the best fit for Gesture.
-
-To convert proportional durations to actual durations
-(expressed,as rate multipliers in Gesture), find the
-least common multiple for all the path lengths, rescale
-the paths so their lengths match, then convert to rate
-multiplier values using the LCM and the morpheme scaling
-factor. Note that *duration* is a unit describes the overall
-time, while *length* describes the sum of all the ratio
-units for a path when duration is expressed in proportional
-terms.
-
-The process of converting a morpheme structure into gesture
-paths can be done with the =morpheme= function, defined
-in lua code below. It takes in a morpheme structure =m=,
-and a scaling value =r=.
+* Implementation
+The Morpheme structure is implemented in lua code, using
+lua tables as it's structure.
+** Description of Morpheme Function
+The =morpheme(m, r)= function is used to convert morpheme
+structures into gesture paths.
 
 The morpheme structure =m= should be a table key-value
 pairs, where the key is the name of the gesture, and the
 value is a @!(ref "path" "gesture path")!@ using
 proportional notation.
 
-For example:
+The =r= parameter is the time rescaling factor, expressed
+as a fractional value using a lua
+table ={numerator, denominator}=. A value of
+={2, 1}= compresses the entire morpheme to be half of
+a beat (2x speed). A value of ={1,2}= will stretch
+the morpheme to take up 2 beats (0.5x speed).
+
+As an example:
 
 #+BEGIN_SRC lua
 morpheme({
@@ -84,7 +83,17 @@ Should yield:
     }
 }
 #+END_SRC
-
+** Converting Proportional Durations to Rate Multipliers
+To convert proportional durations to actual durations
+(expressed,as rate multipliers in Gesture), find the
+least common multiple for all the path lengths, rescale
+the paths so their lengths match, then convert to rate
+multiplier values using the LCM and the morpheme scaling
+factor. Note that *duration* is a unit describes the overall
+time, while *length* describes the sum of all the ratio
+units for a path when duration is expressed in proportional
+terms.
+** Lua Code for Morpheme Function
 #+NAME: morpheme.lua
 #+BEGIN_SRC lua :tangle morpheme/morpheme.lua
 local M = {}
@@ -159,10 +168,12 @@ function M.morpheme(m, r)
     return out
 end
 
+<<helpers>>
+
 return M
 #+END_SRC
-
-Least common multiple algorithm, taken from rosettacode.
+** LCM and GCD algorithms
+Least common multiple algorithm, taken from Rosetta Code.
 
 #+NAME: lcm
 #+BEGIN_SRC lua
@@ -178,5 +189,72 @@ end
 function lcm(m, n)
     return (m ~= 0 and n ~= 0) and
         m * n / gcd(m, n) or 0
+end
+#+END_SRC
+* Morpheme Helpers
+** Append
+The =append(path, mp, r, m)= function converts
+a morpheme to a set of gesture path structures and
+appends that structure to
+a table. =path= is the object
+containing the loaded @!(ref "path")!@ library.
+=mp= is the table of morphemes (converted to paths), which
+can be initialized to be an empty table.
+
+The =r= value is the rate scaling factor, and =m= is the
+morpheme structure itself.
+
+The idea with this utility
+is that a structure composed of morphemes is built up
+using this append operation.
+
+The =appender= function returns a function that
+abstracts away the path variable, which should make
+for more readable code.
+
+The core of the append function is the append operation
+itself.
+
+#+NAME: helpers
+#+BEGIN_SRC lua
+function append_op(path, m, mp)
+    for pname, p in pairs(m) do
+        if mp[pname] == nil then
+            mp[pname] = {}
+        end
+        for k, v in pairs(p) do
+            table.insert(mp[pname], path.vertex(v))
+        end
+    end
+end
+
+function M.append(path, mp, r, m)
+    append_op(path, M.morpheme(m, r), mp)
+end
+
+function M.appender(path)
+    return function(mp, r, m)
+        M.append(path, mp, r, m)
+    end
+end
+#+END_SRC
+** Compila
+The =compile= function will compile a set of paths into
+a table of Uxntal words. =tal= and =path= are lua objects
+from the @!(ref "tal")!@ and @!(ref "path")!@ libraries,
+respectively. words should be a table to put the Uxntal
+words (before they are compiled into Uxn
+bytecode). =mp= contains the table of gesture paths,
+presumably populated by the append operation defined
+previously.
+
+#+NAME: helpers
+#+BEGIN_SRC lua
+function M.compile(tal, path, words, mp)
+    for label, p in pairs(mp) do
+        tal.label(words, label)
+        path.path(tal, words, p)
+        tal.jump(words, label)
+    end
 end
 #+END_SRC
