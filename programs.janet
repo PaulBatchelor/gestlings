@@ -89,11 +89,4 @@
  :org "morpheme/morpheme.org"
  :tangled @["morpheme/morpheme.lua"]
  }
-
- "weight"
- @{
- :id 13 
- :org "weight/weight.org"
- :tangled @["weight/weight.lua"]
- }
 })
