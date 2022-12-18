@@ -89,4 +89,11 @@
  :org "morpheme/morpheme.org"
  :tangled @["morpheme/morpheme.lua"]
  }
+
+ "morpho"
+ @{
+ :id 13 
+ :org "morpheme/morpho.org"
+ :tangled @["morpheme/morpho.lua"]
+ }
 })

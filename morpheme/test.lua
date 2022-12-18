@@ -2,7 +2,8 @@ morpheme = require("morpheme/morpheme")
 tal = require("tal/tal")
 path = require("path/path")
 pprint = require("util/pprint")
-lang = require("morpheme/testlang")
+-- lang = require("morpheme/testlang")
+lang = require("morpheme/morpho")
 
 lil([[
 gmemnew mem
