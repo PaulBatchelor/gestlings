@@ -87,8 +87,9 @@ Should yield:
 
 #+NAME: morpheme.lua
 #+BEGIN_SRC lua :tangle morpheme/morpheme.lua
+local M = {}
 <<lcm>>
-function morpheme(m, r)
+function M.morpheme(m, r)
     -- Get lengths of each gesture path
     local lengths = {}
 
@@ -129,7 +130,6 @@ function morpheme(m, r)
 
     for k,v in pairs(out) do
         -- out[k][2] = {length_lcm, out[k][2]}
-        print(k)
         for i=1,#v do
             -- apply scaling value r and obtain multipler
 
@@ -158,6 +158,8 @@ function morpheme(m, r)
 
     return out
 end
+
+return M
 #+END_SRC
 
 Least common multiple algorithm, taken from rosettacode.

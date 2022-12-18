@@ -41,5 +41,15 @@ function Path.path(tal, words, path)
     end
 end
 
+function Path.vertex(v)
+    x = {}
+
+    x.val = v[1]
+    x.dur = v[2]
+    x.bhvr = v[3]
+
+    return x
+end
+
 return Path
 #+END_SRC

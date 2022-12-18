@@ -39,22 +39,26 @@ function tal.note(words, note)
     table.insert(words, "BRK")
 end
 
-function tal.val(words, note)
-    table.insert(words, "#" .. string.format("%02x", note))
-    table.insert(words, "NEXT")
+function tal.val(words, val)
+    tal.num(words, val)
+    tal.num(words, 0x26)
+    table.insert(words, "DEO")
     table.insert(words, "BRK")
 end
 
 function tal.dur(words, num, den)
     tal.num(words, num)
-    table.insert(words, "NUM")
+    tal.num(words, 0x24)
+    table.insert(words, "DEO")
     tal.num(words, den)
-    table.insert(words, "DEN")
+    tal.num(words, 0x25)
+    table.insert(words, "DEO")
 end
 
 function tal.behavior(words, id)
     tal.num(words, id)
-    table.insert(words, "BHVR")
+    tal.num(words, 0x27)
+    table.insert(words, "DEO")
 end
 
 function tal.jump(words, label)
@@ -64,6 +68,15 @@ end
 
 function tal.membuf(bufname)
     lil(string.format("gmemnew %s", bufname))
+end
+
+function tal.start(words)
+    table.insert(words, "|0100")
+end
+
+function tal.compile_words(words, bufname, gvmname)
+    local program = table.concat(words, " ")
+    tal.compile(program, bufname, gvmname)
 end
 
 function tal.compile(program, bufname, gvmname)
