@@ -87,12 +87,94 @@ Should yield:
 
 #+NAME: morpheme.lua
 #+BEGIN_SRC lua :tangle morpheme/morpheme.lua
+<<lcm>>
 function morpheme(m, r)
     -- Get lengths of each gesture path
+    local lengths = {}
+
+    for k, v in pairs(m) do
+        lengths[k] = 0
+        for _,x in pairs(v) do
+            lengths[k] = lengths[k] + x[2]
+        end
+    end
+
     -- Find LCM of path lengths
+
+    length_lcm = 0
+
+    for _, v in pairs(lengths) do
+        if length_lcm ~= 0 then
+            length_lcm = lcm(length_lcm, v)
+        else
+            length_lcm = v
+        end
+
+    end
+
+    out = {}
+
     -- rescale paths
+
+    for k, v in pairs(m) do
+        local s = length_lcm / lengths[k]
+        local row = {}
+        for i=1,#v do
+            row[i] = {v[i][1], v[i][2]*s, v[i][3]}
+        end
+        out[k] = row
+    end
+
     -- convert to rate multiplier
-    -- simplify multiplier fractions, if possible
-    -- check to make sure multiplier values are in range
+
+    for k,v in pairs(out) do
+        -- out[k][2] = {length_lcm, out[k][2]}
+        print(k)
+        for i=1,#v do
+            -- apply scaling value r and obtain multipler
+
+            local num = length_lcm * r[1]
+            local den = v[i][2] * r[2]
+
+            -- simplify multiplier fractions, if possible
+
+            local div = gcd(num, den)
+            if div == 0 then div = 1 end
+
+            num = num / div
+            den = den / div
+
+            -- make sure multiplier values are in range
+
+            if (num > 255 or den > 255) then
+                error(string.format(
+                    "%s[%d]: multiplier (%d, %d) out of range",
+                    k, i, num, den))
+            end
+            v[i][2] = {num, den}
+        end
+    end
+
+
+    return out
+end
+#+END_SRC
+
+Least common multiple algorithm, taken from rosettacode.
+
+#+NAME: lcm
+#+BEGIN_SRC lua
+function gcd(m, n)
+    while n ~= 0 do
+        local q = m
+        m = n
+        n = q % n
+    end
+    return m
+end
+
+function lcm(m, n)
+    return (m ~= 0 and n ~= 0) and
+        m * n / gcd(m, n) or 0
 end
 #+END_SRC
