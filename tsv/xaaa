@@ -175,7 +175,7 @@
 2022-11-20 11:09:05	685b4fc4-4a23-411c-a392-51a494be8054	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
 2022-11-20 11:09:37	a9ffb38d-ce67-49cd-b223-61ae81eb8e56	>create re-usable interface for generated TAL code
 -	a9ffb38d-ce67-49cd-b223-61ae81eb8e56	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-11-20 11:09:37	a9ffb38d-ce67-49cd-b223-61ae81eb8e56	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-12-19 11:28:00	a9ffb38d-ce67-49cd-b223-61ae81eb8e56	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-11-30 11:19:07	f73858ea-64d4-4e9d-ad6b-fc1ed199ac31	>this was completed in !layout.
 -	f73858ea-64d4-4e9d-ad6b-fc1ed199ac31	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	f73858ea-64d4-4e9d-ad6b-fc1ed199ac31	#5087c400-5905-42de-b2f2-2f094bbe9793
@@ -215,3 +215,12 @@
 -	fd11b75c-2691-4ec3-819e-39152b1638ae	#53a2e179-eb60-4c13-b749-59d5d3b893c5
 2022-12-18 20:48:31	2d8c33c7-31e8-4dda-b08c-430d1e52bbf2	>!morpho is a DSL for the !morpheme construct, using LPeg. Documentation is a bit sparse at the moment, but LPeg seems to be a very promising way to build adhoc DSLs. Hopefully I'll be able to build more of these, as they are very fun.
 -	2d8c33c7-31e8-4dda-b08c-430d1e52bbf2	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2022-12-19 10:45:59	b5b24843-bf3f-4b25-8c09-f137f22912b7	>notes probably don't work on this anymore, as that was just a carryover from !simple_path. Rework to use the generic value setter.
+-	b5b24843-bf3f-4b25-8c09-f137f22912b7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b5b24843-bf3f-4b25-8c09-f137f22912b7	#9a1741dd-1170-48dd-9785-f4e73e9fbb96
+2022-12-19 10:53:18	86dabb04-f5b9-473a-9a7e-fdc51dbbeab8	>create low level uxn example using gestvm
+-	86dabb04-f5b9-473a-9a7e-fdc51dbbeab8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-12-19 10:53:19	86dabb04-f5b9-473a-9a7e-fdc51dbbeab8	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-12-19 10:54:36	a7181750-eaa5-4b69-8f16-28d3b526f226	>it is important to have a lineage of abstraction. Lua has become so good at it's job, I'm worried I'll forget how the lower-level components work!
+-	a7181750-eaa5-4b69-8f16-28d3b526f226	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a7181750-eaa5-4b69-8f16-28d3b526f226	#86dabb04-f5b9-473a-9a7e-fdc51dbbeab8

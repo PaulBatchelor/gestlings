@@ -15,6 +15,17 @@ Much of this is based off of the code found in @!(ref
 #+NAME: tal.lua
 #+BEGIN_SRC lua :tangle tal/tal.lua
 local tal = {}
+<<cmds>>
+return tal
+#+END_SRC
+* Commands
+** Macro
+A TAL macro can be made using =tal.macro=. Depending
+on how much manual TAL code will be written, this might
+not be all that helpful.
+
+#+NAME: cmds
+#+BEGIN_SRC lua
 function tal.macro(words, name, program)
     table.insert(words, "%" .. name)
     table.insert(words, "{")
@@ -24,28 +35,46 @@ function tal.macro(words, name, program)
     end
     table.insert(words, "}")
 end
+#+END_SRC
+** Label
+Creates an Uxn label.
 
+#+NAME: cmds
+#+BEGIN_SRC lua
 function tal.label(words, label)
     table.insert(words, "@" .. label)
 end
+#+END_SRC
+** Num
+Helper utility that turns a lua number into
+an Uxn number (hex value). Number should be an 8-bit
+unsigned integer.
 
+#+NAME: cmds
+#+BEGIN_SRC lua
 function tal.num(words, val)
     table.insert(words, "#" .. string.format("%02x", val))
 end
+#+END_SRC
+** Val
+Sets the next value to interpolate towards. This is
+command =0x26= in gestvm.
 
-function tal.note(words, note)
-    table.insert(words, "#" .. string.format("%02x", note))
-    table.insert(words, "NOTE")
-    table.insert(words, "BRK")
-end
-
+#+NAME: cmds
+#+BEGIN_SRC lua
 function tal.val(words, val)
     tal.num(words, val)
     tal.num(words, 0x26)
     table.insert(words, "DEO")
     table.insert(words, "BRK")
 end
+#+END_SRC
+** dur
+Sets the rate multiplier of the rephasor, expressed
+as a fractional value.
 
+#+NAME: cmds
+#+BEGIN_SRC lua
 function tal.dur(words, num, den)
     tal.num(words, num)
     tal.num(words, 0x24)
@@ -54,38 +83,81 @@ function tal.dur(words, num, den)
     tal.num(words, 0x25)
     table.insert(words, "DEO")
 end
+#+END_SRC
+** behavior
+=behavior= sets the behavior of the gesture.
 
+TODO: add behavior constants
+
+#+NAME: cmds
+#+BEGIN_SRC lua
 function tal.behavior(words, id)
     tal.num(words, id)
     tal.num(words, 0x27)
     table.insert(words, "DEO")
 end
+#+END_SRC
+** jump
+=jump= adds a =JMP2= Uxn statement.
 
+#+NAME: cmds
+#+BEGIN_SRC lua
 function tal.jump(words, label)
     table.insert(words, ";" .. label)
     table.insert(words, "JMP2")
 end
+#+END_SRC
+** membuf
+=membuf= creates a new memory buffer instance to compile
+in-memory Tal code.
 
+#+NAME: cmds
+#+BEGIN_SRC lua
 function tal.membuf(bufname)
     lil(string.format("gmemnew %s", bufname))
 end
+#+END_SRC
+** start
+=start= sets the absolute location (absolute padding) to
+0x100, past the zero-page. Should be called before any
+other Tal stuff.
 
+#+NAME: cmds
+#+BEGIN_SRC lua
 function tal.start(words)
     table.insert(words, "|0100")
 end
+#+END_SRC
+** compile_words
+The =compile_words= function takes a set of populated
+Tal words, and converts it into Uxn bytecode, and
+copies it over to an instance of gestvm.
 
-function tal.compile_words(words, bufname, gvmname)
+=words= are a table of Tal words and literals.
+=bufname= is a string value containing the name of membuf
+instance in LIL, and =gvm= is a chunk of LIL code that
+will push the instance of gvm onto the stack, such
+as "[grab gvm]".
+
+#+NAME: cmds
+#+BEGIN_SRC lua
+function tal.compile_words(words, bufname, gvm)
     local program = table.concat(words, " ")
-    tal.compile(program, bufname, gvmname)
+    tal.compile(program, bufname, gvm)
 end
+#+END_SRC
+** compile
+=compile= will compile a Lua string containing a Tal
+program into a membuf instance named =bufname=, and then
+copy that buffer to an instance of gestvm.
 
-function tal.compile(program, bufname, gvmname)
+#+NAME: tal.lua
+#+BEGIN_SRC lua :tangle tal/tal.lua
+function tal.compile(program, bufname, gvm)
     gestvm_compile(bufname, program)
     lil("gmemcpy [grab " .. 
         bufname .. 
         "] " .. 
-        gvmname)
+        gvm)
 end
-
-return tal
 #+END_SRC
