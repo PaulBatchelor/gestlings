@@ -151,8 +151,8 @@ end
 program into a membuf instance named =bufname=, and then
 copy that buffer to an instance of gestvm.
 
-#+NAME: tal.lua
-#+BEGIN_SRC lua :tangle tal/tal.lua
+#+NAME: cmds
+#+BEGIN_SRC lua
 function tal.compile(program, bufname, gvm)
     gestvm_compile(bufname, program)
     lil("gmemcpy [grab " .. 
