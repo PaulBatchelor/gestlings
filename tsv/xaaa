@@ -213,3 +213,5 @@
 -	8614a1c4-cd93-421a-983b-2de19e261c31	#9010c118-0c31-4ac0-b7a3-000e4a57bc19
 2022-12-17 11:02:41	fd11b75c-2691-4ec3-819e-39152b1638ae	>create !weight page with initial words. more words and examples to come hopefully.
 -	fd11b75c-2691-4ec3-819e-39152b1638ae	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2022-12-18 20:48:31	2d8c33c7-31e8-4dda-b08c-430d1e52bbf2	>!morpho is a DSL for the !morpheme construct, using LPeg. Documentation is a bit sparse at the moment, but LPeg seems to be a very promising way to build adhoc DSLs. Hopefully I'll be able to build more of these, as they are very fun.
+-	2d8c33c7-31e8-4dda-b08c-430d1e52bbf2	#53a2e179-eb60-4c13-b749-59d5d3b893c5
