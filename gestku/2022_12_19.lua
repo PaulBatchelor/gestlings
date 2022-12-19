@@ -1,4 +1,5 @@
 --[[
+UP THERE
 -- <@>
 dofile("gestku/2022_12_19.lua")
 rtsetup()
@@ -121,15 +122,20 @@ end
 notes = {
     ff = -7,
     ss = -5,
+    lle = -4,
     ll = -3,
+    tte = -2,
     tt = -1,
     d = 0,
     r = 2,
     m = 4,
     f = 5,
+    fi = 6,
     s = 7,
+    le = 8,
     l = 9,
     t = 11,
+    te = 10,
     D = 12,
     R = 14,
     M = 16,
@@ -207,16 +213,16 @@ function pat(p)
         pa=p.pa or seq("d1~"),
 
         gb=p.gb or gate("o1_"),
-        pb=p.pb or seq("r1~"),
+        pb=p.pb or seq("d1~"),
 
         gc=p.gc or gate("o1_"),
-        pc=p.pc or seq("m1~"),
+        pc=p.pc or seq("s1~"),
 
         gd=p.gd or gate("o1_"),
-        pd=p.pd or seq("s1~"),
+        pd=p.pd or seq("d1~"),
 
         ge=p.ge or gate("o1_"),
-        pe=p.pe or seq("t1~"),
+        pe=p.pe or seq("m1~"),
 
     }
 end
@@ -224,13 +230,42 @@ end
 A = pat { }
 
 B = pat {
-    pe = seq("l~"),
-    pc = seq("f~"),
+    pa = seq("d~"),
+    pb = seq("tte~"),
+    pe = seq("f~ s"),
+}
+
+C = pat {
+    pa = seq("ff~"),
+    pb = seq("ll~"),
+    pc = seq("s2~ f~"),
+    pd = seq("tte~ d~"),
+    pe = seq("D1~ R2^"),
+}
+
+
+D = pat {
+    pa = seq("ff~"),
+    pa = seq("d3~"),
+    pb = seq("lle~"),
+    pe = seq("f1~"),
+}
+
+E = pat {
+    pe = seq("R~"),
 }
 
 SEQ = {
     {A, {1, 3}},
-    {B, {1, 3}},
+    {B, {1, 1}},
+    {C, {1, 1}},
+    {D, {1, 3}},
+    -- {C, {1, 3}},
+    -- {D, {1, 3}},
+    -- {A, {1, 3}},
+    -- {B, {1, 3}},
+    -- {C, {1, 3}},
+    -- {D, {1, 3}},
 }
 -- </@>
 
@@ -254,17 +289,23 @@ end
 -- </@>
 
 -- <@>
-function voice(id)
+function voice(p)
     lil("regget 1")
-    gesture("p" .. id)
+    gesture("p" .. p.id)
+    if (p.offset ~= nil) then
+        lil(string.format("add zz %g", p.offset))
+    end
     lil("mtof zz")
     param(1)
     param(1)
-    param(1)
-    param(0)
+    param(p.mi or 1)
+    param(0.1)
     lil("fmpair zz zz zz zz zz zz")
+    if p.vol ~= nil then
+        lil(string.format("mul zz [dblin %g]", p.vol))
+    end
 
-    gesture("g" .. id)
+    gesture("g" .. p.id)
     param(0.01)
     param(0.01)
     lil("envar zz zz zz")
@@ -279,28 +320,30 @@ end
 function sound()
     lil(patch_setup(70))
     articulate()
-    lil("regset [gensine [tabnew 8192]] 1")
+    lil("regset [gensinesum [tabnew 8192] '1 0.1 0.1 0.1'] 1")
 
-    voice("a")
-    voice("b")
+    voice{id="a", offset=-24, mi=8.1, vol=-6}
+    voice{id="b", offset=-11.99, mi=4, vol=-8}
     lil("add zz zz")
-    voice("c")
+    voice{id="c", offset=-12, mi=2, vol=0}
     lil("add zz zz")
-    voice("d")
+    voice{id="d", mi=1, vol=-3}
     lil("add zz zz")
-    voice("e")
+    voice{id="e", mi=2, vol=-5}
     lil("add zz zz")
 
-    lil("mul zz [dblin -17]")
-    lil("dup; dup")
-
-    param(0.9)
+    lil("mul zz [dblin -20]")
+    lil("dup; vardelay zz 0.0 0.2 0.9; dup")
+    param(0.98)
     lil("param 10000")
     lil("bigverb zz zz zz zz; drop; dcblocker zz")
+    lil("buthp zz 200")
     lil("mul zz [dblin -15]")
+    lil("swap; mul zz [dblin -5]")
     lil("add zz zz")
 
-    --lil("tgate [tick] 10.5; smoother zz 0.01; mul zz zz")
+    lil("tenv [tick] 0.1 8 1; mul zz zz")
+    lil("tgate [tick] 10.5; smoother zz 0.01; mul zz zz")
     lil("regget 0; unhold zz; gldone [grab glive]")
     lil("unholdall")
 end
