@@ -1,4 +1,5 @@
 --[[
+excuse me sir may I have some? please? FINE BE THAT WAY.
 -- <@>
 dofile("gestku/2022_12_20.lua")
 rtsetup()
@@ -141,21 +142,77 @@ end
 -- <@>
 function pat(p)
     return {
-        rate=p.rate or s16("d1^ f2_"),
-        pitch=p.pitch or s16("a/ o^"),
-        timbre=p.timbre or s16("f^ o_"),
-        gate=p.gate or gate("o3_ c1_"),
-        atk=p.atk or s16("c_ f/ a"),
-        rel=p.rel or s16("a"),
+        rate=p.rate or s16("a_"),
+        pitch=p.pitch or s16("h_"),
+        timbre=p.timbre or s16("h_"),
+        gate=p.gate or gate("o_"),
+        atk=p.atk or s16("c_"),
+        rel=p.rel or s16("c_"),
         patk=p.patk or s16("m_"),
         prel=p.prel or s16("a_"),
     }
 end
 
-A = pat { }
+function copy(p, r)
+    r = r or {}
+    local out = {}
+    for k,v in pairs(p) do
+        if r[k] ~= nil then
+            out[k] = r[k]
+        else
+            out[k] = v
+        end
+    end
+
+    return out
+end
+
+A = pat {
+    rate = s16("e3/ c_"),
+    timbre = s16("o_"),
+    pitch = s16("a3^ d1/ o1_"),
+}
+
+B = copy(A, {
+    rate = s16("e3/ a_"),
+    timbre = s16("o1_"),
+    pitch = s16("f3^ c1/ a1_"),
+    patk = s16("m_"),
+    prel = s16("m_"),
+    atk = s16("a/ m_"),
+    rel = s16("a/ m_"),
+})
+
+C = copy(B,{
+    pitch = s16("d^ h d h o"),
+    rate = s16("e^ a e"),
+    timbre = s16("o3^ a1_"),
+})
+
+D = copy(C,{
+    pitch = s16("a/ o a o a o"),
+    rate = s16("e/ h_"),
+    timbre = s16("o3^ a1_"),
+    patk = s16("m_"),
+    prel = s16("m_"),
+    atk = s16("d_"),
+    rel = s16("d_"),
+    gate = gate("o4_ c1_")
+})
+
+S = pat {
+    gate = gate("c_"),
+}
 
 SEQ = {
-    {A, {1, 4}},
+    {A, {1, 3}},
+    {S, {1, 2}},
+    {B, {1, 3}},
+    {S, {1, 2}},
+    {C, {1, 3}},
+    {S, {2, 1}},
+    {D, {1, 2}},
+    {S, {1, 4}},
 }
 -- </@>
 
@@ -183,15 +240,15 @@ function param(x)
     lil(string.format("param %g", x))
 end
 function sound()
-    lil(patch_setup(70))
+    lil(patch_setup(90))
     articulate()
 
-lil("regget 0")
-gesture("rate")
-lil("rephasor zz zz")
-lil("phsclk zz 1")
+    lil("regget 0")
+    gesture("rate")
+    lil("add zz 1; rephasor zz zz")
+    lil("phsclk zz 1")
 
-gesture("gate")
+    gesture("gate")
 lil([[
 mul zz zz
 
@@ -199,10 +256,10 @@ hold zz
 regset zz 1
 
 regget 1]])
-gest16("patk", 0.001, 0.05)
-param(0.001)
-gest16("prel", 0.01, 0.4)
-lil("env zz zz zz zz")
+    gest16("patk", 0.001, 0.05)
+    param(0.001)
+    gest16("prel", 0.01, 0.4)
+    lil("env zz zz zz zz")
 
 lil("param 0")
 gest16("pitch", 7, 24)
@@ -247,7 +304,7 @@ mul zz zz
 mul zz [dblin 4]
 dup
 dup
-bigverb zz zz 0.65 8000
+bigverb zz zz 0.55 8000
 drop
 mul zz [dblin -7]
 dcblocker zz
@@ -256,6 +313,8 @@ add zz zz
     lil("regget 0; unhold zz")
     lil("regget 1; unhold zz")
     lil("regget 2; unhold zz")
+
+    lil("tgate [tick] 10.5; envar zz 0.001 0.01; mul zz zz")
     lil("gldone [grab glive]")
 
 end
