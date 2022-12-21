@@ -1,5 +1,5 @@
 --[[
-excuse me sir may I have some? please? FINE BE THAT WAY.
+excuse me sir may I try some? pretty please? FINE BE THAT WAY.
 -- <@>
 dofile("gestku/2022_12_20.lua")
 rtsetup()
@@ -18,17 +18,17 @@ G = {}
 function G.symbol()
     return [[
 ---------
-----#----
----#-#---
+-#-----#-
 --#---#--
--#--#--#-
-----#----
-----#----
-----#----
-----#----
-----#----
+---#-#---
 ---------
-----#----
+-#-----#-
+---------
+---------
+--#####--
+---------
+---------
+---------
 ---------
 ]]
 end
