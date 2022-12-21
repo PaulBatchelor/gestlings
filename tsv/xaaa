@@ -202,7 +202,7 @@
 -	babb5849-e40b-4b35-b4c4-0c0529889e9f	#9010c118-0c31-4ac0-b7a3-000e4a57bc19
 2022-12-13 02:29:49	9a1741dd-1170-48dd-9785-f4e73e9fbb96	>fix 12/11 gestku
 -	9a1741dd-1170-48dd-9785-f4e73e9fbb96	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-12-13 02:29:49	9a1741dd-1170-48dd-9785-f4e73e9fbb96	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-12-21 10:56:48	9a1741dd-1170-48dd-9785-f4e73e9fbb96	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-12-15 11:21:42	8173631d-8980-4b27-b9fa-b248dc9512d2	>initial !gestku page created.
 -	8173631d-8980-4b27-b9fa-b248dc9512d2	#9010c118-0c31-4ac0-b7a3-000e4a57bc19
 2022-12-17 10:40:18	160b15d5-9101-4c5b-94cd-fb782bf65964	@morpheme
@@ -224,3 +224,9 @@
 2022-12-19 10:54:36	a7181750-eaa5-4b69-8f16-28d3b526f226	>it is important to have a lineage of abstraction. Lua has become so good at it's job, I'm worried I'll forget how the lower-level components work!
 -	a7181750-eaa5-4b69-8f16-28d3b526f226	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	a7181750-eaa5-4b69-8f16-28d3b526f226	#86dabb04-f5b9-473a-9a7e-fdc51dbbeab8
+2022-12-21 10:41:28	03a0a663-f7f7-40eb-85f4-4b53e5118d07	>testing out draft whistle sound in gestku
+-	03a0a663-f7f7-40eb-85f4-4b53e5118d07	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	03a0a663-f7f7-40eb-85f4-4b53e5118d07	#db62727e-6744-417b-8ac3-5dc160075403
+2022-12-21 10:42:12	7caa5bd6-90b3-4323-92ff-b3326e5b16b0	>this page has been made (!path), but it needs to be fleshed out more with words.
+-	7caa5bd6-90b3-4323-92ff-b3326e5b16b0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	7caa5bd6-90b3-4323-92ff-b3326e5b16b0	#59afea3b-493a-4ec1-b9dd-b82418f6d85e

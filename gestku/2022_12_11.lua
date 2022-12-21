@@ -122,14 +122,9 @@ end
 
 function sound()
     v = function (note, dur, behavior)
-        x = {}
-
-        x.note = note
-        x.dur = dur
-        x.bhvr = behavior
-
-        return x
+        return path.vertex({note + 0x33, dur, behavior})
     end
+
 
     p = {
         v(7, {2,3}, 3),
