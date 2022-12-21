@@ -230,3 +230,25 @@
 2022-12-21 10:42:12	7caa5bd6-90b3-4323-92ff-b3326e5b16b0	>this page has been made (!path), but it needs to be fleshed out more with words.
 -	7caa5bd6-90b3-4323-92ff-b3326e5b16b0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	7caa5bd6-90b3-4323-92ff-b3326e5b16b0	#59afea3b-493a-4ec1-b9dd-b82418f6d85e
+2022-12-21 10:57:13	e6188e43-00d7-4116-8e9d-5065104173e7	>create solf microlang
+-	e6188e43-00d7-4116-8e9d-5065104173e7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-12-21 10:57:13	e6188e43-00d7-4116-8e9d-5065104173e7	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-12-21 10:58:08	e6188e43-00d7-4116-8e9d-5065104173e7	$blurb:>DSL based on ABC, NRT, Lilypond, etc
+2022-12-21 10:59:01	e766e6dc-621d-42f7-9ad1-707bdf408832	>formalize seq16 language
+-	e766e6dc-621d-42f7-9ad1-707bdf408832	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-12-21 10:59:01	e766e6dc-621d-42f7-9ad1-707bdf408832	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-12-21 10:59:28	7d028be1-3172-4755-9727-336347cf7f80	>I've been using this in some gestkus, probably would be best to make a page for it with re-usable code.
+-	7d028be1-3172-4755-9727-336347cf7f80	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	7d028be1-3172-4755-9727-336347cf7f80	#e766e6dc-621d-42f7-9ad1-707bdf408832
+2022-12-21 11:06:01	142b9ad6-c829-4ada-be8a-cb208ba06222	>re-examining the NRT syntax. it's actually not too bad. One thing I'll want to add is behavior.
+-	142b9ad6-c829-4ada-be8a-cb208ba06222	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	142b9ad6-c829-4ada-be8a-cb208ba06222	#e6188e43-00d7-4116-8e9d-5065104173e7
+2022-12-21 11:07:04	2edd1277-12bd-4e62-a2a3-64088548e780	>create prop clone
+-	2edd1277-12bd-4e62-a2a3-64088548e780	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-12-21 11:07:05	2edd1277-12bd-4e62-a2a3-64088548e780	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-12-21 11:09:29	69bbab2a-e9e2-438e-90e9-1972c0c980ae	>this would be used with !morpheme. the proportional duration format lends itself well to the prop syntax. I wouldn't include slices or pobabilities, just basic metric modulation. Going to intentionally keep it limited to gates and +/- symbols, just to keep things simple.
+-	69bbab2a-e9e2-438e-90e9-1972c0c980ae	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	69bbab2a-e9e2-438e-90e9-1972c0c980ae	#2edd1277-12bd-4e62-a2a3-64088548e780
+2022-12-21 11:10:13	c1c6afd1-84a0-44bb-9f09-f649796bb1d1	>gestvm doesn't do triggers, but it can do 50% gates, which can get translated into triggers using an instance of thresh.
+-	c1c6afd1-84a0-44bb-9f09-f649796bb1d1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c1c6afd1-84a0-44bb-9f09-f649796bb1d1	#2edd1277-12bd-4e62-a2a3-64088548e780
