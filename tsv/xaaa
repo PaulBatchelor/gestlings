@@ -252,3 +252,15 @@
 2022-12-21 11:10:13	c1c6afd1-84a0-44bb-9f09-f649796bb1d1	>gestvm doesn't do triggers, but it can do 50% gates, which can get translated into triggers using an instance of thresh.
 -	c1c6afd1-84a0-44bb-9f09-f649796bb1d1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	c1c6afd1-84a0-44bb-9f09-f649796bb1d1	#2edd1277-12bd-4e62-a2a3-64088548e780
+2022-12-22 10:49:52	821df676-8bde-4087-9fef-1d7a10540ae6	>create page on temporal skewing
+-	821df676-8bde-4087-9fef-1d7a10540ae6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-12-22 10:49:52	821df676-8bde-4087-9fef-1d7a10540ae6	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-12-22 10:51:42	64747272-9e1d-48db-9753-7795e8cd952f	>created articulated gesture page
+-	64747272-9e1d-48db-9753-7795e8cd952f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-12-22 10:51:42	64747272-9e1d-48db-9753-7795e8cd952f	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-12-22 10:54:21	0e6a1c3f-addc-40c2-ba69-ddecfef654bb	>the initial whistle sound I made turned out to be hard to control with the envelopes. I will want to just distill it into an oscillator with pitch/timbre/amp control. external gesture can shape the rest (extensions perhaps?)
+-	0e6a1c3f-addc-40c2-ba69-ddecfef654bb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0e6a1c3f-addc-40c2-ba69-ddecfef654bb	#db62727e-6744-417b-8ac3-5dc160075403
+2022-12-22 11:59:51	eda10d24-d019-449a-b751-15568341adbc	>create lua module for handling signals
+-	eda10d24-d019-449a-b751-15568341adbc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-12-22 11:59:51	eda10d24-d019-449a-b751-15568341adbc	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e

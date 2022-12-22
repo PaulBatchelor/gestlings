@@ -1,0 +1,59 @@
+#+TITLE: A synthetic whistle sound (WIP)
+This program constructs a roughly pure tone sound with a
+bit of breath in. The idea behind this instrument is
+that it could be used for producing sounds with birdsong-like
+qualities to it.
+
+#+NAME: whistle.lua
+#+BEGIN_SRC lua :tangle whistle/whistle.lua
+Whistle = {}
+
+-- TODO: maybe create modular code for stuff this?
+function paramf(val)
+    return function ()
+        lil(string.format("param %g", val))
+    end
+end
+
+<<oscillator>>
+return Whistle
+#+END_SRC
+
+The core sound generator of the whistle sound is the
+oscillator. This takes in 3 parameters in the form
+of first-order functions: frequency, amplitude and
+timbre.
+
+I'm still working out how to best build a common
+lua abstraction for signal management. Nothing
+of substance to see here.
+
+#+NAME: oscillator
+#+BEGIN_SRC lua
+function Whistle.osc(params)
+    lil("param [regnxt 0]; regmrk [regnxt 0]")
+    fid = pop()
+
+    lil("param [regnxt 0]; regmrk [regnxt 0]")
+    aid = pop()
+
+    lil("param [regnxt 0]; regmrk [regnxt 0]")
+    tid = pop()
+
+    freq = params.freq or 440
+    amp = params.amp or 0.8
+    timbre = params.timbre or 0.5
+
+    freq()
+    lil(string.format("hold zz; regset zz %d", fid))
+
+    lil(string.format("regget %d", fid))
+    lil("blsaw zz")
+    lil("mul zz [dblin -8]")
+    lil("butlp zz 500")
+    for _, v in pairs({fid, aid, tid})
+    do
+        lil(string.format("regclr %d", v))
+    end
+end
+#+END_SRC

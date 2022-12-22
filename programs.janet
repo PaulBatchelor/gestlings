@@ -96,4 +96,11 @@
  :org "morpheme/morpho.org"
  :tangled @["morpheme/morpho.lua"]
  }
+
+ "whistle"
+ @{
+ :id 14 
+ :org "whistle/whistle.org"
+ :tangled @["whistle/whistle.lua"]
+ }
 })
