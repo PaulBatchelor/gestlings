@@ -264,3 +264,6 @@
 2022-12-22 11:59:51	eda10d24-d019-449a-b751-15568341adbc	>create lua module for handling signals
 -	eda10d24-d019-449a-b751-15568341adbc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2022-12-22 11:59:51	eda10d24-d019-449a-b751-15568341adbc	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-12-23 12:24:48	c39e791b-be7b-415b-b06d-97bbd402e9ec	>probably will keep this in gestlings for now, but it's a useful enough thing to put in mnolth. trouble is, I don't have a means for storing lua module code yet with mnolth
+-	c39e791b-be7b-415b-b06d-97bbd402e9ec	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c39e791b-be7b-415b-b06d-97bbd402e9ec	#eda10d24-d019-449a-b751-15568341adbc

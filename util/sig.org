@@ -1,0 +1,16 @@
+#+TITLE: Signal
+This is a Lua module designed to help make managing signals
+in sndkit easier.
+
+The biggest pain point in sndkit is signal management,
+or the things required to get a particular signal in more
+than one place, such as a clock signal. The underlying
+library for constucting audio graphs, graforge, utilizes
+a buffer pool, a pre-allocated set of buffers that signals
+can read and write to. Normally, this is managed transparently.
+However, for signal management, buffer resources are managed
+manually. Without good bookkeeping, it can be easy to produce
+a virtual resource leak where buffer pools are inaccessible,
+or to accidentally cause a signal to be overwritten too early.
+
+
