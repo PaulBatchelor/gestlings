@@ -1,0 +1,49 @@
+#+TITLE: Gest
+Some lua abstractions for creating gestures with gestvm.
+
+#+NAME: gest.lua
+#+BEGIN_SRC lua :tangle gest/gest.lua
+Gest = {}
+
+function Gest:new(o)
+    o = o or {}
+    o.name = o.name or "glive"
+    o.bufname = o.bufname or "mem"
+    o.tal = o.tal or tal
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+
+function Gest:create()
+    lil("glnew " .. self.name)
+    self.tal.membuf(self.bufname)
+end
+
+function Gest:compile(words)
+    tal.compile_words(words,
+        self.bufname,
+        string.format("[glget [grab %s]]", self.name))
+end
+
+function Gest:swapper()
+    lil(string.format("glswapper [grab %s]", self.name))
+end
+
+function Gest:get()
+    return string.format("[glget [grab %s]]", self.name)
+end
+
+function Gest:node(program, conductor)
+    local cnd = conductor or self.conductor
+    if cnd == nil then
+        error("conductor signal not defined")
+    end
+
+    lil(string.format(
+        "gestvmnode %s [gmemsym [grab %s] %s] %s",
+        self.get(self), self.bufname, program, cnd))
+end
+
+return Gest
+#+END_SRC

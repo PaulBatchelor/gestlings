@@ -4,18 +4,12 @@ morpheme = require("morpheme/morpheme")
 pprint = require("util/pprint")
 morpho = require("morpheme/morpho")
 seq = require("seq/seq")
+gest = require("gest/gest")
 
 s16 = seq.seqfun(morpho)
 
-function gestvmnode(glive, membuf, program, conductor)
-    lil(string.format(
-        "gestvmnode %s [gmemsym [grab %s] %s] %s",
-        glive, membuf, program, conductor))
-
-end
-
 A = {
-    seq= s16("a/ d_ f o2~"),
+    seq = s16("a/ d_ f o2~"),
 }
 
 mseq = {
@@ -24,22 +18,21 @@ mseq = {
 
 words = {}
 
-tal.membuf("mem")
-lil("glnew glive")
-tal.start(words)
+g = gest:new {
+    conductor = "[regget 0]"
+}
 
+g:create()
+tal.start(words)
 morpheme.articulate(path, tal, words, mseq)
 
-tal.compile_words(words, "mem", "[glget [grab glive]]")
-
+g:compile(words)
 
 lil("phasor 1 0; hold zz; regset zz 0")
-lil("glswapper [grab glive]")
-gestvmnode("[glget [grab glive]]",
-    "mem", "seq", "[regget 0]")
+g:swapper()
+g:node("seq")
 
 lil(string.format("mul zz %g", 1.0 / 16))
--- lil("param 0.5")
 lil("scale zz 48 70")
 lil("mtof zz")
 lil("blsaw zz; butlp zz 500; mul zz 0.3")

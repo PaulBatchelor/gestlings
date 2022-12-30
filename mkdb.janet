@@ -19,6 +19,8 @@
 (ww-add-page "tal" `@!(wikipage "tal")!@`)
 (ww-add-page "path" `@!(wikipage "path")!@`)
 (ww-add-page "morpheme" `@!(wikipage "morpheme")!@`)
+(ww-add-page "seq" `@!(wikipage "seq")!@`)
+(ww-add-page "gest" `@!(wikipage "gest")!@`)
 
 # linked pages
 

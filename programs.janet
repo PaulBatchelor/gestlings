@@ -110,4 +110,11 @@
  :org "seq/seq.org"
  :tangled @["seq/seq.lua"]
  }
+
+ "gest"
+ @{
+ :id 16
+ :org "gest/gest.org"
+ :tangled @["gest/gest.lua"]
+ }
 })
