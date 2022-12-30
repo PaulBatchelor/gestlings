@@ -46,3 +46,17 @@ end
 
 The =gatefun= function will return a function that
 uses @!(ref "morpho")!@ to create a gate signal.
+
+#+NAME: functions
+#+BEGIN_SRC lua
+gates = {
+    o = 1,
+    c = 0,
+}
+
+function S.gatefun(morpho, str)
+    return function (str)
+        return morpho.eval(str, gates)
+    end
+end
+#+END_SRC
