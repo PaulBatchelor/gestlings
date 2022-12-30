@@ -1,0 +1,48 @@
+#+TITLE: Seq
+Seq is a very simple microlanguage for creating generic
+sequences inside a @!(ref "morpheme")!@. This was adapted
+from an adhoc scripting language built with @!(ref
+"morpho")!@.
+
+#+NAME: seq.lua
+#+BEGIN_SRC lua :tangle seq/seq.lua
+S = {}
+<<functions>>
+
+return S
+#+END_SRC
+
+The =seqfun= function will return a function that
+uses @!(ref "morpho")!@ to parse a string and return
+a sequence.
+
+#+NAME: functions
+#+BEGIN_SRC lua
+step16 = {
+    a = 0,
+    b = 1,
+    c = 2,
+    d = 3,
+    e = 4,
+    f = 5,
+    g = 6,
+    h = 7,
+    h = 8,
+    i = 9,
+    j = 10,
+    k = 11,
+    l = 12,
+    m = 13,
+    n = 14,
+    o = 15,
+}
+
+function S.seqfun(morpho, str)
+    return function (str)
+        morpho.eval(str, step16)
+    end
+end
+#+END_SRC
+
+The =gatefun= function will return a function that
+uses @!(ref "morpho")!@ to create a gate signal.

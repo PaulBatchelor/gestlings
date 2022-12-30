@@ -1,3 +1,9 @@
+# gestlings aliases
+
+alias samu="mnolth samu"
+alias lua="mnolth lua"
+
+# zetdo aliases
 alias zet="weewiki zet"
 alias zetdo="rlwrap ./zetdo"
 alias wip="./zetdo tasks WIP"

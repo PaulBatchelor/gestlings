@@ -103,4 +103,11 @@
  :org "whistle/whistle.org"
  :tangled @["whistle/whistle.lua"]
  }
+
+ "seq"
+ @{
+ :id 15
+ :org "seq/seq.org"
+ :tangled @["seq/seq.lua"]
+ }
 })
