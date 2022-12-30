@@ -39,7 +39,7 @@ step16 = {
 
 function S.seqfun(morpho, str)
     return function (str)
-        morpho.eval(str, step16)
+        return morpho.eval(str, step16)
     end
 end
 #+END_SRC

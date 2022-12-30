@@ -238,7 +238,7 @@ function M.appender(path)
     end
 end
 #+END_SRC
-** Compila
+** Compile
 The =compile= function will compile a set of paths into
 a table of Uxntal words. =tal= and =path= are lua objects
 from the @!(ref "tal")!@ and @!(ref "path")!@ libraries,
@@ -256,5 +256,24 @@ function M.compile(tal, path, words, mp)
         path.path(tal, words, p)
         tal.jump(words, label)
     end
+end
+#+END_SRC
+** Articulate
+The =articulate= function takes in a sequence of morphemes
+and duration scaling factors, and then returns a table
+of words that could be compiled using the =compile_words=
+function in
+
+#+NAME: helpers
+#+BEGIN_SRC lua
+function M.articulate(path, tal, words, seq)
+    local mp = {}
+
+    for _,s in pairs(seq) do
+        M.append(path, mp, s[2], s[1])
+    end
+
+
+    morpheme.compile(tal, path, words, mp)
 end
 #+END_SRC
