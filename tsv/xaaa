@@ -267,3 +267,6 @@
 2022-12-23 12:24:48	c39e791b-be7b-415b-b06d-97bbd402e9ec	>probably will keep this in gestlings for now, but it's a useful enough thing to put in mnolth. trouble is, I don't have a means for storing lua module code yet with mnolth
 -	c39e791b-be7b-415b-b06d-97bbd402e9ec	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	c39e791b-be7b-415b-b06d-97bbd402e9ec	#eda10d24-d019-449a-b751-15568341adbc
+2022-12-30 21:02:06	a7623d04-8377-46d8-ad64-9f3541d1396d	>going to just call it NRT since it is basically NRT. the test program works. What is needed now is to convert it into Lua module.
+-	a7623d04-8377-46d8-ad64-9f3541d1396d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a7623d04-8377-46d8-ad64-9f3541d1396d	#e6188e43-00d7-4116-8e9d-5065104173e7
