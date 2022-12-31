@@ -1,0 +1,98 @@
+#+TITLE: Sig
+* Overview/Top
+This module contains helper functions that assist in signal management
+in sndkit.
+
+=signal management= refers to any non-trivial use of a signal that
+requires manual intervention. In sndkit, signals become "non-trivial"
+quite quickly; any signal that wants to be used more than once in a way
+that can't be done using stack operations can be considered non-trivial.
+ 
+#+NAME: sig.lua
+#+BEGIN_SRC lua :tangle sig/sig.lua
+Sig = {}
+<<sig>>
+return Sig
+#+END_SRC
+* New
+Creates a new instance of a signal.
+
+#+NAME: sig
+#+BEGIN_SRC lua
+function Sig:new(o)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+#+END_SRC
+* Hold
+Takes the last item off the buffer stack, holds it,
+and then stores it in a free register.
+
+#+NAME: sig
+#+BEGIN_SRC lua
+function Sig:hold()
+    -- TODO
+end
+#+END_SRC
+* Unhold
+Unholds the underlying signal (buffer), if there is one
+to be unheld.
+
+#+NAME: sig
+#+BEGIN_SRC lua
+function Sig:unhold()
+    -- TODO
+end
+#+END_SRC
+* Get
+Gets the signal and pushes it onto the buffer stack.
+
+#+NAME: sig
+#+BEGIN_SRC lua
+function Sig:get()
+    -- TODO
+end
+#+END_SRC
+* Getstr
+This returns the string of LIL code that, once evaluated,
+would push the signal onto the stack.
+
+#+NAME: sig
+#+BEGIN_SRC lua
+function Sig:getstr()
+    -- TODO
+end
+#+END_SRC
+* Clear
+If the signal is a aux cable, zero it out. Should be
+called before it is used.
+
+#+NAME: sig
+#+BEGIN_SRC lua
+function Sig:clear()
+    -- TODO
+end
+#+END_SRC
+* Send
+Pops the last signal off the stack and mixes it into
+the internal cable.
+
+#+NAME: sig
+#+BEGIN_SRC lua
+function Sig:send()
+    -- TODO
+end
+#+END_SRC
+* Throw
+Like send, but instead of popping the signal off the stack,
+it dups it first, keeping a copy of the signal on
+the stack.
+
+#+NAME: sig
+#+BEGIN_SRC lua
+function Sig:throw()
+    -- TODO
+end
+#+END_SRC

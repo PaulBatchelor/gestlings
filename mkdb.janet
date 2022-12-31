@@ -5,7 +5,6 @@
 
 # unlinked pages
 
-(ww-add-page "logs" `@!(zet/messages "logs")!@`)
 (ww-add-page "parsing_programs" `@!(wikipage "parsing_programs")!@`)
 (ww-add-page "curated_lglyphs" `@!(wikipage "curated_lglyphs")!@`)
 (ww-add-page "loadtiles" `@!(wikipage "loadtiles")!@`)
@@ -21,6 +20,10 @@
 (ww-add-page "morpheme" `@!(wikipage "morpheme")!@`)
 (ww-add-page "seq" `@!(wikipage "seq")!@`)
 (ww-add-page "gest" `@!(wikipage "gest")!@`)
+(ww-add-page "sig" `@!(wikipage "sig")!@`)
+(ww-add-page "logs" `#+TITLE: logs
+@!(zet/messages "logs")!@
+`)
 
 # linked pages
 

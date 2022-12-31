@@ -270,3 +270,13 @@
 2022-12-30 21:02:06	a7623d04-8377-46d8-ad64-9f3541d1396d	>going to just call it NRT since it is basically NRT. the test program works. What is needed now is to convert it into Lua module.
 -	a7623d04-8377-46d8-ad64-9f3541d1396d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	a7623d04-8377-46d8-ad64-9f3541d1396d	#e6188e43-00d7-4116-8e9d-5065104173e7
+2022-12-31 18:45:32	d62189d9-820c-4393-80ec-3e054faa5f80	>add more words to gest page
+-	d62189d9-820c-4393-80ec-3e054faa5f80	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2022-12-31 18:45:32	d62189d9-820c-4393-80ec-3e054faa5f80	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2022-12-31 18:46:14	49c8e406-c917-459c-b50d-96d19d0f9aec	>finished !nrt yesterday. seems to work
+-	49c8e406-c917-459c-b50d-96d19d0f9aec	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	49c8e406-c917-459c-b50d-96d19d0f9aec	#e6188e43-00d7-4116-8e9d-5065104173e7
+2022-12-31 18:53:36	ef3c8d94-e777-427a-852d-36916d9733b4	>creating !sig interface. hopefully this will encourage more interesting synthesizers, and should make it easier to make re-usable sound modules.
+-	ef3c8d94-e777-427a-852d-36916d9733b4	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2022-12-31 19:05:53	397633ce-d301-4cde-88d6-4b8e62e2f5f6	>I've been taking this vacation time to go on a tool-building "bender". Lots of little lua modules made that should be helpful for later. Will be back onto regular !gestku practice soon hopefully.
+-	397633ce-d301-4cde-88d6-4b8e62e2f5f6	#53a2e179-eb60-4c13-b749-59d5d3b893c5
