@@ -42,8 +42,6 @@ function Sig:hold()
 
     local reg = pop()
 
-    print(reg)
-
     if reg < 0 then
         error("invalid index")
     end
@@ -91,27 +89,46 @@ would push the signal onto the stack.
 #+NAME: sig
 #+BEGIN_SRC lua
 function Sig:getstr()
-    -- TODO
+    if self.reg < 0 then
+        error("no signal")
+    end
+
+    return string.format("[regget %d]", self.reg)
 end
 #+END_SRC
-* Clear
-If the signal is a aux cable, zero it out. Should be
-called before it is used.
+* zero
+Creates and holds an auxilliary cable to be used for
+sends and throws. It starts of with no signal, hence
+the name "zero".
 
 #+NAME: sig
 #+BEGIN_SRC lua
-function Sig:clear()
-    -- TODO
+function Sig:zero()
+    if self.reg >= 0 then
+        error("A signal is already being held")
+    end
+    lil("zero")
+    self.hold(self)
 end
 #+END_SRC
 * Send
 Pops the last signal off the stack and mixes it into
 the internal cable.
 
+"Gain" is a attenuation value in db units. By default
+it is 0 (full scale).
+
 #+NAME: sig
 #+BEGIN_SRC lua
-function Sig:send()
-    -- TODO
+function Sig:send(gain)
+    if self.reg < 0 then
+        error("no signal")
+    end
+
+    gain = gain or 0
+
+    lil(string.format("mix zz [regget %d] [dblin %g]",
+        self.reg, gain))
 end
 #+END_SRC
 * Throw
@@ -121,7 +138,12 @@ the stack.
 
 #+NAME: sig
 #+BEGIN_SRC lua
-function Sig:throw()
-    -- TODO
+function Sig:throw(gain)
+    if self.reg < 0 then
+        error("no signal")
+    end
+
+    lil("dup")
+    self.send(self, gain)
 end
 #+END_SRC
