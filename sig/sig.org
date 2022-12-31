@@ -21,6 +21,7 @@ Creates a new instance of a signal.
 #+BEGIN_SRC lua
 function Sig:new(o)
     o = o or {}
+    o.reg = -1
     setmetatable(o, self)
     self.__index = self
     return o
@@ -33,7 +34,24 @@ and then stores it in a free register.
 #+NAME: sig
 #+BEGIN_SRC lua
 function Sig:hold()
-    -- TODO
+    if self.reg >= 0 then
+        error("can't hold, already holding")
+    end
+
+    lil("param [regnxt 0]")
+
+    local reg = pop()
+
+    print(reg)
+
+    if reg < 0 then
+        error("invalid index")
+    end
+
+    lil("hold zz")
+    lil(string.format("regset zz %d; regmrk %d", reg, reg))
+
+    self.reg = reg
 end
 #+END_SRC
 * Unhold
@@ -43,7 +61,14 @@ to be unheld.
 #+NAME: sig
 #+BEGIN_SRC lua
 function Sig:unhold()
-    -- TODO
+    if self.reg < 0 then
+        error("no signal to unhold")
+    end
+
+    lil(string.format("unhold [regget %d]; regclr %d",
+        self.reg, self.reg))
+
+    self.reg = -1
 end
 #+END_SRC
 * Get
@@ -52,7 +77,11 @@ Gets the signal and pushes it onto the buffer stack.
 #+NAME: sig
 #+BEGIN_SRC lua
 function Sig:get()
-    -- TODO
+    if self.reg < 0 then
+        error("no signal")
+    end
+
+    lil(string.format("regget %d", self.reg))
 end
 #+END_SRC
 * Getstr
