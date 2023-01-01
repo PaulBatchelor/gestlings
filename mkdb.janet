@@ -24,6 +24,7 @@
 (ww-add-page "logs" `#+TITLE: logs
 @!(zet/messages "logs")!@
 `)
+(ww-add-page "whistle" `@!(wikipage "whistle")!@`)
 
 # linked pages
 

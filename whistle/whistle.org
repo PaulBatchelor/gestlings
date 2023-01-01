@@ -7,14 +7,6 @@ qualities to it.
 #+NAME: whistle.lua
 #+BEGIN_SRC lua :tangle whistle/whistle.lua
 Whistle = {}
-
--- TODO: maybe create modular code for stuff this?
-function paramf(val)
-    return function ()
-        lil(string.format("param %g", val))
-    end
-end
-
 <<oscillator>>
 return Whistle
 #+END_SRC
@@ -24,36 +16,39 @@ oscillator. This takes in 3 parameters in the form
 of first-order functions: frequency, amplitude and
 timbre.
 
-I'm still working out how to best build a common
-lua abstraction for signal management. Nothing
-of substance to see here.
-
 #+NAME: oscillator
 #+BEGIN_SRC lua
 function Whistle.osc(params)
-    lil("param [regnxt 0]; regmrk [regnxt 0]")
-    fid = pop()
+    local sig = sig or params.sig
+    local core = core or params.core
 
-    lil("param [regnxt 0]; regmrk [regnxt 0]")
-    aid = pop()
+    fsig = sig:new()
 
-    lil("param [regnxt 0]; regmrk [regnxt 0]")
-    tid = pop()
-
-    freq = params.freq or 440
-    amp = params.amp or 0.8
-    timbre = params.timbre or 0.5
+    freq = params.freq or core.paramf(440)
+    amp = params.amp or core.paramf(0.8)
+    timbre = params.timbre or core.paramf(0.5)
 
     freq()
-    lil(string.format("hold zz; regset zz %d", fid))
+    fsig:hold()
+    lil("noise; butlp zz 2000; peakeq zz 500 250 2")
 
-    lil(string.format("regget %d", fid))
-    lil("blsaw zz")
-    lil("mul zz [dblin -8]")
-    lil("butlp zz 500")
-    for _, v in pairs({fid, aid, tid})
-    do
-        lil(string.format("regclr %d", v))
-    end
+    fsig:get()
+    lil("mtof zz")
+    fsig:get()
+    lil("add zz 0.1; mtof zz")
+    fsig:get()
+
+    lil("sub zz 0.1; mtof zz")
+    lil("sub zz zz")
+    lil("butbp zz zz zz; mul zz [dblin 10]")
+
+    fsig:get()
+    lil("blsquare [mtof zz]; mul zz [dblin -3]")
+    lil("butlp zz 300; buthp zz 300")
+    timbre()
+    lil("crossfade zz zz zz")
+    fsig:unhold()
+    amp()
+    lil("mul zz zz")
 end
 #+END_SRC
