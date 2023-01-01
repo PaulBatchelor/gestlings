@@ -181,7 +181,7 @@
 -	f73858ea-64d4-4e9d-ad6b-fc1ed199ac31	#5087c400-5905-42de-b2f2-2f094bbe9793
 2022-11-30 11:20:35	db62727e-6744-417b-8ac3-5dc160075403	>create whistle sound
 -	db62727e-6744-417b-8ac3-5dc160075403	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-11-30 11:20:35	db62727e-6744-417b-8ac3-5dc160075403	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-01 01:48:34	db62727e-6744-417b-8ac3-5dc160075403	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-11-30 11:21:53	59afea3b-493a-4ec1-b9dd-b82418f6d85e	>create interface for making gesture paths
 -	59afea3b-493a-4ec1-b9dd-b82418f6d85e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2022-11-30 11:21:54	59afea3b-493a-4ec1-b9dd-b82418f6d85e	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
@@ -232,11 +232,11 @@
 -	7caa5bd6-90b3-4323-92ff-b3326e5b16b0	#59afea3b-493a-4ec1-b9dd-b82418f6d85e
 2022-12-21 10:57:13	e6188e43-00d7-4116-8e9d-5065104173e7	>create solf microlang
 -	e6188e43-00d7-4116-8e9d-5065104173e7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-12-21 10:57:13	e6188e43-00d7-4116-8e9d-5065104173e7	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-01 01:49:04	e6188e43-00d7-4116-8e9d-5065104173e7	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-12-21 10:58:08	e6188e43-00d7-4116-8e9d-5065104173e7	$blurb:>DSL based on ABC, NRT, Lilypond, etc
 2022-12-21 10:59:01	e766e6dc-621d-42f7-9ad1-707bdf408832	>formalize seq16 language
 -	e766e6dc-621d-42f7-9ad1-707bdf408832	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-12-21 10:59:01	e766e6dc-621d-42f7-9ad1-707bdf408832	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-01 01:49:35	e766e6dc-621d-42f7-9ad1-707bdf408832	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-12-21 10:59:28	7d028be1-3172-4755-9727-336347cf7f80	>I've been using this in some gestkus, probably would be best to make a page for it with re-usable code.
 -	7d028be1-3172-4755-9727-336347cf7f80	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	7d028be1-3172-4755-9727-336347cf7f80	#e766e6dc-621d-42f7-9ad1-707bdf408832
@@ -263,7 +263,7 @@
 -	0e6a1c3f-addc-40c2-ba69-ddecfef654bb	#db62727e-6744-417b-8ac3-5dc160075403
 2022-12-22 11:59:51	eda10d24-d019-449a-b751-15568341adbc	>create lua module for handling signals
 -	eda10d24-d019-449a-b751-15568341adbc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-12-22 11:59:51	eda10d24-d019-449a-b751-15568341adbc	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-01 01:48:46	eda10d24-d019-449a-b751-15568341adbc	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-12-23 12:24:48	c39e791b-be7b-415b-b06d-97bbd402e9ec	>probably will keep this in gestlings for now, but it's a useful enough thing to put in mnolth. trouble is, I don't have a means for storing lua module code yet with mnolth
 -	c39e791b-be7b-415b-b06d-97bbd402e9ec	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	c39e791b-be7b-415b-b06d-97bbd402e9ec	#eda10d24-d019-449a-b751-15568341adbc
@@ -282,3 +282,9 @@
 -	397633ce-d301-4cde-88d6-4b8e62e2f5f6	#53a2e179-eb60-4c13-b749-59d5d3b893c5
 2023-01-01 01:48:02	5b997de0-05f1-40cd-b543-b694fb9b6af6	>create !whistle page. the first re-usable synth component created in lua.
 -	5b997de0-05f1-40cd-b543-b694fb9b6af6	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2023-01-01 01:48:43	8c12ef93-8bac-450e-980a-c17de5aa1828	>see !sig
+-	8c12ef93-8bac-450e-980a-c17de5aa1828	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8c12ef93-8bac-450e-980a-c17de5aa1828	#eda10d24-d019-449a-b751-15568341adbc
+2023-01-01 01:49:27	fbe00aa8-fd75-4b6c-a609-d6bdddf40488	>finished! see !seq.
+-	fbe00aa8-fd75-4b6c-a609-d6bdddf40488	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	fbe00aa8-fd75-4b6c-a609-d6bdddf40488	#e766e6dc-621d-42f7-9ad1-707bdf408832
