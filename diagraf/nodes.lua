@@ -4,35 +4,41 @@ function Nodes.butlp(n, p)
     n:lil("butlp zz zz")
     n.input = n:param(0)
     n.cutoff = n:param(p.cutoff or 1000)
+    n:label("butlp")
 end
 
 function Nodes.wavout(n, p)
     local file = p.file or "test.wav"
     n:lil(string.format("wavout zz %s", file))
     n.input = n:param(0)
+    n:label("wavout")
 end
 
 function Nodes.blsaw(n, p)
     n:lil("blsaw zz")
     n.freq = n:param(p.freq or 440)
+    n:label("blsaw")
 end
 
 function Nodes.mul(n, p)
     n:lil("mul zz zz")
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 0)
+    n:label("mul")
 end
 
 function Nodes.add(n, p)
     n:lil("add zz zz")
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 0)
+    n:label("add")
 end
 
 function Nodes.sine(n, p)
     n:lil("sine zz zz")
     n.freq = n:param(p.freq or 440)
     n.amp = n:param(p.amp or 0.5)
+    n:label("sine")
 end
 
 function Nodes.biscale(n, p)
@@ -40,6 +46,7 @@ function Nodes.biscale(n, p)
     n.input = n:param(0)
     n.min = n:param(p.min or 0)
     n.max = n:param(p.max or 1)
+    n:label("biscale")
 end
 
 function Nodes.nodes(node, g, n)

@@ -1,20 +1,6 @@
 pprint = require("util/pprint")
 nodes = require("diagraf/nodes")
 
-edges = {
-    {1, 5},
-    {4, 5},
-    {2, 1},
-    {6, 1},
-    {3, 4},
-    {3, 1},
-    {3, 5},
-
-    {1, 4},
-    {6, 2},
-    {2, 3},
-}
-
 -- Kahn's Algorithm, from pseudocode taken from wikipedia
 function topsort(edges)
     -- table that produces a set of pairs
@@ -105,14 +91,15 @@ function Graph:vert()
     return self.nverts
 end
 
-function Graph:edge(v1, v2)
-    table.insert(self.edges, {v1, v2})
+function Graph:edge(v1, v2, edgetype)
+    edgetype = edgetype or 0
+    table.insert(self.edges, {v1, v2, edgetype})
 end
 
 function Graph:connect(node, input_id)
     local input = self.nodes[input_id]
 
-    self.edge(self, node.data.id, input_id)
+    self.edge(self, node.data.id, input_id, 1)
     input:disable()
 end
 
@@ -120,6 +107,44 @@ function Graph:connector()
     return function(node, input_id)
         self.connect(self, node, input_id)
     end
+end
+
+function Graph:dot()
+    print("digraph G {")
+    print("rankdir=LR")
+    print("layout=neato")
+
+    for _,n in pairs(self.nodes) do
+        if n:disabled() == false then
+            if n.data.label ~= nil then
+                print(string.format("%d [label=\"%s\"]",
+                    n.data.id, n.data.label))
+            elseif n:isconstant() then
+                print(string.format("%d [label=%s]",
+                    n.data.id, n.data.val))
+            else
+                print(string.format("%d [label=\"N%d\"]",
+                    n.data.id, n.data.id))
+            end
+        end
+    end
+    for _, e in pairs(self.edges) do
+        if e[3] == 1 then
+            local n2 = self.nodes[e[2]]
+            local n1 = self.nodes[e[1]]
+
+            local incoming = e[1]
+            local outgoing = e[2]
+            if n2:disabled() then
+                outgoing = n2.data.parent
+            end
+
+            if n1:disabled() == false then
+                print(string.format("%d -> %d", incoming, outgoing))
+            end
+        end
+    end
+    print("}")
 end
 
 Node = {}
@@ -135,6 +160,7 @@ function Node:new(g)
     o.data.gen = function(self)
         return string.format("param %g", self.data.val)
     end
+    o.data.constant = true
     table.insert(g.nodes, o)
     setmetatable(o, self)
     self.__index = self
@@ -143,14 +169,25 @@ end
 
 function Node:constant(val)
     self.data.val = val
+    self.data.constant = true
+end
+
+function Node:isconstant()
+    return self.data.constant
 end
 
 function Node:lil(str)
     self.data.gen = function(self) return str end
+    self.data.constant = false
 end
 
 function Node:disable()
     self.data.gen = nil
+    self.data.constant = false
+end
+
+function Node:disabled()
+    return self.data.gen == nil
 end
 
 function Node:param(val)
@@ -165,7 +202,8 @@ function Node:param(val)
         g:edge(pp.data.id, p.data.id)
     end
 
-    g:edge(p.data.id, self.data.id)
+    g:edge(p.data.id, self.data.id, 1)
+    p.data.parent = self.data.id
     return p.data.id
 end
 
@@ -184,12 +222,16 @@ function Node:generator(g, f)
     end
 end
 
+function Node:label(label)
+    self.data.label = label
+end
+
 g = Graph:new{debug=true}
 
 n = {}
 nodes.nodes(Node, g, n)
 s1 = n.blsaw()
-lfo = n.sine{freq=1, amp=1}
+lfo = n.sine{freq=1.23, amp=1}
 gain = n.mul{b=0.5}
 lpf = n.butlp{cutoff=300}
 
@@ -212,10 +254,11 @@ con(out, n.wavout().input)
 
 l, hm = topsort(g.edges)
 
-for _, i in pairs(l) do
-    local n = g.nodes[i]
-    n:compute()
-end
+g:dot()
 
--- lil("wavout zz test.wav")
-g.eval("computes 10")
+-- for _, i in pairs(l) do
+--     local n = g.nodes[i]
+--     n:compute()
+-- end
+-- 
+-- g.eval("computes 10")
