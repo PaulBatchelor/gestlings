@@ -79,6 +79,7 @@ function Graph:new(o)
     o.nverts = 0
     o.edges = {}
     o.nodes = {}
+    o.sig = o.sig or sig
     if o.debug then
         o.eval = print
     else
@@ -103,7 +104,29 @@ function Graph:connect(node, input_id)
     local input = self.nodes[input_id]
 
     self.edge(self, node.data.id, input_id, 1)
+
+    -- this input doesn't actually compute anything anymore
     input:disable()
+
+    -- if a parameter precedes this one, make an edge
+    -- to ensure the structure gets sorted properly
+    -- also make sure the parameters of the new node
+    -- explitely appear after previous parameter
+
+    if input.data.param_id > 1 then
+        local param_id = input.data.param_id
+        local parent = self.nodes[input.data.parent]
+        local params = parent.data.params
+        local prev_param = params[param_id - 1]
+        local prev_param_id = prev_param.data.id
+        self.edge(self, prev_param_id, node.data.id)
+
+        local node_params = node.data.params
+
+        for _, p in pairs(node_params) do
+            self.edge(self, prev_param_id, p.data.id)
+        end
+    end
 end
 
 function Graph:connector()
@@ -151,7 +174,7 @@ function Graph:dot()
 end
 
 -- TODO come up with better name?
-function Graph:process(sig)
+function Graph:process()
     local hm = {}
     local multi = {}
 
@@ -185,12 +208,14 @@ function Graph:process(sig)
 
                 local node_id = node.data.id
                 node.data.children = {}
-                local setter = setter_node{}
+                local setter = setter_node{sig=self.sig}
                 local setter_id = setter.data.id
 
                 for _, e in pairs(self.edges) do
                     if e[1] == node_id and e[3] == 1 then
-                        local getter = getter_node()
+                        local getter = getter_node {
+                            cab=setter.cab
+                        }
                         e[1] = getter.data.id
                         -- create edge to make sure setter
                         -- comes before the getter
@@ -213,22 +238,17 @@ function Graph:postprocess(lst)
     -- find which nodes have children
     for _,n in pairs(self.nodes) do
         if n.data.children ~= nil then
-            print(string.format("node %d (%s) has %d children",
-                    n.data.id,
-                    n.data.label,
-                    #n.data.children))
             -- of those children, find the one closest to the end
-            local last_child = -1
+            local last_child_id = -1
             for i=#lst,1,-1 do
                 local curnode = self.nodes[lst[i]]
                 if curnode.data.parent == n.data.id then
-                    print(string.format("node %d is closest", curnode.data.id))
-                    last_child = curnode.data.id
+                    last_child_id = curnode.data.id
                     break
                 end
             end
 
-            if (last_child < 0) then
+            if (last_child_id < 0) then
                 error("could not find any children")
             end
 
@@ -240,7 +260,7 @@ function Graph:postprocess(lst)
 
             for _,e in pairs(self.edges) do
                 if e[3] == 1 then
-                    if e[1] == last_child then
+                    if e[1] == last_child_id then
                         input_node_id = e[2]
                         break
                     end
@@ -257,29 +277,27 @@ function Graph:postprocess(lst)
             -- the processor, which is the parent
             input_node = self.nodes[input_node.data.parent]
 
-            print(string.format("the input node is %s",
-                    input_node.data.label))
-
-            
             -- create releaser node
             -- and place it after the input node
-            
             -- TODO shave off some time if we start at
             -- last child node list position? it should always
             -- come after it
             for i = 1, #lst do
                 local node = self.nodes[lst[i]]
-                if node.data.id = input_node.data.id then
+                if node.data.id == input_node.data.id then
                     -- create releaser node
+                    local relnodegen =
+                        Node:generator(self, nodes.releaser)
+                    local cab = self.nodes[last_child_id].cab
+                    local rel = relnodegen {cab = cab}
                     -- insert id at position i + 1 in lst
-                    
+                    table.insert(lst, i + 1, rel.data.id)
                     -- add edge to ensure it appears in the right
                     -- place after another sort
-                    -- edge(node.data.id, releaser_id)
+                    self.edge(self, node.data.id, rel.data.id)
                     break
                 end
             end
-            
         end
     end
 end
@@ -333,6 +351,7 @@ function Node:param(val)
     local p = Node:new(g)
     p:constant(val)
     table.insert(params, p)
+    p.data.param_id = #params
 
     if #params > 1 then
         pp = params[#params - 1]
@@ -380,26 +399,36 @@ con(lfo, bias.input)
 con(bias, s1.freq)
 con(s1, gain.a)
 
--- TODO: make this work
-lpf_lfo = n.biscale{min=300, max=1000}
-con(lfo, lpf_lfo.input)
-con(lpf_lfo, lpf.cutoff)
+-- -- TODO: make this work
+-- lpf_lfo = n.biscale{min=321, max=1234}
+-- con(lfo, lpf_lfo.input)
+-- con(lpf_lfo, lpf.cutoff)
+
+lpf_lfo = n.sine{freq=4.56, amp=1}
+lpf_biscale = n.biscale{min=321, max=1234}
+lpf_biscale:label("LPF biscale")
+con(lpf_lfo, lpf_biscale.input)
+con(lpf_biscale, lpf.cutoff)
 
 con(gain, lpf.input)
 
 out = lpf
 con(out, n.wavout().input)
 
-g:process(sig)
+g:process()
 -- g:dot()
 
 l = topsort(g.edges)
 
 g:postprocess(l)
 
--- for _, i in pairs(l) do
---     local n = g.nodes[i]
---     n:compute()
--- end
+for _, i in pairs(l) do
+    local n = g.nodes[i]
+    local label = n.data.label
+    if label ~= nil then
+        g.eval(string.format("# %s", n.data.label))
+    end
+    n:compute()
+end
 
 g.eval("computes 10")

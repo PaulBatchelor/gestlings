@@ -50,24 +50,36 @@ function Nodes.biscale(n, p)
 end
 
 function Nodes.getter(n, p)
-    -- TODO: replace with sig interface
-    n:lil("regget 999")
+    n.cab = p.cab
+    --n:lil("regget 999")
+    n.data.gen = function(self)
+        return self.cab:getstr()
+    end
     -- TODO: generate more descriptive getter
     n:label("getter")
 end
 
 function Nodes.setter(n, p)
-    -- TODO: replace with sig interface
     n.input = n:param(0)
-    -- n.cab = sig:new()
-    n:lil("regset 999")
+    local sig = p.sig
+    n.cab = sig:new()
 
-    -- TODO test this
-    -- n.data.gen = function(self)
-    --     return self.cab:hold(self.data.g.eval)
-    -- end
+    n.data.gen = function(self)
+        return self.cab:hold(self.data.g.eval)
+    end
+
     -- TODO: generate more descriptive setter
     n:label("setter")
+end
+
+function Nodes.releaser(n, p)
+    n.cab = p.cab
+
+    n.data.gen = function(self)
+        return self.cab:unhold(self.data.g.eval)
+    end
+    -- TODO: generate more descriptive setter
+    n:label("releaser")
 end
 
 function Nodes.nodes(node, g, n)
@@ -79,6 +91,8 @@ function Nodes.nodes(node, g, n)
     n.wavout = node:generator(g, nodes.wavout) 
     n.biscale = node:generator(g, nodes.biscale) 
     n.getter = node:generator(g, nodes.getter) 
+    n.setter = node:generator(g, nodes.setter) 
+    n.releaser = node:generator(g, nodes.releaser) 
 end
 
 return Nodes

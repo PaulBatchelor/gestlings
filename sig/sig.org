@@ -31,6 +31,15 @@ end
 Takes the last item off the buffer stack, holds it,
 and then stores it in a free register.
 
+=lil_eval= is an optional callback that can replace the
+default =lil= evaluator. It can be used for debugging
+purposes. Usually something like =print= would be used.
+
+Not that in order for the register marking to work,
+actual lil code must be evaluated. These bits of code
+are always actually called by =lil=, and will also
+be called by =lil_eval= if they are different functions.
+
 #+NAME: sig
 #+BEGIN_SRC lua
 function Sig:hold(lil_eval)
@@ -44,9 +53,9 @@ function Sig:hold(lil_eval)
     -- working
 
     local lstr = "param [regnxt 0]"
-    if lil_eval ~= lil then
-        lil_eval(lstr)
-    end
+    -- if lil_eval ~= lil then
+    --     lil_eval(lstr)
+    -- end
 
     lil(lstr)
 
@@ -78,14 +87,19 @@ end
 Unholds the underlying signal (buffer), if there is one
 to be unheld.
 
+Just like =hold=, =lil_eval= is a an optional function
+that overrides the default =lil= evaluator, and was
+originally used for debugging purposes.
+
 #+NAME: sig
 #+BEGIN_SRC lua
-function Sig:unhold()
+function Sig:unhold(lil_eval)
+    lil_eval = lil_eval or lil
     if self.reg < 0 then
         error("no signal to unhold")
     end
 
-    lil(string.format("unhold [regget %d]; regclr %d",
+    lil_eval(string.format("unhold [regget %d]; regclr %d",
         self.reg, self.reg))
 
     self.reg = -1
