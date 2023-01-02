@@ -1,5 +1,6 @@
 pprint = require("util/pprint")
 nodes = require("diagraf/nodes")
+sig = require("sig/sig")
 
 -- Kahn's Algorithm, from pseudocode taken from wikipedia
 function topsort(edges)
@@ -14,6 +15,7 @@ function topsort(edges)
 
     local l = {}
 
+    -- TODO: simplify to only use e[2]
     for _,e in pairs(edges) do
         if nodes[e[1]] == nil then
             nodes[e[1]] = {1, 0}
@@ -66,7 +68,8 @@ function topsort(edges)
             end
         end
     end
-    return l, nodes
+
+    return l
 end
 
 Graph = {}
@@ -147,6 +150,140 @@ function Graph:dot()
     print("}")
 end
 
+-- TODO come up with better name?
+function Graph:process(sig)
+    local hm = {}
+    local multi = {}
+
+    for _,e in pairs(self.edges) do
+        if e[3] == 1 then
+            if hm[e[1]] == nil then
+                --hm[e[1]] = {1, 0}
+                hm[e[1]] = 1
+            else
+                --hm[e[1]][1] = hm[e[1]][1] + 1
+                hm[e[1]] = hm[e[1]] + 1
+            end
+
+            -- if hm[e[2]] == nil then
+            --     hm[e[2]] = {0, 1}
+            -- else
+            --     hm[e[2]][2] = hm[e[2]][2] + 1
+            -- end
+        end
+    end
+    --pprint(hm)
+    for index, ninputs in pairs(hm) do
+        if ninputs ~= nil then
+            if ninputs > 1 then
+                local node = self.nodes[index]
+
+                -- TODO better naming
+                -- node, nodes, etc... too confusing
+                local setter_node = Node:generator(self, nodes.setter)
+                local getter_node = Node:generator(self, nodes.getter)
+
+                local node_id = node.data.id
+                node.data.children = {}
+                local setter = setter_node{}
+                local setter_id = setter.data.id
+
+                for _, e in pairs(self.edges) do
+                    if e[1] == node_id and e[3] == 1 then
+                        local getter = getter_node()
+                        e[1] = getter.data.id
+                        -- create edge to make sure setter
+                        -- comes before the getter
+                        self.edge(self, setter_id, getter.data.id)
+
+                        -- create parent/child
+                        table.insert(node.data.children,
+                            getter.data.id)
+                        getter.data.parent = node.data.id
+                    end
+                end
+                -- connect original node to setter
+                self.connect(self, node, setter.input)
+            end
+        end
+    end
+end
+
+function Graph:postprocess(lst)
+    -- find which nodes have children
+    for _,n in pairs(self.nodes) do
+        if n.data.children ~= nil then
+            print(string.format("node %d (%s) has %d children",
+                    n.data.id,
+                    n.data.label,
+                    #n.data.children))
+            -- of those children, find the one closest to the end
+            local last_child = -1
+            for i=#lst,1,-1 do
+                local curnode = self.nodes[lst[i]]
+                if curnode.data.parent == n.data.id then
+                    print(string.format("node %d is closest", curnode.data.id))
+                    last_child = curnode.data.id
+                    break
+                end
+            end
+
+            if (last_child < 0) then
+                error("could not find any children")
+            end
+
+            -- find node that takes this as a signal input
+            -- at this point, it is assumed that the graph
+            -- has been processed so there is exactly one
+
+            local input_node_id = -1
+
+            for _,e in pairs(self.edges) do
+                if e[3] == 1 then
+                    if e[1] == last_child then
+                        input_node_id = e[2]
+                        break
+                    end
+                end
+            end
+
+            if input_node_id < 0 then
+                error("could not find input node")
+            end
+
+            local input_node = self.nodes[input_node_id]
+
+            -- input_node is a parameter input, we want
+            -- the processor, which is the parent
+            input_node = self.nodes[input_node.data.parent]
+
+            print(string.format("the input node is %s",
+                    input_node.data.label))
+
+            
+            -- create releaser node
+            -- and place it after the input node
+            
+            -- TODO shave off some time if we start at
+            -- last child node list position? it should always
+            -- come after it
+            for i = 1, #lst do
+                local node = self.nodes[lst[i]]
+                if node.data.id = input_node.data.id then
+                    -- create releaser node
+                    -- insert id at position i + 1 in lst
+                    
+                    -- add edge to ensure it appears in the right
+                    -- place after another sort
+                    -- edge(node.data.id, releaser_id)
+                    break
+                end
+            end
+            
+        end
+    end
+end
+
 Node = {}
 
 function Node:new(g)
@@ -203,6 +340,7 @@ function Node:param(val)
     end
 
     g:edge(p.data.id, self.data.id, 1)
+    -- TODO: is parent being overloaded in process()?
     p.data.parent = self.data.id
     return p.data.id
 end
@@ -242,7 +380,7 @@ con(lfo, bias.input)
 con(bias, s1.freq)
 con(s1, gain.a)
 
--- -- TODO: make this work
+-- TODO: make this work
 lpf_lfo = n.biscale{min=300, max=1000}
 con(lfo, lpf_lfo.input)
 con(lpf_lfo, lpf.cutoff)
@@ -252,13 +390,16 @@ con(gain, lpf.input)
 out = lpf
 con(out, n.wavout().input)
 
-l, hm = topsort(g.edges)
+g:process(sig)
+-- g:dot()
 
-g:dot()
+l = topsort(g.edges)
+
+g:postprocess(l)
 
 -- for _, i in pairs(l) do
 --     local n = g.nodes[i]
 --     n:compute()
 -- end
--- 
--- g.eval("computes 10")
+
+g.eval("computes 10")

@@ -33,12 +33,23 @@ and then stores it in a free register.
 
 #+NAME: sig
 #+BEGIN_SRC lua
-function Sig:hold()
+function Sig:hold(lil_eval)
+    -- can be a callback used to simulate holding
+    lil_eval = lil_eval or lil
     if self.reg >= 0 then
         error("can't hold, already holding")
     end
 
-    lil("param [regnxt 0]")
+    -- regnxt actually has to be called to see if it is
+    -- working
+
+    local lstr = "param [regnxt 0]"
+    if lil_eval ~= lil then
+        lil_eval(lstr)
+    end
+
+    lil(lstr)
+
 
     local reg = pop()
 
@@ -46,8 +57,19 @@ function Sig:hold()
         error("invalid index")
     end
 
-    lil("hold zz")
-    lil(string.format("regset zz %d; regmrk %d", reg, reg))
+    -- hold/regset can be simulated without issue
+    lil_eval("hold zz")
+    lil_eval(string.format("regset zz %d", reg))
+
+    -- regmrk actually has to be called for it to work
+    local lstr = string.format("regmrk %d", reg)
+
+    if lil_eval ~= lil then
+        lil_eval(lstr)
+    end
+
+    lil(lstr)
+    -- lil(string.format("regset zz %d; regmrk %d", reg, reg))
 
     self.reg = reg
 end
