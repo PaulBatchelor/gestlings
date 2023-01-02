@@ -112,7 +112,7 @@ end
 function Graph:dot()
     print("digraph G {")
     print("rankdir=LR")
-    print("layout=neato")
+    print("layout=dot")
 
     for _,n in pairs(self.nodes) do
         if n:disabled() == false then
@@ -243,9 +243,9 @@ con(bias, s1.freq)
 con(s1, gain.a)
 
 -- -- TODO: make this work
--- lpf_lfo = n.biscale{min=300, max=1000}
--- con(lfo, lpf_lfo.input)
--- con(lpf_lfo, lpf.cutoff)
+lpf_lfo = n.biscale{min=300, max=1000}
+con(lfo, lpf_lfo.input)
+con(lpf_lfo, lpf.cutoff)
 
 con(gain, lpf.input)
 
