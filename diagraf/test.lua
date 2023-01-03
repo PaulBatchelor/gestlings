@@ -282,6 +282,10 @@ function Graph:nsort_rec(l, n, i, lvl)
         return i
     end
 
+    -- process params list in reverse, because sndkit
+    -- uses LIFO stack and pops parameters in reverse
+    -- syntactically, this makes stack syntax look like
+    -- parameters are in "correct" order
     for p=#n.data.params, 1, -1 do
         i = self.nsort_rec(self, l, n.data.params[p], i, lvl + 1)
     end
@@ -379,7 +383,6 @@ function Node:new(g)
     o.data.id = g:vert()
     o.data.val = 1.0
     o.data.params = {}
-    o.data.eval = g.eval
     o.data.gen = function(self)
         return string.format("param %g", self.data.val)
     end
@@ -434,7 +437,12 @@ end
 
 function Node:compute()
     if self.data.gen ~= nil then
-        self.data.eval(self.data.gen(self))
+        -- TODO functions that return strings is kinda
+        -- messy. sig breaks this. maybe fix?
+        local str = self.data.gen(self)
+        if str ~= nil then
+            self.data.g.eval(str)
+        end
     end
 end
 
@@ -451,7 +459,7 @@ function Node:label(label)
     self.data.label = label
 end
 
-g = Graph:new{debug=true}
+g = Graph:new{debug=false}
 
 n = {}
 nodes.nodes(Node, g, n)
@@ -491,6 +499,12 @@ g:nsort_rec(l, g.nodes[l[#l]], #l)
 -- pprint(l)
 g:postprocess(l)
 
+function print_and_eval(str)
+    print(str)
+    -- lil(str)
+end
+
+g.eval = print_and_eval
 -- g:dot()
 for _, i in pairs(l) do
     local n = g.nodes[i]
