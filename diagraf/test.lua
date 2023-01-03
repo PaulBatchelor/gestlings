@@ -138,21 +138,31 @@ function Graph:connector()
     end
 end
 
-function Graph:dot()
-    print("digraph G {")
-    print("rankdir=LR")
-    print("layout=dot")
+function Graph:dot(outfile)
+    local printer = print
+    local fp = nil
+
+    if outfile ~= nil then
+        fp = io.open(outfile, "w")
+        printer = function(str)
+            fp:write(str .. "\n")
+        end
+    end
+
+    printer("digraph G {")
+    printer("rankdir=LR")
+    printer("layout=dot")
 
     for _,n in pairs(self.nodes) do
         if n:disabled() == false then
             if n.data.label ~= nil then
-                print(string.format("%d [label=\"%s\"]",
+                printer(string.format("%d [label=\"%s\"]",
                     n.data.id, n.data.label))
             elseif n:isconstant() then
-                print(string.format("%d [label=%s]",
+                printer(string.format("%d [label=%s]",
                     n.data.id, n.data.val))
             else
-                print(string.format("%d [label=\"N%d\"]",
+                printer(string.format("%d [label=\"N%d\"]",
                     n.data.id, n.data.id))
             end
         end
@@ -169,11 +179,14 @@ function Graph:dot()
             end
 
             if n1:disabled() == false then
-                print(string.format("%d -> %d", incoming, outgoing))
+                printer(string.format("%d -> %d", incoming, outgoing))
             end
         end
     end
-    print("}")
+    printer("}")
+    if outfile ~= nil then
+        fp:close()
+    end
 end
 
 -- TODO come up with better name?
@@ -252,7 +265,6 @@ function Graph:nsort_rec(l, n, i, lvl)
         return i
     end
     local spaces = ""
-
     for i=1, lvl do
         spaces = spaces .. "-"
     end
@@ -476,27 +488,28 @@ con(lfo, bias.input)
 con(bias, s1.freq)
 con(s1, gain.a)
 
--- TODO: make this work
 lpf_lfo = n.biscale{min=321, max=1234}
 con(lfo, lpf_lfo.input)
 con(lpf_lfo, lpf.cutoff)
-
--- lpf_lfo = n.sine{freq=4.56, amp=1}
--- lpf_biscale = n.biscale{min=321, max=1234}
--- lpf_biscale:label("LPF biscale")
--- con(lpf_lfo, lpf_biscale.input)
--- con(lpf_biscale, lpf.cutoff)
 
 con(gain, lpf.input)
 
 out = lpf
 con(out, n.wavout().input)
 
+-- add an envelope
+met = n.metro{rate = 2}
+env = n.env{}
+con(met, env.trig)
+env_scaled = n.mul{b=0.5}
+con(env, env_scaled.a)
+con(env_scaled, gain.b)
+
 g:process()
 l = topsort(g.edges)
--- pprint(l)
+pprint(l)
 g:nsort_rec(l, g.nodes[l[#l]], #l)
--- pprint(l)
+pprint(l)
 g:postprocess(l)
 
 function print_and_eval(str)
@@ -505,12 +518,12 @@ function print_and_eval(str)
 end
 
 g.eval = print_and_eval
--- g:dot()
+g:dot("out.dot")
 for _, i in pairs(l) do
     local n = g.nodes[i]
     local label = n.data.label
     if label ~= nil then
-        g.eval(string.format("# %s", n.data.label))
+        g.eval(string.format("# %s (%d)", n.data.label, n.data.id))
     end
     n:compute()
 end

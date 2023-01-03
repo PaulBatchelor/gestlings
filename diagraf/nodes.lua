@@ -81,6 +81,21 @@ function Nodes.releaser(n, p)
     n:label("releaser")
 end
 
+function Nodes.metro(n, p)
+    n:lil("metro zz")
+    n.rate = n:param(p.rate or 1)
+    n:label("metro")
+end
+
+function Nodes.env(n, p)
+    n:lil("env zz zz zz zz")
+    n.trig = n:param(0)
+    n.atk = n:param(p.atk or 0.001)
+    n.dec = n:param(p.dec or 0.01)
+    n.rel = n:param(p.rel or 0.1)
+    n:label("env")
+end
+
 function Nodes.nodes(node, g, n)
     n.sine = node:generator(g, nodes.sine)
     n.add = node:generator(g, nodes.add)
@@ -92,6 +107,8 @@ function Nodes.nodes(node, g, n)
     n.getter = node:generator(g, nodes.getter) 
     n.setter = node:generator(g, nodes.setter) 
     n.releaser = node:generator(g, nodes.releaser) 
+    n.metro = node:generator(g, nodes.metro) 
+    n.env = node:generator(g, nodes.env) 
 end
 
 return Nodes
