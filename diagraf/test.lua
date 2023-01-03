@@ -228,10 +228,19 @@ function Graph:process()
                         table.insert(node.data.children,
                             getter.data.id)
                         getter.data.parent = node.data.id
+
+                        -- add additional label information
+                        getter:label("getter: " .. node.data.label)
+
+                        -- update link
+                        self.nodes[e[2]].data.link = getter.data.id
                     end
                 end
                 -- connect original node to setter
                 self.connect(self, node, setter.input)
+
+                -- add additional label information
+                setter:label("setter: " .. node.data.label)
             end
         end
     end
@@ -250,7 +259,7 @@ function Graph:nsort_rec(l, n, i, lvl)
 
     local label = n.data.label or "node"
     -- print(spaces .. label)
-    
+
     if n.data.id ~= l[i] then
         --print(string.format("l[%d] is not %d", i, n.data.id))
         for k = i - 1, 1, -1 do
@@ -284,6 +293,8 @@ function Graph:postprocess(lst)
     -- find which nodes have children
     for _,n in pairs(self.nodes) do
         if n.data.children ~= nil then
+            -- print(string.format(
+            --     "node (%d) (%s) has children", n.data.id, n.data.label))
             -- of those children, find the one closest to the end
             local last_child_id = -1
             for i=#lst,1,-1 do
@@ -293,6 +304,8 @@ function Graph:postprocess(lst)
                     break
                 end
             end
+
+            -- print("last child: " .. last_child_id)
 
             if (last_child_id < 0) then
                 error("could not find any children")
@@ -308,6 +321,7 @@ function Graph:postprocess(lst)
                 if e[3] == 1 then
                     if e[1] == last_child_id then
                         input_node_id = e[2]
+                        -- print(string.format("%d -> %d\n", e[1], e[2]))
                         break
                     end
                 end
@@ -321,6 +335,14 @@ function Graph:postprocess(lst)
 
             -- input_node is a parameter input, we want
             -- the processor, which is the parent
+
+            if input_node.data.parent == nil then
+                error("no parents (" ..
+                    input_node_id ..
+                    ") " .. 
+                    input_node.data.label)
+            end
+            
             input_node = self.nodes[input_node.data.parent]
 
             -- create releaser node
@@ -435,6 +457,7 @@ n = {}
 nodes.nodes(Node, g, n)
 s1 = n.blsaw()
 lfo = n.sine{freq=1.23, amp=1}
+lfo:label("LFO generator")
 gain = n.mul{b=0.5}
 lpf = n.butlp{cutoff=300}
 
@@ -445,16 +468,16 @@ con(lfo, bias.input)
 con(bias, s1.freq)
 con(s1, gain.a)
 
--- -- TODO: make this work
--- lpf_lfo = n.biscale{min=321, max=1234}
--- con(lfo, lpf_lfo.input)
--- con(lpf_lfo, lpf.cutoff)
+-- TODO: make this work
+lpf_lfo = n.biscale{min=321, max=1234}
+con(lfo, lpf_lfo.input)
+con(lpf_lfo, lpf.cutoff)
 
-lpf_lfo = n.sine{freq=4.56, amp=1}
-lpf_biscale = n.biscale{min=321, max=1234}
-lpf_biscale:label("LPF biscale")
-con(lpf_lfo, lpf_biscale.input)
-con(lpf_biscale, lpf.cutoff)
+-- lpf_lfo = n.sine{freq=4.56, amp=1}
+-- lpf_biscale = n.biscale{min=321, max=1234}
+-- lpf_biscale:label("LPF biscale")
+-- con(lpf_lfo, lpf_biscale.input)
+-- con(lpf_biscale, lpf.cutoff)
 
 con(gain, lpf.input)
 
@@ -462,12 +485,13 @@ out = lpf
 con(out, n.wavout().input)
 
 g:process()
--- g:dot()
-
 l = topsort(g.edges)
+-- pprint(l)
 g:nsort_rec(l, g.nodes[l[#l]], #l)
+-- pprint(l)
 g:postprocess(l)
 
+-- g:dot()
 for _, i in pairs(l) do
     local n = g.nodes[i]
     local label = n.data.label
@@ -476,5 +500,4 @@ for _, i in pairs(l) do
     end
     n:compute()
 end
-
 g.eval("computes 10")

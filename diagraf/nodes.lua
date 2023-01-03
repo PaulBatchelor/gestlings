@@ -51,11 +51,11 @@ end
 
 function Nodes.getter(n, p)
     n.cab = p.cab
-    --n:lil("regget 999")
+    
     n.data.gen = function(self)
         return self.cab:getstr()
     end
-    -- TODO: generate more descriptive getter
+
     n:label("getter")
 end
 
@@ -68,7 +68,6 @@ function Nodes.setter(n, p)
         return self.cab:hold(self.data.g.eval)
     end
 
-    -- TODO: generate more descriptive setter
     n:label("setter")
 end
 
@@ -78,7 +77,7 @@ function Nodes.releaser(n, p)
     n.data.gen = function(self)
         return self.cab:unhold(self.data.g.eval)
     end
-    -- TODO: generate more descriptive setter
+
     n:label("releaser")
 end
 
