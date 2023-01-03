@@ -108,25 +108,28 @@ function Graph:connect(node, input_id)
     -- this input doesn't actually compute anything anymore
     input:disable()
 
+    -- a linking node symlinks the node to be th einput
+    input.data.link = node.data.id
+
     -- if a parameter precedes this one, make an edge
     -- to ensure the structure gets sorted properly
     -- also make sure the parameters of the new node
     -- explitely appear after previous parameter
 
-    if input.data.param_id > 1 then
-        local param_id = input.data.param_id
-        local parent = self.nodes[input.data.parent]
-        local params = parent.data.params
-        local prev_param = params[param_id - 1]
-        local prev_param_id = prev_param.data.id
-        self.edge(self, prev_param_id, node.data.id)
+    -- if input.data.param_id > 1 then
+    --     local param_id = input.data.param_id
+    --     local parent = self.nodes[input.data.parent]
+    --     local params = parent.data.params
+    --     local prev_param = params[param_id - 1]
+    --     local prev_param_id = prev_param.data.id
+    --     self.edge(self, prev_param_id, node.data.id)
 
-        local node_params = node.data.params
+    --     local node_params = node.data.params
 
-        for _, p in pairs(node_params) do
-            self.edge(self, prev_param_id, p.data.id)
-        end
-    end
+    --     for _, p in pairs(node_params) do
+    --         self.edge(self, prev_param_id, p.data.id)
+    --     end
+    -- end
 end
 
 function Graph:connector()
@@ -232,6 +235,49 @@ function Graph:process()
             end
         end
     end
+end
+
+function Graph:nsort_rec(l, n, i, lvl)
+    lvl = lvl or 0
+    if i <= 0 then
+        return i
+    end
+    local spaces = ""
+
+    for i=1, lvl do
+        spaces = spaces .. "-"
+    end
+
+    local label = n.data.label or "node"
+    -- print(spaces .. label)
+    
+    if n.data.id ~= l[i] then
+        --print(string.format("l[%d] is not %d", i, n.data.id))
+        for k = i - 1, 1, -1 do
+            local m = l[k]
+            if m == n.data.id then
+                --print(string.format("found %d at %d\n", n.data.id, k))
+                local t = l[k]
+                l[k] = l[i]
+                l[i] = t
+                break
+            end
+        end
+    end
+
+    i = i - 1
+
+    if n.data.link ~= nil then
+        i = self.nsort_rec(self,
+            l, self.nodes[n.data.link], i, lvl + 1)
+        return i
+    end
+
+    for p=#n.data.params, 1, -1 do
+        i = self.nsort_rec(self, l, n.data.params[p], i, lvl + 1)
+    end
+
+    return i
 end
 
 function Graph:postprocess(lst)
@@ -419,7 +465,7 @@ g:process()
 -- g:dot()
 
 l = topsort(g.edges)
-
+g:nsort_rec(l, g.nodes[l[#l]], #l)
 g:postprocess(l)
 
 for _, i in pairs(l) do
