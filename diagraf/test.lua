@@ -319,29 +319,8 @@ function Graph:postprocess(lst)
     -- find which nodes have children
     for _,n in pairs(self.nodes) do
         if n.data.children ~= nil then
-            -- print(string.format(
-            --     "node (%d) (%s) has children", n.data.id, n.data.label))
-            -- of those children, find the one closest to the end
-            local last_child_id = -1
-            for i=#lst,1,-1 do
-                local curnode = self.nodes[lst[i]]
-                if curnode.data.getter_parent == n.data.id then
-                    last_child_id = curnode.data.id
-                    break
-                end
-            end
-
-            -- first child will also be needed
-            local first_child_id = -1
-
-            for i=1,#lst do
-                local curnode = self.nodes[lst[i]]
-                if curnode.data.getter_parent == n.data.id then
-                    first_child_id = curnode.data.id
-                    break
-                end
-            end
-
+            local last_child_id = n:last_child(lst)
+            
             -- print("last child: " .. last_child_id)
 
             if (last_child_id < 0) then
@@ -403,22 +382,23 @@ function Graph:postprocess(lst)
                     break
                 end
             end
+        end
+    end
+end
 
-            -- the first child node will have the setter
-            -- hooked up to it.
-            -- This prevents the node from being lost when
-            -- it is sorted in nsort
-
+-- called before nsort
+-- setters need to be hooked up to first getter as
+-- cable parameter in order for it to be in the right
+-- place after nsort
+function Graph:setters_to_first_getters(lst)
+    -- find which nodes have children
+    for _,n in pairs(self.nodes) do
+        if n.data.children ~= nil then
+            local first_child_id = n:first_child(lst)
             local first_child = self.nodes[first_child_id]
             first_child.unused_input = first_child:param(0)
             local setter = self.nodes[n.data.setter]
-            -- print(string.format(
-            --     "first child: %s (%d)",
-            --     first_child.data.label,
-            --     first_child.data.id))
             self.connect(self, setter, first_child.unused_input)
-            -- print(string.format(
-            --     "first child has %d params", #first_child.data.params))
         end
     end
 end
@@ -508,6 +488,36 @@ function Node:label(label)
     self.data.label = label
 end
 
+function Node:last_child(lst)
+        local g = self.data.g
+        local last_child_id = -1
+        for i=#lst,1,-1 do
+            local curnode = g.nodes[lst[i]]
+            if curnode.data.getter_parent == self.data.id then
+                last_child_id = curnode.data.id
+                break
+            end
+        end
+        return last_child_id
+end
+
+function Node:first_child(lst)
+    local first_child_id = -1
+    local g = self.data.g
+
+    for i=1,#lst do
+        local curnode = g.nodes[lst[i]]
+        if curnode.data.getter_parent == self.data.id then
+            first_child_id = curnode.data.id
+            break
+        end
+    end
+
+    print("# first child is " .. first_child_id)
+
+    return first_child_id
+end
+
 g = Graph:new{debug=true}
 
 n = {}
@@ -544,22 +554,12 @@ con(env_scaled, gain.b)
 
 g:process()
 l = topsort(g.edges)
--- pprint(l)
 g:nsort_rec(l, g.nodes[l[#l]], #l)
--- pprint(l)
+g:setters_to_first_getters(l)
+g:nsort_rec(l, g.nodes[l[#l]], #l)
 g:postprocess(l)
--- sort again (to get regset in the right place)
---
--- this now causes releaser to be in the wrong place
--- (the node was injected last minute, not connected to anything
--- in the tree)
-g:nsort_rec(l, g.nodes[l[#l]], #l)
 
--- TODO: rework the problem.
--- it should be possible to perform a topsort on just
--- setter/getter nodes (subset of nodes + full graph) right?
--- use that to connect the input to
--- the first setter.
+-- TODO: why does sine wave freq appear in wrong place?
 
 function print_and_eval(str)
     print(str)
@@ -568,6 +568,7 @@ end
 
 -- g.eval = print_and_eval
 g:dot("out.dot")
+-- pprint(l)
 for _, i in pairs(l) do
     local n = g.nodes[i]
     local label = n.data.label
