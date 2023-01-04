@@ -240,7 +240,7 @@ function Graph:process()
                         -- create parent/child
                         table.insert(node.data.children,
                             getter.data.id)
-                        getter.data.parent = node.data.id
+                        getter.data.getter_parent = node.data.id
 
                         -- add additional label information
                         getter:label("getter: " .. node.data.label)
@@ -251,6 +251,9 @@ function Graph:process()
                 end
                 -- connect original node to setter
                 self.connect(self, node, setter.input)
+
+                -- create reference to setter in node
+                node.data.setter = setter.data.id
 
                 -- add additional label information
                 setter:label("setter: " .. node.data.label)
@@ -277,7 +280,14 @@ function Graph:nsort_rec(l, n, i, lvl)
         for k = i - 1, 1, -1 do
             local m = l[k]
             if m == n.data.id then
-                --print(string.format("found %d at %d\n", n.data.id, k))
+                local nk = self.nodes[l[k]]
+                local ni = self.nodes[l[i]]
+                local lk = nk.data.label or ""
+                local li = ni.data.label or ""
+
+                -- print(string.format(
+                --     "swapping %d (%s) and %d (%s)\n",
+                --         nk.data.id, lk, ni.data.id, li))
                 local t = l[k]
                 l[k] = l[i]
                 l[i] = t
@@ -315,8 +325,19 @@ function Graph:postprocess(lst)
             local last_child_id = -1
             for i=#lst,1,-1 do
                 local curnode = self.nodes[lst[i]]
-                if curnode.data.parent == n.data.id then
+                if curnode.data.getter_parent == n.data.id then
                     last_child_id = curnode.data.id
+                    break
+                end
+            end
+
+            -- first child will also be needed
+            local first_child_id = -1
+
+            for i=1,#lst do
+                local curnode = self.nodes[lst[i]]
+                if curnode.data.getter_parent == n.data.id then
+                    first_child_id = curnode.data.id
                     break
                 end
             end
@@ -358,7 +379,7 @@ function Graph:postprocess(lst)
                     ") " .. 
                     input_node.data.label)
             end
-            
+
             input_node = self.nodes[input_node.data.parent]
 
             -- create releaser node
@@ -382,6 +403,22 @@ function Graph:postprocess(lst)
                     break
                 end
             end
+
+            -- the first child node will have the setter
+            -- hooked up to it.
+            -- This prevents the node from being lost when
+            -- it is sorted in nsort
+
+            local first_child = self.nodes[first_child_id]
+            first_child.unused_input = first_child:param(0)
+            local setter = self.nodes[n.data.setter]
+            -- print(string.format(
+            --     "first child: %s (%d)",
+            --     first_child.data.label,
+            --     first_child.data.id))
+            self.connect(self, setter, first_child.unused_input)
+            -- print(string.format(
+            --     "first child has %d params", #first_child.data.params))
         end
     end
 end
@@ -471,7 +508,7 @@ function Node:label(label)
     self.data.label = label
 end
 
-g = Graph:new{debug=false}
+g = Graph:new{debug=true}
 
 n = {}
 nodes.nodes(Node, g, n)
@@ -507,17 +544,29 @@ con(env_scaled, gain.b)
 
 g:process()
 l = topsort(g.edges)
-pprint(l)
+-- pprint(l)
 g:nsort_rec(l, g.nodes[l[#l]], #l)
-pprint(l)
+-- pprint(l)
 g:postprocess(l)
+-- sort again (to get regset in the right place)
+--
+-- this now causes releaser to be in the wrong place
+-- (the node was injected last minute, not connected to anything
+-- in the tree)
+g:nsort_rec(l, g.nodes[l[#l]], #l)
+
+-- TODO: rework the problem.
+-- it should be possible to perform a topsort on just
+-- setter/getter nodes (subset of nodes + full graph) right?
+-- use that to connect the input to
+-- the first setter.
 
 function print_and_eval(str)
     print(str)
-    -- lil(str)
+    lil(str)
 end
 
-g.eval = print_and_eval
+-- g.eval = print_and_eval
 g:dot("out.dot")
 for _, i in pairs(l) do
     local n = g.nodes[i]
