@@ -124,4 +124,11 @@
  :org "sig/sig.org"
  :tangled @["sig/sig.lua"]
  }
+
+ "diagraf"
+ @{
+ :id 18
+ :org "diagraf/diagraf.org"
+ :tangled @["diagraf/diagraf.lua"]
+ }
 })

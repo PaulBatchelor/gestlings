@@ -25,6 +25,7 @@
 @!(zet/messages "logs")!@
 `)
 (ww-add-page "whistle" `@!(wikipage "whistle")!@`)
+(ww-add-page "diagraf" `@!(wikipage "diagraf")!@`)
 
 # linked pages
 

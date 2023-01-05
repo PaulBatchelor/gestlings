@@ -7,13 +7,47 @@ in sndkit.
 requires manual intervention. In sndkit, signals become "non-trivial"
 quite quickly; any signal that wants to be used more than once in a way
 that can't be done using stack operations can be considered non-trivial.
- 
 #+NAME: sig.lua
 #+BEGIN_SRC lua :tangle sig/sig.lua
 Sig = {}
 <<sig>>
 return Sig
 #+END_SRC
+* Getting in the weeds
+Here's some low-level details about how signal management
+works in sndkit.
+
+Buffers, blocks of signal that unit generator
+nodes can read/write to, are finite, and managed in
+a pre-allocated resource pool. Any time a signal is used
+more than once in a patch, special care must be put into
+ensuring that the underyling buffer the signal is in is
+marked as in use throughout the lifetime of the
+signal, then returned back to the pool when the signal
+is no longer being used.
+
+Buffers are stored using a register system that sndkit
+employs, which are referenced by index. Similar to buffers,
+registers can be marked as in-use and then cleared when
+they are no longer used, which allows for a process to
+go in and find the next available free register without
+worrying about exaclty which register it is.
+
+So, the process of storing a signal is a matter of finding
+an available buffer to write to from the buffer pool, marking
+the buffer as in-use (unavailable to others), writing the
+signal to that buffer, finding
+an available register to write to, marking the register as
+in-use, and then storing a reference to the buffer in the
+register. Using the signal is a matter of looking up the
+buffer from the register, and the pushing it onto the
+the stack that sndkit uses to pass around data. A signal
+is successfully released by marking both the buffer and
+the signal as available for use again.
+
+A the sndkit layer of abstraction, finding an available buffer from
+the buffer pool is pretty transparent. It is a process handled
+by another low level component of sndkit called =graforge=.
 * New
 Creates a new instance of a signal.
 

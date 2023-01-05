@@ -288,3 +288,5 @@
 2023-01-01 01:49:27	fbe00aa8-fd75-4b6c-a609-d6bdddf40488	>finished! see !seq.
 -	fbe00aa8-fd75-4b6c-a609-d6bdddf40488	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	fbe00aa8-fd75-4b6c-a609-d6bdddf40488	#e766e6dc-621d-42f7-9ad1-707bdf408832
+2023-01-05 11:50:11	fa44eb97-a815-4eca-a1d7-5d42e3035802	>I think I have directed acyclic graphs working, which is a big personal achievement for me. The "rough draft" code has been made, now I am working on creating a literate program for it: !diagraf.
+-	fa44eb97-a815-4eca-a1d7-5d42e3035802	#53a2e179-eb60-4c13-b749-59d5d3b893c5
