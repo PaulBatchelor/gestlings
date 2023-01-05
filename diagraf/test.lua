@@ -108,7 +108,7 @@ function Graph:connect(node, input_id)
     -- this input doesn't actually compute anything anymore
     input:disable()
 
-    -- a linking node symlinks the node to be th einput
+    -- a linking node symlinks the node to be the input
     input.data.link = node.data.id
 
     -- if a parameter precedes this one, make an edge
@@ -264,7 +264,9 @@ end
 
 function Graph:nsort_rec(l, n, i, lvl)
     lvl = lvl or 0
+    -- print(i, n.data.id, #l)
     if i <= 0 then
+        -- pprint(l)
         return i
     end
     local spaces = ""
@@ -273,7 +275,9 @@ function Graph:nsort_rec(l, n, i, lvl)
     end
 
     local label = n.data.label or "node"
-    -- print(spaces .. label)
+    local msg = string.format("%s%s[%d](%d params)",
+        spaces, label, n.data.id, #n.data.params)
+    -- print(msg)
 
     if n.data.id ~= l[i] then
         --print(string.format("l[%d] is not %d", i, n.data.id))
@@ -320,7 +324,6 @@ function Graph:postprocess(lst)
     for _,n in pairs(self.nodes) do
         if n.data.children ~= nil then
             local last_child_id = n:last_child(lst)
-            
             -- print("last child: " .. last_child_id)
 
             if (last_child_id < 0) then
@@ -397,8 +400,15 @@ function Graph:setters_to_first_getters(lst)
             local first_child_id = n:first_child(lst)
             local first_child = self.nodes[first_child_id]
             first_child.unused_input = first_child:param(0)
+            self.nodes[first_child.unused_input]:label("unused input")
             local setter = self.nodes[n.data.setter]
             self.connect(self, setter, first_child.unused_input)
+            -- insert into first position of list, since it was
+            -- created after topsort
+            -- "head" of list must preserve the root.
+            local new_id =
+                self.nodes[first_child.unused_input].data.id
+            table.insert(lst, 1, new_id)
         end
     end
 end
@@ -513,7 +523,7 @@ function Node:first_child(lst)
         end
     end
 
-    print("# first child is " .. first_child_id)
+    -- print("# first child is " .. first_child_id)
 
     return first_child_id
 end
@@ -572,9 +582,10 @@ g:dot("out.dot")
 for _, i in pairs(l) do
     local n = g.nodes[i]
     local label = n.data.label
-    if label ~= nil then
-        g.eval(string.format("# %s (%d)", n.data.label, n.data.id))
+    if label == nil then
+        label = "N"
     end
+    g.eval(string.format("# %s (%d)", label, n.data.id))
     n:compute()
 end
 g.eval("computes 10")
