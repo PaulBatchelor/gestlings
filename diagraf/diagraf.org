@@ -4,7 +4,8 @@ Diagraf is short for DIrected Acyclic Graph (with the "f"
 added in for artistic flair). Diagraf is a lua module
 that can generate Directed Acyclic Graphs into sndkit with
 automated @!(ref "sig" "signal management")!@.
-* Directed Acyclic Graphs and Post-order Tree Structures
+* Concepts
+** Directed Acyclic Graphs and Post-order Tree Structures
 Diagraf is a tale of two data structures: Directed Acyclic
 Graphs, and Trees traversed in post-order.
 
@@ -32,7 +33,7 @@ when using a stack-based approach to building up sounds).
 Most of the work that Diagraf does is this process of
 converting this DAG into a post-order tree structure.
 When this tree is built, sndkit code falls out from it.
-* Signal Management
+** Signal Management
 Other than conversion from graph to tree, Diagraf is also
 tasked with a bit of resource management. This is a sndkit
 quirk. Buffers, blocks of signal that unit generator
@@ -48,24 +49,592 @@ Most aspects of signal management are handled by
 the @!(ref "sig")!@ module. However, it is the responsibility
 of Diagraf to figure out the lifetime of a signal, and
 determine when to safely free up the resources.
+** Nodes and Cables vs Vertices and Edges
+In Diagraf, there is a difference between a Node and Vertice,
+and a Cable and an Edge, despite them being conceptually
+being similar.
+
+A =Node= is some kind of unit generator for signal
+processing, whose connections are defined as signals
+coming in, and signals going out. It's connections are
+managed by =Cables=. Nodes and Cables are used together
+to form a Patch. These are terms borrowed from sndkit.
+When the graph is fullly completed and processed, the
+underlying nodes will from a tree structure, with the
+root node being the final node that produces the output
+signal.
+
+Vertices and Edges are more general Graph components. These
+provide a fundamental layer for which Nodes and Cables
+are built on top of. Vertices are just
+postive integer values, and edges are essentially just tuples
+containing two vertices: an incoming vertice, and and
+outgoing vertice. In addition to containing all the
+connections needed to make a Patch, there can also be extra
+relations added used to make the initial sort closer
+to postorder. This additional edges are not considered to
+be cables, and are ignored.
 * Tangled Code
 #+NAME: diagraf.lua
 #+BEGIN_SRC lua :tangle diagraf/diagraf.lua
 Diagraf = {}
-
+<<diagraf>>
 return Diagraf
 #+END_SRC
 * Graphs
+#+NAME: diagraf
+#+BEGIN_SRC lua
+Graph = {}
+<<topsort>>
+<<graph>>
+#+END_SRC
+** Creating a New Graph
+=Graph:new()= will initialize a new graph with
+a few core variables.
+
+=nverts= is the number of vertices. This is used to
+determine ID numbers.
+
+=edges= contains the list of edges that define a graph.
+
+=sig= should point to the @!(ref "sig")!@ component. This
+can be passed in on initialization, or taken globally.
+
+=eval= is the function that evaluates LIL code. If
+the =debug= flag is set, the code will print to standard
+output instead.
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:new(o)
+    o = o or {}
+    o.nverts = 0
+    o.edges = {}
+    o.nodes = {}
+    o.sig = o.sig or sig
+    if o.debug then
+        o.eval = print
+    else
+        o.eval = lil
+    end
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+#+END_SRC
 ** Vertices and Edges
-** Connecting Nodes
-** Topological Sort
-Done using Kahn's algorithm
-** Adding Setters and Getters
+A new vertice is created with =Graph:vert()=. Since
+a vertice is just unique positive integer, this simply is
+a matter of incrementing =nverts= and using the new value
+as the ID.
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:vert()
+    self.nverts = self.nverts + 1
+    return self.nverts
+end
+#+END_SRC
+
+=Graph:edge()= will create a new oriented edge that
+connects vertice =v1= (incoming) to =v2= (output). In
+other words, =v1= becomes an input to =v2=.
+
+=edgetype= is an optional value that can be used to
+make the edge a cable connection. By default, it is only
+set to be an edge.
+
+The =edgetype= is used here because
+sometimes edges are only "helpers", in an to attempt to
+make the topological sort more closely resemble the
+postorder sort. Dot output uses the graph to produce
+the output rather than the tree, so =edgetype= is
+used to help make a cleaner looking result.
+
+#+BEGIN_SRC lua
+function Graph:edge(v1, v2, edgetype)
+    edgetype = edgetype or 0
+    table.insert(self.edges, {v1, v2, edgetype})
+end
+#+END_SRC
+** Connecting Nodes (TODO: change input args?)
+=Graph:connect= will connect the output of one node
+to the input parameter of another node.
+
+The input parameter is the id, the node is the actual
+data type.
+
+TODO: This might change?
+I like working with just ID values
+and not tables, as it a more "portable" way of thinking
+between languages.
+
+A connection between two nodes manipulates both the tree
+and the graph. An edge is created between both nodes
+using their ID values. The outgoing node then links
+to the incoming node. The outgoing node is presumably
+a parameter node for another node. When the link is set,
+it indicates that the parameter is now being modulated
+by a signal instead of being a constant. The
+parameter node no longer generates any code, so it
+is disabled internally.
+
+TODO: fail if connection has already been made. eventually
+implement a way to disconnect.
+#+NAME: graph
+#+BEGIN_SRC
+function Graph:connect(node, input_id)
+    local input = self.nodes[input_id]
+
+    self.edge(self, node.data.id, input_id, 1)
+
+    -- this input doesn't actually compute anything anymore
+    input:disable()
+
+    -- a linking node symlinks the node to be the input
+    input.data.link = node.data.id
+end
+#+END_SRC
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:connector()
+    return function(node, input_id)
+        self.connect(self, node, input_id)
+    end
+end
+#+END_SRC
+** Topological Sort (TODO: error checking)
+Done using Kahn's algorithm, adapated from pseudocode
+on wikipedia.
+
+A topological sort will take in an acyclic graph
+(represented as a set of edges), and produce a list
+of vertices, arranged in an order such that for every
+vertice A, every incoming vertice to A comes before it.
+
+This resulting list of vertices is the beginning
+of the structure that eventually gets used
+to generate sndkit code. However, some additional
+list processing needs to occur before it is ready for this.
+
+The two most important things that the topological sort
+does is produce the final output node (the last item
+on the list), as well as determine if the graph has
+any loops in it (possible, but not yet implemented yet,
+TODO).
+
+#+NAME: topsort
+#+BEGIN_SRC lua
+-- Kahn's Algorithm, from pseudocode taken from wikipedia
+function topsort(edges)
+    local nodes = {}
+
+    local s = {}
+
+    local l = {}
+
+    -- TODO: simplify to only use e[2]
+    for _,e in pairs(edges) do
+        if nodes[e[1]] == nil then
+            nodes[e[1]] = {1, 0}
+        else
+            nodes[e[1]][1] = nodes[e[1]][1] + 1
+        end
+
+        if nodes[e[2]] == nil then
+            nodes[e[2]] = {0, 1}
+        else
+            nodes[e[2]][2] = nodes[e[2]][2] + 1
+        end
+    end
+
+    for k, v in pairs(nodes) do
+        if v[2] == 0 then
+            table.insert(s, k)
+        end
+    end
+
+    -- table.remove(), does funny things, so
+    -- keep track of which edges have been removed in
+    -- a separate table
+    local removed = {}
+    while #s > 0 do
+        local n = table.remove(s)
+        table.insert(l, n)
+        local incoming_nodes = {}
+        for i,e in pairs(edges) do
+            if removed[i] == nil then
+                if e[1] == n then
+                    table.insert(incoming_nodes, e[2])
+                    removed[i] = true
+                end
+            end
+        end
+
+        for _,m in pairs(incoming_nodes) do
+            local no_incoming_edges = true
+            for i, e in pairs(edges) do
+                if removed[i] == nil then
+                    if e[2] == m then
+                        no_incoming_edges = false
+                    end
+                end
+            end
+
+            if no_incoming_edges == true then
+                table.insert(s, m)
+            end
+        end
+    end
+
+    return l
+end
+#+END_SRC
+** Adding Setters and Getters (TODO: rename)
+Before being sent to the topological sort, the graph must
+be analyzed and checked for cables that are used
+as an input for more than one node. The way
+resources are managed in sndkit, signals from nodes can
+not be directly used more than once. Signals that wish
+to be used more than once must do so
+using a set of abstractions called =setters= and =getters=.
+The original generated signal is fed into on instance of a
+setter. A corresponding getter is used to retrieve the signal
+from the setter. An arbitrary number of getters can be used.
+
+TODO: better naming convention for nodes/nodeetc, rename
+stuff, etc.
+
+TODO: explain how this works.
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:process()
+    local hm = {}
+    local multi = {}
+
+    for _,e in pairs(self.edges) do
+        if e[3] == 1 then
+            if hm[e[1]] == nil then
+                --hm[e[1]] = {1, 0}
+                hm[e[1]] = 1
+            else
+                --hm[e[1]][1] = hm[e[1]][1] + 1
+                hm[e[1]] = hm[e[1]] + 1
+            end
+
+            -- if hm[e[2]] == nil then
+            --     hm[e[2]] = {0, 1}
+            -- else
+            --     hm[e[2]][2] = hm[e[2]][2] + 1
+            -- end
+        end
+    end
+
+    for index, ninputs in pairs(hm) do
+        if ninputs ~= nil then
+            if ninputs > 1 then
+                local node = self.nodes[index]
+
+                -- TODO better naming
+                -- node, nodes, etc... too confusing
+                local setter_node = Node:generator(self, nodes.setter)
+                local getter_node = Node:generator(self, nodes.getter)
+
+                local node_id = node.data.id
+                node.data.children = {}
+                local setter = setter_node{sig=self.sig}
+                local setter_id = setter.data.id
+
+                for _, e in pairs(self.edges) do
+                    if e[1] == node_id and e[3] == 1 then
+                        local getter = getter_node {
+                            cab=setter.cab
+                        }
+                        e[1] = getter.data.id
+                        -- create edge to make sure setter
+                        -- comes before the getter
+                        self.edge(self, setter_id, getter.data.id)
+
+                        -- create parent/child
+                        table.insert(node.data.children,
+                            getter.data.id)
+                        getter.data.getter_parent = node.data.id
+
+                        -- add additional label information
+                        getter:label("getter: " .. node.data.label)
+
+                        -- update link
+                        self.nodes[e[2]].data.link = getter.data.id
+                    end
+                end
+                -- connect original node to setter
+                self.connect(self, node, setter.input)
+
+                -- create reference to setter in node
+                node.data.setter = setter.data.id
+
+                -- add additional label information
+                setter:label("setter: " .. node.data.label)
+            end
+        end
+    end
+end
+#+END_SRC
 ** Node Sort
-** Adding Releasers
-** Graph to Postorder Tree
-** Sndkit Code Generation/Evaluation
-** Graphviz Code Generation (Dot)
+The node sort is a recursive algorithm that looks at
+the underyling node tree structure, and sorts items
+in the list until they are in the correct order.
+
+For this to work properly, the root node must be known.
+This can be found by performing a topological sort on
+the graph.
+
+TODO: explain how algorithm works.
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:nsort_rec(l, n, i, lvl)
+    lvl = lvl or 0
+    -- print(i, n.data.id, #l)
+    if i <= 0 then
+        -- pprint(l)
+        return i
+    end
+    local spaces = ""
+    for i=1, lvl do
+        spaces = spaces .. "-"
+    end
+
+    local label = n.data.label or "node"
+    local msg = string.format("%s%s[%d](%d params)",
+        spaces, label, n.data.id, #n.data.params)
+    -- print(msg)
+
+    if n.data.id ~= l[i] then
+        --print(string.format("l[%d] is not %d", i, n.data.id))
+        for k = i - 1, 1, -1 do
+            local m = l[k]
+            if m == n.data.id then
+                local nk = self.nodes[l[k]]
+                local ni = self.nodes[l[i]]
+                local lk = nk.data.label or ""
+                local li = ni.data.label or ""
+
+                -- print(string.format(
+                --     "swapping %d (%s) and %d (%s)\n",
+                --         nk.data.id, lk, ni.data.id, li))
+                local t = l[k]
+                l[k] = l[i]
+                l[i] = t
+                break
+            end
+        end
+    end
+
+    i = i - 1
+
+    if n.data.link ~= nil then
+        i = self.nsort_rec(self,
+            l, self.nodes[n.data.link], i, lvl + 1)
+        return i
+    end
+
+    -- process params list in reverse, because sndkit
+    -- uses LIFO stack and pops parameters in reverse
+    -- syntactically, this makes stack syntax look like
+    -- parameters are in "correct" order
+    for p=#n.data.params, 1, -1 do
+        i = self.nsort_rec(self, l, n.data.params[p], i, lvl + 1)
+    end
+
+    return i
+end
+#+END_SRC
+** Setters to First Getters
+The process of adding setters and getters to the graph
+does not fully satisfy the constraints of the node tree,
+as it is unable to determine at that point where the
+setter should be placed. As a result of this, the
+setter is not added to the node tree, and the first
+pass of the node sort produces a only a partially sorted
+list, with all the setters aimlessly
+floating around somewhere in there.
+
+The setter should be placed
+somewhere before the first getter, and this is information
+that is obtained from the first pass of the node sort.
+
+The =Graph:setters_to_first_getters()= function will
+make an explicit connection from the setter to the
+first getter. It's treated like a node parameter, even
+though it isn't actually used (setters don't produce
+any output). Doing it this way adds the setter
+to the node tree, which will make it
+"visible" in the eyes of the node sort.
+
+After this function is called, the list will have to be
+sorted again, as new connections have been to the node
+tree, as well as new nodes in the node list.
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:setters_to_first_getters(lst)
+    -- find which nodes have children
+    for _,n in pairs(self.nodes) do
+        if n.data.children ~= nil then
+            local first_child_id = n:first_child(lst)
+            local first_child = self.nodes[first_child_id]
+            first_child.unused_input = first_child:param(0)
+            self.nodes[first_child.unused_input]:label("unused input")
+            local setter = self.nodes[n.data.setter]
+            self.connect(self, setter, first_child.unused_input)
+            -- insert into first position of list, since it was
+            -- created after topsort
+            -- "head" of list must preserve the root.
+            local new_id =
+                self.nodes[first_child.unused_input].data.id
+            table.insert(lst, 1, new_id)
+        end
+    end
+end
+#+END_SRC
+** Adding Releasers (TODO: rename function)
+TODO: words
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:postprocess(lst)
+    -- find which nodes have children
+    for _,n in pairs(self.nodes) do
+        if n.data.children ~= nil then
+            local last_child_id = n:last_child(lst)
+            -- print("last child: " .. last_child_id)
+
+            if (last_child_id < 0) then
+                error("could not find any children")
+            end
+
+            -- find node that takes this as a signal input
+            -- at this point, it is assumed that the graph
+            -- has been processed so there is exactly one
+
+            local input_node_id = -1
+
+            for _,e in pairs(self.edges) do
+                if e[3] == 1 then
+                    if e[1] == last_child_id then
+                        input_node_id = e[2]
+                        -- print(string.format("%d -> %d\n", e[1], e[2]))
+                        break
+                    end
+                end
+            end
+
+            if input_node_id < 0 then
+                error("could not find input node")
+            end
+
+            local input_node = self.nodes[input_node_id]
+
+            -- input_node is a parameter input, we want
+            -- the processor, which is the parent
+
+            if input_node.data.parent == nil then
+                error("no parents (" ..
+                    input_node_id ..
+                    ") " .. 
+                    input_node.data.label)
+            end
+
+            input_node = self.nodes[input_node.data.parent]
+
+            -- create releaser node
+            -- and place it after the input node
+            -- TODO shave off some time if we start at
+            -- last child node list position? it should always
+            -- come after it
+            for i = 1, #lst do
+                local node = self.nodes[lst[i]]
+                if node.data.id == input_node.data.id then
+                    -- create releaser node
+                    local relnodegen =
+                        Node:generator(self, nodes.releaser)
+                    local cab = self.nodes[last_child_id].cab
+                    local rel = relnodegen {cab = cab}
+                    -- insert id at position i + 1 in lst
+                    table.insert(lst, i + 1, rel.data.id)
+                    -- add edge to ensure it appears in the right
+                    -- place after another sort
+                    self.edge(self, node.data.id, rel.data.id)
+                    break
+                end
+            end
+        end
+    end
+end
+#+END_SRC
+** Graph to Postorder Tree (TODO: implement)
+TODO: implement. This will do all the intermediate steps
+described above.
+** Sndkit Code Generation/Evaluation (TODO: implement)
+TODO: implement. Evaluate a post-order tree.
+** Graphviz Code Generation (Dot) (TODO: words)
+TODO: words. Explain how this works.
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:dot(outfile)
+    local printer = print
+    local fp = nil
+
+    if outfile ~= nil then
+        fp = io.open(outfile, "w")
+        printer = function(str)
+            fp:write(str .. "\n")
+        end
+    end
+
+    printer("digraph G {")
+    printer("rankdir=LR")
+    printer("layout=dot")
+
+    for _,n in pairs(self.nodes) do
+        if n:disabled() == false then
+            if n.data.label ~= nil then
+                printer(string.format("%d [label=\"%s\"]",
+                    n.data.id, n.data.label))
+            elseif n:isconstant() then
+                printer(string.format("%d [label=%s]",
+                    n.data.id, n.data.val))
+            else
+                printer(string.format("%d [label=\"N%d\"]",
+                    n.data.id, n.data.id))
+            end
+        end
+    end
+    for _, e in pairs(self.edges) do
+        if e[3] == 1 then
+            local n2 = self.nodes[e[2]]
+            local n1 = self.nodes[e[1]]
+
+            local incoming = e[1]
+            local outgoing = e[2]
+            if n2:disabled() then
+                outgoing = n2.data.parent
+            end
+
+            if n1:disabled() == false then
+                printer(string.format("%d -> %d", incoming, outgoing))
+            end
+        end
+    end
+    printer("}")
+    if outfile ~= nil then
+        fp:close()
+    end
+end
+#+END_SRC
 * Nodes
 ** Cables and Parameters
 ** Labels
