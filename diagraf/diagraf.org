@@ -1,0 +1,75 @@
+#+TITLE: Diagraf
+* Intro
+Diagraf is short for DIrected Acyclic Graph (with the "f"
+added in for artistic flair). Diagraf is a lua module
+that can generate Directed Acyclic Graphs into sndkit with
+automated @!(ref "sig" "signal management")!@.
+* Directed Acyclic Graphs and Post-order Tree Structures
+Diagraf is a tale of two data structures: Directed Acyclic
+Graphs, and Trees traversed in post-order.
+
+Often abbreviated as DAG,
+the Directed Acyclic Graph is a common data structure used
+in the context of audio programming and DSP. A DAG is
+a specific kind of graph; it is directed, meaning an
+edge between two vertices has a specific orientation or
+direction, and it is acyclic, meaning there are no
+"feedback loops" in the topology of the graph.
+
+A "patch" in a modular synthesis environment is a graph,
+usually a DAG (if there's feedback anywhere, then it isn't
+acylic, so a DG instead of a DAG).
+
+A patch in sndkit is not in fact a DAG structure, though
+an equivalent DAG can be made for one. Instead, sndkit
+uses a much more rigid tree structure, whose nodes are
+stored as a post-order traversal, meaning child nodes
+left-to-right come before the parent node. (At
+the time of making it, I didn't actually realize sndkit
+had this structure. It's just one that naturally formed
+when using a stack-based approach to building up sounds).
+
+Most of the work that Diagraf does is this process of
+converting this DAG into a post-order tree structure.
+When this tree is built, sndkit code falls out from it.
+* Signal Management
+Other than conversion from graph to tree, Diagraf is also
+tasked with a bit of resource management. This is a sndkit
+quirk. Buffers, blocks of signal that unit generator
+nodes can read/write to, are finite, and managed in
+a pre-allocated resource pool. Any time a signal is used
+more than once in a patch, special care must be put into
+ensuring that the underyling buffer the signal is in is
+marked as in use throughout the lifetime of the
+signal, then returned back to the pool when the signal
+is being used.
+
+Most aspects of signal management are handled by
+the @!(ref "sig")!@ module. However, it is the responsibility
+of Diagraf to figure out the lifetime of a signal, and
+determine when to safely free up the resources.
+* Tangled Code
+#+NAME: diagraf.lua
+#+BEGIN_SRC lua :tangle diagraf/diagraf.lua
+Diagraf = {}
+
+return Diagraf
+#+END_SRC
+* Graphs
+** Vertices and Edges
+** Connecting Nodes
+** Topological Sort
+Done using Kahn's algorithm
+** Adding Setters and Getters
+** Node Sort
+** Adding Releasers
+** Graph to Postorder Tree
+** Sndkit Code Generation/Evaluation
+** Graphviz Code Generation (Dot)
+* Nodes
+** Cables and Parameters
+** Labels
+** Generator
+** Compute
+** Silent Nodes
+** Finding First/Last children
