@@ -636,9 +636,176 @@ function Graph:dot(outfile)
 end
 #+END_SRC
 * Nodes
-** Cables and Parameters
-** Labels
-** Generator
-** Compute
-** Silent Nodes
-** Finding First/Last children
+Graphs are constructed by connecting =Nodes= together.
+Any time a node is connected to another node, both the
+graph and the tree structure get updated.
+** Creating a New Node
+A new node can be creatd with =Graph.Node:new()=. It
+takes in as an argument an instance of a graph =g=.
+
+A Node is a Vertice on the graph, with some extra stuff
+piled, which information needed to construct a sndkit
+patch. All core data is stored in the =data= table contained
+inside the Node.
+
+The data has the following parameters:
+
+The =g= variable holds a reference to the graph the
+node belongs to.
+
+=id= is the ID number of the corresponding vertice associated
+with the graph.
+
+=val= holds a constant value. All nodes start out as
+constant values when they are initialized. Later, they
+can be turned into signal generators and processors.
+
+=params= holds an ordered list of input parameters for
+the node. This is initialized as an empty list, but
+gets populated when the node gets configured as a unit
+generator. Items in the =params= list are instances of
+other nodes belonging to the same graph. Traversing these
+nodes produces the tree structure needed for the sndkit
+patch.
+
+=gen= is a callback function that produces a string of LIL
+code. By default, it is set up to generate the constant
+value stored in =val=.
+
+=constant= is a boolean used to indicate if the node is
+a constant or not. By default, it is set to be =true=.
+
+#+NAME: diagraf
+#+BEGIN_SRC lua
+Graph.Node = {}
+
+function Graph.Node:new(g)
+    o = {}
+    o.data = {}
+    o.data.g = g
+    o.data.id = g:vert()
+    o.data.val = 1.0
+    o.data.params = {}
+    o.data.gen = function(self)
+        return string.format("param %g", self.data.val)
+    end
+    o.data.constant = true
+    table.insert(g.nodes, o)
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+<<node>>
+#+END_SRC
+** Setting Constants (TODO: words)
+TODO: words.
+
+#+NAME: node
+#+BEGIN_SRC lua
+function Graph.Node:constant(val)
+    self.data.val = val
+    self.data.constant = true
+end
+
+function Graph.Node:isconstant()
+    return self.data.constant
+end
+#+END_SRC
+** Cables and Parameters (TODO: words)
+#+NAME: node
+#+BEGIN_SRC lua
+function Graph.Node:param(val)
+    local g = self.data.g
+    local params = self.data.params
+    local p = Node:new(g)
+    p:constant(val)
+    table.insert(params, p)
+    p.data.param_id = #params
+
+    if #params > 1 then
+        pp = params[#params - 1]
+        g:edge(pp.data.id, p.data.id)
+    end
+
+    g:edge(p.data.id, self.data.id, 1)
+    -- TODO: is parent being overloaded in process()?
+    p.data.parent = self.data.id
+    return p.data.id
+end
+#+END_SRC
+** Silent Nodes (TODO: words)
+#+NAME: node
+#+BEGIN_SRC lua
+function Graph.Node:disable()
+    self.data.gen = nil
+    self.data.constant = false
+end
+#+END_SRC
+#+NAME: node
+#+BEGIN_SRC lua
+function Graph.Node:disabled()
+    return self.data.gen == nil
+end
+#+END_SRC
+** Labels (TODO: words)
+#+NAME: node
+#+BEGIN_SRC lua
+function Graph.Node:label(label)
+    self.data.label = label
+end
+#+END_SRC
+** Generator (TODO: words)
+#+NAME: node
+#+BEGIN_SRC lua
+function Graph.Node:generator(g, f)
+    return function(p)
+        local n = self.new(self, g)
+        p = p or {}
+        f(n, p)
+        return n
+    end
+end
+#+END_SRC
+** Compute (TODO: words)
+#+NAME: node
+#+BEGIN_SRC lua
+function Graph.Node:label(label)
+    self.data.label = label
+end
+#+END_SRC
+** Finding First/Last children (TODO: words)
+#+NAME: node
+#+BEGIN_SRC lua
+function Graph.Node:last_child(lst)
+        local g = self.data.g
+        local last_child_id = -1
+        for i=#lst,1,-1 do
+            local curnode = g.nodes[lst[i]]
+            if curnode.data.getter_parent == self.data.id then
+                last_child_id = curnode.data.id
+                break
+            end
+        end
+        return last_child_id
+end
+#+END_SRC
+
+#+NAME: node
+#+BEGIN_SRC lua
+function Graph.Node:first_child(lst)
+    local first_child_id = -1
+    local g = self.data.g
+
+    for i=1,#lst do
+        local curnode = g.nodes[lst[i]]
+        if curnode.data.getter_parent == self.data.id then
+            first_child_id = curnode.data.id
+            break
+        end
+    end
+
+    -- print("# first child is " .. first_child_id)
+
+    return first_child_id
+end
+#+END_SRC
