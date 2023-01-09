@@ -131,4 +131,11 @@
  :org "diagraf/diagraf.org"
  :tangled @["diagraf/diagraf.lua"]
  }
+
+ "sigrunes"
+ @{
+ :id 19
+ :org "sigrunes/sigrunes.org"
+ :tangled @["sigrunes/sigrunes.lua"]
+ }
 })

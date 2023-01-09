@@ -312,6 +312,37 @@ TODO: explain how this works.
 
 #+NAME: graph
 #+BEGIN_SRC lua
+function n_getter(n, p)
+    n.cab = p.cab
+    n.data.gen = function(self)
+        return self.cab:getstr()
+    end
+
+    n:label("getter")
+end
+
+function n_setter(n, p)
+    n.input = n:param(0)
+    local sig = p.sig
+    n.cab = sig:new()
+
+    n.data.gen = function(self)
+        return self.cab:hold(self.data.g.eval)
+    end
+
+    n:label("setter")
+end
+
+function n_releaser(n, p)
+    n.cab = p.cab
+
+    n.data.gen = function(self)
+        return self.cab:unhold(self.data.g.eval)
+    end
+
+    n:label("releaser")
+end
+
 function Graph:process()
     local hm = {}
     local multi = {}
@@ -341,8 +372,8 @@ function Graph:process()
 
                 -- TODO better naming
                 -- node, nodes, etc... too confusing
-                local setter_node = Node:generator(self, nodes.setter)
-                local getter_node = Node:generator(self, nodes.getter)
+                local setter_node = Node:generator(self, n_setter)
+                local getter_node = Node:generator(self, n_getter)
 
                 local node_id = node.data.id
                 node.data.children = {}
@@ -561,7 +592,7 @@ function Graph:postprocess(lst)
                 if node.data.id == input_node.data.id then
                     -- create releaser node
                     local relnodegen =
-                        Node:generator(self, nodes.releaser)
+                        Node:generator(self, n_releaser)
                     local cab = self.nodes[last_child_id].cab
                     local rel = relnodegen {cab = cab}
                     -- insert id at position i + 1 in lst

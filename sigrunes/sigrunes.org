@@ -1,0 +1,133 @@
+#+TITLE: Sigrunes (WIP)
+Signal Runes, or Sigrunes, are core unit generators from
+sndkit that have a specific symbol associated with it,
+known runes. The runes are used to help build up
+compact visualizations of sndkit patches in a tree diagram
+known as a Signal Tree, or Sigtree.
+
+In Lua, Sigrunes are nodes compatible with @!(ref "diagraf")!@.
+Sigrunes will also have additional information attached
+to them concerning their associated glyph, probably
+in the form of some bitmap (12x12 or 16x16, not sure yet).
+
+Incomplete work. For now, these just need to be runes.
+
+#+NAME:sigrunes.lua
+#+BEGIN_SRC lua :tangle sigrunes/sigrunes.lua
+Sigrunes = {}
+
+S = Sigrunes
+
+function S.butlp(n, p)
+    n:lil("butlp zz zz")
+    n.input = n:param(0)
+    n.cutoff = n:param(p.cutoff or 1000)
+    n:label("butlp")
+end
+
+function S.wavout(n, p)
+    local file = p.file or "test.wav"
+    n:lil(string.format("wavout zz %s", file))
+    n.input = n:param(0)
+    n:label("wavout")
+end
+
+function S.blsaw(n, p)
+    n:lil("blsaw zz")
+    n.freq = n:param(p.freq or 440)
+    n:label("blsaw")
+end
+
+function S.mul(n, p)
+    n:lil("mul zz zz")
+    n.a = n:param(p.a or 0)
+    n.b = n:param(p.b or 0)
+    n:label("mul")
+end
+
+function S.add(n, p)
+    n:lil("add zz zz")
+    n.a = n:param(p.a or 0)
+    n.b = n:param(p.b or 0)
+    n:label("add")
+end
+
+function S.sine(n, p)
+    n:lil("sine zz zz")
+    n.freq = n:param(p.freq or 440)
+    n.amp = n:param(p.amp or 0.5)
+    n:label("sine")
+end
+
+function S.biscale(n, p)
+    n:lil("biscale zz zz zz")
+    n.input = n:param(0)
+    n.min = n:param(p.min or 0)
+    n.max = n:param(p.max or 1)
+    n:label("biscale")
+end
+
+function S.getter(n, p)
+    n.cab = p.cab
+    n.data.gen = function(self)
+        return self.cab:getstr()
+    end
+
+    n:label("getter")
+end
+
+function S.setter(n, p)
+    n.input = n:param(0)
+    local sig = p.sig
+    n.cab = sig:new()
+
+    n.data.gen = function(self)
+        return self.cab:hold(self.data.g.eval)
+    end
+
+    n:label("setter")
+end
+
+function S.releaser(n, p)
+    n.cab = p.cab
+
+    n.data.gen = function(self)
+        return self.cab:unhold(self.data.g.eval)
+    end
+
+    n:label("releaser")
+end
+
+function S.metro(n, p)
+    n:lil("metro zz")
+    n.rate = n:param(p.rate or 1)
+    n:label("metro")
+end
+
+function S.env(n, p)
+    n:lil("env zz zz zz zz")
+    n.trig = n:param(0)
+    n.atk = n:param(p.atk or 0.001)
+    n.dec = n:param(p.dec or 0.01)
+    n.rel = n:param(p.rel or 0.1)
+    n:label("env")
+end
+
+function Sigrunes.nodes(node, g, n)
+    n.sine = node:generator(g, S.sine)
+    n.add = node:generator(g, S.add)
+    n.mul = node:generator(g, S.mul)
+    n.blsaw = node:generator(g, S.blsaw)
+    n.butlp = node:generator(g, S.butlp)
+    n.wavout = node:generator(g, S.wavout)
+    n.biscale = node:generator(g, S.biscale)
+    n.getter = node:generator(g, S.getter)
+    n.setter = node:generator(g, S.setter)
+    n.releaser = node:generator(g, S.releaser)
+    n.metro = node:generator(g, S.metro)
+    n.env = node:generator(g, S.env)
+end
+
+return Sigrunes
+#+END_SRC
+

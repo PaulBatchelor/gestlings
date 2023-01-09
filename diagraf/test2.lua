@@ -1,12 +1,13 @@
 diagraf = require("diagraf/diagraf")
 pprint = require("util/pprint")
-nodes = require("diagraf/nodes")
+-- nodes = require("diagraf/nodes")
+sigrunes = require("sigrunes/sigrunes")
 sig = require("sig/sig")
 
 g = diagraf.Graph:new{debug=true, sig=sig}
 
 n = {}
-nodes.nodes(diagraf.Node, g, n)
+sigrunes.nodes(diagraf.Node, g, n)
 
 s1 = n.blsaw()
 lfo = n.sine{freq=1.23, amp=1}
