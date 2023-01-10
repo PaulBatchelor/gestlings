@@ -113,6 +113,20 @@ function S.env(n, p)
     n:label("env")
 end
 
+function S.noise(n, p)
+    n:lil("noise")
+    n:label("noise")
+end
+
+function S.peakeq(n, p)
+    n:lil("peakeq zz zz zz zz")
+    n.input = n:param(0)
+    n.freq = n:param(p.freq or 1000)
+    n.bw = n:param(p.bw or 1000)
+    n.gain = n:param(p.gain or 1)
+    n:label("peakeq")
+end
+
 function Sigrunes.nodes(node, g, n)
     n.sine = node:generator(g, S.sine)
     n.add = node:generator(g, S.add)
@@ -126,6 +140,8 @@ function Sigrunes.nodes(node, g, n)
     n.releaser = node:generator(g, S.releaser)
     n.metro = node:generator(g, S.metro)
     n.env = node:generator(g, S.env)
+    n.noise = node:generator(g, S.noise)
+    n.peakeq = node:generator(g, S.peakeq)
 end
 
 return Sigrunes

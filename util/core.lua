@@ -5,8 +5,9 @@ function paramf(val)
 end
 
 function lilf(str)
-    return function()
-        lil(str)
+    return function(eval)
+        eval = eval or lil
+        eval(str)
     end
 end
 

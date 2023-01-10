@@ -21,34 +21,89 @@ timbre.
 function Whistle.osc(params)
     local sig = sig or params.sig
     local core = core or params.core
+    local diagraf = diagraf or params.diagraf
+    local node = diagraf.Node
+    local g = diagraf.Graph:new{sig=sig}
+    local sr = sigrunes or params.sigrunes
 
-    fsig = sig:new()
+    -- node generator
+    local ng = function(n) return node:generator(g, n) end
 
-    freq = params.freq or core.paramf(440)
-    amp = params.amp or core.paramf(0.8)
-    timbre = params.timbre or core.paramf(0.5)
+    -- param generator
+    local pg = function(prm, label)
+        label = label or "param"
+        -- assumes input prm is a callback that evals
+        -- lua code
 
-    freq()
-    fsig:hold()
-    lil("noise; butlp zz 2000; peakeq zz 500 250 2")
+        -- wrap callback into diagraf node generator,
+        -- give it a label
 
-    fsig:get()
-    lil("mtof zz")
-    fsig:get()
-    lil("add zz 0.1; mtof zz")
-    fsig:get()
+        prm = ng(function(n, p)
+            n.data.gen = function(self)
+               return prm(self.data.g.eval)
+            end
+            n:label(label)
+        end)
 
-    lil("sub zz 0.1; mtof zz")
-    lil("sub zz zz")
-    lil("butbp zz zz zz; mul zz [dblin 10]")
+        -- call the generator to produce an instance
+        prm = prm()
 
-    fsig:get()
-    lil("blsquare [mtof zz]; mul zz [dblin -3]")
-    lil("butlp zz 300; buthp zz 300")
-    timbre()
-    lil("crossfade zz zz zz")
-    fsig:unhold()
-    amp()
-    lil("mul zz zz")
+        -- return the instance
+        return prm
+    end
+    -- fsig = sig:new()
+    
+    -- freq = params.freq or core.paramf(440)
+    freq = pg(params.freq or core.paramf(440), "freq")
+    -- freq = ng(function(n, p)
+    --     n.data.gen = function(self)
+    --        return freq(self.data.g.eval)
+    --     end
+    --     n:label("freq")
+    -- end)
+    -- freq = freq()
+
+    con = g:connector()
+    -- saw = ng(sr.blsaw)()
+    -- con(freq, saw.freq)
+
+    ns = ng(sr.noise)()
+    lpf = ng(sr.butlp)()
+    con(ns, lpf.input)
+    con(freq, lpf.cutoff)
+    -- amp = pg(params.amp or core.paramf(0.8), "amp")
+    eq = ng(sr.peakeq) {
+        freq=500,
+        bw=250,
+        gain=2
+    }
+
+    con(lpf, eq.input)
+    -- g:dot("test.dot")
+    -- amp = params.amp or core.paramf(0.8)
+    -- timbre = params.timbre or core.paramf(0.5)
+
+    -- freq()
+    -- fsig:hold()
+    -- lil("noise; butlp zz 2000; peakeq zz 500 250 2")
+
+    -- fsig:get()
+    -- lil("mtof zz")
+    -- fsig:get()
+    -- lil("add zz 0.1; mtof zz")
+    -- fsig:get()
+
+    -- lil("sub zz 0.1; mtof zz")
+    -- lil("sub zz zz")
+    -- lil("butbp zz zz zz; mul zz [dblin 10]")
+
+    -- fsig:get()
+    -- lil("blsquare [mtof zz]; mul zz [dblin -3]")
+    -- lil("butlp zz 300; buthp zz 300")
+    -- timbre()
+    -- lil("crossfade zz zz zz")
+    -- fsig:unhold()
+    -- amp()
+    -- lil("mul zz zz")
 end
 #+END_SRC
