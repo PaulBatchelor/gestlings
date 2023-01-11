@@ -128,11 +128,8 @@ function Whistle.osc(params)
     g:process()
     l = topsort(g.edges)
     g:nsort_rec(l, g.nodes[l[#l]], #l)
-    g:setters_to_first_getters(l)
-    g:nsort_rec(l, g.nodes[l[#l]], #l)
-    g:postprocess(l)
+    g:print_node_list(l, "nodelist.txt")
 
-    g:dot("test.dot")
     fp = io.open("tree.org", "w")
     prnt = function(str)
         fp:write(str .. "\n")
@@ -140,7 +137,12 @@ function Whistle.osc(params)
     g:print_tree(l, g.nodes[l[#l]], #l, nil, prnt)
     fp:close()
 
-    g:print_node_list(l, "nodelist.txt")
+    g:setters_to_first_getters(l)
+    g:nsort_rec(l, g.nodes[l[#l]], #l)
+    g:postprocess(l)
+
+    g:dot("test.dot")
+
 
     -- for _, i in pairs(l) do
     --     local n = g.nodes[i]

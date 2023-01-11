@@ -435,9 +435,10 @@ function Graph:nsort_rec(l, n, i, lvl)
     if i <= 0 then
         return i
     end
+    print("expecting: " .. n.data.id)
     if n.data.id ~= l[i] then
-        --print(string.format("l[%d] is not %d", i, n.data.id))
-        for k = i - 1, 1, -1 do
+        print(string.format("l[%d] (%d) is not %d", i, l[i], n.data.id))
+        for k = i, 1, -1 do
             local m = l[k]
             if m == n.data.id then
                 local nk = self.nodes[l[k]]
@@ -445,9 +446,9 @@ function Graph:nsort_rec(l, n, i, lvl)
                 local lk = nk.data.label or ""
                 local li = ni.data.label or ""
 
-                -- print(string.format(
-                --     "swapping %d (%s) and %d (%s)\n",
-                --         nk.data.id, lk, ni.data.id, li))
+                print(string.format(
+                    "swapping l[%d] %d (%s) and l[%d] %d (%s)\n",
+                        k, nk.data.id, lk, i, ni.data.id, li))
                 local t = l[k]
                 l[k] = l[i]
                 l[i] = t
@@ -505,13 +506,13 @@ tree, as well as new nodes in the node list.
 #+BEGIN_SRC lua
 function Graph:setters_to_first_getters(lst)
     -- find which nodes have children
-    for k, v in pairs(lst) do
-        print(k, v)
-    end
+    -- for k, v in pairs(lst) do
+    --     print(k, v)
+    -- end
     for _,n in pairs(self.nodes) do
         if n.data.children ~= nil then
             local first_child_id = n:first_child(lst)
-            print("first child is " .. first_child_id)
+            -- print("first child is " .. first_child_id)
             local first_child = self.nodes[first_child_id]
             first_child.unused_input = first_child:param(0)
             self.nodes[first_child.unused_input]:label("unused input")
