@@ -140,6 +140,8 @@ function Whistle.osc(params)
     g:print_tree(l, g.nodes[l[#l]], #l, nil, prnt)
     fp:close()
 
+    g:print_node_list(l, "nodelist.txt")
+
     -- for _, i in pairs(l) do
     --     local n = g.nodes[i]
     --     local label = n.data.label

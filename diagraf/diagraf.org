@@ -709,6 +709,30 @@ function Graph:print_tree(l, n, i, lvl, printer)
     return i
 end
 #+END_SRC
+* Print Node List
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:print_node_list(lst, filename)
+    local fp = io.open(filename, "w")
+
+    for _,l in pairs(lst) do
+        n = self.nodes[l]
+        local label = n.data.label
+
+        if n:isconstant() then
+            label = string.format("constant(%g)", n.data.val)
+        end
+
+        if n:disabled() == false then
+            local msg =
+                string.format("%s (%d)\n", label, n.data.id)
+            fp:write(msg)
+        end
+    end
+
+    fp:close()
+end
+#+END_SRC
 * Nodes
 Graphs are constructed by connecting =Nodes= together.
 Any time a node is connected to another node, both the
