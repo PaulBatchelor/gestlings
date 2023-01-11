@@ -23,7 +23,7 @@ function Whistle.osc(params)
     local core = core or params.core
     local diagraf = diagraf or params.diagraf
     local node = diagraf.Node
-    local g = diagraf.Graph:new{sig=sig}
+    local g = diagraf.Graph:new{sig=sig, debug=true}
     local sr = sigrunes or params.sigrunes
 
     -- node generator
@@ -53,15 +53,7 @@ function Whistle.osc(params)
     end
     -- fsig = sig:new()
     
-    -- freq = params.freq or core.paramf(440)
     freq = pg(params.freq or core.paramf(440), "freq")
-    -- freq = ng(function(n, p)
-    --     n.data.gen = function(self)
-    --        return freq(self.data.g.eval)
-    --     end
-    --     n:label("freq")
-    -- end)
-    -- freq = freq()
 
     con = g:connector()
     -- saw = ng(sr.blsaw)()
@@ -71,7 +63,7 @@ function Whistle.osc(params)
     lpf = ng(sr.butlp)()
     con(ns, lpf.input)
     con(freq, lpf.cutoff)
-    -- amp = pg(params.amp or core.paramf(0.8), "amp")
+    amp = pg(params.amp or core.paramf(0.8), "amp")
     eq = ng(sr.peakeq) {
         freq=500,
         bw=250,
@@ -79,9 +71,77 @@ function Whistle.osc(params)
     }
 
     con(lpf, eq.input)
-    -- g:dot("test.dot")
-    -- amp = params.amp or core.paramf(0.8)
-    -- timbre = params.timbre or core.paramf(0.5)
+    timbre = pg(params.timbre or core.paramf(0.5), "timbre")
+    mtofr = ng(sr.mtof)
+    addr = ng(sr.add)
+    subr = ng(sr.sub)
+    mulr = ng(sr.mul)
+
+    mtof1 = mtofr()
+    con(freq, mtof1.input)
+
+    add1 = addr{b=0.1}
+    con(freq, add1.a)
+    mtof2 = mtofr()
+    con(add1, mtof2.input)
+
+    sub1 = subr{b=0.1}
+    con(freq, sub1.a)
+    mtof3 = mtofr()
+    con(sub1, mtof3.input)
+
+    sub2 = subr()
+
+    con(mtof2, sub2.a)
+    con(mtof3, sub2.b)
+
+    butbp = ng(sr.butbp)()
+    con(eq, butbp.input)
+    con(mtof1, butbp.freq)
+    con(sub2, butbp.bw)
+
+    mul1 = mulr {b=0.1}
+    con(butbp, mul1.a)
+
+    butlp = ng(sr.butlp){cutoff=300}
+    buthp = ng(sr.buthp) {cutoff=300}
+    con(mul1, butlp.input)
+    con(butlp, buthp.input)
+
+    blsq = ng(sr.blsquare)()
+    con(mtof1, blsq.freq)
+    mul2 = mulr{b=0.5}
+    con(blsq, mul2.a)
+
+    cf = ng(sr.crossfade)()
+
+    con(buthp, cf.a)
+    con(mul2, cf.b)
+    con(timbre, cf.pos)
+
+    mul3 = mulr()
+
+    con(cf, mul3.a)
+    con(amp, mul3.b)
+
+    g:process()
+    l = topsort(g.edges)
+    g:nsort_rec(l, g.nodes[l[#l]], #l)
+    g:setters_to_first_getters(l)
+    g:nsort_rec(l, g.nodes[l[#l]], #l)
+    g:postprocess(l)
+
+    g:dot("test.dot")
+
+    -- for _, i in pairs(l) do
+    --     local n = g.nodes[i]
+    --     local label = n.data.label
+    --     if label == nil then
+    --         label = "N"
+    --     end
+    --     g.eval(string.format("# %s (%d)", label, n.data.id))
+    --     n:compute()
+    -- end
 
     -- freq()
     -- fsig:hold()

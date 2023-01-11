@@ -25,6 +25,13 @@ function S.butlp(n, p)
     n:label("butlp")
 end
 
+function S.buthp(n, p)
+    n:lil("buthp zz zz")
+    n.input = n:param(0)
+    n.cutoff = n:param(p.cutoff or 1000)
+    n:label("buthp")
+end
+
 function S.wavout(n, p)
     local file = p.file or "test.wav"
     n:lil(string.format("wavout zz %s", file))
@@ -36,6 +43,12 @@ function S.blsaw(n, p)
     n:lil("blsaw zz")
     n.freq = n:param(p.freq or 440)
     n:label("blsaw")
+end
+
+function S.blsquare(n, p)
+    n:lil("blsquare zz")
+    n.freq = n:param(p.freq or 440)
+    n:label("blsquare")
 end
 
 function S.mul(n, p)
@@ -50,6 +63,20 @@ function S.add(n, p)
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 0)
     n:label("add")
+end
+
+function S.add(n, p)
+    n:lil("add zz zz")
+    n.a = n:param(p.a or 0)
+    n.b = n:param(p.b or 0)
+    n:label("add")
+end
+
+function S.sub(n, p)
+    n:lil("sub zz zz")
+    n.a = n:param(p.a or 0)
+    n.b = n:param(p.b or 0)
+    n:label("sub")
 end
 
 function S.sine(n, p)
@@ -127,6 +154,28 @@ function S.peakeq(n, p)
     n:label("peakeq")
 end
 
+function S.mtof(n, p)
+    n:lil("mtof zz")
+    n.input = n:param(0)
+    n:label("mtof")
+end
+
+function S.butbp(n, p)
+    n:lil("butbp zz zz zz")
+    n.input = n:param(0)
+    n.freq = n:param(p.freq or 1000)
+    n.bw = n:param(p.bw or 1000)
+    n:label("butbp")
+end
+
+function S.crossfade(n, p)
+    n:lil("crossfade zz zz zz")
+    n.a = n:param(p.a or 0)
+    n.b = n:param(p.b or 1)
+    n.pos  = n:param(p.pos or 0)
+    n:label("crossfade")
+end
+
 function Sigrunes.nodes(node, g, n)
     n.sine = node:generator(g, S.sine)
     n.add = node:generator(g, S.add)
@@ -142,6 +191,7 @@ function Sigrunes.nodes(node, g, n)
     n.env = node:generator(g, S.env)
     n.noise = node:generator(g, S.noise)
     n.peakeq = node:generator(g, S.peakeq)
+    n.mtof = node:generator(g, S.peakeq)
 end
 
 return Sigrunes

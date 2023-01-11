@@ -441,9 +441,12 @@ function Graph:nsort_rec(l, n, i, lvl)
     end
 
     local label = n.data.label or "node"
-    local msg = string.format("%s%s[%d](%d params)",
+    local msg = string.format("# %s%s[%d](%d params)",
         spaces, label, n.data.id, #n.data.params)
-    -- print(msg)
+
+    if self.debug then
+        self.eval(msg)
+    end
 
     if n.data.id ~= l[i] then
         --print(string.format("l[%d] is not %d", i, n.data.id))
@@ -803,8 +806,15 @@ end
 ** Compute (TODO: words)
 #+NAME: node
 #+BEGIN_SRC lua
-function Node:label(label)
-    self.data.label = label
+function Node:compute()
+    if self.data.gen ~= nil then
+        -- TODO functions that return strings is kinda
+        -- messy. sig breaks this. maybe fix?
+        local str = self.data.gen(self)
+        if str ~= nil then
+            self.data.g.eval(str)
+        end
+    end
 end
 #+END_SRC
 ** Finding First/Last children (TODO: words)
