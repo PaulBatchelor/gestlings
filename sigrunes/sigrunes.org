@@ -100,6 +100,7 @@ function S.getter(n, p)
         return self.cab:getstr()
     end
 
+    n.data.constant = false
     n:label("getter")
 end
 
@@ -112,6 +113,7 @@ function S.setter(n, p)
         return self.cab:hold(self.data.g.eval)
     end
 
+    n.data.constant = false
     n:label("setter")
 end
 
@@ -122,6 +124,7 @@ function S.releaser(n, p)
         return self.cab:unhold(self.data.g.eval)
     end
 
+    n.data.constant = false
     n:label("releaser")
 end
 

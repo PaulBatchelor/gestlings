@@ -42,6 +42,7 @@ function Whistle.osc(params)
             n.data.gen = function(self)
                return prm(self.data.g.eval)
             end
+            n.data.constant = false
             n:label(label)
         end)
 
@@ -132,6 +133,12 @@ function Whistle.osc(params)
     g:postprocess(l)
 
     g:dot("test.dot")
+    fp = io.open("tree.org", "w")
+    prnt = function(str)
+        fp:write(str .. "\n")
+    end
+    g:print_tree(l, g.nodes[l[#l]], #l, nil, prnt)
+    fp:close()
 
     -- for _, i in pairs(l) do
     --     local n = g.nodes[i]

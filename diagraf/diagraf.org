@@ -317,7 +317,7 @@ function n_getter(n, p)
     n.data.gen = function(self)
         return self.cab:getstr()
     end
-
+    n.data.constant = false
     n:label("getter")
 end
 
@@ -330,6 +330,7 @@ function n_setter(n, p)
         return self.cab:hold(self.data.g.eval)
     end
 
+    n.data.constant = false
     n:label("setter")
 end
 
@@ -340,6 +341,7 @@ function n_releaser(n, p)
         return self.cab:unhold(self.data.g.eval)
     end
 
+    n.data.constant = false
     n:label("releaser")
 end
 
@@ -396,7 +398,7 @@ function Graph:process()
                         getter.data.getter_parent = node.data.id
 
                         -- add additional label information
-                        getter:label("getter: " .. node.data.label)
+                        getter:label("getter(" .. node.data.label .. ")")
 
                         -- update link
                         self.nodes[e[2]].data.link = getter.data.id
@@ -409,7 +411,7 @@ function Graph:process()
                 node.data.setter = setter.data.id
 
                 -- add additional label information
-                setter:label("setter: " .. node.data.label)
+                setter:label("setter(" .. node.data.label .. ")")
             end
         end
     end
@@ -430,24 +432,9 @@ TODO: explain how algorithm works.
 #+BEGIN_SRC lua
 function Graph:nsort_rec(l, n, i, lvl)
     lvl = lvl or 0
-    -- print(i, n.data.id, #l)
     if i <= 0 then
-        -- pprint(l)
         return i
     end
-    local spaces = ""
-    for i=1, lvl do
-        spaces = spaces .. "-"
-    end
-
-    local label = n.data.label or "node"
-    local msg = string.format("# %s%s[%d](%d params)",
-        spaces, label, n.data.id, #n.data.params)
-
-    if self.debug then
-        self.eval(msg)
-    end
-
     if n.data.id ~= l[i] then
         --print(string.format("l[%d] is not %d", i, n.data.id))
         for k = i - 1, 1, -1 do
@@ -518,9 +505,13 @@ tree, as well as new nodes in the node list.
 #+BEGIN_SRC lua
 function Graph:setters_to_first_getters(lst)
     -- find which nodes have children
+    for k, v in pairs(lst) do
+        print(k, v)
+    end
     for _,n in pairs(self.nodes) do
         if n.data.children ~= nil then
             local first_child_id = n:first_child(lst)
+            print("first child is " .. first_child_id)
             local first_child = self.nodes[first_child_id]
             first_child.unused_input = first_child:param(0)
             self.nodes[first_child.unused_input]:label("unused input")
@@ -638,8 +629,8 @@ function Graph:dot(outfile)
     for _,n in pairs(self.nodes) do
         if n:disabled() == false then
             if n.data.label ~= nil then
-                printer(string.format("%d [label=\"%s\"]",
-                    n.data.id, n.data.label))
+                printer(string.format("%d [label=\"%s (%d)\"]",
+                    n.data.id, n.data.label, n.data.id))
             elseif n:isconstant() then
                 printer(string.format("%d [label=%s]",
                     n.data.id, n.data.val))
@@ -669,6 +660,53 @@ function Graph:dot(outfile)
     if outfile ~= nil then
         fp:close()
     end
+end
+#+END_SRC
+** Print Node Tree (TODO: words)
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:print_tree(l, n, i, lvl, printer)
+    lvl = lvl or 0
+
+    printer = printer or print
+
+    if i <= 0 then
+        return i
+    end
+
+    if n:disabled() == false then
+        local spaces = ""
+        for i=1, lvl+1 do
+            spaces = spaces .. "*"
+        end
+
+        local label = n.data.label or "node"
+
+        if n:isconstant() then
+            label = string.format("constant(%g)", n.data.val)
+        end
+
+        local msg = string.format("%s %s[%d](%d params)",
+            spaces, label, n.data.id, #n.data.params)
+
+        printer(msg)
+
+        i = i - 1
+    else
+        lvl = lvl - 1
+    end
+
+    if n.data.link ~= nil then
+        i = self.print_tree(self,
+            l, self.nodes[n.data.link], i, lvl + 1, printer)
+        return i
+    end
+
+    for p=#n.data.params, 1, -1 do
+        i = self.print_tree(self, l, n.data.params[p], i, lvl + 1, printer)
+    end
+
+    return i
 end
 #+END_SRC
 * Nodes
