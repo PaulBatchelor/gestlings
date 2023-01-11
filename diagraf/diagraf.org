@@ -710,7 +710,7 @@ function Graph:print_tree(l, n, i, lvl, printer)
     return i
 end
 #+END_SRC
-* Print Node List
+** Print Node List
 #+NAME: graph
 #+BEGIN_SRC lua
 function Graph:print_node_list(lst, filename)
