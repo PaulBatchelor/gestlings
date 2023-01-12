@@ -128,13 +128,9 @@ function Whistle.osc(params)
     l = topsort(g.edges)
     pos = g:nsort_rec(l, g.nodes[l[#l]], #l)
 
-    print("nsort1 ended at: " .. pos)
-    print(g.nodes[l[pos]].data.id)
-
+    g:sort_the_setters(l, pos)
     g:setters_to_first_getters(l)
-    pos = g:nsort_rec(l, g.nodes[l[#l]], #l)
-
-    print("nsort2 ended at: " .. pos)
+    g:nsort_rec(l, g.nodes[l[#l]], #l)
 
     g:print_node_list(l, "nodelist.txt")
 

@@ -318,6 +318,7 @@ function n_getter(n, p)
         return self.cab:getstr()
     end
     n.data.constant = false
+    n.data.typestr = "getter"
     n:label("getter")
 end
 
@@ -331,6 +332,7 @@ function n_setter(n, p)
     end
 
     n.data.constant = false
+    n.data.typestr = "setter"
     n:label("setter")
 end
 
@@ -342,6 +344,7 @@ function n_releaser(n, p)
     end
 
     n.data.constant = false
+    n.data.typestr = "releaser"
     n:label("releaser")
 end
 
@@ -499,6 +502,45 @@ correct order.
 The approach done for this is to perform a small topological
 sort on the setters, and then sort the setters in-place
 using the node sort.
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function populate_setter_table(st, setter, n)
+    -- order doesn't matter here
+    for _,p in pairs(n.data.params) do
+        if p.typestring == "getter"
+            -- TODO: implement
+        end
+    end
+end
+
+function Graph:sort_the_setters(lst, start)
+    print("start: " .. start)
+
+    -- setter table structure
+    local st = {}
+
+    -- list A: will contain setters in topological order
+    local A = {}
+
+    -- list G: contains set of getters
+
+    local G = {}
+
+    for i=start,#lst do
+        local n = self.nodes[i]
+        if n.data.typestr == "setter" then
+            st[i] = true
+        elseif n.data.typestr == "getter" then
+            G[i] = true
+        end
+    end
+
+    pprint = require("util/pprint")
+    pprint(st)
+    pprint(G)
+end
+#+END_SRC
 ** Setters to First Getters
 The process of adding setters and getters to the graph
 does not fully satisfy the constraints of the node tree,
