@@ -53,7 +53,6 @@ function Whistle.osc(params)
         return prm
     end
     -- fsig = sig:new()
-    
     freq = pg(params.freq or core.paramf(440), "freq")
 
     con = g:connector()
@@ -127,7 +126,16 @@ function Whistle.osc(params)
 
     g:process()
     l = topsort(g.edges)
-    g:nsort_rec(l, g.nodes[l[#l]], #l)
+    pos = g:nsort_rec(l, g.nodes[l[#l]], #l)
+
+    print("nsort1 ended at: " .. pos)
+    print(g.nodes[l[pos]].data.id)
+
+    g:setters_to_first_getters(l)
+    pos = g:nsort_rec(l, g.nodes[l[#l]], #l)
+
+    print("nsort2 ended at: " .. pos)
+
     g:print_node_list(l, "nodelist.txt")
 
     fp = io.open("tree.org", "w")
@@ -136,12 +144,9 @@ function Whistle.osc(params)
     end
     g:print_tree(l, g.nodes[l[#l]], #l, nil, prnt)
     fp:close()
-
-    g:setters_to_first_getters(l)
-    g:nsort_rec(l, g.nodes[l[#l]], #l)
+    g:dot("test.dot")
     g:postprocess(l)
 
-    g:dot("test.dot")
 
 
     -- for _, i in pairs(l) do

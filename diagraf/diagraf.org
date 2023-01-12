@@ -435,9 +435,9 @@ function Graph:nsort_rec(l, n, i, lvl)
     if i <= 0 then
         return i
     end
-    print("expecting: " .. n.data.id)
+    -- print(string.format("l[%d]: expecting: node(%d)", i, n.data.id))
     if n.data.id ~= l[i] then
-        print(string.format("l[%d] (%d) is not %d", i, l[i], n.data.id))
+        -- print(string.format("l[%d] (%d) is not %d", i, l[i], n.data.id))
         for k = i, 1, -1 do
             local m = l[k]
             if m == n.data.id then
@@ -446,9 +446,9 @@ function Graph:nsort_rec(l, n, i, lvl)
                 local lk = nk.data.label or ""
                 local li = ni.data.label or ""
 
-                print(string.format(
-                    "swapping l[%d] %d (%s) and l[%d] %d (%s)\n",
-                        k, nk.data.id, lk, i, ni.data.id, li))
+                -- print(string.format(
+                --     "swapping l[%d] %d (%s) and l[%d] %d (%s)\n",
+                --         k, nk.data.id, lk, i, ni.data.id, li))
                 local t = l[k]
                 l[k] = l[i]
                 l[i] = t
@@ -476,6 +476,29 @@ function Graph:nsort_rec(l, n, i, lvl)
     return i
 end
 #+END_SRC
+** Sorting the Setters
+The first pass of the node sort is an incomplete one, as
+the setters are not yet connected to the underlying tree,
+making them invisible to the tree traversing that happens.
+What ends up happening is that the node list is bisected
+into to unsorted/sorted divisions.
+
+The unsorted section contains all the unconnected setters,
+as well as the child nodes of those setters. If any of
+those children are getters, this will break the step
+of connecting setters to the tree. The setters find
+the first getter in the tree (farthest and leftmost from root),
+using the node list, with the assumption that getters
+are in the correct order.
+
+In order to fix this, this "unsorted" portion must be
+pre-sorted somehow before they get sent into setters
+to first getters, so that the getters line up in the
+correct order.
+
+The approach done for this is to perform a small topological
+sort on the setters, and then sort the setters in-place
+using the node sort.
 ** Setters to First Getters
 The process of adding setters and getters to the graph
 does not fully satisfy the constraints of the node tree,
