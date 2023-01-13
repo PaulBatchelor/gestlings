@@ -542,6 +542,10 @@ function Graph:sort_the_setters(lst, start)
 
     local G = {}
 
+    -- E that represents a DAG for setter connection order
+
+    local E = {}
+
     for i=start,#lst do
         local n = self.nodes[i]
         local nid = n.data.id
@@ -561,24 +565,67 @@ function Graph:sort_the_setters(lst, start)
         end
     end
 
-    for s,_ in pairs(st) do
-        if C[s] == 0 then
-            table.insert(A, s)
-            st[s] = nil
+    pprint(st)
+    pprint(G)
+
+    -- -- connect setters to graph (root)
+    local root = 0
+    for s, _ in pairs(st) do
+        table.insert(E, {s, root})
+    end
+
+    -- iterate through setter table "getter" sets (gs)
+    -- if a getter to another setter exists, make
+    -- an edge in the Graph
+
+    for s, gs in pairs(st) do
+        for g, _ in pairs(gs) do
+            -- dereference getter node
+            local gn = self.nodes[g]
+            -- find parent id
+            local parid = gn.data.getter_parent
+            -- parent stores the signal node itself, get
+            -- the setter for that node
+            -- TODO: less indirection
+            local par = self.nodes[parid]
+            local setterid = par.data.setter
+
+            -- add edge
+
+            if parid ~= s and parid ~= nil then
+                table.insert(E, {setterid, s})
+            end
         end
     end
 
-    for g,_ in pairs(G) do
-        for s,_ in pairs(st) do
-            if st[s][g] ~= nil then
-                C[s] = C[s] - 1
-                st[s][g] = nil
-            end
-            if C[s] == 0 then
-                table.insert(A, s)
-                st[s] = nil
-            end
-        end
+    pprint(E)
+
+    -- for s,_ in pairs(st) do
+    --     if C[s] == 0 then
+    --         table.insert(A, s)
+    --         st[s] = nil
+    --     end
+    -- end
+
+    -- for g,_ in pairs(G) do
+    --     for s,_ in pairs(st) do
+    --         if st[s][g] ~= nil then
+    --             C[s] = C[s] - 1
+    --             st[s][g] = nil
+    --         end
+    --         if C[s] == 0 then
+    --             table.insert(A, s)
+    --             st[s] = nil
+    --         end
+    --     end
+    -- end
+
+    A = topsort(E)
+    local tail = table.remove(A)
+    print(tail)
+
+    if tail ~= 0 then
+        error("something is wrong with the setters")
     end
 
     print("setters in top order: ")
@@ -588,8 +635,12 @@ function Graph:sort_the_setters(lst, start)
     -- for i = 1, start do
     --     print(lst[i])
     -- end
+    local root = lst[#lst]
     for _, a in pairs(A) do
-        pos = self:nsort_rec(lst, self.nodes[a], pos)
+        self.connect_setter_to_tree(self, lst, self.nodes[a])
+        -- TODO: limit nsorts, these slow things way down
+        self.nsort_rec(self, lst, self.nodes[root], #lst)
+        -- pos = self:nsort_rec(lst, self.nodes[a], pos)
     end
     -- pprint(lst)
 end
@@ -626,6 +677,24 @@ tree, as well as new nodes in the node list.
 -- the operation needs to be to connect one specified
 -- setter to the tree (first getter)
 -- that way, the brute force solution will work
+function Graph:connect_setter_to_tree(lst, setter)
+    local n = self.nodes[setter.input]
+    local n = self.nodes[n.data.link]
+    -- pprint(n.data.children)
+    local first_child_id = n:first_child(lst)
+    print("first child of " .. n.data.id .. " is " .. first_child_id)
+    local first_child = self.nodes[first_child_id]
+    first_child.unused_input = first_child:param(0)
+    self.nodes[first_child.unused_input]:label("unused input")
+    -- local setter = self.nodes[n.data.setter]
+    self.connect(self, setter, first_child.unused_input)
+    -- this overwrites the root, make sure
+    -- it was stored before calling
+    local new_id =
+        self.nodes[first_child.unused_input].data.id
+    table.insert(lst, new_id)
+    -- table.insert(appended_ids, new_id)
+end
 function Graph:setters_to_first_getters(lst)
     -- find which nodes have children
     -- for k, v in pairs(lst) do
@@ -636,26 +705,25 @@ function Graph:setters_to_first_getters(lst)
     for i = 1,#lst do
         nid = lst[i]
         n = self.nodes[nid]
-        if n.data.children ~= nil then
-            pprint(n.data.children)
-            local first_child_id = n:first_child(lst, i)
-            print("first child of " .. n.data.id .. " is " .. first_child_id)
-            local first_child = self.nodes[first_child_id]
-            first_child.unused_input = first_child:param(0)
-            self.nodes[first_child.unused_input]:label("unused input")
-            local setter = self.nodes[n.data.setter]
-            print("setter id is " .. n.data.setter)
-            print("input node id " .. nid)
-            print("input node id from setter " .. setter.input)
-            link_node = self.nodes[setter.input]
-            print("link node " .. link_node.data.link)
-            self.connect(self, setter, first_child.unused_input)
-            -- this overwrites the root, make sure
-            -- it was stored before calling
-            local new_id =
-                self.nodes[first_child.unused_input].data.id
-            table.insert(lst, new_id)
-            -- table.insert(appended_ids, new_id)
+        if n.data.typestr == "setter" then
+            local setter = n
+            self.connect_setter_to_tree(self, lst, setter)
+            -- n = self.nodes[n.input]
+            -- n = self.nodes[n.data.link]
+            -- pprint(n.data.children)
+            -- local first_child_id = n:first_child(lst, i)
+            -- print("first child of " .. n.data.id .. " is " .. first_child_id)
+            -- local first_child = self.nodes[first_child_id]
+            -- first_child.unused_input = first_child:param(0)
+            -- self.nodes[first_child.unused_input]:label("unused input")
+            -- -- local setter = self.nodes[n.data.setter]
+            -- self.connect(self, setter, first_child.unused_input)
+            -- -- this overwrites the root, make sure
+            -- -- it was stored before calling
+            -- local new_id =
+            --     self.nodes[first_child.unused_input].data.id
+            -- table.insert(lst, new_id)
+            -- -- table.insert(appended_ids, new_id)
         end
     end
 
@@ -1038,6 +1106,7 @@ end
 function Node:first_child(lst, start)
     local first_child_id = -1
     local g = self.data.g
+    start = start or 1
 
     for i=start,#lst do
         local curnode = g.nodes[lst[i]]
