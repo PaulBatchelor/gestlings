@@ -6,7 +6,7 @@ sigrunes = require("sigrunes/sigrunes")
 
 whistle.osc {
     freq = lilf("rline 70 80 10"),
-    timbre = paramf(0.5),
+    timbre = paramf(0),
     amp = paramf(0.5),
     sig = sig,
     core = core,
@@ -14,5 +14,5 @@ whistle.osc {
     sigrunes = sigrunes
 }
 
--- lil("wavout zz test.wav")
--- lil("computes 6")
+lil("wavout zz test.wav")
+lil("computes 6")

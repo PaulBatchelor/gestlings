@@ -84,6 +84,7 @@ return Diagraf
 * Graphs
 #+NAME: diagraf
 #+BEGIN_SRC lua
+pprint = require("util/pprint")
 Diagraf.Graph = {}
 Graph = Diagraf.Graph
 <<topsort>>
@@ -505,20 +506,34 @@ using the node sort.
 
 #+NAME: graph
 #+BEGIN_SRC lua
-function populate_setter_table(st, setter, n)
+function Graph:populate_setter_table(st, setter, n, G)
     -- order doesn't matter here
-    for _,p in pairs(n.data.params) do
-        if p.typestring == "getter"
-            -- TODO: implement
+    for _,param in pairs(n.data.params) do
+        p = param
+        if p.data.link ~= nil then
+            p = self.nodes[p.data.link]
         end
+
+        if p.data.typestr == "getter" then
+            if type(st[setter] ~= "table") then
+                st[setter] = {}
+            end
+            st[setter][p.data.id] = true
+            G[p.data.id] = true
+        end
+        self.populate_setter_table(self, st, setter, p, G)
     end
 end
 
 function Graph:sort_the_setters(lst, start)
-    print("start: " .. start)
+    -- print("start: " .. start)
 
     -- setter table structure
     local st = {}
+
+    -- C: counts number of getters in each setter
+
+    local C = {}
 
     -- list A: will contain setters in topological order
     local A = {}
@@ -529,16 +544,53 @@ function Graph:sort_the_setters(lst, start)
 
     for i=start,#lst do
         local n = self.nodes[i]
+        local nid = n.data.id
         if n.data.typestr == "setter" then
-            st[i] = true
-        elseif n.data.typestr == "getter" then
-            G[i] = true
+            st[nid] = {}
+            C[nid] = 0
         end
     end
 
-    pprint = require("util/pprint")
-    pprint(st)
-    pprint(G)
+    for setter,_ in pairs(st) do
+        self.populate_setter_table(self,
+            st, setter, self.nodes[setter], G)
+    end
+    for s,_ in pairs(st) do
+        for _,_ in pairs(st[s]) do
+            C[s] = C[s] + 1
+        end
+    end
+
+    for s,_ in pairs(st) do
+        if C[s] == 0 then
+            table.insert(A, s)
+            st[s] = nil
+        end
+    end
+
+    for g,_ in pairs(G) do
+        for s,_ in pairs(st) do
+            if st[s][g] ~= nil then
+                C[s] = C[s] - 1
+                st[s][g] = nil
+            end
+            if C[s] == 0 then
+                table.insert(A, s)
+                st[s] = nil
+            end
+        end
+    end
+
+    pprint(A)
+    pos = start
+
+    -- for i = 1, start do
+    --     print(lst[i])
+    -- end
+    for _, a in pairs(A) do
+        pos = self:nsort_rec(lst, self.nodes[a], pos)
+    end
+    pprint(lst)
 end
 #+END_SRC
 ** Setters to First Getters
@@ -574,23 +626,32 @@ function Graph:setters_to_first_getters(lst)
     -- for k, v in pairs(lst) do
     --     print(k, v)
     -- end
-    for _,n in pairs(self.nodes) do
+    --for _,n in pairs(self.nodes) do
+    local appended_ids = {}
+    for i = 1,#lst do
+        nid = lst[i]
+        n = self.nodes[nid]
         if n.data.children ~= nil then
-            local first_child_id = n:first_child(lst)
-            -- print("first child is " .. first_child_id)
+            pprint(n.data.children)
+            local first_child_id = n:first_child(lst, i)
+            print("first child of " .. n.data.id .. " is " .. first_child_id)
             local first_child = self.nodes[first_child_id]
             first_child.unused_input = first_child:param(0)
             self.nodes[first_child.unused_input]:label("unused input")
             local setter = self.nodes[n.data.setter]
             self.connect(self, setter, first_child.unused_input)
-            -- insert into first position of list, since it was
-            -- created after topsort
-            -- "head" of list must preserve the root.
+            -- this overwrites the root, make sure
+            -- it was stored before calling
             local new_id =
                 self.nodes[first_child.unused_input].data.id
-            table.insert(lst, 1, new_id)
+            table.insert(lst, new_id)
+            -- table.insert(appended_ids, new_id)
         end
     end
+
+    -- for _,v in pairs(appended_ids) do
+    --     table.insert(lst, v)
+    -- end
 end
 #+END_SRC
 ** Adding Releasers (TODO: rename function)
@@ -964,11 +1025,11 @@ end
 
 #+NAME: node
 #+BEGIN_SRC lua
-function Node:first_child(lst)
+function Node:first_child(lst, start)
     local first_child_id = -1
     local g = self.data.g
 
-    for i=1,#lst do
+    for i=start,#lst do
         local curnode = g.nodes[lst[i]]
         if curnode.data.getter_parent == self.data.id then
             first_child_id = curnode.data.id

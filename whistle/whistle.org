@@ -18,6 +18,7 @@ timbre.
 
 #+NAME: oscillator
 #+BEGIN_SRC lua
+pprint = require("util/pprint")
 function Whistle.osc(params)
     local sig = sig or params.sig
     local core = core or params.core
@@ -35,24 +36,27 @@ function Whistle.osc(params)
         -- assumes input prm is a callback that evals
         -- lua code
 
+        prm1 = prm
         -- wrap callback into diagraf node generator,
         -- give it a label
 
-        prm = ng(function(n, p)
+        prm2 = ng(function(n, p)
+            n.data.cb = prm1
             n.data.gen = function(self)
-               return prm(self.data.g.eval)
+               return self.data.cb(self.data.g.eval)
             end
             n.data.constant = false
             n:label(label)
         end)
 
         -- call the generator to produce an instance
-        prm = prm()
+        prm3 = prm2()
 
         -- return the instance
-        return prm
+        return prm3
     end
     -- fsig = sig:new()
+    -- print(type(params.freq))
     freq = pg(params.freq or core.paramf(440), "freq")
 
     con = g:connector()
@@ -62,7 +66,7 @@ function Whistle.osc(params)
     ns = ng(sr.noise)()
     lpf = ng(sr.butlp)()
     con(ns, lpf.input)
-    con(freq, lpf.cutoff)
+    -- con(freq, lpf.cutoff)
     amp = pg(params.amp or core.paramf(0.8), "amp")
     eq = ng(sr.peakeq) {
         freq=500,
@@ -100,23 +104,25 @@ function Whistle.osc(params)
     con(mtof1, butbp.freq)
     con(sub2, butbp.bw)
 
-    mul1 = mulr {b=0.1}
+    dblin = ng(sr.dblin)({db=10})
+    mul1 = mulr {}
     con(butbp, mul1.a)
+    con(dblin, mul1.b)
 
-    butlp = ng(sr.butlp){cutoff=300}
-    buthp = ng(sr.buthp) {cutoff=300}
-    con(mul1, butlp.input)
-    con(butlp, buthp.input)
 
     blsq = ng(sr.blsquare)()
     con(mtof1, blsq.freq)
     mul2 = mulr{b=0.5}
+    butlp = ng(sr.butlp){cutoff=300}
+    buthp = ng(sr.buthp) {cutoff=300}
     con(blsq, mul2.a)
+    con(mul2, butlp.input)
+    con(butlp, buthp.input)
 
     cf = ng(sr.crossfade)()
 
-    con(buthp, cf.a)
-    con(mul2, cf.b)
+    con(mul1, cf.a)
+    con(buthp, cf.b)
     con(timbre, cf.pos)
 
     mul3 = mulr()
@@ -126,11 +132,12 @@ function Whistle.osc(params)
 
     g:process()
     l = topsort(g.edges)
-    pos = g:nsort_rec(l, g.nodes[l[#l]], #l)
+    root = l[#l]
+    pos = g:nsort_rec(l, g.nodes[root], #l)
 
     g:sort_the_setters(l, pos)
     g:setters_to_first_getters(l)
-    g:nsort_rec(l, g.nodes[l[#l]], #l)
+    g:nsort_rec(l, g.nodes[root], #l)
 
     g:print_node_list(l, "nodelist.txt")
 
@@ -151,7 +158,7 @@ function Whistle.osc(params)
     --     if label == nil then
     --         label = "N"
     --     end
-    --     g.eval(string.format("# %s (%d)", label, n.data.id))
+    --     -- g.eval(string.format("# %s (%d)", label, n.data.id))
     --     n:compute()
     -- end
 

@@ -1,9 +1,3 @@
-function paramf(val)
-    return function ()
-        lil(string.format("param %g", val))
-    end
-end
-
 function lilf(str)
     return function(eval)
         eval = eval or lil
@@ -11,3 +5,6 @@ function lilf(str)
     end
 end
 
+function paramf(val)
+    return lilf(string.format("param %g", val))
+end
