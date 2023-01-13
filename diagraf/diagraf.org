@@ -581,6 +581,7 @@ function Graph:sort_the_setters(lst, start)
         end
     end
 
+    print("setters in top order: ")
     pprint(A)
     pos = start
 
@@ -590,7 +591,7 @@ function Graph:sort_the_setters(lst, start)
     for _, a in pairs(A) do
         pos = self:nsort_rec(lst, self.nodes[a], pos)
     end
-    pprint(lst)
+    -- pprint(lst)
 end
 #+END_SRC
 ** Setters to First Getters
@@ -621,6 +622,10 @@ tree, as well as new nodes in the node list.
 
 #+NAME: graph
 #+BEGIN_SRC lua
+-- TODO: refactor
+-- the operation needs to be to connect one specified
+-- setter to the tree (first getter)
+-- that way, the brute force solution will work
 function Graph:setters_to_first_getters(lst)
     -- find which nodes have children
     -- for k, v in pairs(lst) do
@@ -639,6 +644,11 @@ function Graph:setters_to_first_getters(lst)
             first_child.unused_input = first_child:param(0)
             self.nodes[first_child.unused_input]:label("unused input")
             local setter = self.nodes[n.data.setter]
+            print("setter id is " .. n.data.setter)
+            print("input node id " .. nid)
+            print("input node id from setter " .. setter.input)
+            link_node = self.nodes[setter.input]
+            print("link node " .. link_node.data.link)
             self.connect(self, setter, first_child.unused_input)
             -- this overwrites the root, make sure
             -- it was stored before calling
