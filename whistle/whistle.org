@@ -95,9 +95,14 @@ function Whistle.osc(params)
     con(sub1, mtof3.input)
 
     sub2 = subr()
+    -- sub_unused = subr()
 
     con(mtof2, sub2.a)
     con(mtof3, sub2.b)
+
+    -- mtof2:label("mtof mistake")
+    -- sub2:label("sub mistake")
+    -- con(sub2, mtof2.input)
 
     butbp = ng(sr.butbp)()
     con(eq, butbp.input)
@@ -131,13 +136,27 @@ function Whistle.osc(params)
     con(amp, mul3.b)
 
     g:process()
-    l = topsort(g.edges)
+    l = g:topsort(g.edges)
     root = l[#l]
     pos = g:nsort_rec(l, g.nodes[root], #l)
 
     g:sort_the_setters(l, pos)
     -- g:setters_to_first_getters(l)
-    g:nsort_rec(l, g.nodes[root], #l)
+    local nodepos = g:nsort_rec(l, g.nodes[root], #l)
+
+    if nodepos ~= 0 then
+        local unused_nodes = {}
+        for i=1,nodepos do
+            local nid = l[i]
+            local node = g.nodes[nid]
+            if node:isconstant() ~= true then
+                local label = node.data.label or
+                    "node" .. nid
+                table.insert(unused_nodes, label) 
+            end
+        end
+        error("unused nodes: " .. table.concat(unused_nodes, ","))
+    end
 
     g:print_node_list(l, "nodelist.txt")
 

@@ -207,7 +207,7 @@ function Graph:connector()
     end
 end
 #+END_SRC
-** Topological Sort (TODO: error checking)
+** Topological Sort
 Done using Kahn's algorithm, adapated from pseudocode
 on wikipedia.
 
@@ -224,8 +224,12 @@ list processing needs to occur before it is ready for this.
 The two most important things that the topological sort
 does is produce the final output node (the last item
 on the list), as well as determine if the graph has
-any loops in it (possible, but not yet implemented yet,
-TODO).
+any loops in it.
+
+The topological sorting algorithm works by systematically
+removing edges of the graph. If the algorithm ends and
+there are still edges, it means there is a loop and
+the graph is not a DAG.
 
 #+NAME: topsort
 #+BEGIN_SRC lua
@@ -289,6 +293,60 @@ function topsort(edges)
                 table.insert(s, m)
             end
         end
+    end
+
+    if #removed ~= #edges then
+        -- graph is not a DAG
+        return removed, true
+    end
+
+    return l
+end
+#+END_SRC
+
+The topsort method in the Graph will perform a 
+topsort on the internal edges, and then provide an
+informative 
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:topsort()
+    local l, err = topsort(self.edges)
+
+    if err then
+        local remaining_nodes = {}
+        local removed = l
+        local c = 0
+
+        for i,e in pairs(self.edges) do
+            if removed[i] ~= true then
+                local outgoing = self.nodes[e[2]]
+                if
+                    outgoing:disabled() ~= true and
+                    outgoing:isconstant() ~= true and
+                    outgoing.data.typestr ~= "setter" and
+                    outgoing.data.typestr ~= "getter"
+                then
+
+                    if remaining_nodes[outgoing.data.id] == nil then
+                        c = c + 1
+                        remaining_nodes[outgoing.data.id] = true
+                    end
+                end
+            end
+        end
+
+        local remaining_node_names = {}
+
+        for rn,_ in pairs(remaining_nodes) do
+            local outgoing = self.nodes[rn]
+            local label = outgoing.data.label or
+                "node" .. outgoing.data.id
+            table.insert(remaining_node_names, label)
+        end
+
+        error("graph is not a DAG\n"..
+        "remaining nodes: " ..
+        table.concat(remaining_node_names, ", "))
     end
 
     return l
@@ -565,9 +623,6 @@ function Graph:sort_the_setters(lst, start)
         end
     end
 
-    pprint(st)
-    pprint(G)
-
     -- -- connect setters to graph (root)
     local root = 0
     for s, _ in pairs(st) do
@@ -598,43 +653,15 @@ function Graph:sort_the_setters(lst, start)
         end
     end
 
-    pprint(E)
-
-    -- for s,_ in pairs(st) do
-    --     if C[s] == 0 then
-    --         table.insert(A, s)
-    --         st[s] = nil
-    --     end
-    -- end
-
-    -- for g,_ in pairs(G) do
-    --     for s,_ in pairs(st) do
-    --         if st[s][g] ~= nil then
-    --             C[s] = C[s] - 1
-    --             st[s][g] = nil
-    --         end
-    --         if C[s] == 0 then
-    --             table.insert(A, s)
-    --             st[s] = nil
-    --         end
-    --     end
-    -- end
-
     A = topsort(E)
     local tail = table.remove(A)
-    print(tail)
 
     if tail ~= 0 then
         error("something is wrong with the setters")
     end
 
-    print("setters in top order: ")
-    pprint(A)
     pos = start
 
-    -- for i = 1, start do
-    --     print(lst[i])
-    -- end
     local root = lst[#lst]
     for _, a in pairs(A) do
         self.connect_setter_to_tree(self, lst, self.nodes[a])
@@ -642,7 +669,6 @@ function Graph:sort_the_setters(lst, start)
         self.nsort_rec(self, lst, self.nodes[root], #lst)
         -- pos = self:nsort_rec(lst, self.nodes[a], pos)
     end
-    -- pprint(lst)
 end
 #+END_SRC
 ** Setters to First Getters
@@ -682,7 +708,7 @@ function Graph:connect_setter_to_tree(lst, setter)
     local n = self.nodes[n.data.link]
     -- pprint(n.data.children)
     local first_child_id = n:first_child(lst)
-    print("first child of " .. n.data.id .. " is " .. first_child_id)
+    -- print("first child of " .. n.data.id .. " is " .. first_child_id)
     local first_child = self.nodes[first_child_id]
     first_child.unused_input = first_child:param(0)
     self.nodes[first_child.unused_input]:label("unused input")
