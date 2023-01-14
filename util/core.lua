@@ -11,8 +11,8 @@ function Core.paramf(val)
     return Core.lilf(string.format("param %g", val))
 end
     
-function Core.nodegen(node, g)
-    local ng = function(n) return node:generator(g, n) end
+function Core.nodegen(node, graph)
+    local ng = function(n) return node:generator(graph, n) end
     return ng
 end
     

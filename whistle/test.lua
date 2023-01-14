@@ -12,7 +12,7 @@ tgate zz 0.08
 env zz 0.004 0.001 0.01
 ]])
 
-whistle.osc {
+local g = whistle.graph {
     freq = lvl("rline 70 80 10"),
     timbre = lvl("rline 0 1 3"),
     amp = pulses,
@@ -21,6 +21,10 @@ whistle.osc {
     diagraf = diagraf,
     sigrunes = sigrunes
 }
+
+l = g:generate_nodelist()
+g:dot("whistle.dot")
+g:compute(l)
 
 lil("wavout zz test.wav")
 lil("computes 6")

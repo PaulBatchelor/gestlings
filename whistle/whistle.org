@@ -19,7 +19,8 @@ timbre.
 #+NAME: oscillator
 #+BEGIN_SRC lua
 pprint = require("util/pprint")
-function Whistle.osc(params)
+
+function Whistle.graph(params)
     local sig = sig or params.sig
     local core = core or params.core
     local diagraf = diagraf or params.diagraf
@@ -27,37 +28,9 @@ function Whistle.osc(params)
     local g = diagraf.Graph:new{sig=sig, debug=false}
     local sr = sigrunes or params.sigrunes
 
-    local ng = core.nodegen(node)
+    local ng = core.nodegen(node, g)
     local pg = core.paramgen(ng)
 
-    -- -- node generator
-    -- local ng = function(n) return node:generator(g, n) end
-
-    -- -- param generator
-    -- local pg = function(prm, label)
-    --     label = label or "param"
-    --     -- assumes input prm is a callback that evals
-    --     -- lua code
-
-    --     prm1 = prm
-    --     -- wrap callback into diagraf node generator,
-    --     -- give it a label
-
-    --     prm2 = ng(function(n, p)
-    --         n.data.cb = prm1
-    --         n.data.gen = function(self)
-    --            return self.data.cb(self.data.g.eval)
-    --         end
-    --         n.data.constant = false
-    --         n:label(label)
-    --     end)
-
-    --     -- call the generator to produce an instance
-    --     prm3 = prm2()
-
-    --     -- return the instance
-    --     return prm3
-    -- end
     freq = pg(params.freq or core.paramf(440), "freq")
 
     con = g:connector()
@@ -127,6 +100,11 @@ function Whistle.osc(params)
     con(cf, mul3.a)
     con(amp, mul3.b)
 
+    return g
+end
+
+function Whistle.osc(params)
+    local g = Whistle.graph(params)
     local l = g:generate_nodelist()
     g:compute(l)
 end
