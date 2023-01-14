@@ -84,7 +84,6 @@ return Diagraf
 * Graphs
 #+NAME: diagraf
 #+BEGIN_SRC lua
-pprint = require("util/pprint")
 Diagraf.Graph = {}
 Graph = Diagraf.Graph
 <<topsort>>

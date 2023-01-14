@@ -18,8 +18,6 @@ timbre.
 
 #+NAME: oscillator
 #+BEGIN_SRC lua
-pprint = require("util/pprint")
-
 function Whistle.graph(params)
     local sig = sig or params.sig
     local core = core or params.core
