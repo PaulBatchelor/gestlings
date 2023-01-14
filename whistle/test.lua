@@ -4,7 +4,7 @@ sig = require("sig/sig")
 diagraf = require("diagraf/diagraf")
 sigrunes = require("sigrunes/sigrunes")
 
-lvl = core.lilf
+lvl = core.liln
 
 pulses = lvl([[
 metro [rline 1 8 1]

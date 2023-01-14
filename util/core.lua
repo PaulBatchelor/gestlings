@@ -7,6 +7,14 @@ function Core.lilf(str)
     end
 end
 
+function Core.liln(str)
+    return {
+        lilnode = true,
+        lilfun = Core.lilf(str),
+        lilstr = str
+    }
+end
+
 function Core.paramf(val)
     return Core.lilf(string.format("param %g", val))
 end
@@ -24,6 +32,13 @@ function Core.paramgen(ng)
         -- lua code
 
         prm1 = prm
+
+        -- if lilnode, update callbacks and label
+        if type(prm) == "table" and prm1.lilnode then
+            prm1 = prm.lilfun
+            label = label .. ": " .. prm.lilstr
+        end
+
         -- wrap callback into diagraf node generator,
         -- give it a label
 
