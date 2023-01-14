@@ -833,11 +833,55 @@ function Graph:postprocess(lst)
     end
 end
 #+END_SRC
-** Graph to Postorder Tree (TODO: implement)
-TODO: implement. This will do all the intermediate steps
-described above.
-** Sndkit Code Generation/Evaluation (TODO: implement)
-TODO: implement. Evaluate a post-order tree.
+** Generate Nodelist
+=generate_nodelist= will process the graph and
+produce a list of node ID numbers which are sorted
+in postorder from the underlying tree. It is a combination
+of the methods described above.
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:generate_nodelist()
+    self.process(self)
+    local l = self.topsort(self)
+    local root = l[#l]
+    local pos = self.nsort_rec(self, l, self.nodes[root], #l)
+
+    self.sort_the_setters(self, l, pos)
+    local nodepos = self.nsort_rec(self, l, self.nodes[root], #l)
+
+    if nodepos ~= 0 then
+        local unused_nodes = {}
+        for i=1,nodepos do
+            local nid = l[i]
+            local node = self.nodes[nid]
+            if node:isconstant() ~= true then
+                local label = node.data.label or
+                    "node" .. nid
+                table.insert(unused_nodes, label) 
+            end
+        end
+        error("unused nodes: " .. table.concat(unused_nodes, ","))
+    end
+    self.postprocess(self, l)
+
+    return l
+end
+#+END_SRC
+** Sndkit Code Generation/Evaluation
+Given a node list generated from =generate_nodelist=,
+compute the nodes. If set to debug mode, this will
+print the generated code rather than evaluating it.
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:compute(lst)
+    for _, i in pairs(lst) do
+        local n = self.nodes[i]
+        n:compute()
+    end
+end
+#+END_SRC
 ** Graphviz Code Generation (Dot) (TODO: words)
 TODO: words. Explain how this works.
 

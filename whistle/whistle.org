@@ -55,18 +55,12 @@ function Whistle.osc(params)
         -- return the instance
         return prm3
     end
-    -- fsig = sig:new()
-    -- print(type(params.freq))
     freq = pg(params.freq or core.paramf(440), "freq")
 
     con = g:connector()
-    -- saw = ng(sr.blsaw)()
-    -- con(freq, saw.freq)
-
     ns = ng(sr.noise)()
     lpf = ng(sr.butlp)()
     con(ns, lpf.input)
-    -- con(freq, lpf.cutoff)
     amp = pg(params.amp or core.paramf(0.8), "amp")
     eq = ng(sr.peakeq) {
         freq=500,
@@ -95,14 +89,9 @@ function Whistle.osc(params)
     con(sub1, mtof3.input)
 
     sub2 = subr()
-    -- sub_unused = subr()
 
     con(mtof2, sub2.a)
     con(mtof3, sub2.b)
-
-    -- mtof2:label("mtof mistake")
-    -- sub2:label("sub mistake")
-    -- con(sub2, mtof2.input)
 
     butbp = ng(sr.butbp)()
     con(eq, butbp.input)
@@ -135,71 +124,7 @@ function Whistle.osc(params)
     con(cf, mul3.a)
     con(amp, mul3.b)
 
-    g:process()
-    l = g:topsort(g.edges)
-    root = l[#l]
-    pos = g:nsort_rec(l, g.nodes[root], #l)
-
-    g:sort_the_setters(l, pos)
-    -- g:setters_to_first_getters(l)
-    local nodepos = g:nsort_rec(l, g.nodes[root], #l)
-
-    if nodepos ~= 0 then
-        local unused_nodes = {}
-        for i=1,nodepos do
-            local nid = l[i]
-            local node = g.nodes[nid]
-            if node:isconstant() ~= true then
-                local label = node.data.label or
-                    "node" .. nid
-                table.insert(unused_nodes, label) 
-            end
-        end
-        error("unused nodes: " .. table.concat(unused_nodes, ","))
-    end
-
-    g:print_node_list(l, "nodelist.txt")
-
-    fp = io.open("tree.org", "w")
-    prnt = function(str)
-        fp:write(str .. "\n")
-    end
-    g:print_tree(l, g.nodes[l[#l]], #l, nil, prnt)
-    fp:close()
-    g:dot("test.dot")
-    g:postprocess(l)
-
-    for _, i in pairs(l) do
-        local n = g.nodes[i]
-        local label = n.data.label
-        if label == nil then
-            label = "N"
-        end
-        -- g.eval(string.format("# %s (%d)", label, n.data.id))
-        n:compute()
-    end
-
-    -- freq()
-    -- fsig:hold()
-    -- lil("noise; butlp zz 2000; peakeq zz 500 250 2")
-
-    -- fsig:get()
-    -- lil("mtof zz")
-    -- fsig:get()
-    -- lil("add zz 0.1; mtof zz")
-    -- fsig:get()
-
-    -- lil("sub zz 0.1; mtof zz")
-    -- lil("sub zz zz")
-    -- lil("butbp zz zz zz; mul zz [dblin 10]")
-
-    -- fsig:get()
-    -- lil("blsquare [mtof zz]; mul zz [dblin -3]")
-    -- lil("butlp zz 300; buthp zz 300")
-    -- timbre()
-    -- lil("crossfade zz zz zz")
-    -- fsig:unhold()
-    -- amp()
-    -- lil("mul zz zz")
+    local l = g:generate_nodelist()
+    g:compute(l)
 end
 #+END_SRC
