@@ -24,7 +24,7 @@ function Whistle.osc(params)
     local core = core or params.core
     local diagraf = diagraf or params.diagraf
     local node = diagraf.Node
-    local g = diagraf.Graph:new{sig=sig, debug=true}
+    local g = diagraf.Graph:new{sig=sig, debug=false}
     local sr = sigrunes or params.sigrunes
 
     -- node generator
@@ -150,17 +150,15 @@ function Whistle.osc(params)
     g:dot("test.dot")
     g:postprocess(l)
 
-
-
-    -- for _, i in pairs(l) do
-    --     local n = g.nodes[i]
-    --     local label = n.data.label
-    --     if label == nil then
-    --         label = "N"
-    --     end
-    --     -- g.eval(string.format("# %s (%d)", label, n.data.id))
-    --     n:compute()
-    -- end
+    for _, i in pairs(l) do
+        local n = g.nodes[i]
+        local label = n.data.label
+        if label == nil then
+            label = "N"
+        end
+        -- g.eval(string.format("# %s (%d)", label, n.data.id))
+        n:compute()
+    end
 
     -- freq()
     -- fsig:hold()
