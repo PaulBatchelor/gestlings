@@ -666,8 +666,9 @@ function Graph:sort_the_setters(lst, start)
     for _, a in pairs(A) do
         self.connect_setter_to_tree(self, lst, self.nodes[a])
         -- TODO: limit nsorts, these slow things way down
+        -- HINT: nsort only needs to be called if a getter
+        -- has been connected
         self.nsort_rec(self, lst, self.nodes[root], #lst)
-        -- pos = self:nsort_rec(lst, self.nodes[a], pos)
     end
 end
 #+END_SRC
