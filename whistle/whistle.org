@@ -27,34 +27,37 @@ function Whistle.osc(params)
     local g = diagraf.Graph:new{sig=sig, debug=false}
     local sr = sigrunes or params.sigrunes
 
-    -- node generator
-    local ng = function(n) return node:generator(g, n) end
+    local ng = core.nodegen(node)
+    local pg = core.paramgen(ng)
 
-    -- param generator
-    local pg = function(prm, label)
-        label = label or "param"
-        -- assumes input prm is a callback that evals
-        -- lua code
+    -- -- node generator
+    -- local ng = function(n) return node:generator(g, n) end
 
-        prm1 = prm
-        -- wrap callback into diagraf node generator,
-        -- give it a label
+    -- -- param generator
+    -- local pg = function(prm, label)
+    --     label = label or "param"
+    --     -- assumes input prm is a callback that evals
+    --     -- lua code
 
-        prm2 = ng(function(n, p)
-            n.data.cb = prm1
-            n.data.gen = function(self)
-               return self.data.cb(self.data.g.eval)
-            end
-            n.data.constant = false
-            n:label(label)
-        end)
+    --     prm1 = prm
+    --     -- wrap callback into diagraf node generator,
+    --     -- give it a label
 
-        -- call the generator to produce an instance
-        prm3 = prm2()
+    --     prm2 = ng(function(n, p)
+    --         n.data.cb = prm1
+    --         n.data.gen = function(self)
+    --            return self.data.cb(self.data.g.eval)
+    --         end
+    --         n.data.constant = false
+    --         n:label(label)
+    --     end)
 
-        -- return the instance
-        return prm3
-    end
+    --     -- call the generator to produce an instance
+    --     prm3 = prm2()
+
+    --     -- return the instance
+    --     return prm3
+    -- end
     freq = pg(params.freq or core.paramf(440), "freq")
 
     con = g:connector()

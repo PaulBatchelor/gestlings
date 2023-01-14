@@ -4,10 +4,18 @@ sig = require("sig/sig")
 diagraf = require("diagraf/diagraf")
 sigrunes = require("sigrunes/sigrunes")
 
+lvl = core.lilf
+
+pulses = lvl([[
+metro [rline 1 8 1]
+tgate zz 0.08
+env zz 0.004 0.001 0.01
+]])
+
 whistle.osc {
-    freq = lilf("rline 70 80 10"),
-    timbre = paramf(0.5),
-    amp = paramf(0.5),
+    freq = lvl("rline 70 80 10"),
+    timbre = lvl("rline 0 1 3"),
+    amp = pulses,
     sig = sig,
     core = core,
     diagraf = diagraf,
