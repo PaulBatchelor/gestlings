@@ -902,16 +902,23 @@ function Graph:dot(outfile)
     printer("layout=dot")
 
     for _,n in pairs(self.nodes) do
-        if n:disabled() == false then
-            if n.data.label ~= nil then
-                printer(string.format("%d [label=\"%s (%d)\"]",
-                    n.data.id, n.data.label, n.data.id))
-            elseif n:isconstant() then
+        if 
+            n:disabled() == false and
+            n.data.typestr ~= "releaser" and
+            n.data.typestr ~= "getter" and
+            n.data.typestr ~= "setter"
+        then
+            if n:isconstant() then
                 printer(string.format("%d [label=%s]",
                     n.data.id, n.data.val))
             else
-                printer(string.format("%d [label=\"N%d\"]",
-                    n.data.id, n.data.id))
+                if n.data.label ~= nil then
+                    printer(string.format("%d [label=\"%s (%d)\"]",
+                        n.data.id, n.data.label, n.data.id))
+                else
+                    printer(string.format("%d [label=\"N%d\"]",
+                        n.data.id, n.data.id))
+                end
             end
         end
     end
@@ -919,14 +926,36 @@ function Graph:dot(outfile)
         if e[3] == 1 then
             local n2 = self.nodes[e[2]]
             local n1 = self.nodes[e[1]]
+            local loud = true
+
+            if
+                n1.data.typestr == "setter" or
+                n2.data.typestr == "setter"
+            then
+                loud = false
+            end
 
             local incoming = e[1]
             local outgoing = e[2]
+
             if n2:disabled() then
                 outgoing = n2.data.parent
+
+                n2 = self.nodes[outgoing]
+
+                if n2.data.typestr == "setter" then
+                    loud = false
+                end
             end
 
-            if n1:disabled() == false then
+            if n1.data.typestr == "getter" then
+                incoming = n1.data.getter_parent
+            end
+
+            if n1:disabled() == false and loud == true then
+                if outgoing == 60 then
+                    print(n2.data.id)
+                end
                 printer(string.format("%d -> %d", incoming, outgoing))
             end
         end
