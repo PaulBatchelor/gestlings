@@ -87,11 +87,19 @@ function S.sine(n, p)
 end
 
 function S.biscale(n, p)
-    n.input = n:param(0)
+    n.input = n:param(p.input or 0)
     n.min = n:param(p.min or 0)
     n.max = n:param(p.max or 1)
     n:lil("biscale zz zz zz")
     n:label("biscale")
+end
+
+function S.scale(n, p)
+    n.input = n:param(p.input or 0)
+    n.min = n:param(p.min or 0)
+    n.max = n:param(p.max or 1)
+    n:lil("scale zz zz zz")
+    n:label("scale")
 end
 
 function S.getter(n, p)
