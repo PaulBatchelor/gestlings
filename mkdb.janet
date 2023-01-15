@@ -26,6 +26,7 @@
 (ww-add-page "whistle" `@!(wikipage "whistle")!@`)
 (ww-add-page "diagraf" `@!(wikipage "diagraf")!@`)
 (ww-add-page "sigrunes" `@!(wikipage "sigrunes")!@`)
+(ww-add-page "nrt" `@!(wikipage "nrt")!@`)
 
 # linked pages
 
