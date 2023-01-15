@@ -19,29 +19,29 @@ Sigrunes = {}
 S = Sigrunes
 
 function S.butlp(n, p)
-    n:lil("butlp zz zz")
     n.input = n:param(0)
     n.cutoff = n:param(p.cutoff or 1000)
+    n:lil("butlp zz zz")
     n:label("butlp")
 end
 
 function S.buthp(n, p)
-    n:lil("buthp zz zz")
     n.input = n:param(0)
     n.cutoff = n:param(p.cutoff or 1000)
+    n:lil("buthp zz zz")
     n:label("buthp")
 end
 
 function S.wavout(n, p)
     local file = p.file or "test.wav"
+    n.input = n:param(p.input or 0)
     n:lil(string.format("wavout zz %s", file))
-    n.input = n:param(0)
     n:label("wavout")
 end
 
 function S.blsaw(n, p)
-    n:lil("blsaw zz")
     n.freq = n:param(p.freq or 440)
+    n:lil("blsaw zz")
     n:label("blsaw")
 end
 
@@ -52,16 +52,16 @@ function S.blsquare(n, p)
 end
 
 function S.mul(n, p)
-    n:lil("mul zz zz")
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 0)
+    n:lil("mul zz zz")
     n:label("mul")
 end
 
 function S.add(n, p)
-    n:lil("add zz zz")
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 0)
+    n:lil("add zz zz")
     n:label("add")
 end
 
@@ -73,24 +73,24 @@ function S.add(n, p)
 end
 
 function S.sub(n, p)
-    n:lil("sub zz zz")
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 0)
+    n:lil("sub zz zz")
     n:label("sub")
 end
 
 function S.sine(n, p)
-    n:lil("sine zz zz")
     n.freq = n:param(p.freq or 440)
     n.amp = n:param(p.amp or 0.5)
+    n:lil("sine zz zz")
     n:label("sine")
 end
 
 function S.biscale(n, p)
-    n:lil("biscale zz zz zz")
     n.input = n:param(0)
     n.min = n:param(p.min or 0)
     n.max = n:param(p.max or 1)
+    n:lil("biscale zz zz zz")
     n:label("biscale")
 end
 
@@ -129,17 +129,17 @@ function S.releaser(n, p)
 end
 
 function S.metro(n, p)
-    n:lil("metro zz")
     n.rate = n:param(p.rate or 1)
+    n:lil("metro zz")
     n:label("metro")
 end
 
 function S.env(n, p)
-    n:lil("env zz zz zz zz")
     n.trig = n:param(0)
     n.atk = n:param(p.atk or 0.001)
     n.dec = n:param(p.dec or 0.01)
     n.rel = n:param(p.rel or 0.1)
+    n:lil("env zz zz zz zz")
     n:label("env")
 end
 
@@ -149,58 +149,96 @@ function S.noise(n, p)
 end
 
 function S.peakeq(n, p)
-    n:lil("peakeq zz zz zz zz")
     n.input = n:param(0)
     n.freq = n:param(p.freq or 1000)
     n.bw = n:param(p.bw or 1000)
     n.gain = n:param(p.gain or 1)
+    n:lil("peakeq zz zz zz zz")
     n:label("peakeq")
 end
 
 function S.mtof(n, p)
-    n:lil("mtof zz")
     n.input = n:param(0)
+    n:lil("mtof zz")
     n:label("mtof")
 end
 
 function S.butbp(n, p)
-    n:lil("butbp zz zz zz")
     n.input = n:param(0)
     n.freq = n:param(p.freq or 1000)
     n.bw = n:param(p.bw or 1000)
+    n:lil("butbp zz zz zz")
     n:label("butbp")
 end
 
 function S.crossfade(n, p)
-    n:lil("crossfade zz zz zz")
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 1)
     n.pos  = n:param(p.pos or 0)
+    n:lil("crossfade zz zz zz")
     n:label("crossfade")
 end
 
 function S.dblin(n, p)
+    n.db = n:param(p.db or 0)
     n:lil("dblin zz")
-    n.dblin = n:param(p.db or 0)
     n:label("dblin")
 end
 
-function Sigrunes.nodes(node, g, n)
-    n.sine = node:generator(g, S.sine)
-    n.add = node:generator(g, S.add)
-    n.mul = node:generator(g, S.mul)
-    n.blsaw = node:generator(g, S.blsaw)
-    n.butlp = node:generator(g, S.butlp)
-    n.wavout = node:generator(g, S.wavout)
-    n.biscale = node:generator(g, S.biscale)
-    n.getter = node:generator(g, S.getter)
-    n.setter = node:generator(g, S.setter)
-    n.releaser = node:generator(g, S.releaser)
-    n.metro = node:generator(g, S.metro)
-    n.env = node:generator(g, S.env)
-    n.noise = node:generator(g, S.noise)
-    n.peakeq = node:generator(g, S.peakeq)
-    n.mtof = node:generator(g, S.peakeq)
+function S.rline(n, p)
+    n.min = n:param(p.min or 0)
+    n.max = n:param(p.max or 1)
+    n.rate = n:param(p.rate or 3)
+    n:lil("rline zz zz zz")
+    n:label("rline")
+end
+
+dummy = {}
+dummy.eval = lil
+function dummy:lil(str)
+    self.eval(str)
+end
+
+function dummy:param(v)
+    if type(v) == "function" then
+        v(self.eval)
+    else
+        self.eval("param " .. v)
+    end
+end
+
+function dummy:label(str)
+
+end
+
+
+-- instead of using a sigrune node in a graph, evaluate it
+-- by itself in-place
+function S.lilnode(n, p)
+    p = p or {}
+    return function (p)
+        n(dummy, p)
+    end
+end
+
+-- to use a node as a parameter inside of lilnode, call
+-- paramnode
+function S.paramnode(n, p)
+    p = p or {}
+    return function(p)
+        return function (eval)
+            -- eval is already in dummy
+            n(dummy, p)
+        end
+    end
+end
+
+function S.lilnode_debug(debug)
+    if debug then
+        dummy.eval = print
+    else
+        dummy.eval = lil
+    end
 end
 
 return Sigrunes

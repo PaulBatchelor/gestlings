@@ -43,7 +43,7 @@ whistle = require("whistle/whistle")
 core = require("util/core")
 sig = require("sig/sig")
 diagraf = require("diagraf/diagraf")
-sigrunes = require("sigrunes/sigrunes")
+sr = require("sigrunes/sigrunes")
 
 function rtsetup()
 lil([[
@@ -73,26 +73,39 @@ end
 -- <@>
 function sound()
     local lvl = core.liln
+    local pn = sr.paramnode
 
     pulses = lvl([[
 metro [rline 1 10 1]
-tgate zz 0.08
-env zz 0.004 0.001 0.01
+tgate zz 0.01
+env zz 0.001 0.001 0.01
     ]])
 
     local g = whistle.graph {
-        freq = lvl("rline 70 85 2"),
-        timbre = lvl("rline 0 1 3"),
+        freq = pn(sr.rline) {
+            min = 30,
+            max = 80,
+            rate = 20
+        },
+        timbre = pn(sr.rline) {
+            min = 0,
+            max = 0.5,
+            rate = 1,
+        },
         amp = pulses,
         sig = sig,
         core = core,
         diagraf = diagraf,
-        sigrunes = sigrunes
+        sigrunes = sr
     }
 
     l = g:generate_nodelist()
-    -- g:dot("whistle.dot")
     g:compute(l)
+
+    lil([[
+dup; dup; verbity zz zz 0.1 0.1 0.1; drop; mul zz [dblin -10];
+add zz zz
+    ]])
 end
 
 function run()

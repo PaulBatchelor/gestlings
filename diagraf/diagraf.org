@@ -846,7 +846,9 @@ function Graph:generate_nodelist()
     local root = l[#l]
     local pos = self.nsort_rec(self, l, self.nodes[root], #l)
 
-    self.sort_the_setters(self, l, pos)
+    if pos > 0 then
+        self.sort_the_setters(self, l, pos)
+    end
     local nodepos = self.nsort_rec(self, l, self.nodes[root], #l)
 
     if nodepos ~= 0 then
