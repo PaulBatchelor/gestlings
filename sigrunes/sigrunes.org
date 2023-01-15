@@ -179,6 +179,12 @@ function S.crossfade(n, p)
     n:label("crossfade")
 end
 
+function S.dblin(n, p)
+    n:lil("dblin zz")
+    n.dblin = n:param(p.db or 0)
+    n:label("dblin")
+end
+
 function Sigrunes.nodes(node, g, n)
     n.sine = node:generator(g, S.sine)
     n.add = node:generator(g, S.add)

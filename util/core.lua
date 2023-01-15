@@ -20,7 +20,9 @@ function Core.paramf(val)
 end
     
 function Core.nodegen(node, graph)
-    local ng = function(n) return node:generator(graph, n) end
+    local ng = function(n)
+        return node:generator(graph, n)
+    end
     return ng
 end
     

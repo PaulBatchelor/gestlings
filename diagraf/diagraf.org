@@ -1161,6 +1161,9 @@ end
 #+NAME: node
 #+BEGIN_SRC lua
 function Node:generator(g, f)
+    if type(f) ~= "function" then
+        error("Nodegen: invalid generator function") 
+    end
     return function(p)
         local n = self.new(self, g)
         p = p or {}
