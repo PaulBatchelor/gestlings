@@ -12,7 +12,7 @@ in the form of some bitmap (12x12 or 16x16, not sure yet).
 
 Incomplete work. For now, these just need to be runes.
 
-#+NAME:sigrunes.lua
+#+NAME: sigrunes.lua
 #+BEGIN_SRC lua :tangle sigrunes/sigrunes.lua
 Sigrunes = {}
 
@@ -66,9 +66,9 @@ function S.add(n, p)
 end
 
 function S.add(n, p)
-    n:lil("add zz zz")
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 0)
+    n:lil("add zz zz")
     n:label("add")
 end
 
@@ -158,7 +158,7 @@ function S.peakeq(n, p)
 end
 
 function S.mtof(n, p)
-    n.input = n:param(0)
+    n.input = n:param(p.input or 0)
     n:lil("mtof zz")
     n:label("mtof")
 end
@@ -193,6 +193,8 @@ function S.rline(n, p)
     n:label("rline")
 end
 
+<<nodes>>
+
 dummy = {}
 dummy.eval = lil
 function dummy:lil(str)
@@ -202,6 +204,8 @@ end
 function dummy:param(v)
     if type(v) == "function" then
         v(self.eval)
+    elseif type(v) == "table" and v.lilnode then
+		self.eval(v.lilstr)
     else
         self.eval("param " .. v)
     end
@@ -244,3 +248,34 @@ end
 return Sigrunes
 #+END_SRC
 
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.phasor(n, p)
+    n.rate = n:param(p.rate or 0)
+    n.iphs = p.iphs or 0
+    n:lil(string.format("phasor zz %g", n.iphs))
+    n:label("phasor")
+end
+#+END_SRC
+
+#+NAME: nodes
+#+BEGIN_SRC lua
+function gestvmnode(glive, membuf, program, conductor)
+    return string.format(
+        "%s; [gmemsym [grab %s] %s]; %s; gestvmnode zz zz zz",
+        glive, membuf, program, conductor)
+
+end
+function S.gesture(n, p)
+	local glive = p.glive or "[glget [grab glive]]"
+	local mem = p.mem or "mem"
+	local name = p.name or "gst"
+
+	program = 
+		string.format("[gmemsym [grab %s] %s]", mem, name)
+	n.glive = n:param(glive)
+    n.conductor = n:param(p.conductor or 0)
+    n:lil("gestvmnode zz " .. program .. " zz")
+    n:label("gesture: " .. name)
+end
+#+END_SRC

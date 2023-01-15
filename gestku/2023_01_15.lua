@@ -71,9 +71,55 @@ end
 -- </@>
 
 -- <@>
+seq = require("seq/seq")
+s16 = seq.seqfun(morpho)
+-- </@>
+
+
+-- <@>
+A = {
+	pitch = s16("a3^ d1/ o1^"),
+}
+
+SEQ = {
+    {A, {1, 1}},
+}
+-- </@>
+
+-- <@>
+function articulate()
+    words = {}
+
+    mp = {}
+
+    tal.start(words)
+    for _,s in pairs(SEQ) do
+        append(mp, s[2], s[1])
+    end
+
+
+    morpheme.compile(tal, path, words, mp)
+
+    tal.compile_words(words, "mem", "[glget [grab glive]]")
+end
+-- </@>
+
+-- <@>
 function sound()
+	-- local lil = print
     local lvl = core.liln
     local pn = sr.paramnode
+    local ln = sr.lilnode
+    local cnd = sig:new()
+	-- sr.lilnode_debug(true)
+
+    ln(sr.phasor) {
+        rate = 1.0
+    }
+    cnd:hold()
+
+	lil("glswapper [grab glive]")
+	articulate()
 
     pulses = lvl([[
 metro [rline 1 10 1]
@@ -81,26 +127,34 @@ tgate zz 0.01
 env zz 0.001 0.001 0.01
     ]])
 
-    local g = whistle.graph {
-        freq = pn(sr.rline) {
-            min = 30,
-            max = 80,
-            rate = 20
-        },
-        timbre = pn(sr.rline) {
-            min = 0,
-            max = 0.5,
-            rate = 1,
-        },
-        amp = pulses,
-        sig = sig,
-        core = core,
-        diagraf = diagraf,
-        sigrunes = sr
-    }
+
+	fg = pn(sr.add) {
+		a = pn(sr.gesture) {
+			name = "pitch",
+			conductor = lvl(cnd:getstr())
+		},
+		b = 60
+	}
+
+
+     local g = whistle.graph {
+         freq = fg,
+         timbre = pn(sr.rline) {
+             min = 0,
+             max = 0.5,
+             rate = 1,
+         },
+         -- amp = pulses,
+         sig = sig,
+         core = core,
+         diagraf = diagraf,
+         sigrunes = sr
+     }
 
     l = g:generate_nodelist()
     g:compute(l)
+
+    cnd:unhold()
 
     lil([[
 dup; dup; verbity zz zz 0.1 0.1 0.1; drop; mul zz [dblin -10];
