@@ -30,11 +30,15 @@ function Gest:swapper()
     lil(string.format("glswapper [grab %s]", self.name))
 end
 
+function Gest:done()
+    lil(string.format("gldone [grab %s]", self.name))
+end
+
 function Gest:get()
     return string.format("[glget [grab %s]]", self.name)
 end
 
-function Gest:node(program, conductor)
+function Gest:node_old(program, conductor)
     local cnd = conductor or self.conductor
     if cnd == nil then
         error("conductor signal not defined")
@@ -43,6 +47,22 @@ function Gest:node(program, conductor)
     lil(string.format(
         "gestvmnode %s [gmemsym [grab %s] %s] %s",
         self.get(self), self.bufname, program, cnd))
+end
+
+function Gest:node()
+	local glive = self.get(self)
+	local mem = self.bufname
+
+    return function(n, p)
+        local name = p.name or "gst"
+        local program = 
+            string.format("[gmemsym [grab %s] %s]", mem, name)
+
+        n.glive = n:param(glive)
+        n.conductor = n:param(p.conductor or 0)
+        n:lil("gestvmnode zz " .. program .. " zz")
+        n:label("gesture: " .. name)
+    end
 end
 
 return Gest

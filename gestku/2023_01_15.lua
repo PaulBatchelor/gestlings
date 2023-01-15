@@ -44,6 +44,9 @@ core = require("util/core")
 sig = require("sig/sig")
 diagraf = require("diagraf/diagraf")
 sr = require("sigrunes/sigrunes")
+gest = require("gest/gest")
+
+GST = gest:new()
 
 function rtsetup()
 lil([[
@@ -62,10 +65,7 @@ func playtog {} {
 end
 
 function setup()
-lil([[
-gmemnew mem
-glnew glive
-]])
+	GST:create()
 end
 
 -- </@>
@@ -90,24 +90,6 @@ SEQ = {
 -- </@>
 
 -- <@>
-function articulate()
-    words = {}
-
-    mp = {}
-
-    tal.start(words)
-    for _,s in pairs(SEQ) do
-        append(mp, s[2], s[1])
-    end
-
-
-    morpheme.compile(tal, path, words, mp)
-
-    tal.compile_words(words, "mem", "[glget [grab glive]]")
-end
--- </@>
-
--- <@>
 function sound()
 	-- local lil = print
     local lvl = core.liln
@@ -118,21 +100,24 @@ function sound()
     ln(sr.phasor) {
         rate = 1.0
     }
+
     cnd:hold()
 	-- sr.lilnode_debug(true)
 
-	lil("glswapper [grab glive]")
-	articulate()
+	words = {}
+	tal.start(words)
+	morpheme.articulate(path, tal, words, SEQ)
+	GST:compile(words)
 
+	GST:swapper()
     pulses = lvl([[
 metro [rline 1 10 1]
 tgate zz 0.01
 env zz 0.001 0.001 0.01
     ]])
 
-
 	fg = pn(sr.add) {
-		a = pn(sr.gesture) {
+		a = pn(GST:node()) {
 			name = "pitch",
 			conductor = lvl(cnd:getstr())
 		},
@@ -141,7 +126,7 @@ env zz 0.001 0.001 0.01
 
 	tg = pn(sr.scale) {
 		input = pn(sr.mul) {
-			a = pn(sr.gesture) {
+			a = pn(GST:node()) {
 				name = "timbre",
 				conductor = lvl(cnd:getstr())
 			},
@@ -153,7 +138,7 @@ env zz 0.001 0.001 0.01
 
 	ag = pn(sr.scale) {
 		input = pn(sr.mul) {
-			a = pn(sr.gesture) {
+			a = pn(GST:node()) {
 				name = "amp",
 				conductor = lvl(cnd:getstr())
 			},
@@ -162,7 +147,6 @@ env zz 0.001 0.001 0.01
 		min = 0.0,
 		max = 0.8
 	}
-
 
     local g = whistle.graph {
 		freq = fg,
@@ -177,12 +161,13 @@ env zz 0.001 0.001 0.01
 	l = g:generate_nodelist()
 	g:compute(l)
 
+	GST:done()
     cnd:unhold()
 
---     lil([[
--- dup; dup; verbity zz zz 0.1 0.1 0.1; drop; mul zz [dblin -10];
--- add zz zz
---     ]])
+    lil([[
+dup; dup; verbity zz zz 0.1 0.1 0.1; drop; mul zz [dblin -10];
+add zz zz
+    ]])
 end
 
 function run()
