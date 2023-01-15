@@ -26,5 +26,5 @@ l = g:generate_nodelist()
 g:dot("whistle.dot")
 g:compute(l)
 
-lil("wavout zz test.wav")
-lil("computes 6")
+lil("dup; wavouts zz zz test.wav")
+lil("computes 12")
