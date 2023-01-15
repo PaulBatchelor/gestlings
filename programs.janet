@@ -138,4 +138,11 @@
  :org "sigrunes/sigrunes.org"
  :tangled @["sigrunes/sigrunes.lua"]
  }
+
+ "nrt"
+ @{
+ :id 20
+ :org "nrt/nrt.org"
+ :tangled @["nrt/nrt.lua"]
+ }
 })
