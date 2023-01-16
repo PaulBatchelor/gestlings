@@ -145,4 +145,11 @@
  :org "nrt/nrt.org"
  :tangled @["nrt/nrt.lua"]
  }
+
+ "mseq"
+ @{
+ :id 21
+ :org "morpheme/mseq.org"
+ :tangled @["morpheme/mseq.lua"]
+ }
 })

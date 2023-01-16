@@ -1,0 +1,69 @@
+#+TITLE: MSeq
+A sequencing language for morphemes, inspired by Prop,
+a rhythmic notation language based on proportions.
+
+#+NAME: mseq.lua
+#+BEGIN_SRC lua :tangle morpheme/mseq.lua
+Mseq = {}
+
+local Space = lpeg.S(" \t\n")^0
+local Morpheme = lpeg.R("AZ")*lpeg.R("az")^0*Space
+local Exp, Pat, S = lpeg.V"Exp", lpeg.V"Pat", lpeg.V"S"
+local Mul = lpeg.V"Mul"
+local Div = lpeg.V"Div"
+local Seq = lpeg.V"Seq"
+local Num = lpeg.R("09")^1
+local LParen = lpeg.P("(")
+local RParen = lpeg.P(")")
+local LBrack = lpeg.P("[")
+local RBrack = lpeg.P("]")
+
+local G = lpeg.P {
+	Exp,
+	-- Exp = lpeg.Ct(Mul) + lpeg.Ct(Pat);
+	Exp = lpeg.Ct((Space*Seq*Space)^0);
+	--Pat = lpeg.Cg(Morpheme)^0 + lpeg.Cg(Mul)^0;
+	Pat = Mul;
+	Seq = lpeg.Cg(Morpheme) + lpeg.Ct(Mul) + lpeg.Ct(Div);
+	Mul =
+		lpeg.Cg(Num, "mul") *
+		LParen * lpeg.Cg(lpeg.Ct(Seq^1), "seq") *
+		RParen;
+	Div =
+		lpeg.Cg(Num, "div") *
+		LBrack * lpeg.Cg(lpeg.Ct(Seq^1), "seq") *
+		RBrack
+
+}
+
+function iterate(x, m, r, out)
+	for _, v in pairs(x) do
+		if type(v) == "string" then
+			table.insert(out, {m[v], {r[1], r[2]}})
+		else
+			r_new = {r[1], r[2]}
+			if v.div ~= nil then
+				r_new[2] = r_new[2] * v.div
+			elseif v.mul ~= nil then
+				r_new[1] = r_new[1] * v.mul
+			end
+			iterate(v.seq, m, r_new, out)
+		end
+	end
+end
+
+function Mseq.parse(str, lookup, r)
+    local S = {}
+    local t = lpeg.match(G, str)
+
+    if t == nil then
+        error("mseq: invalid string")
+    end
+
+    iterate(t, lookup, r, S)
+
+    return S
+end
+
+return Mseq
+#+END_SRC

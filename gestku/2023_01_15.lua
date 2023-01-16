@@ -45,6 +45,7 @@ sig = require("sig/sig")
 diagraf = require("diagraf/diagraf")
 sr = require("sigrunes/sigrunes")
 gest = require("gest/gest")
+mseq = require("morpheme/mseq")
 
 GST = gest:new()
 
@@ -77,21 +78,69 @@ s16 = seq.seqfun(morpho)
 
 
 -- <@>
-A = {
-	pitch = s16("a3^ d1/ o1^"),
-	timbre = s16("a1/ o1^"),
-	amp = s16("o3^ a1 o3 a1"),
+
+vocab = {
+    A = {
+        pitch = s16("a3^ d1/ o1^"),
+        timbre = s16("a1~"),
+        amp = s16("o3^ a1 o3 a1"),
+    },
+    B = {
+        pitch = s16("o2/ a1^"),
+        timbre = s16("o1~"),
+        amp = s16("o3^ a1~ "),
+    },
+
+    S = {
+        pitch = s16("a1^"),
+        timbre = s16("a1~"),
+        amp = s16("a1~ "),
+    },
+
+    C = {
+        pitch = s16("b3/ a1~"),
+        timbre = s16("o1~"),
+        amp = s16("o1/ h1~ "),
+    },
+
+    D = {
+        pitch = s16("o3^ h1 o3 h1 o3 h1"),
+        timbre = s16("c1~"),
+        amp = s16("g3/ n1~ "),
+    },
+
+    E = {
+        pitch = s16("o1~ m n o m n g f e g f e"),
+        timbre = s16("o1~"),
+        amp = s16("g3/ n1~ "),
+    },
 }
 
-SEQ = {
-    {A, {1, 1}},
-    {A, {2, 1}},
-}
+SEQ = "ASBSCSDSES"
+SEQ = mseq.parse(SEQ, vocab, {1, 1})
+
 -- </@>
 
 -- <@>
+function gest16(name, cnd, mn, mx)
+    local pn = sr.paramnode
+    local lvl = core.liln
+
+	local node = pn(sr.scale) {
+		input = pn(sr.mul) {
+			a = pn(GST:node()) {
+				name = name,
+				conductor = lvl(cnd:getstr())
+			},
+			b = 1.0 / 16.0
+		},
+		min = mn,
+		max = mx
+	}
+
+	return node
+end
 function sound()
-	-- local lil = print
     local lvl = core.liln
     local pn = sr.paramnode
     local ln = sr.lilnode
@@ -102,7 +151,6 @@ function sound()
     }
 
     cnd:hold()
-	-- sr.lilnode_debug(true)
 
 	words = {}
 	tal.start(words)
@@ -110,43 +158,14 @@ function sound()
 	GST:compile(words)
 
 	GST:swapper()
-    pulses = lvl([[
-metro [rline 1 10 1]
-tgate zz 0.01
-env zz 0.001 0.001 0.01
-    ]])
 
-	fg = pn(sr.add) {
-		a = pn(GST:node()) {
-			name = "pitch",
-			conductor = lvl(cnd:getstr())
-		},
-		b = 60
-	}
+	fg = gest16("pitch", cnd, 45, 79)
 
-	tg = pn(sr.scale) {
-		input = pn(sr.mul) {
-			a = pn(GST:node()) {
-				name = "timbre",
-				conductor = lvl(cnd:getstr())
-			},
-			b = 1.0 / 16.0
-		},
-		min = 0.0,
-		max = 0.5
-	}
+    tg = gest16("timbre", cnd, 0.0, 0.8)
 
-	ag = pn(sr.scale) {
-		input = pn(sr.mul) {
-			a = pn(GST:node()) {
-				name = "amp",
-				conductor = lvl(cnd:getstr())
-			},
-			b = 1.0 / 16.0
-		},
-		min = 0.0,
-		max = 0.8
-	}
+    ag = pn(sr.dblin) {
+        db = gest16("amp", cnd, -40, 0)
+    }
 
     local g = whistle.graph {
 		freq = fg,
