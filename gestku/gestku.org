@@ -29,5 +29,62 @@ tesselation/mosaic that depicts the sound somehow.
 
 The process of gestku is typically developed using live
 coding, via a combination of mnort and vim.
+* Gestku Boilerplate
+In order to make things fast, you need to do less.
+
+This is some boilerplate code that aims to get a few things
+out of the way.
+
+#+NAME: gestku.lua
+#+BEGIN_SRC lua :tangle gestku/gestku.lua
+Gestku = {}
+gest = require("gest/gest")
+function Gestku:new(o)
+    o = o or {}
+    o.tal = o.tal or tal
+    o.morpheme = o.morpheme or morpheme
+    o.path = o.path or path
+    o.words = {}
+    o.gest = gest:new{tal = o.tal}
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+
+function Gestku:rtsetup()
+lil([[
+hsnew hs
+rtnew [grab hs] rt
+
+func out {} {
+    hsout [grab hs]
+    hsswp [grab hs]
+}
+
+func playtog {} {
+    hstog [grab hs]
+}
+]])
+end
+
+function Gestku:setup()
+    self.gest:create()
+end
+
+function Gestku:start()
+	self.tal.start(self.words)
+end
+
+function Gestku:articulate(seq)
+	self.morpheme.articulate(self.path,
+	    self.tal, self.words, seq)
+end
+
+function Gestku:compile()
+    self.gest:compile(self.words)
+end
+
+return Gestku
+#+END_SRC
 * Messages
 @!(zet/messages "gestku")!@

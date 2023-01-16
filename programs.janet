@@ -152,4 +152,11 @@
  :org "morpheme/mseq.org"
  :tangled @["morpheme/mseq.lua"]
  }
+
+ "gestku"
+ @{
+ :id 22
+ :org "gestku/gestku.org"
+ :tangled @["gestku/gestku.lua"]
+ }
 })

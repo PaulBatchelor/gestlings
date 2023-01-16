@@ -27,11 +27,12 @@
 (ww-add-page "diagraf" `@!(wikipage "diagraf")!@`)
 (ww-add-page "sigrunes" `@!(wikipage "sigrunes")!@`)
 (ww-add-page "nrt" `@!(wikipage "nrt")!@`)
+(ww-add-page "mseq" `@!(wikipage "mseq")!@`)
+(ww-add-page "gesktu" `@!(wikipage "gesktu")!@`)
 
 # linked pages
 
 (ww-add-link "index" "index.org")
-(ww-add-link "gestku" "gestku/gestku.org")
 (ww-add-link "weight" "weight/weight.org")
 
 # sync and close

@@ -1,9 +1,9 @@
 --[[
-excuse me sir may I try some? pretty please? FINE BE THAT WAY.
+Paging Doctor Distant
 -- <@>
 dofile("gestku/2023_01_15.lua")
-rtsetup()
-setup()
+G:rtsetup()
+G:setup()
 -- </@>
 
 -- <@>
@@ -13,62 +13,44 @@ lil("unholdall")
 --]]
 
 -- <@>
-G = {}
-
-function G.symbol()
-    return [[
----------
--#-----#-
---#---#--
----#-#---
----------
--#-----#-
----------
----------
---#####--
----------
----------
----------
----------
-]]
-end
-
+gestku = require("gestku/gestku")
 tal = require("tal/tal")
 path = require("path/path")
 morpheme = require("morpheme/morpheme")
+
+G = gestku:new {
+    tal = tal,
+    morpheme = morpheme,
+    path = path
+}
+
+function G.symbol()
+    return [[
+###-------
+#-#-------
+###-------
+----------
+-#--------
+----------
+-#--------
+----------
+-#--------
+----------
+----------
+-------###
+-------#-#
+-------###
+]]
+end
+
 pprint = require("util/pprint")
 morpho = require("morpheme/morpho")
-append = morpheme.appender(path)
 whistle = require("whistle/whistle")
 core = require("util/core")
 sig = require("sig/sig")
 diagraf = require("diagraf/diagraf")
 sr = require("sigrunes/sigrunes")
-gest = require("gest/gest")
 mseq = require("morpheme/mseq")
-
-GST = gest:new()
-
-function rtsetup()
-lil([[
-hsnew hs
-rtnew [grab hs] rt
-
-func out {} {
-    hsout [grab hs]
-    hsswp [grab hs]
-}
-
-func playtog {} {
-    hstog [grab hs]
-}
-]])
-end
-
-function setup()
-	GST:create()
-end
-
 -- </@>
 
 -- <@>
@@ -85,6 +67,7 @@ vocab = {
         timbre = s16("a1~"),
         amp = s16("o3^ a1 o3 a1"),
     },
+
     B = {
         pitch = s16("o2/ a1^"),
         timbre = s16("o1~"),
@@ -116,19 +99,19 @@ vocab = {
     },
 }
 
-SEQ = "ASBSCSDSES"
+SEQ = "DSD2(C)S4(BBB)S4(BB)EASDCS"
 SEQ = mseq.parse(SEQ, vocab, {1, 1})
 
 -- </@>
 
 -- <@>
-function gest16(name, cnd, mn, mx)
+function gest16(gst, name, cnd, mn, mx)
     local pn = sr.paramnode
     local lvl = core.liln
 
 	local node = pn(sr.scale) {
 		input = pn(sr.mul) {
-			a = pn(GST:node()) {
+			a = pn(gst:node()) {
 				name = name,
 				conductor = lvl(cnd:getstr())
 			},
@@ -140,31 +123,32 @@ function gest16(name, cnd, mn, mx)
 
 	return node
 end
-function sound()
+
+function G:sound()
     local lvl = core.liln
     local pn = sr.paramnode
     local ln = sr.lilnode
     local cnd = sig:new()
+    local gst = G.gest
 
     ln(sr.phasor) {
-        rate = 1.0
+        rate = (75 / 60)
     }
 
     cnd:hold()
 
-	words = {}
-	tal.start(words)
-	morpheme.articulate(path, tal, words, SEQ)
-	GST:compile(words)
+    G:start()
+    G:articulate(SEQ)
+    G:compile()
 
-	GST:swapper()
+	gst:swapper()
 
-	fg = gest16("pitch", cnd, 45, 79)
+	fg = gest16(gst, "pitch", cnd, 45, 79)
 
-    tg = gest16("timbre", cnd, 0.0, 0.8)
+    tg = gest16(gst, "timbre", cnd, 0.0, 0.8)
 
     ag = pn(sr.dblin) {
-        db = gest16("amp", cnd, -40, 0)
+        db = gest16(gst, "amp", cnd, -40, 0)
     }
 
     local g = whistle.graph {
@@ -180,23 +164,26 @@ function sound()
 	l = g:generate_nodelist()
 	g:compute(l)
 
-	GST:done()
+	gst:done()
     cnd:unhold()
 
     lil([[
 dup; dup; verbity zz zz 0.1 0.1 0.1; drop; mul zz [dblin -10];
 add zz zz
     ]])
+
+    lil("mul zz [dblin 5]")
+    lil("tgate [tick] 10; mul zz zz")
 end
 
 function run()
-    sound()
+    G:sound()
     lil("out")
 end
 
 function G.patch()
-    setup()
-    sound()
+    G:setup()
+    G:sound()
 end
 
 return G

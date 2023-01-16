@@ -2,5 +2,11 @@ GESTKU=$1
 NAME=$(basename $GESTKU)
 NAME=${NAME%.lua}
 
-mnolua gestku/render.lua $NAME
+if [ "$#" -eq 0 ]
+then
+    echo "Usage: $0 gestku_file.lua"
+    exit
+fi
+
+mnolth lua gestku/render.lua $NAME
 ffmpeg -y -loop 1 -i $NAME.pbm -i $NAME.wav -c:v libx264 -tune stillimage -c:a aac -b:a 256k -pix_fmt yuv420p -shortest $NAME.mp4
