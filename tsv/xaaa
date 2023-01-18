@@ -305,7 +305,7 @@
 2023-01-15 12:23:19	911d6875-f3e2-4b29-9888-35a7678ad621	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-01-08 12:02:34	ad010546-d6a6-40eb-9e6b-97cffeca5188	>create initial words for diagraf
 -	ad010546-d6a6-40eb-9e6b-97cffeca5188	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-01-08 12:02:35	ad010546-d6a6-40eb-9e6b-97cffeca5188	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-18 11:39:32	ad010546-d6a6-40eb-9e6b-97cffeca5188	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-01-08 12:03:30	95012751-ced9-4398-9788-dcb13c2ca368	>the test code already works, I just need to make sure the !diagraf page works as well.
 -	95012751-ced9-4398-9788-dcb13c2ca368	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	95012751-ced9-4398-9788-dcb13c2ca368	#911d6875-f3e2-4b29-9888-35a7678ad621
@@ -350,7 +350,7 @@
 2023-01-15 13:23:57	cd4755f0-2019-4b78-a589-eabe54f3dc53	$blurb:>convert directed acyclic graphs (DAGS) to sndkit.
 -	cd4755f0-2019-4b78-a589-eabe54f3dc53	#ee57514a-a83b-45e5-8058-0ce712106dd8
 2023-01-15 13:24:38	987b8e12-441e-40ca-ab3d-abf5b0338215	!sigrunes
-2023-01-15 13:25:32	987b8e12-441e-40ca-ab3d-abf5b0338215	$blurb:>Signal Runes
+2023-01-18 11:33:21	987b8e12-441e-40ca-ab3d-abf5b0338215	$blurb:>signal runes
 -	987b8e12-441e-40ca-ab3d-abf5b0338215	#ee57514a-a83b-45e5-8058-0ce712106dd8
 2023-01-15 13:26:53	01588222-8fae-4135-a1ce-dc70e8651703	!seq
 -	01588222-8fae-4135-a1ce-dc70e8651703	#ee57514a-a83b-45e5-8058-0ce712106dd8
@@ -362,7 +362,7 @@
 -	52803436-4963-427f-901a-56c858387681	#ee57514a-a83b-45e5-8058-0ce712106dd8
 2023-01-15 13:44:49	1d9c7a07-28af-44d4-b70c-e5bec83c23df	>create mseq page
 -	1d9c7a07-28af-44d4-b70c-e5bec83c23df	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-01-18 11:11:59	1d9c7a07-28af-44d4-b70c-e5bec83c23df	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
+2023-01-18 11:14:43	1d9c7a07-28af-44d4-b70c-e5bec83c23df	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-01-15 13:45:38	2c41385e-4dfb-4c96-ab5f-e1b68a96a8c7	>I think this is working code. It can be found in morpheme/mseq_test.lua
 -	2c41385e-4dfb-4c96-ab5f-e1b68a96a8c7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	2c41385e-4dfb-4c96-ab5f-e1b68a96a8c7	#1d9c7a07-28af-44d4-b70c-e5bec83c23df
@@ -375,3 +375,32 @@
 -	9baa0868-8303-4e1d-bc8c-dcbff600d7e1	#53a2e179-eb60-4c13-b749-59d5d3b893c5
 2023-01-18 11:12:41	1c0ce5f7-f9a4-4a8b-9501-368d98a8d3e7	!mseq
 2023-01-18 11:14:14	1c0ce5f7-f9a4-4a8b-9501-368d98a8d3e7	$blurb:>a micro-language for sequencing morphemes using a nested proportional rhythmic notation system.
+2023-01-18 11:16:05	5a2ef11e-d3e9-498b-8096-fb689f697ace	$blurb:>Gesture Haikus
+2023-01-18 11:16:29	387c6229-b409-4d69-81dd-7e7c1f934a97	!gest
+2023-01-18 11:16:48	387c6229-b409-4d69-81dd-7e7c1f934a97	$blurb:>a lua module that wraps the functionality of gestvm
+-	387c6229-b409-4d69-81dd-7e7c1f934a97	#ee57514a-a83b-45e5-8058-0ce712106dd8
+2023-01-18 11:19:14	5bbdc6d7-4df6-462f-98e2-9244d9a28ffb	$blurb:>component in charge of arranging gesture sigils on a page
+2023-01-18 11:20:03	e971d010-bab2-4eb5-a198-94f7406f4a2e	$blurb:>a simple text format for making tiles, and a function that is able to load them up into btprnt.
+2023-01-18 11:20:24	7ae89d9d-1df5-49ab-a4a0-f852285538d1	!logs
+-	7ae89d9d-1df5-49ab-a4a0-f852285538d1	#ee57514a-a83b-45e5-8058-0ce712106dd8
+2023-01-18 11:21:43	7ae89d9d-1df5-49ab-a4a0-f852285538d1	$blurb:>general logs related to the development of Gestlings
+2023-01-18 11:22:48	6b78f7c1-b400-4f4d-ad7e-2652943bdbda	$blurb:>a construct used to coordinate a sequence a set of gesture paths
+2023-01-18 11:24:19	52803436-4963-427f-901a-56c858387681	$blurb:>pitch sequencing language similar to ABC notation. uses solfege syllables instead of notes. WIP.
+2023-01-18 11:26:01	9e17cb70-1344-4c5f-9635-a9cbf3df9f4a	$blurb:>The program that converts literate programs into weewiki pages.
+2023-01-18 11:26:54	14175f22-c7a7-4f7d-8a82-6b6ef05e5dab	$blurb:>A helper for building gesture paths.
+2023-01-18 11:27:48	d0289cef-4ed4-444f-b8bd-d4c2a1462bfb	$blurb:>test sigils for gesture notation
+2023-01-18 11:28:42	5c582c3a-538c-49f4-a638-396999aa4570	$blurb:>radicals used in the gesture notation system
+2023-01-18 11:29:35	b39a937b-cec7-486b-8046-9d2168c00d96	$blurb:>runes used in the gesture notation system
+2023-01-18 11:30:25	01588222-8fae-4135-a1ce-dc70e8651703	$blurb:>a small step sequencing micro-language used to produce proportional gesture paths
+2023-01-18 11:31:00	707cbe0f-c016-4e16-9d99-b6423e11ecc0	!sig
+-	707cbe0f-c016-4e16-9d99-b6423e11ecc0	#ee57514a-a83b-45e5-8058-0ce712106dd8
+2023-01-18 11:32:10	707cbe0f-c016-4e16-9d99-b6423e11ecc0	$blurb:>an abstraction used to help out with signal management in sndkit
+2023-01-18 11:32:32	dff6f6bf-810a-4efc-bc96-f017950f5b96	$blurb:>sigils in the gesture notation system
+2023-01-18 11:34:37	de8b2572-c5b7-4e91-ab2c-6aa835908ec8	$blurb:>abstractions for metaprogramming Tal (Uxn).
+2023-01-18 11:36:21	fa731349-f0b5-4876-8b96-9376944a5f85	$blurb:>a simple synthesizer that makes a whistle-like sound
+2023-01-18 11:38:51	25769535-2aa5-49a4-b384-bc05be0ce85b	>found this today while getting stuff ready for guoeuhps. this would be nice to revisit and finish up.
+-	25769535-2aa5-49a4-b384-bc05be0ce85b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	25769535-2aa5-49a4-b384-bc05be0ce85b	#fd11b75c-2691-4ec3-819e-39152b1638ae
+2023-01-18 11:39:22	181f054b-5680-4904-a642-5f5b0e942d3b	>I think we are well beyond the "initial words" phase of diagraf
+-	181f054b-5680-4904-a642-5f5b0e942d3b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	181f054b-5680-4904-a642-5f5b0e942d3b	#ad010546-d6a6-40eb-9e6b-97cffeca5188
