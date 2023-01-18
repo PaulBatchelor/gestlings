@@ -153,6 +153,7 @@ wikizet.value IS '#' || '%s'
 and (value like "!%%" or
 value like "$blurb:%%")
 GROUP BY wikizet.UUID
+ORDER BY value ASC
 ;` group-uuid))
 
   (def rows (sqlite3/eval (ww-db) querystr))
