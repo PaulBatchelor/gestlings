@@ -1,5 +1,4 @@
 --[[
-Paging Doctor Distant
 -- <@>
 dofile("gestku/2023_01_18.lua")
 G:rtsetup()
@@ -65,13 +64,13 @@ end
 
 vocab = {
     A = {
-        pitch = solf("dr"),
-        timbre = s16("d1~"),
+        pitch = solf("d~rms^D4.~t8s4m"),
+        timbre = s16("d2/o1"),
         amp = s16("o1^"),
     },
 }
 
-SEQ = "A"
+SEQ = "4[A]2[AA]"
 SEQ = mseq.parse(SEQ, vocab)
 
 -- </@>
