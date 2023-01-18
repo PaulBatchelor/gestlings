@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [[ "$#" -eq 0 ]]
+then
+    echo "Gets blurb from object.".
+    echo "Usage: $0 UUID"
+    exit
+fi
+
+UUID=$1
+
+weewiki zet var get $1 blurb | awk '{print substr($0, 2)}'
