@@ -28,7 +28,6 @@
 (ww-add-page "sigrunes" `@!(wikipage "sigrunes")!@`)
 (ww-add-page "nrt" `@!(wikipage "nrt")!@`)
 (ww-add-page "mseq" `@!(wikipage "mseq")!@`)
-(ww-add-page "gesktu" `@!(wikipage "gesktu")!@`)
 
 # linked pages
 
