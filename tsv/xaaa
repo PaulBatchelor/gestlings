@@ -292,11 +292,11 @@
 -	fa44eb97-a815-4eca-a1d7-5d42e3035802	#53a2e179-eb60-4c13-b749-59d5d3b893c5
 2023-01-08 11:58:07	ceac4f14-2db5-4e69-baf0-ae4f97d376ab	>create initial page blurbs and link them to a 'main' group
 -	ceac4f14-2db5-4e69-baf0-ae4f97d376ab	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-01-08 11:58:07	ceac4f14-2db5-4e69-baf0-ae4f97d376ab	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-18 20:59:00	ceac4f14-2db5-4e69-baf0-ae4f97d376ab	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-01-08 11:59:41	ceac4f14-2db5-4e69-baf0-ae4f97d376ab	$blurb:>I think the initial homepage should just a list of pages with descriptions. As the project progresses, this will change.
 2023-01-08 12:00:23	6edfbf2d-49dd-41c5-a003-e2edb24e0f1e	>push initial efforts to website
 -	6edfbf2d-49dd-41c5-a003-e2edb24e0f1e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-01-08 12:00:23	6edfbf2d-49dd-41c5-a003-e2edb24e0f1e	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-18 20:59:12	6edfbf2d-49dd-41c5-a003-e2edb24e0f1e	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-01-08 12:01:39	e0e92973-baa2-415d-9f62-73246a70bcbd	>I think I actually have this already in the mnolth docs, which may be a better place for this kind of stuff. I'll still consider making a page here though.
 -	e0e92973-baa2-415d-9f62-73246a70bcbd	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	e0e92973-baa2-415d-9f62-73246a70bcbd	#86dabb04-f5b9-473a-9a7e-fdc51dbbeab8
