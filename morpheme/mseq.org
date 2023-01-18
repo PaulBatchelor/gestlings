@@ -1,11 +1,60 @@
 #+TITLE: MSeq
+* Overview
 A sequencing language for morphemes, inspired by Prop,
 a rhythmic notation language based on proportions.
+
+A @!(ref "morpheme")!@ is a slice of time that contains
+a set of @!(ref "path" "gesture paths")!@ with proportional
+durations. The duration of a morpheme can be scaled using
+a fractional value similar to the rate scaler used
+in a (regular, not proportional) gesture path.
+A =morpheme sequence= is a list of morphemes and their
+rate multiplier.
+
+In lua, a morpheme sequence can be represented as a table
+like so:
+
+#+BEGIN_SRC lua
+seq = {
+    {A, {1, 1}},
+    {B, {2, 1}},
+    {C, {2, 1}},
+}
+#+END_SRC
+
+In mseq, this can more succicintly be represented as:
+
+#+BEGIN_SRC text
+A2(BC)
+#+END_SRC
+
+Patterns are typically single alphabetic letters.
+
+A positive integer N followed by a
+parentheses () with a pattern inside of it
+will *shrink* that pattern by a factor of N.
+
+A positive integer N followed by a
+brackets [] with a pattern inside of it
+will *grow* that pattern by a factor of N.
+* Tangled File
+Called =mseq.lua=.
 
 #+NAME: mseq.lua
 #+BEGIN_SRC lua :tangle morpheme/mseq.lua
 Mseq = {}
+<<grammar>>
+<<tree_traversal>>
+<<parsing>>
+return Mseq
+#+END_SRC
 
+* lpeg grammar
+LPeg is used to define the grammar of the parser.
+It is set up below.
+
+#+NAME: grammar
+#+BEGIN_SRC lua
 local Space = lpeg.S(" \t\n")^0
 local Morpheme = lpeg.R("AZ")*lpeg.R("az")^0*Space
 local Exp, Pat, S = lpeg.V"Exp", lpeg.V"Pat", lpeg.V"S"
@@ -35,7 +84,44 @@ local G = lpeg.P {
 		RBrack
 
 }
+#+END_SRC
+* Parsing
+=parse= is the thing that parses a MSeq string. It
+gets passed into the generated lpeg grammar, which
+then produces a capture table that resembles a tree-like
+structure (the tree-like structure comes from the nested
+aspects of mseq).
 
+=str= is the string to be parsed.
+
+=lookup= is a lookup table for morpheme values. It is
+assumed that each morpheme contains the same set of paths.
+This isn't checked.
+
+=r= is an optional rate multipler that can be applied
+to the overall sequence. By default, it is set to be
+(1, 1), which will cause a morpheme to take up a duration
+of 1 beat.
+
+#+NAME: parsing
+#+BEGIN_SRC lua
+function Mseq.parse(str, lookup, r)
+    local S = {}
+    local t = lpeg.match(G, str)
+	r = r or {1, 1}
+
+    if t == nil then
+        error("mseq: invalid string")
+    end
+
+    iterate(t, lookup, r, S)
+
+    return S
+end
+#+END_SRC
+* Tree Traversal
+#+NAME: tree_traversal
+#+BEGIN_SRC lua
 function iterate(x, m, r, out)
 	for _, v in pairs(x) do
 		if type(v) == "string" then
@@ -51,19 +137,4 @@ function iterate(x, m, r, out)
 		end
 	end
 end
-
-function Mseq.parse(str, lookup, r)
-    local S = {}
-    local t = lpeg.match(G, str)
-
-    if t == nil then
-        error("mseq: invalid string")
-    end
-
-    iterate(t, lookup, r, S)
-
-    return S
-end
-
-return Mseq
 #+END_SRC
