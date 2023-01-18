@@ -78,7 +78,7 @@
 </head>
 <body>
 <div id="main">
-`` (if (ww-server?) "/css/style.css" "/brain/css/style.css")))
+`` (if (ww-server?) "/css/style.css" "/gestlings/css/style.css")))
 )
 
 (defn html-footer
