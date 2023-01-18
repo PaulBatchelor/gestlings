@@ -1,0 +1,21 @@
+WIKI_PATH=gestlings
+
+# export
+samu
+rm -rf _site/$WIKI_PATH
+mkdir p _site/$WIKI_PATH
+weewiki sync
+weewiki export
+
+cd _live; git pull; cd -
+
+# transfer
+rm -rf _live/$WIKI_PATH
+mkdir -p _live/$WIKI_PATH
+rsync -rvt _site/$WIKI_PATH/* _live/$WIKI_PATH
+
+# cd _live;
+# git add $WIKI_PATH;
+# git commit -m "gestku updates";
+# git push origin master
+# ssh paul@pbat.ch "cd paulbatchelor.github.io; git pull"
