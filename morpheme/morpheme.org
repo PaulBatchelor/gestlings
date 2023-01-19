@@ -274,6 +274,6 @@ function M.articulate(path, tal, words, seq)
     end
 
 
-    morpheme.compile(tal, path, words, mp)
+    M.compile(tal, path, words, mp)
 end
 #+END_SRC

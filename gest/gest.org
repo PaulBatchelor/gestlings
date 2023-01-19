@@ -21,7 +21,7 @@ function Gest:create()
 end
 
 function Gest:compile(words)
-    tal.compile_words(words,
+    self.tal.compile_words(words,
         self.bufname,
         string.format("[glget [grab %s]]", self.name))
 end
@@ -63,6 +63,27 @@ function Gest:node()
         n:lil("gestvmnode zz " .. program .. " zz")
         n:label("gesture: " .. name)
     end
+end
+
+function Gest.gest16fun(sr, core)
+    return function (gst, name, cnd, mn, mx)
+        local pn = sr.paramnode
+        local lvl = core.liln
+
+        local node = pn(sr.scale) {
+            input = pn(sr.mul) {
+                a = pn(gst:node()) {
+                    name = name,
+                    conductor = lvl(cnd:getstr())
+                },
+                b = 1.0 / 16.0
+            },
+            min = mn,
+            max = mx
+        }
+
+        return node
+	end
 end
 
 return Gest
