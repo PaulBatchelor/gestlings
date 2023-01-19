@@ -62,15 +62,22 @@ function solf(s)
     return nrt.eval(s, {base=60})
 end
 
+mel2 = "drm rmf mfs ftD"
+mel3 = "d4 s2 t-8 D^ l4~ f d2~ r-4/ d2.~"
 vocab = {
     A = {
-        pitch = solf("d~rms^D4.~t8s4m"),
+        pitch = solf(mel3),
+        timbre = s16("d3/ o8 a1"),
+        amp = s16("o11 c1"),
+    },
+    S = {
+        pitch = solf(mel3),
         timbre = s16("d2/o1"),
-        amp = s16("o1^"),
+        amp = s16("c"),
     },
 }
 
-SEQ = "4[A]2[AA]"
+SEQ = "11[A]A2[S]"
 SEQ = mseq.parse(SEQ, vocab)
 
 -- </@>
@@ -103,7 +110,7 @@ function G:sound()
     local gst = G.gest
 
     ln(sr.phasor) {
-        rate = (75 / 60)
+        rate = 13 / 10
     }
 
     cnd:hold()
@@ -141,16 +148,21 @@ function G:sound()
 	l = g:generate_nodelist()
 	g:compute(l)
 
+    -- lil("sine 1000 0.3")
+    -- cnd:get()
+    -- lil("phsclk zz 1")
+    -- lil("env zz 0.001 0.001 0.001; mul zz zz; add zz zz")
 	gst:done()
     cnd:unhold()
 
     lil([[
-dup; dup; verbity zz zz 0.1 0.1 0.1; drop; mul zz [dblin -10];
+dup; dup; verbity zz zz 0.9 0.1 0.1; drop; mul zz [dblin -10];
 add zz zz
     ]])
 
+
     lil("mul zz [dblin 5]")
-    lil("tgate [tick] 10; mul zz zz")
+    lil("tgate [tick] 10; smoother zz 0.01; mul zz zz")
 end
 
 function run()
