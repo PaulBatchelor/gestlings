@@ -266,6 +266,9 @@ function S.phasor(n, p)
 end
 #+END_SRC
 
+TODO: gesture nodes might not be needed anymore...
+use gest module instead
+
 #+NAME: nodes
 #+BEGIN_SRC lua
 function gestvmnode(glive, membuf, program, conductor)
@@ -285,5 +288,19 @@ function S.gesture(n, p)
     n.conductor = n:param(p.conductor or 0)
     n:lil("gestvmnode zz " .. program .. " zz")
     n:label("gesture: " .. name)
+end
+#+END_SRC
+
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.fmpair(n, p)
+    n.tab = n:param(p.tab)
+    n.freq = n:param(p.freq or 440)
+    n.car = n:param(p.car or 1)
+    n.mod = n:param(p.mod or 1)
+    n.mi = n:param(p.idx or 1)
+    n.fdbk = n:param(p.fdbk or 0)
+    n:lil("fmpair zz zz zz zz zz zz")
+    n:label("phasor")
 end
 #+END_SRC
