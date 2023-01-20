@@ -1,16 +1,32 @@
 core = require("util/core")
 sr = require("sigrunes/sigrunes")
+diagraf = require("diagraf/diagraf")
 
-ln = sr.lilnode
-lvl = core.liln
+nd = sr.node
+ln = core.liln
+lf = core.lilf
+plf = core.plilf
 
 lil("gensine [tabnew 8192]")
 lil("regset zz 0; regmrk 0")
 
+g = diagraf.Graph:new()
+
+ng  = core.nodegen(diagraf.Node, g)
+pg  = core.paramgen(ng)
+con = g:connector()
+
 -- sr.lilnode_debug(true)
-ln(sr.fmpair) {
-    tab = lvl("regget 0")
+fm = ng(sr.fmpair) {
+    tab = plf("regget 0"),
+    freq = 330,
+    mi = 1.5,
+    car = 1.0,
+    mod = 3.0,
+    fdbk = 0.4,
 }
+
+tab = ln("regget 0")
 
 -- lil("mul zz 0.2")
 -- lil([[
@@ -24,5 +40,10 @@ ln(sr.fmpair) {
 -- mul zz 0.2
 -- ]])
 
+l = g:generate_nodelist()
+pprint = require("util/pprint")
+
+pprint(tab)
+g:compute(l)
 lil("mul zz 0.2; wavout zz test.wav")
 lil("computes 10")

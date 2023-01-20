@@ -1122,7 +1122,13 @@ function Node:param(val)
     local g = self.data.g
     local params = self.data.params
     local p = Node:new(g)
-    p:constant(val)
+
+    if type(val) == "number" then
+        p:constant(val)
+    else
+        p.data.gen = val
+        p.data.constant = false
+    end
     table.insert(params, p)
     p.data.param_id = #params
 

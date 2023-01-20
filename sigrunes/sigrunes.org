@@ -226,7 +226,7 @@ end
 
 -- instead of using a sigrune node in a graph, evaluate it
 -- by itself in-place
-function S.lilnode(n, p)
+function S.node(n, p)
     p = p or {}
     return function (p)
         n(dummy, p)
@@ -245,7 +245,7 @@ function S.paramnode(n, p)
     end
 end
 
-function S.lilnode_debug(debug)
+function S.node_debug(debug)
     if debug then
         dummy.eval = print
     else
@@ -298,7 +298,7 @@ function S.fmpair(n, p)
     n.freq = n:param(p.freq or 440)
     n.car = n:param(p.car or 1)
     n.mod = n:param(p.mod or 1)
-    n.mi = n:param(p.idx or 1)
+    n.mi = n:param(p.mi or 1)
     n.fdbk = n:param(p.fdbk or 0)
     n:lil("fmpair zz zz zz zz zz zz")
     n:label("phasor")

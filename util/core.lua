@@ -7,6 +7,14 @@ function Core.lilf(str)
     end
 end
 
+-- "parameter" lil eval. for use with diagraf parameters
+function Core.plilf(str)
+    return function(node, eval)
+        eval = eval or lil
+        eval(str)
+    end
+end
+
 function Core.liln(str)
     return {
         lilnode = true,
