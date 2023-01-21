@@ -301,6 +301,17 @@ function S.fmpair(n, p)
     n.mi = n:param(p.mi or 1)
     n.fdbk = n:param(p.fdbk or 0)
     n:lil("fmpair zz zz zz zz zz zz")
-    n:label("phasor")
+    n:label("fmpair")
+end
+#+END_SRC
+
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.envar(n, p)
+    n.gate = n:param(p.gate or 0)
+    n.atk = n:param(p.atk or 0.1)
+    n.rel = n:param(p.rel or 0.1)
+    n:lil("envar zz zz zz")
+    n:label("envar")
 end
 #+END_SRC
