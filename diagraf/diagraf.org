@@ -883,8 +883,15 @@ function Graph:compute(lst)
     end
 end
 #+END_SRC
-** Graphviz Code Generation (Dot) (TODO: words)
-TODO: words. Explain how this works.
+** Graphviz Code Generation (Dot)
+Dot code generation in Graphviz can be generated with
+the =dot= method. This can be helpful for debugging any
+issues with the graph.
+
+Dot uses the edges/vertices representation of the Graph,
+and is therefore more likely to be intended representation
+of the structure in cases where things do not go as
+expected.
 
 #+NAME: graph
 #+BEGIN_SRC lua
@@ -955,9 +962,6 @@ function Graph:dot(outfile)
             end
 
             if n1:disabled() == false and loud == true then
-                if outgoing == 60 then
-                    print(n2.data.id)
-                end
                 printer(string.format("%d -> %d", incoming, outgoing))
             end
         end

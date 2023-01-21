@@ -404,3 +404,12 @@
 2023-01-18 11:39:22	181f054b-5680-4904-a642-5f5b0e942d3b	>I think we are well beyond the "initial words" phase of diagraf
 -	181f054b-5680-4904-a642-5f5b0e942d3b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	181f054b-5680-4904-a642-5f5b0e942d3b	#ad010546-d6a6-40eb-9e6b-97cffeca5188
+2023-01-21 10:30:54	657eb129-deb9-44b0-a907-657a51f90b03	>create initial warble synthesizer
+-	657eb129-deb9-44b0-a907-657a51f90b03	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-01-21 10:30:54	657eb129-deb9-44b0-a907-657a51f90b03	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-21 10:32:13	6b8f9b91-7114-4212-b174-ec65e9af453a	>I'm nearly done coding the initial sound up. But, I thought I'd add this task anyways to keep track of the remaining fringes. Also, I want to get better at logging my time (using the stopwatch in zetdo).
+-	6b8f9b91-7114-4212-b174-ec65e9af453a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	6b8f9b91-7114-4212-b174-ec65e9af453a	#657eb129-deb9-44b0-a907-657a51f90b03
+2023-01-21 11:53:07	cf87f85c-6dd7-420a-801c-cbb73ba67232	$duration:>4835
+-	cf87f85c-6dd7-420a-801c-cbb73ba67232	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	cf87f85c-6dd7-420a-801c-cbb73ba67232	#657eb129-deb9-44b0-a907-657a51f90b03
