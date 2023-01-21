@@ -315,3 +315,15 @@ function S.envar(n, p)
     n:label("envar")
 end
 #+END_SRC
+
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.osc(n, p)
+    n.tab = n:param(p.tab)
+    n.iphs = p.iphs or 0
+    n.freq = n:param(p.freq or 440)
+    n.amp = n:param(p.amp or 0.5)
+    n:lil(string.format("osc zz zz zz %g", n.iphs))
+    n:label("osc")
+end
+#+END_SRC

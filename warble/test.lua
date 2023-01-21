@@ -10,7 +10,10 @@ lf = core.lilf
 plf = core.plilf
 
 lil("gensine [tabnew 8192]")
-lil("regset zz 0; regmrk 0")
+lil("param [regnxt 0]")
+tab = pop()
+lil(string.format("regset zz %d; regmrk %d", tab, tab))
+sintab = plf(string.format("regget %d", tab))
 
 g = diagraf.Graph:new{sig=sig}
 
@@ -20,14 +23,15 @@ con = g:connector()
 prmf = core.paramf
 
 p = {
-    freq = lf("rline 200 400 1")
+    pitch = lf("rline 60 67 1")
 }
 
-freq = pg(p.freq or prmf(330))
+pitch = pg(p.pitch or prmf(60))
 
 -- sr.lilnode_debug(true)
 fm = ng(sr.fmpair) {
-    tab = plf("regget 0"),
+    --tab = plf("regget 0"),
+    tab = sintab,
     mi = 1.5,
     car = 1.0,
     mod = 1.0,
@@ -37,14 +41,18 @@ fm = ng(sr.fmpair) {
 scaler = ng(sr.scale)
 
 mul = ng(sr.mul)
+add = ng(sr.add)
 nz = ng(sr.noise)()
 lpf = ng(sr.butlp)()
 hpf = ng(sr.buthp){cutoff=300}
 con(nz, hpf.input)
 con(hpf, lpf.input)
-freqmul = mul{b = 2.0}
-con(freq, freqmul.a)
-con(freqmul, lpf.cutoff)
+freqmul = add{b = 12.0}
+con(pitch, freqmul.a)
+mtof = ng(sr.mtof)
+lpf_freq = mtof()
+con(freqmul, lpf_freq.input)
+con(lpf_freq, lpf.cutoff)
 
 envar = ng(sr.envar)
 
@@ -57,6 +65,7 @@ cfenv = envar {
     atk = 0.03,
     rel = 0.01,
 }
+
 sclcf = scaler {
     min = 0.0,
     max = 1.0
@@ -64,35 +73,45 @@ sclcf = scaler {
 con(cfenv, sclcf.input)
 con(sclcf, cf.pos)
 
-
 con(fm, cf.a)
 con(lpf, cf.b)
 
-osc = cf
+generator = cf
 
-con(freq, fm.freq)
+lfo = ng(sr.osc) {
+    freq = 6,
+    amp = 0.5,
+    tab = sintab
+}
+
+vib = add()
+fm_freq = mtof()
+con(pitch, vib.a)
+con(lfo, vib.b)
+con(vib, fm_freq.input)
+con(fm_freq, fm.freq)
 
 sclamp = scaler {
     min = 0.0,
     max = 1.0
 }
 
-
 ampenv = envar {
-    gate = plf("metro 1.5; tgate zz 0.01"),
-    atk = 0.003,
+    gate = plf("metro 1; tgate zz 0.2"),
+    atk = 0.03,
     rel = 0.9,
 }
 
 con(ampenv, sclamp.input)
 
 ascl_mul = mul()
-con(osc, ascl_mul.a)
+con(generator, ascl_mul.a)
 con(sclamp, ascl_mul.b)
-g:dot("warble.dot")
+-- g:dot("warble.dot")
 l = g:generate_nodelist()
 
 g:compute(l)
+lil(string.format("regclr %d", tab))
 
 lil("mul zz 0.2; wavout zz test.wav")
 lil("computes 10")
