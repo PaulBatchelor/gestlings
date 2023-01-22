@@ -66,15 +66,21 @@ function Warble.graph(params)
     local car = pg(p.car or prmf(1), "car")
     local mod = pg(p.mod or prmf(1), "mod")
     local fdbk = pg(p.fdbk or prmf(0), "feedback")
-    local asp = pg(p.asp.val or prmf(0), "aspiration")
-    local asp_gt = pg(p.asp.gate or prmf(0), "aspiration gate")
-    local asp_atk = pg(p.asp.atk or prmf(0.1), "aspiration attack")
-    local asp_rel = pg(p.asp.rel or prmf(0.1), "aspiration release")
-    local a_gt = pg(p.amp.gate or prmf(0), "amp gate")
-    local a_atk = pg(p.amp.atk or prmf(0.1), "amp attack")
-    local a_rel = pg(p.amp.rel or prmf(0.1), "amp release")
-    local vib_rate = pg(p.vib.rate or prmf(6), "vibrato rate")
-    local vib_depth = pg(p.vib.depth or prmf(0.2), "vibrato depth")
+
+    local pasp = p.asp or {}
+    local asp = pg(pasp.val or prmf(0), "aspiration")
+    local asp_gt = pg(pasp.gate or prmf(0), "aspiration gate")
+    local asp_atk = pg(pasp.atk or prmf(0.1), "aspiration attack")
+    local asp_rel = pg(pasp.rel or prmf(0.1), "aspiration release")
+
+    local pamp = p.amp or {}
+    local a_gt = pg(pamp.gate or prmf(0), "amp gate")
+    local a_atk = pg(pamp.atk or prmf(0.1), "amp attack")
+    local a_rel = pg(pamp.rel or prmf(0.1), "amp release")
+
+    local pvib = p.vib or {}
+    local vib_rate = pg(pvib.rate or prmf(6), "vibrato rate")
+    local vib_depth = pg(pvib.depth or prmf(0.2), "vibrato depth")
 
     local fm = ng(sr.fmpair) {tab = sintab}
 
