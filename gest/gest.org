@@ -117,7 +117,7 @@ end
 * Gest16fun
 This produces a helper function that rescales the
 output of @!(ref "seq")!@. The input
-are the @!(ref "sigrunes')!@ and core components. The
+are the @!(ref "sigrunes")!@ and core components. The
 output is a callback that takes in an instance of Gest
 =gst=, the name of the gesture, the conductor signal
 =cnd=, and the min/max range to scale to =mn= and =mx=.
