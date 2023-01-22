@@ -4,7 +4,14 @@ Some lua abstractions for creating gestures with gestvm.
 #+NAME: gest.lua
 #+BEGIN_SRC lua :tangle gest/gest.lua
 Gest = {}
-
+<<behavior_constants>>
+<<gest>>
+return Gest
+#+END_SRC
+* New
+Creates a new instance of Gest.
+#+NAME: gest
+#+BEGIN_SRC lua
 function Gest:new(o)
     o = o or {}
     o.name = o.name or "glive"
@@ -14,30 +21,65 @@ function Gest:new(o)
     self.__index = self
     return o
 end
+#+END_SRC
+* Create
+Allocates a new instance of GestVM, as well of GestLive,
+the component that allows gestvm to work in realtime.
 
+#+NAME: gest
+#+BEGIN_SRC lua
 function Gest:create()
     lil("glnew " .. self.name)
     self.tal.membuf(self.bufname)
 end
+#+END_SRC
+* Compile
+Compiles a Tal program, represented as a list of words,
+into Gestvm.
 
+#+NAME: gest
+#+BEGIN_SRC lua
 function Gest:compile(words)
     self.tal.compile_words(words,
         self.bufname,
         string.format("[glget [grab %s]]", self.name))
 end
+#+END_SRC
+* Swapper
+Creates a swapper node for gestlive. This should be called
+before making any GestVM nodes.
 
+#+NAME: gest
+#+BEGIN_SRC lua
 function Gest:swapper()
     lil(string.format("glswapper [grab %s]", self.name))
 end
+#+END_SRC
+* Done
+Tells GestLive it is done adding gestures. Should be called
+right before hotswapping the patch.
 
+#+NAME: gest
+#+BEGIN_SRC lua
 function Gest:done()
     lil(string.format("gldone [grab %s]", self.name))
 end
+#+END_SRC
+* Get
+Returns a string of LIL code that grabs the active
+instance of GestVM being written to.
 
+#+NAME: gest
+#+BEGIN_SRC lua
 function Gest:get()
     return string.format("[glget [grab %s]]", self.name)
 end
+#+END_SRC
+* Node_old (OLD)
+Deprecated node that creates a gesture node.
 
+#+NAME: gest
+#+BEGIN_SRC lua
 function Gest:node_old(program, conductor)
     local cnd = conductor or self.conductor
     if cnd == nil then
@@ -48,7 +90,14 @@ function Gest:node_old(program, conductor)
         "gestvmnode %s [gmemsym [grab %s] %s] %s",
         self.get(self), self.bufname, program, cnd))
 end
+#+END_SRC
+* Node
+Creates a @!(ref "diagraf")!@-compatible node that produces
+a gesture node. The "name" field must be supplied as the
+name of the gesture to use.
 
+#+NAME: gest
+#+BEGIN_SRC lua
 function Gest:node()
 	local glive = self.get(self)
 	local mem = self.bufname
@@ -64,7 +113,17 @@ function Gest:node()
         n:label("gesture: " .. name)
     end
 end
+#+END_SRC
+* Gest16fun
+This produces a helper function that rescales the
+output of @!(ref "seq")!@. The input
+are the @!(ref "sigrunes')!@ and core components. The
+output is a callback that takes in an instance of Gest
+=gst=, the name of the gesture, the conductor signal
+=cnd=, and the min/max range to scale to =mn= and =mx=.
 
+#+NAME: gest
+#+BEGIN_SRC lua
 function Gest.gest16fun(sr, core)
     return function (gst, name, cnd, mn, mx)
         local pn = sr.paramnode
@@ -85,6 +144,16 @@ function Gest.gest16fun(sr, core)
         return node
 	end
 end
-
-return Gest
+#+END_SRC
+* GestVM Behavior Constants
+#+NAME: behavior_constants
+#+BEGIN_SRC lua
+Gest.behavior = {
+    linear = 0,
+    step = 1,
+    gliss_medium = 2,
+    gate_125 = 4,
+    gate_25 = 5,
+    gate_50 = 6 
+}
 #+END_SRC

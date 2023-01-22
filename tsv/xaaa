@@ -416,3 +416,15 @@
 2023-01-21 11:54:40	0aaf5932-8937-4372-965f-3d312a7e365a	>I think this patch is fully constructed with all the input parameters made (I will be referring to these as 'points of articulation' from now on in the Gestlings project)
 -	0aaf5932-8937-4372-965f-3d312a7e365a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	0aaf5932-8937-4372-965f-3d312a7e365a	#657eb129-deb9-44b0-a907-657a51f90b03
+2023-01-22 11:41:45	25192f99-f9b4-4fed-8384-7846af36c0a6	>add constants to gest
+-	25192f99-f9b4-4fed-8384-7846af36c0a6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-01-22 12:07:41	25192f99-f9b4-4fed-8384-7846af36c0a6	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
+2023-01-22 11:42:35	4519d66f-d953-4b34-9903-bef81c251708	>Make sure they are in !gest. I also want to make sure there is an option for a gate
+-	4519d66f-d953-4b34-9903-bef81c251708	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4519d66f-d953-4b34-9903-bef81c251708	#25192f99-f9b4-4fed-8384-7846af36c0a6
+2023-01-22 12:06:58	2a76687a-115e-47d7-bb2f-18272c63ba73	$duration:>1367
+-	2a76687a-115e-47d7-bb2f-18272c63ba73	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	2a76687a-115e-47d7-bb2f-18272c63ba73	#25192f99-f9b4-4fed-8384-7846af36c0a6
+2023-01-22 12:07:17	bb60b920-d95b-426e-8c8b-81f4c90d9d47	>add "prop" mode to nrt
+-	bb60b920-d95b-426e-8c8b-81f4c90d9d47	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-01-22 12:07:18	bb60b920-d95b-426e-8c8b-81f4c90d9d47	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
