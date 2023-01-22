@@ -159,4 +159,11 @@
  :org "gestku/gestku.org"
  :tangled @["gestku/gestku.lua"]
  }
+
+ "warble"
+ @{
+ :id 23
+ :org "warble/warble.org"
+ :tangled @["warble/warble.lua"]
+ }
 })

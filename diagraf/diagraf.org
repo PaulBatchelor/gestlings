@@ -877,9 +877,18 @@ print the generated code rather than evaluating it.
 #+NAME: graph
 #+BEGIN_SRC lua
 function Graph:compute(lst)
+    if type(self.init) == "function" then
+        self.init(self)
+    end
+
     for _, i in pairs(lst) do
         local n = self.nodes[i]
         n:compute()
+    end
+
+    -- User-defined cleanup after computation
+    if type(self.cleanup) == "function" then
+        self.cleanup(self)
     end
 end
 #+END_SRC

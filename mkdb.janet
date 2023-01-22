@@ -29,6 +29,7 @@
 (ww-add-page "nrt" `@!(wikipage "nrt")!@`)
 (ww-add-page "mseq" `@!(wikipage "mseq")!@`)
 (ww-add-page "gestku" `@!(wikipage "gestku")!@`)
+(ww-add-page "warble" `@!(wikipage "warble")!@`)
 
 # linked pages
 
