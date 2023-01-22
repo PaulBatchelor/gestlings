@@ -427,4 +427,11 @@
 -	2a76687a-115e-47d7-bb2f-18272c63ba73	#25192f99-f9b4-4fed-8384-7846af36c0a6
 2023-01-22 12:07:17	bb60b920-d95b-426e-8c8b-81f4c90d9d47	>add "prop" mode to nrt
 -	bb60b920-d95b-426e-8c8b-81f4c90d9d47	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-01-22 12:07:18	bb60b920-d95b-426e-8c8b-81f4c90d9d47	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-22 12:15:44	bb60b920-d95b-426e-8c8b-81f4c90d9d47	$state:#7272290f-61b8-4fa0-a9e2-4c79a6a2e8ad
+2023-01-22 12:11:53	f1a4352d-3f59-4fa4-9175-47062fcd6b9c	>It wasn't !nrt, it was !mseq. And it would better to create a new page for it, since the functionality is very differnt from mseq. A task was previously made for this: gdoiisdl.
+-	f1a4352d-3f59-4fa4-9175-47062fcd6b9c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f1a4352d-3f59-4fa4-9175-47062fcd6b9c	#bb60b920-d95b-426e-8c8b-81f4c90d9d47
+2023-01-22 12:12:11	713643ba-5966-4a9a-aead-ea6d99964a5f	$duration:>234
+-	713643ba-5966-4a9a-aead-ea6d99964a5f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	713643ba-5966-4a9a-aead-ea6d99964a5f	#bb60b920-d95b-426e-8c8b-81f4c90d9d47
+2023-01-22 12:15:39	7272290f-61b8-4fa0-a9e2-4c79a6a2e8ad	@CANCELED
