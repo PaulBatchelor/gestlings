@@ -13,7 +13,7 @@ local L = {}
 Space = lpeg.S(" \n\t")^0
 Duration = lpeg.Cg(lpeg.R("09")^1, "duration")
 Value = lpeg.Cg(lpeg.R("az","AZ")^1, "value")
-Behavior = lpeg.Cg(lpeg.S("~^/_"), "behavior")
+Behavior = lpeg.Cg(lpeg.S("~^/_-"), "behavior")
 
 local Exp, S =
     lpeg.V"Exp", lpeg.V"S"
@@ -39,6 +39,9 @@ function parse(t, vals)
             bhvr = 0
         elseif x.behavior == "_" then
             bhvr = 1
+        elseif x.behavior == "-" then
+            -- 50% gate
+            bhvr = 6
         end
 
         if x.duration ~= nil then

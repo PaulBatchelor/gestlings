@@ -61,7 +61,6 @@ function Warble.graph(params)
     local p = params
 
     local pitch = pg(p.pitch or prmf(60), "pitch")
-    local amp = pg(p.amp.val or prmf(1), "amp")
     local mi = pg(p.mi or prmf(1), "mod index")
     local car = pg(p.car or prmf(1), "car")
     local mod = pg(p.mod or prmf(1), "mod")
@@ -74,9 +73,11 @@ function Warble.graph(params)
     local asp_rel = pg(pasp.rel or prmf(0.1), "aspiration release")
 
     local pamp = p.amp or {}
+    local amp = pg(pamp.val or prmf(1), "amp")
     local a_gt = pg(pamp.gate or prmf(0), "amp gate")
     local a_atk = pg(pamp.atk or prmf(0.1), "amp attack")
     local a_rel = pg(pamp.rel or prmf(0.1), "amp release")
+    local a_dur = pg(pamp.dur or prmf(0.1), "amp env duration")
 
     local pvib = p.vib or {}
     local vib_rate = pg(pvib.rate or prmf(6), "vibrato rate")
@@ -149,8 +150,18 @@ function Warble.graph(params)
 
     con(a_atk, ampenv.atk)
     con(a_rel, ampenv.rel)
+    
+    tgate = ng(sr.tgate)
+    gtick = ng(sr.gtick)
 
-    con(a_gt, ampenv.gate)
+    ampenv_gtick = gtick()
+    ampenv_tgate = tgate()
+    con(a_gt, ampenv_gtick.gate)
+    con(ampenv_gtick, ampenv_tgate.trig)
+    con(a_dur, ampenv_tgate.dur)
+
+    ampenv_gt = ampenv_tgate
+    con(ampenv_gt, ampenv.gate)
     con(ampenv, sclamp.input)
 
     local ascl_mul = mul()

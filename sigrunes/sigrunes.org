@@ -327,3 +327,22 @@ function S.osc(n, p)
     n:label("osc")
 end
 #+END_SRC
+
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.tgate(n, p)
+    n.trig = n:param(p.trig or 0)
+    n.dur = n:param(p.dur or 0.5)
+    n:lil("tgate zz zz")
+    n:label("tgate")
+end
+#+END_SRC
+
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.gtick(n, p)
+    n.gate = n:param(p.gate or 0)
+    n:lil("gtick zz")
+    n:label("gtick")
+end
+#+END_SRC
