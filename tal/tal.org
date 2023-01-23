@@ -161,3 +161,12 @@ function tal.compile(program, bufname, gvm)
         gvm)
 end
 #+END_SRC
+** enable/disable interpolator
+#+NAME: cmds
+#+BEGIN_SRC lua
+function tal.interpolate(words, state)
+    tal.num(words, state)
+    tal.num(words, 0x2a)
+    table.insert(words, "DEO")
+end
+#+END_SRC

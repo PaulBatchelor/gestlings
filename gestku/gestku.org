@@ -90,9 +90,9 @@ function Gestku:start()
 	self.tal.start(self.words)
 end
 
-function Gestku:articulate(seq)
+function Gestku:articulate(seq, head)
 	self.morpheme.articulate(self.path,
-	    self.tal, self.words, seq)
+	    self.tal, self.words, seq, head)
 end
 
 function Gestku:compile()

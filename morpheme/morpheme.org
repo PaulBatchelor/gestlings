@@ -250,9 +250,13 @@ previously.
 
 #+NAME: helpers
 #+BEGIN_SRC lua
-function M.compile(tal, path, words, mp)
+function M.compile(tal, path, words, mp, head)
+    head = head or {}
     for label, p in pairs(mp) do
         tal.label(words, label)
+        if head[label] ~= nil then
+            head[label](words)
+        end
         path.path(tal, words, p)
         tal.jump(words, label)
     end
@@ -266,7 +270,7 @@ function in
 
 #+NAME: helpers
 #+BEGIN_SRC lua
-function M.articulate(path, tal, words, seq)
+function M.articulate(path, tal, words, seq, head)
     local mp = {}
 
     for _,s in pairs(seq) do
@@ -274,6 +278,6 @@ function M.articulate(path, tal, words, seq)
     end
 
 
-    M.compile(tal, path, words, mp)
+    M.compile(tal, path, words, mp, head)
 end
 #+END_SRC
