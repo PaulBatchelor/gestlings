@@ -406,7 +406,7 @@
 -	181f054b-5680-4904-a642-5f5b0e942d3b	#ad010546-d6a6-40eb-9e6b-97cffeca5188
 2023-01-21 10:30:54	657eb129-deb9-44b0-a907-657a51f90b03	>create initial warble synthesizer
 -	657eb129-deb9-44b0-a907-657a51f90b03	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-01-21 10:30:54	657eb129-deb9-44b0-a907-657a51f90b03	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-24 01:07:23	657eb129-deb9-44b0-a907-657a51f90b03	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-01-21 10:32:13	6b8f9b91-7114-4212-b174-ec65e9af453a	>I'm nearly done coding the initial sound up. But, I thought I'd add this task anyways to keep track of the remaining fringes. Also, I want to get better at logging my time (using the stopwatch in zetdo).
 -	6b8f9b91-7114-4212-b174-ec65e9af453a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	6b8f9b91-7114-4212-b174-ec65e9af453a	#657eb129-deb9-44b0-a907-657a51f90b03
@@ -447,3 +447,12 @@
 2023-01-23 11:57:42	b561bc9e-3213-420f-adf4-43a7939363e1	>warble: properly implement gate for aspiration
 -	b561bc9e-3213-420f-adf4-43a7939363e1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2023-01-23 11:57:42	b561bc9e-3213-420f-adf4-43a7939363e1	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-01-24 01:07:18	9bc947be-1e87-4412-a3e4-f13e97e9d29c	>short of a few tweaks, this is basically done.
+-	9bc947be-1e87-4412-a3e4-f13e97e9d29c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9bc947be-1e87-4412-a3e4-f13e97e9d29c	#657eb129-deb9-44b0-a907-657a51f90b03
+2023-01-24 02:28:40	7c9917bb-440a-40bd-8831-1211548ff737	$duration:>4855
+-	7c9917bb-440a-40bd-8831-1211548ff737	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	7c9917bb-440a-40bd-8831-1211548ff737	#b561bc9e-3213-420f-adf4-43a7939363e1
+2023-01-24 02:29:10	f3db37e8-b854-4170-a421-462af6bd1694	>got sidetracked... attempted to tune some aspiration
+-	f3db37e8-b854-4170-a421-462af6bd1694	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f3db37e8-b854-4170-a421-462af6bd1694	#b561bc9e-3213-420f-adf4-43a7939363e1

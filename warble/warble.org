@@ -71,6 +71,10 @@ function Warble.graph(params)
     local asp_gt = pg(pasp.gate or prmf(0), "aspiration gate")
     local asp_atk = pg(pasp.atk or prmf(0.1), "aspiration attack")
     local asp_rel = pg(pasp.rel or prmf(0.1), "aspiration release")
+    local asp_dur = pg(pasp.dur or prmf(0.1), "aspiration env duration")
+    local asp_gain = pg(pasp.gain or prmf(1.0), "aspiration gain")
+    local asp_bw = pg(pasp.bw or prmf(100), "aspiration bandwidth")
+    local asp_freq = pg(pasp.freq or prmf(500), "aspiration center frequency")
 
     local pamp = p.amp or {}
     local amp = pg(pamp.val or prmf(1), "amp")
@@ -95,16 +99,21 @@ function Warble.graph(params)
     local mul = ng(sr.mul)
     local add = ng(sr.add)
     local nz = ng(sr.noise)()
-    local lpf = ng(sr.butlp)()
-    local hpf = ng(sr.buthp){cutoff=300}
-    con(nz, hpf.input)
-    con(hpf, lpf.input)
-    local freqmul = add{b = 12.0}
-    con(pitch, freqmul.a)
-    local mtof = ng(sr.mtof)
-    local lpf_freq = mtof()
-    con(freqmul, lpf_freq.input)
-    con(lpf_freq, lpf.cutoff)
+
+    local bpf = ng(sr.butbp)()
+
+    con(asp_bw, bpf.bw)
+    con(asp_freq, bpf.freq)
+
+    local lpf = ng(sr.butlp) {
+        freq = 1000,
+    }
+
+    con(nz, lpf.input)
+    con(lpf, bpf.input)
+    bpf_gain = mul()
+    con(asp_gain, bpf_gain.b)
+    con(bpf, bpf_gain.a)
 
     local envar = ng(sr.envar)
 
@@ -116,13 +125,24 @@ function Warble.graph(params)
 
     con(asp_rel, cfenv.rel)
     con(asp_atk, cfenv.atk)
-    con(asp_gt, cfenv.gate)
+
+    tgate = ng(sr.tgate)
+    gtick = ng(sr.gtick)
+
+    cfenv_gtick = gtick()
+    cfenv_tgate = tgate()
+
+    con(asp_gt, cfenv_gtick.gate)
+    con(cfenv_gtick, cfenv_tgate.trig)
+    con(asp_dur, cfenv_tgate.dur)
+
+    con(cfenv_tgate, cfenv.gate)
     con(asp, sclcf.min)
     con(cfenv, sclcf.input)
     con(sclcf, cf.pos)
 
     con(fm, cf.a)
-    con(lpf, cf.b)
+    con(bpf_gain, cf.b)
 
     local generator = cf
 
@@ -134,6 +154,7 @@ function Warble.graph(params)
     con(vib_depth, lfo.amp)
 
     vib = add()
+    mtof = ng(sr.mtof)
     fm_freq = mtof()
     con(pitch, vib.a)
     con(lfo, vib.b)
@@ -150,9 +171,6 @@ function Warble.graph(params)
 
     con(a_atk, ampenv.atk)
     con(a_rel, ampenv.rel)
-    
-    tgate = ng(sr.tgate)
-    gtick = ng(sr.gtick)
 
     ampenv_gtick = gtick()
     ampenv_tgate = tgate()
@@ -160,8 +178,7 @@ function Warble.graph(params)
     con(ampenv_gtick, ampenv_tgate.trig)
     con(a_dur, ampenv_tgate.dur)
 
-    ampenv_gt = ampenv_tgate
-    con(ampenv_gt, ampenv.gate)
+    con(ampenv_tgate, ampenv.gate)
     con(ampenv, sclamp.input)
 
     local ascl_mul = mul()
@@ -173,7 +190,7 @@ function Warble.graph(params)
         grf.eval(string.format("regclr %d", tab))
     end
     return g
-    end
+end
 #+END_SRC
 * Compute
 Computes-in-place an instance of Warble.

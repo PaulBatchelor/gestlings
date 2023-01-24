@@ -346,3 +346,13 @@ function S.gtick(n, p)
     n:label("gtick")
 end
 #+END_SRC
+
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.smoother(n, p)
+    n.input = n:param(p.input or 0)
+    n.smooth = n:param(p.smooth or 0)
+    n:lil("smoother zz zz")
+    n:label("smoother")
+end
+#+END_SRC
