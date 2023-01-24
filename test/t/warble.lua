@@ -48,4 +48,17 @@ g:compute(l)
 
 lil("mul zz 0.2")
 
-lil("verify 9e6fa7ac1e46109cf424807f1afa7c5d")
+chksm = "8f8a56821de869cd887886421288d4b4"
+rc, msg = pcall(lil, "verify " .. chksm)
+
+verbose = os.getenv("VERBOSE")
+if rc == false then
+    if verbose ~= nil and verbose == "1" then
+        print(msg)
+    end
+    os.exit(1)
+else
+    os.exit(0)
+end
+
+
