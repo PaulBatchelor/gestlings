@@ -456,3 +456,5 @@
 2023-01-24 02:29:10	f3db37e8-b854-4170-a421-462af6bd1694	>got sidetracked... attempted to tune some aspiration
 -	f3db37e8-b854-4170-a421-462af6bd1694	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	f3db37e8-b854-4170-a421-462af6bd1694	#b561bc9e-3213-420f-adf4-43a7939363e1
+2023-01-24 14:47:25	39c8da5c-1ad3-4f49-8077-6a7350d9f36c	>it's happening... we are adding regression tests for gestkus. Some effort will be taken to try to make sure these don't break or change.
+-	39c8da5c-1ad3-4f49-8077-6a7350d9f36c	#53a2e179-eb60-4c13-b749-59d5d3b893c5

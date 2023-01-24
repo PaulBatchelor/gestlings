@@ -14,4 +14,6 @@ check () {
     printf "%s:%"$NSPACES"s\n" $1 $(runtest $1)
 }
 
-check warble
+check warble1
+check warble2
+check warble3
