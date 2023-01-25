@@ -27,3 +27,4 @@ check robogigue
 check regina 
 check inquisitive_bird 
 check init
+check goblin_nap
