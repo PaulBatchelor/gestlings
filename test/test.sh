@@ -24,3 +24,4 @@ check excuse_me
 check up_there
 check internal_malfunction
 check robogigue
+check regina 
