@@ -26,3 +26,4 @@ check internal_malfunction
 check robogigue
 check regina 
 check inquisitive_bird 
+check init
