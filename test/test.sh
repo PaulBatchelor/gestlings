@@ -22,3 +22,5 @@ check whistle_antiphon
 check paging_dr_distant
 check excuse_me
 check up_there
+check internal_malfunction
+check robogigue
