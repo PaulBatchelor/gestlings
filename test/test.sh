@@ -25,3 +25,4 @@ check up_there
 check internal_malfunction
 check robogigue
 check regina 
+check inquisitive_bird 
