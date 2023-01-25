@@ -58,7 +58,7 @@ function G:sound()
     local lvl = gestku.core.liln
     local sr = gestku.sr
     local pn = sr.paramnode
-    local ln = sr.lilnode
+    local ln = sr.node
     local sig = gestku.sig
     local cnd = sig:new()
     local gst = G.gest

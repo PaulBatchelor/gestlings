@@ -2,6 +2,7 @@
 
 alias samu="mnolth samu"
 alias lua="mnolth lua"
+alias tst="sh test/test.sh"
 
 # zetdo aliases
 alias zet="weewiki zet"
