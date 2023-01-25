@@ -127,7 +127,7 @@ end
 function G:sound()
     local lvl = core.liln
     local pn = sr.paramnode
-    local ln = sr.lilnode
+    local ln = sr.node
     local cnd = sig:new()
     local gst = G.gest
 
