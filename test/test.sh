@@ -28,3 +28,4 @@ check regina
 check inquisitive_bird 
 check init
 check goblin_nap
+check goblin_deciding
