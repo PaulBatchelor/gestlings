@@ -35,6 +35,7 @@ step16 = {
     m = 13,
     n = 14,
     o = 15,
+    p = 16,
 }
 
 function S.seqfun(morpho, str)
