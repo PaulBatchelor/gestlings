@@ -29,3 +29,4 @@ check inquisitive_bird
 check init
 check goblin_nap
 check goblin_deciding
+check grumpy_goblin
