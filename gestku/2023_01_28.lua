@@ -19,15 +19,18 @@ G = gestku:new()
 
 function G.symbol()
     return [[
---#---#--
-#--#-#--#
-#---#---#
-##-----##
-#--#-#--#
----------
---#####--
--#-#-#-#-
--#######-
+--------------
+-######-------
+--------------
+--#--#-----#--
+#----------##-
+##--###----#-#
+#-----#----#--
+---------###--
+-----##--###--
+----#--#--#---
+-----##-------
+--------------
 ]]
 end
 -- </@>
@@ -127,6 +130,9 @@ vocab = {
         aspamt = s16("j_"),
     }),
     F = clone(excited),
+    G = clone(mutter, {
+        pitch = solf("d,,2/ r,,4_"),
+    }),
     S = clone(sing, {
         gain = s16("a_")
     })
@@ -142,9 +148,7 @@ head = {
 
 }
 
--- SEQ = "4[A]S"
-SEQ = "2[C]2(S)B2(S)DSSESBS2[ES]2(F)S4[A]S"
--- SEQ = "ESS"
+SEQ = "2[C]2(S)B2(S)DSSESGS2[ES]2(F)S4[A]2[S]"
 SEQ = gestku.mseq.parse(SEQ, vocab)
 
 -- </@>
@@ -161,7 +165,8 @@ function G:sound()
     local param = gestku.core.paramf
 
     ln(sr.phasor) {
-        rate = 13 / 10
+        -- rate = 13 / 10
+        rate = 15 / 10
     }
 
     cnd:hold()
@@ -256,7 +261,7 @@ function G:sound()
 
     ln(sr.smoother) {
         input = gest16(gst, "gain", cnd, 0, 0.5),
-        smooth = 0.008,
+        smooth = 0.003,
     }
 
     lil("mul zz zz")
@@ -277,7 +282,8 @@ mul zz [dblin -20];
 add zz zz
     ]])
 
-    -- lil("tgate [tick] 10; smoother zz 0.01; mul zz zz")
+    --lil("tgate [tick] 10; smoother zz 0.01; mul zz zz")
+    lil("tgate [tick] 14; smoother zz 0.01; mul zz zz")
 end
 
 function run()

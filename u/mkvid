@@ -8,5 +8,13 @@ then
     exit
 fi
 
-mnolth lua gestku/render.lua $NAME
+DUR=11
+
+if [ "$#" -gt 1 ]
+then
+    DUR=$2
+fi
+
+
+mnolth lua gestku/render.lua $NAME $DUR
 ffmpeg -y -loop 1 -i $NAME.pbm -i $NAME.wav -c:v libx264 -tune stillimage -c:a aac -b:a 256k -pix_fmt yuv420p -shortest $NAME.mp4

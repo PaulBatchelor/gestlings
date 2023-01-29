@@ -4,10 +4,16 @@ name=arg[1]
 
 gestku = require("gestku/" .. name)
 
+dur = 11
+
+if arg[2] ~= nil then
+    dur = arg[2]
+end
+
 gestku.patch()
 lil(string.format(
-        "dup; wavouts zz zz %s.wav; computes 11",
-        name))
+        "dup; wavouts zz zz %s.wav; computes %g",
+        name, dur))
 
 sym = gestku.symbol()
 
