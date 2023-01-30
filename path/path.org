@@ -23,7 +23,44 @@ flow is interrupted somehow, such as with branching.
 #+NAME: path.lua
 #+BEGIN_SRC lua :tangle path/path.lua
 local Path = {}
+<<path>>
+return Path
+#+END_SRC
+* Creating a Vertex
+The =vertex= function creates a gesture vertex, represented
+as a lua table. The input is an array of 3 values: value,
+duration, and behavior.
 
+Duration is itself a 2-element array containing the numerator
+and denominator values for the rate multiplier.
+
+Behavior is an integer value indicating the type of behavior
+to be used. See the @!(ref
+"gest" "gest behavior constants"
+"behavior_constants")!@ for some human-friendly variable
+names to use instead of just numbers.
+
+#+NAME: path
+#+BEGIN_SRC lua
+function Path.vertex(v)
+    x = {}
+
+    x.val = v[1]
+    x.dur = v[2]
+    x.bhvr = v[3]
+
+    return x
+end
+#+END_SRC
+* Compiling a Path
+A Path, represented as an array of Gesture vertices in
+Lua, can be compiled into TAL code using the =path=
+function. In addition to the path to be compiled,
+the @!(ref "tal")!@ library will need to be passed in,
+along with a table to place the words that get generated.
+
+#+NAME: path
+#+BEGIN_SRC lua
 function Path.path(tal, words, path)
     for _, v in pairs(path)
     do
@@ -41,15 +78,4 @@ function Path.path(tal, words, path)
     end
 end
 
-function Path.vertex(v)
-    x = {}
-
-    x.val = v[1]
-    x.dur = v[2]
-    x.bhvr = v[3]
-
-    return x
-end
-
-return Path
 #+END_SRC

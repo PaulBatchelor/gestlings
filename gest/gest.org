@@ -146,6 +146,7 @@ function Gest.gest16fun(sr, core)
 end
 #+END_SRC
 * GestVM Behavior Constants
+@!(marker "behavior_constants")!@
 #+NAME: behavior_constants
 #+BEGIN_SRC lua
 Gest.behavior = {
