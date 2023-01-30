@@ -52,9 +52,9 @@
  @{
  :id 7
  :org "sigils/sigils.org"
- :tangled "sigils/sigils.janet" 
+ :tangled "sigils/sigils.janet"
  }
- 
+
  "runes"
  @{
  :id 8
@@ -71,35 +71,35 @@
 
  "tal"
  @{
- :id 10 
+ :id 10
  :org "tal/tal.org"
  :tangled @["tal/tal.lua"]
  }
- 
+
  "path"
  @{
- :id 11 
+ :id 11
  :org "path/path.org"
  :tangled @["path/path.lua"]
  }
 
  "morpheme"
  @{
- :id 12 
+ :id 12
  :org "morpheme/morpheme.org"
  :tangled @["morpheme/morpheme.lua"]
  }
 
  "morpho"
  @{
- :id 13 
+ :id 13
  :org "morpheme/morpho.org"
  :tangled @["morpheme/morpho.lua"]
  }
 
  "whistle"
  @{
- :id 14 
+ :id 14
  :org "whistle/whistle.org"
  :tangled @["whistle/whistle.lua"]
  }
