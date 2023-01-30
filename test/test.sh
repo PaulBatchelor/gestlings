@@ -24,9 +24,11 @@ check excuse_me
 check up_there
 check internal_malfunction
 check robogigue
-check regina 
-check inquisitive_bird 
+check regina
+check inquisitive_bird
 check init
 check goblin_nap
 check goblin_deciding
 check grumpy_goblin
+check singing_goblin
+check snoring_goblin
