@@ -30,6 +30,7 @@
 (ww-add-page "mseq" `@!(wikipage "mseq")!@`)
 (ww-add-page "gestku" `@!(wikipage "gestku")!@`)
 (ww-add-page "warble" `@!(wikipage "warble")!@`)
+(ww-add-page "morpho" `@!(wikipage "morpho")!@`)
 
 # linked pages
 
