@@ -38,6 +38,13 @@ allowing for interesting polyrhythms to occur.
 By default, a morpheme takes up one beat, however its
 duration can be stretched and squashed to fit inside beats
 bars, or units smaller than beats.
+* Tangled Code
+#+NAME: morpheme.lua
+#+BEGIN_SRC lua :tangle morpheme/morpheme.lua
+local M = {}
+<<morpheme>>
+return M
+#+END_SRC
 * Implementation
 The Morpheme structure is implemented in lua code, using
 lua tables as it's structure.
@@ -94,9 +101,8 @@ time, while *length* describes the sum of all the ratio
 units for a path when duration is expressed in proportional
 terms.
 ** Lua Code for Morpheme Function
-#+NAME: morpheme.lua
-#+BEGIN_SRC lua :tangle morpheme/morpheme.lua
-local M = {}
+#+NAME: morpheme
+#+BEGIN_SRC lua
 <<lcm>>
 function M.morpheme(m, r)
     -- Get lengths of each gesture path
@@ -167,10 +173,7 @@ function M.morpheme(m, r)
 
     return out
 end
-
 <<helpers>>
-
-return M
 #+END_SRC
 ** LCM and GCD algorithms
 Least common multiple algorithm, taken from Rosetta Code.
@@ -279,5 +282,107 @@ function M.articulate(path, tal, words, seq, head)
 
 
     M.compile(tal, path, words, mp, head)
+end
+#+END_SRC
+* Working with Larger Morphemes
+** Attributes and Sets
+In practice, it is typical for morphemes to become large
+and many. The operations and constructs below aim to make it
+easier to work with these heftier morphemes.
+
+A morpheme, as stated previously, is a collection of named
+paths that run parallel to one another. These named paths
+can be thought of as attributes to a sound, and a morpheme
+can be thought of as a set of attributes.
+Morphemes
+that are tied together in a sequence (using something
+like @!(ref "mseq")!@, for example), must all contain the
+identical combination of attributes. In other words,
+morphemes must all share an identical set of attributes.
+** Templates
+The =template= function produces an abstraction that makes
+it easy to create variations from an existing morpheme:
+
+#+BEGIN_SRC lua
+x = {
+    "a": path1,
+    "b": path2,
+    "c": path3,
+}
+
+xt = template(x)
+
+y = x {
+    "b": path4
+}
+#+END_SRC
+
+This syntactic sugar works by taking advantage of a Lua
+quirk. In some situations, parantheses are optional for
+functions. If a function takes only a table as an
+argument, the curly braces of that table can be used instead
+of parentheses.
+
+#+NAME: morpheme
+#+BEGIN_SRC lua
+function M.template(m)
+    return function(p)
+        local o = {}
+        for k,v in pairs(m) do
+            o[k] = p[k] or v
+        end
+        return o
+    end
+end
+#+END_SRC
+** Subsets and Partial Morphemes
+A handful of attributes from a morpheme, known as a subset,
+can be extracted into a smaller morpheme, known as a
+partial morpheme. Partial morphemes can be turned into
+templates an managed as smaller components, then can be
+combined with other partial morphemes to quickly build
+full morphemes.
+
+The =subset= function takes in a morpheme and a table
+of attributes, and returns a partial morpheme with those
+attributes. This will be a strict operation: attributes
+that don't exist in the morpheme will be treated as
+errors.
+
+#+NAME: morpheme
+#+BEGIN_SRC lua
+function M.subset(m, a)
+    local o = {}
+
+    for _,v in pairs(a)
+        if m[v] == nil then
+            error("Attribute '" .. v .. "' doesn't exist.")
+        end
+        o[a] = m[a]
+    end
+
+    return o
+end
+#+END_SRC
+** Merge
+A =merge= operation is a kind of join operation for
+morphemes A and B that combines their attributes into one
+morpheme. If there are any attributes that intersect between
+A and B, the attributes in B will be chosen.
+
+#+NAME: morpheme
+#+BEGIN_SRC lua
+function M.merge(A, B)
+    local o = {}
+
+    for k,v in pairs(A) do
+        o[k] = v
+    end
+
+    for k,v in pairs(B) do
+        o[k] = v
+    end
+
+    return o
 end
 #+END_SRC
