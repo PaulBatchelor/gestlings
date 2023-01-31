@@ -36,6 +36,8 @@
 
 (ww-add-link "index" "index.org")
 (ww-add-link "weight" "weight/weight.org")
+(ww-add-link "goblins" "goblins/goblins.org")
+(ww-add-link "goblin_vocal_warmups" "goblins/vocal_warmups.org")
 
 # sync and close
 

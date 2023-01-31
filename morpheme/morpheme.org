@@ -354,7 +354,7 @@ errors.
 function M.subset(m, a)
     local o = {}
 
-    for _,v in pairs(a)
+    for _,v in pairs(a) do
         if m[v] == nil then
             error("Attribute '" .. v .. "' doesn't exist.")
         end

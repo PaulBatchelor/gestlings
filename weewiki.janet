@@ -120,3 +120,14 @@
   (print (btprnt/write-png bp))
   (print (string/format
            "\" alt=\"%s\">" alt)))
+
+(defn video [path &opt alt fallback]
+  (print "<video controls>")
+  (print
+   (string
+    "<source src=\""
+    path "\""
+    (if-not (nil? alt) (string " alt=\"" alt "\""))
+    " type=\"video/mp4\">"))
+  (if-not (nil? fallback) (img fallback alt))
+  (print "</video>"))

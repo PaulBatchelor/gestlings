@@ -1,0 +1,8 @@
+#+TITLE: Goblins
+@!(ref "gestku" "Gestkus")!@ made during "Goblin Week",
+between the dates of Jan 23-29, 2023.
+
+@!(img-link 
+    "/res/goblins/2023_01_23.png"
+    "goblin_vocal_warmups"
+    "goblin vocal warm-ups")!@

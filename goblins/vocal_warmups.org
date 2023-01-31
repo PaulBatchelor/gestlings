@@ -1,0 +1,7 @@
+#+TITLE: Goblin Vocal Warm-ups
+
+@!(video "/res/goblins/2023_01_23.mp4"
+"/res/goblins/2023_01_23.png")!@
+
+Back to @!(ref "goblins")!@.
+
