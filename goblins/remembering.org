@@ -1,0 +1,14 @@
+#+TITLE: Goblin remembering
+
+a goblin bard trying to remember lyrics to a song
+
+@!(video "/res/goblins/2023_01_28.mp4"
+"/res/goblins/2023_01_28.png")!@
+
+Go back to... @!(ref "gestku")!@??
+
+...
+
+...Or was it ...@!(ref "goblins")!@?
+
+Hrmmf.

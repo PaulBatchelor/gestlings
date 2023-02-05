@@ -2,7 +2,40 @@
 @!(ref "gestku" "Gestkus")!@ made during "Goblin Week",
 between the dates of Jan 23-29, 2023.
 
-@!(img-link 
+Click on an image to go to their page and hear what they
+sound like.
+
+@!(img-link
     "/res/goblins/2023_01_23.png"
     "goblin_vocal_warmups"
     "goblin vocal warm-ups")!@
+
+@!(img-link
+    "/res/goblins/2023_01_24.png"
+    "goblin_laughing"
+    "laughing goblin")!@
+
+@!(img-link
+    "/res/goblins/2023_01_25.png"
+    "goblin_waking_up"
+    "goblin waking up")!@
+
+@!(img-link
+    "/res/goblins/2023_01_26.png"
+    "goblin_deciding"
+    "goblin deciding")!@
+
+@!(img-link
+    "/res/goblins/2023_01_27.png"
+    "goblin_grumpy"
+    "grumpy goblin")!@
+
+@!(img-link
+    "/res/goblins/2023_01_28.png"
+    "goblin_remembering"
+    "grumpy remembering")!@
+
+@!(img-link
+    "/res/goblins/2023_01_29.png"
+    "goblin_snoring"
+    "goblin snoring")!@

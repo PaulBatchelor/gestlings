@@ -1,0 +1,8 @@
+#+TITLE: Goblin snoring
+
+a well rested goblin is a happy goblin
+
+@!(video "/res/goblins/2023_01_29.mp4"
+"/res/goblins/2023_01_29.png")!@
+
+zzzzzzz...... .... @!(ref "goblins")!@

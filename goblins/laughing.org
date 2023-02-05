@@ -1,0 +1,8 @@
+#+TITLE: Laughing Goblin
+
+A goblin chuckling at the TV show they are watching.
+
+@!(video "/res/goblins/2023_01_24.mp4"
+"/res/goblins/2023_01_24.png")!@
+
+Back to @!(ref "goblins")!@. (lol)

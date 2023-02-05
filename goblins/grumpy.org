@@ -1,0 +1,8 @@
+#+TITLE: Grumpy Goblin
+
+a goblin in a grumpy mood.
+
+@!(video "/res/goblins/2023_01_27.mp4"
+"/res/goblins/2023_01_27.png")!@
+
+Grrr. Yeah, okay go back to @!(ref "goblins")!@. Whatever.

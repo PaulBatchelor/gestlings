@@ -1,0 +1,9 @@
+#+TITLE: Goblin Deciding
+
+a goblin deciding what to order for lunch today.
+
+@!(video "/res/goblins/2023_01_26.mp4"
+"/res/goblins/2023_01_26.png")!@
+
+Back to @!(ref "goblins")!@, or maybe somewhere else. hmm.
+Not sure.

@@ -38,6 +38,12 @@
 (ww-add-link "weight" "weight/weight.org")
 (ww-add-link "goblins" "goblins/goblins.org")
 (ww-add-link "goblin_vocal_warmups" "goblins/vocal_warmups.org")
+(ww-add-link "goblin_laughing" "goblins/laughing.org")
+(ww-add-link "goblin_waking_up" "goblins/waking_up.org")
+(ww-add-link "goblin_deciding" "goblins/deciding.org")
+(ww-add-link "goblin_remembering" "goblins/remembering.org")
+(ww-add-link "goblin_snoring" "goblins/snoring.org")
+(ww-add-link "goblin_grumpy" "goblins/grumpy.org")
 
 # sync and close
 

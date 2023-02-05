@@ -1,0 +1,8 @@
+#+TITLE: Goblin Waking Up
+
+A goblin waking up from a refreshing nap in their cave.
+
+@!(video "/res/goblins/2023_01_25.mp4"
+"/res/goblins/2023_01_25.png")!@
+
+Back to @!(ref "goblins")!@.
