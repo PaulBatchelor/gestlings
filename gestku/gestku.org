@@ -60,6 +60,12 @@ function Gestku:new(o)
     o.path = o.path or Gestku.path
     o.words = {}
     o.gest = Gestku.gest:new{tal = o.tal}
+    -- this is how it was done before I made this
+    -- boilerplate. hence why it is not a method
+    o.patch = function()
+        self.setup(self)
+        self.sound(self)
+    end
     setmetatable(o, self)
     self.__index = self
     return o
@@ -97,6 +103,11 @@ end
 
 function Gestku:compile()
     self.gest:compile(self.words)
+end
+
+function Gestku:run()
+    self.sound(self)
+    lil("out")
 end
 
 return Gestku
