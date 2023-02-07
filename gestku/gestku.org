@@ -62,11 +62,11 @@ function Gestku:new(o)
     o.gest = Gestku.gest:new{tal = o.tal}
     -- this is how it was done before I made this
     -- boilerplate. hence why it is not a method
-    o.patch = function()
-        self.setup(self)
-        self.sound(self)
-    end
     setmetatable(o, self)
+    o.patch = function()
+        o.setup(o)
+        o.sound(o)
+    end
     self.__index = self
     return o
 end
@@ -89,6 +89,7 @@ end
 
 function Gestku:setup()
     self.gest:create()
+    self.init(self)
 end
 
 function Gestku:start()
@@ -103,6 +104,10 @@ end
 
 function Gestku:compile()
     self.gest:compile(self.words)
+end
+
+function Gestku:init()
+    -- To be overridden
 end
 
 function Gestku:run()
