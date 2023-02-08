@@ -1,4 +1,5 @@
 GESTKU=$(date +"gestku/%Y_%m_%d.lua")
 
 touch $GESTKU
+
 $EDITOR $GESTKU

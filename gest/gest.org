@@ -91,6 +91,22 @@ function Gest:node_old(program, conductor)
         self.get(self), self.bufname, program, cnd))
 end
 #+END_SRC
+
+#+NAME: gest
+#+BEGIN_SRC lua
+function Gest:nodestring(program, conductor)
+    local cnd = conductor or self.conductor
+    if cnd == nil then
+        error("conductor signal not defined")
+    end
+
+    local s = string.format(
+        "gestvmnode %s [gmemsym [grab %s] %s] %s",
+        self.get(self), self.bufname, program, cnd)
+
+    return s
+end
+#+END_SRC
 * Node
 Creates a @!(ref "diagraf")!@-compatible node that produces
 a gesture node. The "name" field must be supplied as the
