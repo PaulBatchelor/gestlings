@@ -45,6 +45,17 @@ function Gest:compile(words)
         string.format("[glget [grab %s]]", self.name))
 end
 #+END_SRC
+* Compile Tal Code
+Similar to =compile=, except the program is represented
+as a string.
+#+NAME: gest
+#+BEGIN_SRC lua
+function Gest:compile_tal(program)
+    self.tal.compile(program,
+        self.bufname,
+        string.format("[glget [grab %s]]", self.name))
+end
+#+END_SRC
 * Swapper
 Creates a swapper node for gestlive. This should be called
 before making any GestVM nodes.
