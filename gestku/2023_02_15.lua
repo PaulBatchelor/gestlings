@@ -1,5 +1,6 @@
 --[[
-crystalline cosmic soup
+noodling with metal
+
 -- <@>
 dofile("gestku/2023_02_15.lua")
 G:rtsetup()
@@ -14,12 +15,15 @@ G = gestku:new()
 function G.symbol()
     return [[
 ---------
+----#----
 ---###---
----###---
+----#----
 ---------
--#-----#-
--#-----#-
--#-----#-
+----#----
+---------
+----#----
+---------
+----#----
 --#####--
 ---------
 ]]
@@ -113,12 +117,11 @@ regset zz 0
 ]], gst:get(), membuf, membuf, membuf, membuf))
 
 lil([[
-
 # breath signal for phrasing
 
-metro 1
+metro 2
 tdiv zz 8 0
-tgate zz 4
+tgate zz 2
 hold zz
 regset zz 4
 
@@ -136,7 +139,7 @@ tseq [genvals [tabnew 1] "0.25 0.3750 0.25 0.625 0.25 0.75 0.25"] \
 swap
 crossfade zz zz [regget 4]
 
-phasor [scale [regget 3] 6 1] 0
+phasor [scale [regget 3] 12 2] 0
 
 scale [expmap [regget 3] 1] 0.7 0.3
 qgliss zz zz zz zz
@@ -155,7 +158,7 @@ gmorphfmparam [regget 0] 0 modamt 0
 
 gmorphfmparam [regget 0] 1 frqmul 4
 gmorphfmparam [regget 0] 1 fdbk 0
-gmorphfmparam [regget 0] 1 modamt 0
+gmorphfmparam [regget 0] 1 modamt 1
 
 gmorphfmparam [regget 0] 2 frqmul 3
 gmorphfmparam [regget 0] 2 fdbk 0
@@ -169,18 +172,27 @@ gmorphfm [regget 0] [regget 1] [regget 2]
 
 mul zz 0.6
 regget 4
+adsr zz 1 0.1 0.9 0.5
+scale zz 100 8000
+butlp zz zz
+
+regget 4
 adsr zz 0.5 0.1 0.9 1.0
+
 mul zz zz
+
 ]])
 
 lil([[
 dup; dup
-bigverb zz zz 0.97 8000
+bigverb zz zz 0.97 4000
 drop
-mul zz [dblin -20]
+mul zz [dblin -30]
 dcblocker zz
 add zz zz
 
+tenv [tick] 0.1 9 1
+mul zz zz
 
 unhold [regget 3]
 unhold [regget 4]
