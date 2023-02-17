@@ -55,12 +55,17 @@
       (string "srcset=\"" srcset "\""))
     ">")))
 
+(defn respath [path]
+    (def root 
+        (if (ww-server?) "" "/gestlings"))
+    (string root path))
+
 (defn img-link [path link &opt alt]
   (print
    (string
-    "<a href=\"" link "\">"
+    "<a href=\"" (pglink link) "\">"
     "<img src=\""
-    path "\""
+    (respath path) "\""
     (if-not (nil? alt) (string " alt=\"" alt "\""))
     "></a>")))
 
@@ -126,8 +131,8 @@
   (print
    (string
     "<source src=\""
-    path "\""
+    (respath path) "\""
     (if-not (nil? alt) (string " alt=\"" alt "\""))
     " type=\"video/mp4\">"))
-  (if-not (nil? fallback) (img fallback alt))
+  (if-not (nil? fallback) (img (respath fallback) alt))
   (print "</video>"))
