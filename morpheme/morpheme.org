@@ -269,7 +269,7 @@ end
 The =articulate= function takes in a sequence of morphemes
 and duration scaling factors, and then returns a table
 of words that could be compiled using the =compile_words=
-function in
+found in @!(ref "tal" "the Tal Lua module")!@.
 
 #+NAME: helpers
 #+BEGIN_SRC lua

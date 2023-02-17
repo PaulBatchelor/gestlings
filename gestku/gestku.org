@@ -110,6 +110,12 @@ function Gestku:compile_tal(program)
     self.gest:compile_tal(program)
 end
 
+function Gestku:compile_words_and_tal(program)
+    self.gest:compile_tal(table.concat(self.words, " ") ..
+                          "\n" .. 
+                          program)
+end
+
 function Gestku:init()
     -- To be overridden
 end
