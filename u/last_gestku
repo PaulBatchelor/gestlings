@@ -1,0 +1,2 @@
+# well, second to last (last is usually the current)
+cat $(ls gestku/*.lua | grep -E "gestku/[0-9].*" | tail -n 2 | head -n 1)
