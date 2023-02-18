@@ -470,7 +470,7 @@
 2023-01-30 11:41:39	21843a1a-e652-47a3-a660-6d7d24e549d4	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
 2023-01-30 11:43:03	f7a7b1a9-4144-47ba-b5d0-b062b1c26468	>create goblins page
 -	f7a7b1a9-4144-47ba-b5d0-b062b1c26468	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-01-30 11:43:04	f7a7b1a9-4144-47ba-b5d0-b062b1c26468	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-02-18 19:45:42	f7a7b1a9-4144-47ba-b5d0-b062b1c26468	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-01-31 11:27:11	a7cf5d53-f30e-4750-ae92-88585d22b33f	$duration:>2886
 -	a7cf5d53-f30e-4750-ae92-88585d22b33f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	a7cf5d53-f30e-4750-ae92-88585d22b33f	#21843a1a-e652-47a3-a660-6d7d24e549d4
@@ -479,3 +479,5 @@
 -	8a336baf-9d37-4051-8707-98261c6c844b	#f7a7b1a9-4144-47ba-b5d0-b062b1c26468
 2023-02-06 01:27:27	6d4ecc0f-f45a-4f50-b33c-083f6cd032b7	>after a week of tool-mind, back to toy-mind with gestku. the focus is going to be on wavetables.
 -	6d4ecc0f-f45a-4f50-b33c-083f6cd032b7	#9010c118-0c31-4ac0-b7a3-000e4a57bc19
+2023-02-18 19:45:30	5a6d4c98-ec28-4caa-b27e-11f9b756d0ef	>managed to get the !goblins page working to a good enough state. I have a semi-decent way to handle uploading media files like video to my server. Should be a good first start.
+-	5a6d4c98-ec28-4caa-b27e-11f9b756d0ef	#53a2e179-eb60-4c13-b749-59d5d3b893c5
