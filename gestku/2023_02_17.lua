@@ -1,5 +1,7 @@
 --[[
-WIP.
+A melody that feels slightly rushed
+
+(feb 17-18 2023)
 
 -- <@>
 dofile("gestku/2023_02_17.lua")
@@ -18,18 +20,16 @@ G = gestku:new()
 
 function G.symbol()
     return [[
----------
-----#----
----###---
-----#----
----------
-----#----
----------
-----#----
----------
-----#----
---#####--
----------
+----------
+-####-----
+------###-
+----------
+-----##---
+-------##-
+-####-----
+----------
+-###-###--
+----------
 ]]
 end
 -- </@>
@@ -50,7 +50,7 @@ ftladd zz
 crtwavk [grab db] wt3 ghirdoqwr
 grab wt3
 ftladd zz
-gensinesum [tabnew 8192 wt5] "1 0 1 0 1 0 1 0 1" 1
+gensinesum [tabnew 8192 wt5] "1 0 1 0 1 0 1 0 0" 1
 ftladd zz
 drop
 ]])
@@ -65,19 +65,38 @@ function articulate()
     local lin = b.linear
 
     local M = {
-        seq = gestku.nrt.eval("d4 r m f s f m2", {base=58}),
+        seq = gestku.nrt.eval([[
+d2 m4 r t, d l,1
+d4 m s f m s D t s1
+d2. m4 r t, d1
+]], {base=58}),
         wtpos1 = {
+            {0, 2, gm},
+            {2, 1, gm},
             {0, 1, gm},
+            {2, 1, gm},
             {0, 1, gm},
+            {2, 4, gm},
+
+            {3, 1, gm},
+            {2, 1, gm},
+            {1, 1, gm},
+            {3, 1, gm},
+            {2, 1, gm},
+            {1, 1, gm},
+            {3, 1, gm},
+            {2, 1, gm},
+            {0, 4, gm},
+
+            {0, 3, gm},
             {0, 1, gm},
             {1, 1, gm},
-            {2, 1, gm},
             {3, 1, gm},
-            {4, 2, lin},
+            {0, 4, gm},
         }
     }
 
-    G:articulate({{M, {1,4}}})
+    G:articulate({{M, {1,10}}})
 
     tal_code = [[
 %VAL { #26 DEO BRK }
@@ -143,6 +162,8 @@ gestku.sr.node(G.gest:node()) {
 }
 
 lil([[
+sine 6 0.07
+add zz zz
 mtof zz
 hold zz
 regset zz 2
@@ -170,6 +191,9 @@ gmorphfm [regget 0] [regget 1] [regget 2]
 
 mul zz 0.6
 
+# attempts to make it sound less harsh
+butlp zz 4000
+peakeq zz 3000 3000 0.1
 ]])
 
 lil([[
