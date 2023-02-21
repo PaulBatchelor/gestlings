@@ -481,3 +481,14 @@
 -	6d4ecc0f-f45a-4f50-b33c-083f6cd032b7	#9010c118-0c31-4ac0-b7a3-000e4a57bc19
 2023-02-18 19:45:30	5a6d4c98-ec28-4caa-b27e-11f9b756d0ef	>managed to get the !goblins page working to a good enough state. I have a semi-decent way to handle uploading media files like video to my server. Should be a good first start.
 -	5a6d4c98-ec28-4caa-b27e-11f9b756d0ef	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2023-02-21 11:38:27	f81ceb8c-10c8-484c-871d-b75634dde490	>create gmorphfm lua abstraction
+-	f81ceb8c-10c8-484c-871d-b75634dde490	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-02-21 11:38:27	f81ceb8c-10c8-484c-871d-b75634dde490	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-02-21 11:40:59	5e9e123d-37d0-4c88-9ffb-a61f94ad0020	>over the past few days, I've been asking myself "what will it take to leave the cauldron?". The answer, I think, is when bits of myth and lore start to emerge from the software I am building
+-	5e9e123d-37d0-4c88-9ffb-a61f94ad0020	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2023-02-21 11:41:31	6a3b9a69-687a-41ec-b04e-35ef816603c5	>add creation myth page
+-	6a3b9a69-687a-41ec-b04e-35ef816603c5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-02-21 11:41:31	6a3b9a69-687a-41ec-b04e-35ef816603c5	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-02-21 11:42:23	18e6f5ff-9201-4a59-8f83-b73573014631	>this is a particularly significant step in order to get out of the "Cauldron"
+-	18e6f5ff-9201-4a59-8f83-b73573014631	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	18e6f5ff-9201-4a59-8f83-b73573014631	#6a3b9a69-687a-41ec-b04e-35ef816603c5

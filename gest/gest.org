@@ -185,3 +185,14 @@ Gest.behavior = {
     gate_50 = 6 
 }
 #+END_SRC
+* Gmemsymstr
+Returns the string code for =gmemsym=
+#+NAME: gest
+#+BEGIN_SRC lua
+function Gest:gmemsymstr(symbol)
+	local mem = self.bufname
+    local program = 
+        string.format("gmemsym [grab %s] %s", mem, symbol)
+    return program
+end
+#+END_SRC
