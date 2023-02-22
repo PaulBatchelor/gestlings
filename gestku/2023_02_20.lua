@@ -1,5 +1,7 @@
 --[[
-dates worked on: 2/20, 2/21
+dates worked on: 2/20, 2/21, 2/22
+
+GOAL: get two voices
 -- <@>
 dofile("gestku/2023_02_20.lua")
 G:rtsetup()
@@ -82,6 +84,17 @@ lil("drop")
 end
 -- </@>
 -- <@>
+
+function morpheme2voice(M, name)
+    local out = {}
+
+    for k,v in pairs(M) do
+        out[k .. name] = v
+    end
+
+    return out
+end
+
 function articulate()
     G:start()
     local b = gestku.gest.behavior
@@ -107,8 +120,10 @@ d2. m4 r t, d1
         wtpos4 = {
             {WT.sine, 1, gm},
         },
-        gate = s16("p_ a p a p a"),
+        gate = s16("p_ a p a p a p a p a p a p a p a"),
     }
+
+    M = morpheme2voice(M, "a")
 
     G:articulate({{M, {1,10}}})
 
@@ -134,6 +149,31 @@ function gmorphfmparam(gst, op, param, sig)
         gst, op, param, sig)
     lil(cmd)
 end
+
+function wtpos_values(name)
+    local wtpos = {"wtpos4", "wtpos3", "wtpos2", "wtpos1"}
+
+    for k, v in pairs(wtpos) do
+        wtpos[k] = v .. name
+    end
+
+    return wtpos
+end
+
+function seqnode(cnd, name)
+    local ln = gestku.core.liln
+    gestku.sr.node(G.gest:node()) {
+        name = "seq" .. name,
+        conductor = ln(cnd:getstr())
+    }
+end
+
+function gatenode(cnd, name)
+    local gst = G.gest
+    local nd = gestku.sr.node
+    gate = gest16(gst, "gate" .. name, cnd, 0, 1)
+    nd(gate){}
+end
 -- </@>
 
 -- <@>
@@ -149,7 +189,7 @@ function G:sound()
 
     gmorphfmnew(gst,
         "[grab ftl]",
-        {"wtpos4", "wtpos3", "wtpos2", "wtpos1"},
+        wtpos_values("a"),
         0)
 
     lil("regset zz 0; regmrk 0")
@@ -159,10 +199,12 @@ function G:sound()
     local cnd = sig:new()
     cnd:hold()
 
-    gestku.sr.node(G.gest:node()) {
-        name = "seq",
-        conductor = ln(cnd:getstr())
-    }
+    -- gestku.sr.node(G.gest:node()) {
+    --     name = "seq",
+    --     conductor = ln(cnd:getstr())
+    -- }
+
+    seqnode(cnd, "a")
 
     lil([[
 sine 6 0.07
@@ -200,8 +242,10 @@ mtof zz]])
 butlp zz 4000
 peakeq zz 3000 3000 0.1]])
 
-    gate = gest16(gst, "gate", cnd, 0, 1)
-    nd(gate){}
+    -- gate = gest16(gst, "gate", cnd, 0, 1)
+    -- nd(gate){}
+    gatenode(cnd, "a")
+
     lil("envar zz 0.01 0.2")
     lil("mul zz zz")
 
