@@ -129,6 +129,14 @@ end
 -- </@>
 
 -- <@>
+function gmorphfmparam(gst, op, param, sig)
+    local cmd = string.format("gmorphfmparam %s %s %s %s",
+        gst, op, param, sig)
+    lil(cmd)
+end
+-- </@>
+
+-- <@>
 function G:sound()
     local gst = G.gest
     local nd = gestku.sr.node
@@ -137,79 +145,67 @@ function G:sound()
     articulate()
     gst:swapper()
 
-membuf = "[grab " .. G.gest.bufname .. "]"
+    membuf = "[grab " .. G.gest.bufname .. "]"
 
-gmorphfmnew(gst,
-    "[grab ftl]",
-    {"wtpos4", "wtpos3", "wtpos2", "wtpos1"},
-    0)
--- lil("gmorphfmnew " ..  gst:get() ..  " [grab ftl] " ..
---     "[gmemsym " .. membuf .. " wtpos4 " .. "] " ..
---     "[gmemsym " .. membuf .. " wtpos3 " .. "] " ..
---     "[gmemsym " .. membuf .. " wtpos2 " .. "] " ..
---     "[gmemsym " .. membuf .. " wtpos1 " .. "] " ..
---     "0")
---
+    gmorphfmnew(gst,
+        "[grab ftl]",
+        {"wtpos4", "wtpos3", "wtpos2", "wtpos1"},
+        0)
 
-lil("regset zz 0; regmrk 0")
-lil("phasor 1 0")
+    lil("regset zz 0; regmrk 0")
+    lil("phasor 1 0")
 
-local sig = gestku.sig
-local cnd = sig:new()
-cnd:hold()
+    local sig = gestku.sig
+    local cnd = sig:new()
+    cnd:hold()
 
-gestku.sr.node(G.gest:node()) {
-    name = "seq",
-    conductor = ln(cnd:getstr())
-}
+    gestku.sr.node(G.gest:node()) {
+        name = "seq",
+        conductor = ln(cnd:getstr())
+    }
 
-
-lil([[
+    lil([[
 sine 6 0.07
 add zz zz
-mtof zz
-]])
+mtof zz]])
 
-pitch = sig:new()
-pitch:hold()
+    pitch = sig:new()
+    pitch:hold()
 
-lil([[
-gmorphfmparam [regget 0] 0 frqmul 8
-gmorphfmparam [regget 0] 0 fdbk 0
-gmorphfmparam [regget 0] 0 modamt 0
+    gmorphfmparam("[regget 0]", 0, "frqmul", 8)
+    gmorphfmparam("[regget 0]", 0, "fdbk", 0)
+    gmorphfmparam("[regget 0]", 0, "modamt", 0)
 
-gmorphfmparam [regget 0] 1 frqmul 4
-gmorphfmparam [regget 0] 1 fdbk 0
-gmorphfmparam [regget 0] 1 modamt 1
+    gmorphfmparam("[regget 0]", 1, "frqmul", 4)
+    gmorphfmparam("[regget 0]", 1, "fdbk", 0)
+    gmorphfmparam("[regget 0]", 1, "modamt", 1)
 
-gmorphfmparam [regget 0] 2 frqmul 3
-gmorphfmparam [regget 0] 2 fdbk 0
-gmorphfmparam [regget 0] 2 modamt 1
+    gmorphfmparam("[regget 0]", 2, "frqmul", 3)
+    gmorphfmparam("[regget 0]", 2, "fdbk", 0)
+    gmorphfmparam("[regget 0]", 2, "modamt", 1)
 
-gmorphfmparam [regget 0] 3 frqmul 1
-gmorphfmparam [regget 0] 3 fdbk 0
-gmorphfmparam [regget 0] 3 modamt 1
-]])
+    gmorphfmparam("[regget 0]", 3, "frqmul", 1)
+    gmorphfmparam("[regget 0]", 3, "fdbk", 0)
+    gmorphfmparam("[regget 0]", 3, "modamt", 1)
 
-lil(string.format("gmorphfm %s %s %s",
-    "[regget 0]",
-    "[" .. cnd:getstr() .. "]",
-    "[" .. pitch:getstr() .. "]"
-    ))
+    lil(string.format("gmorphfm %s %s %s",
+        "[regget 0]",
+        "[" .. cnd:getstr() .. "]",
+        "[" .. pitch:getstr() .. "]"
+        ))
 
-lil("mul zz 0.6")
-lil([[
+    lil("mul zz 0.6")
+    lil([[
 # attempts to make it sound less harsh
 butlp zz 4000
-peakeq zz 3000 3000 0.1
-]])
+peakeq zz 3000 3000 0.1]])
 
-gate = gest16(gst, "gate", cnd, 0, 1)
-nd(gate){}
-lil("envar zz 0.01 0.2")
-lil("mul zz zz")
+    gate = gest16(gst, "gate", cnd, 0, 1)
+    nd(gate){}
+    lil("envar zz 0.01 0.2")
+    lil("mul zz zz")
 
-lil([[
+    lil([[
 dup; dup
 bigverb zz zz 0.6 4000
 drop
@@ -218,10 +214,7 @@ dcblocker zz
 add zz zz
 
 tenv [tick] 0.1 9 1
-mul zz zz
-
-]])
-
+mul zz zz]])
 
     gst:done()
     cnd:unhold()
