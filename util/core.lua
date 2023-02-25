@@ -26,14 +26,14 @@ end
 function Core.paramf(val)
     return Core.lilf(string.format("param %g", val))
 end
-    
+
 function Core.nodegen(node, graph)
     local ng = function(n)
         return node:generator(graph, n)
     end
     return ng
 end
-    
+
 function Core.paramgen(ng)
     -- param generator
     local pg = function(prm, label)
@@ -69,6 +69,34 @@ function Core.paramgen(ng)
     end
 
     return pg
+end
+
+function Core.reserve(lil_eval)
+    lil_eval = lil_eval or lil
+    local lstr = "param [regnxt 0]"
+    lil(lstr)
+    local reg = pop()
+    if reg < 0 then
+        error("invalid index")
+    end
+    local lstr =
+        string.format("regset zz %d; regmrk %d", reg, reg)
+    lil_eval(lstr)
+    return reg
+end
+
+function Core.liberate(reg, lil_eval)
+    lil_eval = lil_eval or lil
+    local lstr = string.format("regclr %d", reg)
+    if lil_eval ~= lil then
+        lil_eval(lstr)
+    end
+end
+
+function Core.reggetstr(reg, lil_eval)
+    lil_eval = lil_eval or lil
+    local lstr = string.format("regget %d", reg)
+    return lstr
 end
 
 return Core

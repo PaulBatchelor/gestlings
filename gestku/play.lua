@@ -3,7 +3,7 @@ dates worked on: 2/20, 2/21, 2/22
 
 GOAL: get two voices
 -- <@>
-dofile("gestku/2023_02_20.lua")
+dofile("gestku/play.lua")
 G:rtsetup()
 G:setup()
 -- </@>
@@ -177,8 +177,58 @@ end
 -- </@>
 
 -- <@>
+function morpher(cnd, name)
+    local gst = G.gest
+    local sig = gestku.sig
+    local core = G.core
+    gmorphfmnew(gst,
+        "[grab ftl]",
+        wtpos_values(name),
+        0)
+
+    gfm = core.reserve()
+
+    seqnode(cnd, name)
+
+    lil([[
+sine 6 0.07
+add zz zz
+mtof zz]])
+
+    local pitch = sig:new()
+    pitch:hold()
+
+    gfmstr = "[" .. core.reggetstr(gfm) .. "]"
+    gmorphfmparam(gfmstr, 0, "frqmul", 8)
+    gmorphfmparam(gfmstr, 0, "fdbk", 0)
+    gmorphfmparam(gfmstr, 0, "modamt", 0)
+
+    gmorphfmparam(gfmstr, 1, "frqmul", 4)
+    gmorphfmparam(gfmstr, 1, "fdbk", 0)
+    gmorphfmparam(gfmstr, 1, "modamt", 1)
+
+    gmorphfmparam(gfmstr, 2, "frqmul", 3)
+    gmorphfmparam(gfmstr, 2, "fdbk", 0)
+    gmorphfmparam(gfmstr, 2, "modamt", 1)
+
+    gmorphfmparam(gfmstr, 3, "frqmul", 1)
+    gmorphfmparam(gfmstr, 3, "fdbk", 0)
+    gmorphfmparam(gfmstr, 3, "modamt", 1)
+
+    lil(string.format("gmorphfm %s %s %s",
+        gfmstr,
+        "[" .. cnd:getstr() .. "]",
+        "[" .. pitch:getstr() .. "]"
+        ))
+    pitch:unhold()
+    core.liberate(gfm)
+end
+-- </@>
+
+-- <@>
 function G:sound()
     local gst = G.gest
+    local core = G.core
     local nd = gestku.sr.node
     local ln = gestku.core.liln
 
@@ -187,54 +237,12 @@ function G:sound()
 
     membuf = "[grab " .. G.gest.bufname .. "]"
 
-    gmorphfmnew(gst,
-        "[grab ftl]",
-        wtpos_values("a"),
-        0)
-
-    lil("regset zz 0; regmrk 0")
     lil("phasor 1 0")
-
     local sig = gestku.sig
     local cnd = sig:new()
     cnd:hold()
 
-    -- gestku.sr.node(G.gest:node()) {
-    --     name = "seq",
-    --     conductor = ln(cnd:getstr())
-    -- }
-
-    seqnode(cnd, "a")
-
-    lil([[
-sine 6 0.07
-add zz zz
-mtof zz]])
-
-    pitch = sig:new()
-    pitch:hold()
-
-    gmorphfmparam("[regget 0]", 0, "frqmul", 8)
-    gmorphfmparam("[regget 0]", 0, "fdbk", 0)
-    gmorphfmparam("[regget 0]", 0, "modamt", 0)
-
-    gmorphfmparam("[regget 0]", 1, "frqmul", 4)
-    gmorphfmparam("[regget 0]", 1, "fdbk", 0)
-    gmorphfmparam("[regget 0]", 1, "modamt", 1)
-
-    gmorphfmparam("[regget 0]", 2, "frqmul", 3)
-    gmorphfmparam("[regget 0]", 2, "fdbk", 0)
-    gmorphfmparam("[regget 0]", 2, "modamt", 1)
-
-    gmorphfmparam("[regget 0]", 3, "frqmul", 1)
-    gmorphfmparam("[regget 0]", 3, "fdbk", 0)
-    gmorphfmparam("[regget 0]", 3, "modamt", 1)
-
-    lil(string.format("gmorphfm %s %s %s",
-        "[regget 0]",
-        "[" .. cnd:getstr() .. "]",
-        "[" .. pitch:getstr() .. "]"
-        ))
+    morpher(cnd, "a")
 
     lil("mul zz 0.6")
     lil([[
@@ -242,8 +250,6 @@ mtof zz]])
 butlp zz 4000
 peakeq zz 3000 3000 0.1]])
 
-    -- gate = gest16(gst, "gate", cnd, 0, 1)
-    -- nd(gate){}
     gatenode(cnd, "a")
 
     lil("envar zz 0.01 0.2")
@@ -255,14 +261,14 @@ bigverb zz zz 0.6 4000
 drop
 mul zz [dblin -10]
 dcblocker zz
-add zz zz
+add zz zz]])
 
+    lil([[
 tenv [tick] 0.1 9 1
 mul zz zz]])
 
     gst:done()
     cnd:unhold()
-    pitch:unhold()
 end
 -- </@>
 
