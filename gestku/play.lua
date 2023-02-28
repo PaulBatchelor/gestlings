@@ -292,8 +292,8 @@ function run_grid()
                 running = false
                 break
             end
-            grid.usleep(100)
         end
+        grid.usleep(100)
     end
     print("closing grid")
     grid.close(m)

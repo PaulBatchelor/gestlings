@@ -499,3 +499,6 @@
 -	bdb16768-6152-445c-b4bf-fc895df9b47f	#9010c118-0c31-4ac0-b7a3-000e4a57bc19
 2023-02-28 19:47:29	527bd87d-a292-49bf-b30d-8e24c991b046	>prototyping the grid in lua has a non-trivial amount of overhead (25% CPU all by itself, fans go on). I imagine at some point I will want to build more things in C, but I like starting here first.
 -	527bd87d-a292-49bf-b30d-8e24c991b046	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2023-02-28 22:21:53	057d7c22-c51a-44b0-b0a4-beb4826523f8	>I just put the usleep in the wrong part of the while loop, causing it to spin tightly. thank goodness. CPU levels are normal now.
+-	057d7c22-c51a-44b0-b0a4-beb4826523f8	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+-	057d7c22-c51a-44b0-b0a4-beb4826523f8	#527bd87d-a292-49bf-b30d-8e24c991b046
