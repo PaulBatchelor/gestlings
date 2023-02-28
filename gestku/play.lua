@@ -1,7 +1,6 @@
 --[[
-dates worked on: 2/20, 2/21, 2/22
-
-GOAL: get two voices
+dates worked on: 2/20, 2/21, 2/22, 2/28
+GOAL: monome grid control?
 -- <@>
 dofile("gestku/play.lua")
 G:rtsetup()
@@ -37,6 +36,7 @@ end
 WT = {}
 s16 = gestku.seq.seqfun(gestku.morpho)
 gest16 = gestku.gest.gest16fun(gestku.sr, gestku.core)
+grid = monome_grid
 
 function G:init()
 lil("opendb db /home/paul/proj/smp/a.db")
@@ -272,9 +272,43 @@ mul zz zz]])
 end
 -- </@>
 
-function run()
-    G:run()
-end
+-- <@>
+function run_grid()
+    local m = grid.open("/dev/ttyUSB0")
+    local running = true
 
+    print("starting grid")
+    while (running) do
+        local events = grid.get_input_events(m)
+        for _,e in pairs(events) do
+            local x = e[1]
+            local y = e[2]
+            local s = e[3]
+
+            if s == 1 and x == 15 and y == 5 then
+                G:run()
+            end
+            if s == 1 and x == 0 and y == 5 then
+                running = false
+                break
+            end
+            grid.usleep(100)
+        end
+    end
+    print("closing grid")
+    grid.close(m)
+end
+-- </@>
+
+
+-- <@>
+function run()
+    -- G:run()
+    run_grid()
+end
+-- </@>
+
+-- <@>
 return G
 -- </@>
+
