@@ -37,6 +37,30 @@ WT = {}
 s16 = gestku.seq.seqfun(gestku.morpho)
 gest16 = gestku.gest.gest16fun(gestku.sr, gestku.core)
 grid = monome_grid
+quadL = {0, 0, 0, 0, 0, 0, 0, 0}
+quadR = {0, 0, 0, 0, 0, 0, 0, 0}
+grid_state = {0, 0, 0, 0, 0, 0, 0, 0}
+function set_led(x, y, s)
+    local q = nil
+
+    y = y + 1
+
+    if (y < 1 or y > 8) then return end
+    if (x < 0 or x > 15) then return end
+
+    if (x >= 8) then
+        q = quadR
+        x = x - 8
+    else
+        q = quadL
+    end
+
+    if s == 1 then
+        q[y] = q[y] | 1 << x
+    else
+        q[y] = q[y] & ~(1 << x)
+    end
+end
 
 function G:init()
 lil("opendb db /home/paul/proj/smp/a.db")
@@ -278,8 +302,17 @@ function run_grid()
     local running = true
 
     print("starting grid")
+
+    for y, row in pairs(grid_state) do
+        quadL[y] = row & 0xff
+        quadR[y] = (row >> 8) & 0xff
+    end
+
+    grid.update(m, quadL, quadR)
+
     while (running) do
         local events = grid.get_input_events(m)
+        local draw = false
         for _,e in pairs(events) do
             local x = e[1]
             local y = e[2]
@@ -292,7 +325,30 @@ function run_grid()
                 running = false
                 break
             end
+
+            if y ~= 2 and y ~= 5 and s == 1 then
+                y = y + 1
+                state = (grid_state[y] & (1 << x)) > 0
+
+                if state then
+                    grid_state[y] =
+                        grid_state[y] & ~(1 << x)
+                    state = 0
+                else
+                    grid_state[y] =
+                        grid_state[y] | (1 << x)
+                    state = 1
+                end
+
+                set_led(x, y - 1, state)
+                draw = true
+            end
         end
+
+        if draw then
+            grid.update(m, quadL, quadR)
+        end
+
         grid.usleep(100)
     end
     print("closing grid")
