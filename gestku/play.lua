@@ -1,6 +1,7 @@
 --[[
-dates worked on: 2/20, 2/21, 2/22, 2/28
-GOAL: monome grid control?
+dates worked on: 2/20, 2/21, 2/22, 2/28, 3/1
+GOAL: monome grid control? Eventually think about
+two melodies and duophony?
 -- <@>
 dofile("gestku/play.lua")
 G:rtsetup()
@@ -120,6 +121,12 @@ function morpheme2voice(M, name)
     return out
 end
 
+morphemes = {}
+
+function construct_morphemes()
+
+end
+
 function articulate()
     G:start()
     local b = gestku.gest.behavior
@@ -145,12 +152,15 @@ d2. m4 r t, d1
         wtpos4 = {
             {WT.sine, 1, gm},
         },
-        gate = s16("p_ a p a p a p a p a p a p a p a"),
+        -- gate = s16("p_ a p a p a p a p a p a p a p a"),
+        gate = s16("p_"),
     }
 
-    M = morpheme2voice(M, "a")
+    morphemes = {}
 
-    G:articulate({{M, {1,10}}})
+    morphemes.A = morpheme2voice(M, "a")
+
+    G:articulate(gestku.mseq.parse("A", morphemes))
 
     G:compile()
 end
@@ -288,9 +298,9 @@ mul zz [dblin -10]
 dcblocker zz
 add zz zz]])
 
-    lil([[
-tenv [tick] 0.1 9 1
-mul zz zz]])
+--     lil([[
+-- tenv [tick] 0.1 9 1
+-- mul zz zz]])
 
     gst:done()
     cnd:unhold()
@@ -383,7 +393,7 @@ end
 
 -- <@>
 function run()
-    -- G:run()
+    --G:run()
     run_grid()
 end
 -- </@>
