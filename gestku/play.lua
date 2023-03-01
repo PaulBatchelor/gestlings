@@ -36,6 +36,7 @@ end
 WT = {}
 s16 = gestku.seq.seqfun(gestku.morpho)
 gest16 = gestku.gest.gest16fun(gestku.sr, gestku.core)
+json = require("util/json")
 grid = monome_grid
 quadL = {0, 0, 0, 0, 0, 0, 0, 0}
 quadR = {0, 0, 0, 0, 0, 0, 0, 0}
@@ -297,17 +298,20 @@ end
 -- </@>
 
 -- <@>
+function redraw_from_state()
+    for y, row in pairs(grid_state) do
+        quadL[y] = row & 0xff
+        quadR[y] = (row >> 8) & 0xff
+    end
+end
+
 function run_grid()
     local m = grid.open("/dev/ttyUSB0")
     local running = true
 
     print("starting grid")
 
-    for y, row in pairs(grid_state) do
-        quadL[y] = row & 0xff
-        quadR[y] = (row >> 8) & 0xff
-    end
-
+    redraw_from_state()
     grid.update(m, quadL, quadR)
 
     while (running) do
@@ -318,12 +322,31 @@ function run_grid()
             local y = e[2]
             local s = e[3]
 
-            if s == 1 and x == 15 and y == 5 then
-                G:run()
-            end
-            if s == 1 and x == 0 and y == 5 then
-                running = false
-                break
+            if s == 1 and y == 5 then
+                if x == 15 then
+                    tokenize()
+                    G:run()
+                end
+
+                if x == 0 then
+                    running = false
+                    break
+                end
+
+                if x == 1 then
+                    print("saving")
+                    local fp = io.open("state.json", "w")
+                    fp:write(json.encode(grid_state))
+                    fp:close()
+                end
+                if x == 2 then
+                    print("loading")
+                    local fp = io.open("state.json", "r")
+                    grid_state = json.decode(fp:read("*all"))
+                    fp:close()
+                    redraw_from_state()
+                    draw = true
+                end
             end
 
             if y ~= 2 and y ~= 5 and s == 1 then
@@ -346,6 +369,7 @@ function run_grid()
         end
 
         if draw then
+            print("draw")
             grid.update(m, quadL, quadR)
         end
 
@@ -361,6 +385,115 @@ end
 function run()
     -- G:run()
     run_grid()
+end
+-- </@>
+
+-- <@>
+function table_to_number(tab)
+    local len = #tab / 2
+    local r1 = 0
+    local r2 = 0
+    for i = 1, len do
+        local shift = 1 << (i - 1)
+        r1 = r1 | (shift * tab[i])
+        r2 = r2 | (shift * tab[i + len])
+    end
+    local n = r1 | (r2 << len) | (1 << (len * 2))
+    return n
+end
+-- </@>
+-- <@>
+vocab = {}
+vocab[table_to_number({
+    1, 1,
+    1, 1,
+})] = "A"
+
+vocab[table_to_number({
+    1,
+    1,
+})] = "B"
+
+vocab[table_to_number({
+    0,
+    1,
+})] = "C"
+
+vocab[table_to_number({
+    1,
+    0,
+})] = "D"
+
+vocab[table_to_number({
+    0, 0, 0,
+    1, 1, 1
+})] = "E"
+
+vocab[table_to_number({
+    1, 1, 1,
+    0, 0, 0,
+})] = "F"
+
+vocab[table_to_number({
+    0, 0,
+    1, 1,
+})] = "G"
+
+vocab[table_to_number({
+    1, 1, 1, 0, 1,
+    1, 0, 1, 1, 1,
+})] = "H"
+
+vocab[table_to_number({
+    1, 0, 1,
+    1, 1, 1,
+})] = "I"
+-- </@>
+
+-- <@>
+function tokenize()
+    print("tokenizing")
+    local gs = grid_state
+    local glyphs = {}
+    for y = 1, 3 do
+        local ypos = ((y - 1) * 3) + 1
+        local row1 = gs[ypos]
+        local row2 = gs[ypos + 1]
+        local tmp1 = 0
+        local tmp2 = 0
+        local len = 0
+        for x = 1, 16 do
+            local shift = x - 1
+            local b1 = (row1 & (1 << shift)) >> shift
+            local b2 = (row2 & (1 << shift)) >> shift
+
+            if (b1 | b2) == 1 then
+                tmp1 = tmp1 | (1 << len) * b1
+                tmp2 = tmp2 | (1 << len) * b2
+                len = len + 1
+            else
+                if len > 0 then
+                    val = tmp1 | (tmp2  << len) | (1 << (len*2))
+                    val = tmp1 | (tmp2  << len) | (1 << (len*2))
+                    if vocab[val] ~= nil then
+                        table.insert(glyphs, vocab[val])
+                    end
+                end
+                len = 0
+                tmp1 = 0
+                tmp2 = 0
+            end
+        end
+
+        if len > 0 then
+            val = tmp1 | (tmp2  << len) | (1 << (len*2))
+            if vocab[val] ~= nil then
+                table.insert(glyphs, vocab[val])
+            end
+        end
+    end
+    -- pprint(glyphs)
+    print(table.concat(glyphs, ""))
 end
 -- </@>
 
