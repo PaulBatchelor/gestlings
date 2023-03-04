@@ -44,6 +44,9 @@ grid = monome_grid
 quadL = {0, 0, 0, 0, 0, 0, 0, 0}
 quadR = {0, 0, 0, 0, 0, 0, 0, 0}
 grid_state = {0, 0, 0, 0, 0, 0, 0, 0}
+grid_current_preset = "init"
+
+grid_state_presets = {}
 function set_led(x, y, s)
     local q = nil
 
@@ -135,7 +138,7 @@ function morpheme_append_op(m, op, id)
     end
 end
 
-Sequence = "A"
+Sequence = "B"
 
 function articulate()
     G:start()
@@ -215,9 +218,19 @@ function articulate()
     morpheme_append_op(M, op1, 1)
     morpheme_append_op(M, op0, 0)
 
+    mother = gestku.morpheme.template(M)
+
     morphemes = {}
 
-    morphemes.A = morpheme2voice(M, "a")
+    local A = mother {
+        seq = gestku.nrt.eval("d1mstDtsm", {base=54}),
+    }
+    local B = mother {
+        seq = gestku.nrt.eval("r4t2m4", {base=54}),
+    }
+
+    morphemes.A = morpheme2voice(A, "a")
+    morphemes.B = morpheme2voice(B, "a")
 
     G:articulate(gestku.mseq.parse(Sequence, morphemes))
 
@@ -389,6 +402,17 @@ function run_grid()
     print("starting grid")
 
     redraw_from_state()
+    --grid_current_preset = "init"
+    grid_current_preset = "testing"
+
+    if grid_state_presets[grid_current_preset] == nil then
+        print("creating new preset " .. grid_current_preset)
+        grid_state_presets[grid_current_preset] = {
+            0, 0, 0, 0, 0, 0, 0, 0
+        }
+    end
+    grid_state = grid_state_presets[grid_current_preset]
+    redraw_from_state()
     grid.update(m, quadL, quadR)
 
     while (running) do
@@ -404,6 +428,9 @@ function run_grid()
                     tokenize()
                     G:run()
                 end
+                if x == 14 then
+                    lil("playtog")
+                end
 
                 if x == 0 then
                     running = false
@@ -413,13 +440,15 @@ function run_grid()
                 if x == 1 then
                     print("saving")
                     local fp = io.open("state.json", "w")
-                    fp:write(json.encode(grid_state))
+                    fp:write(json.encode(grid_state_presets))
                     fp:close()
                 end
                 if x == 2 then
                     print("loading")
                     local fp = io.open("state.json", "r")
-                    grid_state = json.decode(fp:read("*all"))
+                    --grid_state = json.decode(fp:read("*all"))
+                    grid_state_presets = json.decode(fp:read("*all"))
+                    grid_state = grid_state_presets[grid_current_preset]
                     fp:close()
                     redraw_from_state()
                     draw = true
@@ -446,7 +475,7 @@ function run_grid()
         end
 
         if draw then
-            print("draw")
+            -- print("draw")
             grid.update(m, quadL, quadR)
         end
 
@@ -493,7 +522,7 @@ vocab[table_to_number({
 vocab[table_to_number({
     1,
     1,
-})] = "B"
+})] = "2(B)"
 
 vocab[table_to_number({
     0,
@@ -574,7 +603,8 @@ function tokenize()
         end
     end
     -- pprint(glyphs)
-    print(table.concat(glyphs, ""))
+    Sequence = table.concat(glyphs, "")
+    print(Sequence)
 end
 -- </@>
 
