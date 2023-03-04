@@ -145,6 +145,12 @@ function articulate()
         modamt3 = {
             {1, 1, stp},
         },
+        frqmul3 = {
+            {1, 1, stp},
+        },
+        fdbk3 = {
+            {0, 1, stp},
+        },
         wtpos2 = {
             {WT.sine, 1, gm},
         },
@@ -196,10 +202,10 @@ function wtpos_values(name)
     return wtpos
 end
 
-function gfmparamnode(cnd, param, name)
+function gfmparamnode(cnd, op, param, name)
     local ln = gestku.core.liln
     gestku.sr.node(G.gest:node()) {
-        name = param .. name,
+        name = param .. op .. name,
         conductor = ln(cnd:getstr())
     }
 end
@@ -221,6 +227,16 @@ end
 -- </@>
 
 -- <@>
+function gfmgestparam(cnd, op, param, name)
+    local sig = gestku.sig
+
+    gfmparamnode(cnd, op, param, name)
+    tmp = sig:new()
+    tmp:hold()
+    tmpstr = "[" .. tmp:getstr()  .. "]"
+    gmorphfmparam(gfmstr, op, param, tmpstr)
+    tmp:unhold()
+end
 function morpher(cnd, name)
     local gst = G.gest
     local sig = gestku.sig
@@ -255,14 +271,9 @@ mtof zz]])
     gmorphfmparam(gfmstr, 2, "fdbk", 0)
     gmorphfmparam(gfmstr, 2, "modamt", 1)
 
-    gmorphfmparam(gfmstr, 3, "frqmul", 3)
-    gmorphfmparam(gfmstr, 3, "fdbk", 0)
-    gfmparamnode(cnd, "modamt3", name)
-    tmp = sig:new()
-    tmp:hold()
-    tmpstr = "[" .. tmp:getstr()  .. "]"
-    gmorphfmparam(gfmstr, 3, "modamt", tmpstr)
-    tmp:unhold()
+    gfmgestparam(cnd, 3, "frqmul", name)
+    gfmgestparam(cnd, 3, "fdbk", name)
+    gfmgestparam(cnd, 3, "modamt", name)
 
     lil(string.format("gmorphfm %s %s %s",
         gfmstr,
