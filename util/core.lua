@@ -88,9 +88,7 @@ end
 function Core.liberate(reg, lil_eval)
     lil_eval = lil_eval or lil
     local lstr = string.format("regclr %d", reg)
-    if lil_eval ~= lil then
-        lil_eval(lstr)
-    end
+    lil_eval(lstr)
 end
 
 function Core.reggetstr(reg, lil_eval)

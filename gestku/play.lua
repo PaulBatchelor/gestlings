@@ -1,7 +1,9 @@
 --[[
-dates worked on: 2/20, 2/21, 2/22, 2/28, 3/1
-GOAL: monome grid control? Eventually think about
-two melodies and duophony?
+dates worked on: 2/20, 2/21, 2/22, 2/28, 3/1, 3/4
+GOAL:
+monome grid control?
+Eventually think about two melodies and duophony?
+Move forward.
 -- <@>
 dofile("gestku/play.lua")
 G:rtsetup()
@@ -96,7 +98,7 @@ grab wt3
 param [ftladd zz]
 ]])
 
-WT.wt3 = pop()
+WT.wt4 = pop()
 
 lil([[
 gensinesum [tabnew 8192 wt5] "1 0 1 0 1 0 1 0 0" 1
@@ -132,27 +134,26 @@ function articulate()
     local b = gestku.gest.behavior
     local gm = b.gliss_medium
     local lin = b.linear
+    local stp = b.step
 
     local M = {
-        seq = gestku.nrt.eval([[
-d2 m4 r t, d l,1
-d4 m s f m s D t s1
-d2. m4 r t, d1
-]], {base=58}),
-        wtpos1 = {
+        seq = gestku.nrt.eval("d1", {base=54}),
+        wtpos3 = {
             {WT.sine, 2, gm},
-            {WT.wt1, 2, gm},
+            {WT.wt4, 2, gm},
+        },
+        modamt3 = {
+            {1, 1, stp},
         },
         wtpos2 = {
             {WT.sine, 1, gm},
         },
-        wtpos3 = {
+        wtpos1 = {
             {WT.sine, 1, gm},
         },
-        wtpos4 = {
+        wtpos0 = {
             {WT.sine, 1, gm},
         },
-        -- gate = s16("p_ a p a p a p a p a p a p a p a"),
         gate = s16("p_"),
     }
 
@@ -186,13 +187,21 @@ function gmorphfmparam(gst, op, param, sig)
 end
 
 function wtpos_values(name)
-    local wtpos = {"wtpos4", "wtpos3", "wtpos2", "wtpos1"}
+    local wtpos = {"wtpos0", "wtpos1", "wtpos2", "wtpos3"}
 
     for k, v in pairs(wtpos) do
         wtpos[k] = v .. name
     end
 
     return wtpos
+end
+
+function gfmparamnode(cnd, param, name)
+    local ln = gestku.core.liln
+    gestku.sr.node(G.gest:node()) {
+        name = param .. name,
+        conductor = ln(cnd:getstr())
+    }
 end
 
 function seqnode(cnd, name)
@@ -242,13 +251,18 @@ mtof zz]])
     gmorphfmparam(gfmstr, 1, "fdbk", 0)
     gmorphfmparam(gfmstr, 1, "modamt", 1)
 
-    gmorphfmparam(gfmstr, 2, "frqmul", 3)
+    gmorphfmparam(gfmstr, 2, "frqmul", 1)
     gmorphfmparam(gfmstr, 2, "fdbk", 0)
     gmorphfmparam(gfmstr, 2, "modamt", 1)
 
-    gmorphfmparam(gfmstr, 3, "frqmul", 1)
+    gmorphfmparam(gfmstr, 3, "frqmul", 3)
     gmorphfmparam(gfmstr, 3, "fdbk", 0)
-    gmorphfmparam(gfmstr, 3, "modamt", 1)
+    gfmparamnode(cnd, "modamt3", name)
+    tmp = sig:new()
+    tmp:hold()
+    tmpstr = "[" .. tmp:getstr()  .. "]"
+    gmorphfmparam(gfmstr, 3, "modamt", tmpstr)
+    tmp:unhold()
 
     lil(string.format("gmorphfm %s %s %s",
         gfmstr,
@@ -393,6 +407,10 @@ end
 
 -- <@>
 function run()
+    G:run()
+    --run_grid()
+end
+function altrun()
     --G:run()
     run_grid()
 end
