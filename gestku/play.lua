@@ -129,6 +129,12 @@ function construct_morphemes()
 
 end
 
+function morpheme_append_op(m, op, id)
+    for k, v in pairs(op) do
+        m[k .. id] = v
+    end
+end
+
 function articulate()
     G:start()
     local b = gestku.gest.behavior
@@ -136,24 +142,39 @@ function articulate()
     local lin = b.linear
     local stp = b.step
 
-    local M = {
-        seq = gestku.nrt.eval("d1", {base=54}),
-        wtpos3 = {
+    op3 = {
+        wtpos = {
             {WT.sine, 2, gm},
             {WT.wt4, 2, gm},
         },
-        modamt3 = {
+        modamt = {
             {1, 1, stp},
         },
-        frqmul3 = {
+        frqmul = {
             {1, 1, stp},
         },
-        fdbk3 = {
+        fdbk = {
             {0, 1, stp},
         },
-        wtpos2 = {
+    }
+
+    op2 = {
+        wtpos = {
             {WT.sine, 1, gm},
         },
+        modamt = {
+            {1, 1, stp},
+        },
+        frqmul = {
+            {1, 1, stp},
+        },
+        fdbk = {
+            {0, 1, stp},
+        },
+    }
+
+    local M = {
+        seq = gestku.nrt.eval("d1", {base=54}),
         wtpos1 = {
             {WT.sine, 1, gm},
         },
@@ -162,6 +183,8 @@ function articulate()
         },
         gate = s16("p_"),
     }
+    morpheme_append_op(M, op3, 3)
+    morpheme_append_op(M, op2, 2)
 
     morphemes = {}
 
@@ -267,9 +290,9 @@ mtof zz]])
     gmorphfmparam(gfmstr, 1, "fdbk", 0)
     gmorphfmparam(gfmstr, 1, "modamt", 1)
 
-    gmorphfmparam(gfmstr, 2, "frqmul", 1)
-    gmorphfmparam(gfmstr, 2, "fdbk", 0)
-    gmorphfmparam(gfmstr, 2, "modamt", 1)
+    gfmgestparam(cnd, 2, "frqmul", name)
+    gfmgestparam(cnd, 2, "fdbk", name)
+    gfmgestparam(cnd, 2, "modamt", name)
 
     gfmgestparam(cnd, 3, "frqmul", name)
     gfmgestparam(cnd, 3, "fdbk", name)
