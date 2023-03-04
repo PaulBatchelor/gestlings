@@ -172,19 +172,45 @@ function articulate()
             {0, 1, stp},
         },
     }
+    
+    op1 = {
+        wtpos = {
+            {WT.sine, 1, gm},
+        },
+        frqmul = {
+            {4, 1, stp},
+        },
+        fdbk = {
+            {0, 1, stp},
+        },
+        modamt = {
+            {1, 1, stp},
+        },
+    }
+
+    op0 = {
+        wtpos = {
+            {WT.sine, 1, gm},
+        },
+        frqmul = {
+            {4, 1, stp},
+        },
+        fdbk = {
+            {0, 1, stp},
+        },
+        modamt = {
+            {1, 1, stp},
+        },
+    }
 
     local M = {
         seq = gestku.nrt.eval("d1", {base=54}),
-        wtpos1 = {
-            {WT.sine, 1, gm},
-        },
-        wtpos0 = {
-            {WT.sine, 1, gm},
-        },
         gate = s16("p_"),
     }
     morpheme_append_op(M, op3, 3)
     morpheme_append_op(M, op2, 2)
+    morpheme_append_op(M, op1, 1)
+    morpheme_append_op(M, op0, 0)
 
     morphemes = {}
 
