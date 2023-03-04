@@ -135,6 +135,8 @@ function morpheme_append_op(m, op, id)
     end
 end
 
+Sequence = "A"
+
 function articulate()
     G:start()
     local b = gestku.gest.behavior
@@ -172,7 +174,7 @@ function articulate()
             {0, 1, stp},
         },
     }
-    
+
     op1 = {
         wtpos = {
             {WT.sine, 1, gm},
@@ -193,13 +195,13 @@ function articulate()
             {WT.sine, 1, gm},
         },
         frqmul = {
-            {4, 1, stp},
+            {8, 1, stp},
         },
         fdbk = {
             {0, 1, stp},
         },
         modamt = {
-            {1, 1, stp},
+            {0, 1, stp},
         },
     }
 
@@ -207,6 +209,7 @@ function articulate()
         seq = gestku.nrt.eval("d1", {base=54}),
         gate = s16("p_"),
     }
+
     morpheme_append_op(M, op3, 3)
     morpheme_append_op(M, op2, 2)
     morpheme_append_op(M, op1, 1)
@@ -216,7 +219,7 @@ function articulate()
 
     morphemes.A = morpheme2voice(M, "a")
 
-    G:articulate(gestku.mseq.parse("A", morphemes))
+    G:articulate(gestku.mseq.parse(Sequence, morphemes))
 
     G:compile()
 end
@@ -308,27 +311,17 @@ mtof zz]])
     pitch:hold()
 
     gfmstr = "[" .. core.reggetstr(gfm) .. "]"
-    gmorphfmparam(gfmstr, 0, "frqmul", 8)
-    gmorphfmparam(gfmstr, 0, "fdbk", 0)
-    gmorphfmparam(gfmstr, 0, "modamt", 0)
 
-    gmorphfmparam(gfmstr, 1, "frqmul", 4)
-    gmorphfmparam(gfmstr, 1, "fdbk", 0)
-    gmorphfmparam(gfmstr, 1, "modamt", 1)
-
-    gfmgestparam(cnd, 2, "frqmul", name)
-    gfmgestparam(cnd, 2, "fdbk", name)
-    gfmgestparam(cnd, 2, "modamt", name)
-
-    gfmgestparam(cnd, 3, "frqmul", name)
-    gfmgestparam(cnd, 3, "fdbk", name)
-    gfmgestparam(cnd, 3, "modamt", name)
+    for i=0,3 do
+        gfmgestparam(cnd, i, "frqmul", name)
+        gfmgestparam(cnd, i, "fdbk", name)
+        gfmgestparam(cnd, i, "modamt", name)
+    end
 
     lil(string.format("gmorphfm %s %s %s",
         gfmstr,
         "[" .. cnd:getstr() .. "]",
-        "[" .. pitch:getstr() .. "]"
-        ))
+        "[" .. pitch:getstr() .. "]"))
     pitch:unhold()
     core.liberate(gfm)
 end
