@@ -3,9 +3,9 @@ dates worked on: 2/20, 2/21, 2/22, 2/28, 3/1, 3/4, 3/5
 GOAL:
 monome grid control?
 Eventually think about two melodies and duophony?
-Move forward.
+Moving forward.
 -- <@>
-dofile("gestku/play.lua")
+dofile("gestku/2023_03_05.lua")
 G:rtsetup()
 G:setup()
 -- </@>
@@ -43,6 +43,7 @@ quadL = {0, 0, 0, 0, 0, 0, 0, 0}
 quadR = {0, 0, 0, 0, 0, 0, 0, 0}
 grid_state = {0, 0, 0, 0, 0, 0, 0, 0}
 grid_current_preset = "init"
+grid_state_file = "gestku/2023_03_05.json"
 
 grid_state_presets = {}
 function set_led(x, y, s)
@@ -111,7 +112,7 @@ WT.sinesum = pop()
 lil("drop")
 
 lil("valnew button")
-load_state("state.json")
+load_state(grid_state_file)
 tokenize()
 end
 -- </@>
@@ -580,13 +581,13 @@ function run_grid()
 
                 if x == 1 then
                     print("saving")
-                    local fp = io.open("state.json", "w")
+                    local fp = io.open(grid_state_file, "w")
                     fp:write(json.encode(grid_state_presets))
                     fp:close()
                 end
                 if x == 2 then
                     print("loading")
-                    load_state("statefile.json")
+                    load_state(grid_state_file)
                     -- local fp = io.open("state.json", "r")
                     -- --grid_state = json.decode(fp:read("*all"))
                     -- grid_state_presets = json.decode(fp:read("*all"))
