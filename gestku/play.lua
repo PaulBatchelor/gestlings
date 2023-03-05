@@ -115,33 +115,7 @@ lil("drop")
 end
 -- </@>
 -- <@>
-
-function morpheme2voice(M, name)
-    local out = {}
-
-    for k,v in pairs(M) do
-        out[k .. name] = v
-    end
-
-    return out
-end
-
-morphemes = {}
-
-function construct_morphemes()
-
-end
-
-function morpheme_append_op(m, op, id)
-    for k, v in pairs(op) do
-        m[k .. id] = v
-    end
-end
-
-Sequence = "B"
-
-function articulate()
-    G:start()
+function gen_vocab()
     local b = gestku.gest.behavior
     local gm = b.gliss_medium
     local lin = b.linear
@@ -223,15 +197,101 @@ function articulate()
     morphemes = {}
 
     local A = mother {
-        seq = gestku.nrt.eval("d1mstDtsm", {base=54}),
+        seq = gestku.nrt.eval("d,,~", {base=54}),
     }
+
+    morpheme_append_op(A, {
+        wtpos = {
+            {WT.wt2, 1, gm},
+            {WT.wt4, 1, lin},
+        },
+        modamt = {
+            {1, 1, stp},
+        },
+        frqmul = {
+            {1, 1, stp},
+        },
+        fdbk = {
+            {0, 1, stp},
+        },
+    }, 3)
+
     local B = mother {
-        seq = gestku.nrt.eval("r4t2m4", {base=54}),
+        seq = gestku.nrt.eval("r8t4d8/s4~", {base=54}),
+        gate = s16("p4/a1~"),
     }
+
+    local C = mother {
+        gate = s16("a_"),
+    }
+
+    local D = mother {
+        seq = gestku.nrt.eval("D''", {base=54}),
+        gate = s16("p1_a4"),
+    }
+
+    morpheme_append_op(D, {
+        wtpos = {
+            {WT.sine, 1, gm},
+        },
+        modamt = {
+            {3, 1, stp},
+        },
+        frqmul = {
+            {1, 1, stp},
+        },
+        fdbk = {
+            {0, 1, stp},
+        },
+    }, 3)
+
+    morpheme_append_op(D, {
+        wtpos = {
+            {WT.sine, 1, gm},
+        },
+        modamt = {
+            {0, 1, stp},
+        },
+        frqmul = {
+            {1, 1, stp},
+        },
+        fdbk = {
+            {0, 1, stp},
+        },
+    }, 2)
 
     morphemes.A = morpheme2voice(A, "a")
     morphemes.B = morpheme2voice(B, "a")
+    morphemes.C = morpheme2voice(C, "a")
+    morphemes.D = morpheme2voice(D, "a")
 
+    return morphemes
+end
+-- </@>
+-- <@>
+
+function morpheme2voice(M, name)
+    local out = {}
+
+    for k,v in pairs(M) do
+        out[k .. name] = v
+    end
+
+    return out
+end
+
+function morpheme_append_op(m, op, id)
+    for k, v in pairs(op) do
+        m[k .. id] = v
+    end
+end
+
+Sequence = "A2(B)C4(D)"
+
+function articulate()
+    G:start()
+
+    morphemes = gen_vocab()
     G:articulate(gestku.mseq.parse(Sequence, morphemes))
 
     G:compile()
@@ -527,12 +587,12 @@ vocab[table_to_number({
 vocab[table_to_number({
     0,
     1,
-})] = "C"
+})] = "2(C)"
 
 vocab[table_to_number({
     1,
     0,
-})] = "D"
+})] = "4(D)"
 
 vocab[table_to_number({
     0, 0, 0,
