@@ -502,3 +502,5 @@
 2023-02-28 22:21:53	057d7c22-c51a-44b0-b0a4-beb4826523f8	>I just put the usleep in the wrong part of the while loop, causing it to spin tightly. thank goodness. CPU levels are normal now.
 -	057d7c22-c51a-44b0-b0a4-beb4826523f8	#53a2e179-eb60-4c13-b749-59d5d3b893c5
 -	057d7c22-c51a-44b0-b0a4-beb4826523f8	#527bd87d-a292-49bf-b30d-8e24c991b046
+2023-03-06 12:46:46	56d89e2a-7e87-4d6a-b49b-6fd1d8d91808	>initial draft of the creation myth created. See the !beginning.
+-	56d89e2a-7e87-4d6a-b49b-6fd1d8d91808	#53a2e179-eb60-4c13-b749-59d5d3b893c5
