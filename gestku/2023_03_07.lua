@@ -36,37 +36,14 @@ s16 = gestku.seq.seqfun(gestku.morpho)
 gest16 = gestku.gest.gest16fun(gestku.sr, gestku.core)
 json = require("util/json")
 morpher = require("gestku/bits/morpher")
+mcr = require("gestku/bits/microrunes")
 gen_vocab = require("gestku/bits/vocab_march_2023")
 grid = monome_grid
-quadL = {0, 0, 0, 0, 0, 0, 0, 0}
-quadR = {0, 0, 0, 0, 0, 0, 0, 0}
 grid_state = {0, 0, 0, 0, 0, 0, 0, 0}
 grid_current_preset = "init"
 grid_state_file = "gestku/2023_03_07.json"
 
 grid_state_presets = {}
-function set_led(x, y, s)
-    local q = nil
-
-    y = y + 1
-
-    if (y < 1 or y > 8) then return end
-    if (x < 0 or x > 15) then return end
-
-    if (x >= 8) then
-        q = quadR
-        x = x - 8
-    else
-        q = quadL
-    end
-
-    if s == 1 then
-        q[y] = q[y] | 1 << x
-    else
-        q[y] = q[y] & ~(1 << x)
-    end
-end
-
 function G:init()
 lil("opendb db /home/paul/proj/smp/a.db")
     lil([[ftlnew ftl
@@ -117,21 +94,11 @@ end
 -- </@>
 -- <@>
 
-Sequence = "A2(B)C4(D)4[EF]2[G]2[H]"
-
-function sequence_get()
-	return Sequence
-end
-
-function sequence_set(s)
-	Sequence = s
-end
-
 function articulate()
     G:start()
 
     morphemes = gen_vocab()
-    G:articulate(gestku.mseq.parse(sequence_get(), morphemes))
+    G:articulate(gestku.mseq.parse(mcr.sequence_get(), morphemes))
 
     G:compile()
 end
@@ -209,12 +176,6 @@ end
 -- </@>
 
 -- <@>
-function redraw_from_state()
-    for y, row in pairs(grid_state) do
-        quadL[y] = row & 0xff
-        quadR[y] = (row >> 8) & 0xff
-    end
-end
 
 function load_state(statefile)
     if grid_state_presets[grid_current_preset] == nil then
@@ -230,103 +191,6 @@ function load_state(statefile)
     fp:close()
 end
 
-function run_grid()
-    local m = grid.open("/dev/ttyUSB0")
-    local running = true
-    local buttog = 0
-
-    print("starting grid")
-
-    redraw_from_state()
-    grid_current_preset = "init"
-    --grid_current_preset = "testing"
-
-    if grid_state_presets[grid_current_preset] == nil then
-        print("creating new preset " .. grid_current_preset)
-        grid_state_presets[grid_current_preset] = {
-            0, 0, 0, 0, 0, 0, 0, 0
-        }
-    end
-    grid_state = grid_state_presets[grid_current_preset]
-    redraw_from_state()
-    grid.update(m, quadL, quadR)
-
-    while (running) do
-        local events = grid.get_input_events(m)
-        local draw = false
-        for _,e in pairs(events) do
-            local x = e[1]
-            local y = e[2]
-            local s = e[3]
-
-            if s == 1 and y == 5 then
-                if x == 15 then
-                    parse_grid()
-                    G:run()
-                end
-                if x == 14 then
-                    lil("playtog")
-                end
-
-                if x == 0 then
-                    running = false
-                    break
-                end
-
-                if x == 1 then
-                    print("saving")
-                    local fp = io.open(grid_state_file, "w")
-                    fp:write(json.encode(grid_state_presets))
-                    fp:close()
-                end
-                if x == 2 then
-                    print("loading")
-                    load_state(grid_state_file)
-                    -- local fp = io.open("state.json", "r")
-                    -- --grid_state = json.decode(fp:read("*all"))
-                    -- grid_state_presets = json.decode(fp:read("*all"))
-                    -- grid_state = grid_state_presets[grid_current_preset]
-                    -- fp:close()
-                    redraw_from_state()
-                    draw = true
-                end
-            end
-
-            if y ~= 2 and y ~= 5 and s == 1 then
-                y = y + 1
-                if buttog == 1 then
-                    buttog = 0
-                else
-                    buttog = 1
-                end
-                valutil.set("button", buttog)
-                state = (grid_state[y] & (1 << x)) > 0
-
-                if state then
-                    grid_state[y] =
-                        grid_state[y] & ~(1 << x)
-                    state = 0
-                else
-                    grid_state[y] =
-                        grid_state[y] | (1 << x)
-                    state = 1
-                end
-
-                set_led(x, y - 1, state)
-                draw = true
-            end
-        end
-
-        if draw then
-            -- print("draw")
-            grid.update(m, quadL, quadR)
-        end
-
-        grid.usleep(80)
-    end
-    print("closing grid")
-    grid.close(m)
-end
 -- </@>
 
 
@@ -337,7 +201,7 @@ function run()
 end
 function altrun()
     --G:run()
-    run_grid()
+    mcr.run_grid()
 end
 -- </@>
 
@@ -449,8 +313,8 @@ end
 function parse_grid()
     print("tokenizing")
 	local s = tokenize(grid_state, vocab)
-    sequence_set(s)
-    print(sequence_get())
+    mcr.sequence_set(s)
+    print(mcr.sequence_get())
 end
 -- </@>
 
