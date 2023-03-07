@@ -112,18 +112,26 @@ lil("drop")
 
 lil("valnew button")
 load_state(grid_state_file)
-tokenize()
+parse_grid()
 end
 -- </@>
 -- <@>
 
 Sequence = "A2(B)C4(D)4[EF]2[G]2[H]"
 
+function sequence_get()
+	return Sequence
+end
+
+function sequence_set(s)
+	Sequence = s
+end
+
 function articulate()
     G:start()
 
     morphemes = gen_vocab()
-    G:articulate(gestku.mseq.parse(Sequence, morphemes))
+    G:articulate(gestku.mseq.parse(sequence_get(), morphemes))
 
     G:compile()
 end
@@ -253,7 +261,7 @@ function run_grid()
 
             if s == 1 and y == 5 then
                 if x == 15 then
-                    tokenize()
+                    parse_grid()
                     G:run()
                 end
                 if x == 14 then
@@ -396,9 +404,7 @@ vocab[table_to_number({
 -- </@>
 
 -- <@>
-function tokenize()
-    print("tokenizing")
-    local gs = grid_state
+function tokenize(gs, vocab)
     local glyphs = {}
     for y = 1, 3 do
         local ypos = ((y - 1) * 3) + 1
@@ -437,9 +443,14 @@ function tokenize()
             end
         end
     end
-    -- pprint(glyphs)
-    Sequence = table.concat(glyphs, "")
-    print(Sequence)
+    return table.concat(glyphs, "")
+end
+
+function parse_grid()
+    print("tokenizing")
+	local s = tokenize(grid_state, vocab)
+    sequence_set(s)
+    print(sequence_get())
 end
 -- </@>
 
