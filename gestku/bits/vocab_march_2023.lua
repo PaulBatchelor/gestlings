@@ -1,3 +1,4 @@
+V = {}
 function morpheme2voice(M, name)
     local out = {}
 
@@ -14,7 +15,20 @@ function morpheme_append_op(m, op, id)
     end
 end
 
-function gen_vocab()
+function table_to_number(tab)
+    local len = #tab / 2
+    local r1 = 0
+    local r2 = 0
+    for i = 1, len do
+        local shift = 1 << (i - 1)
+        r1 = r1 | (shift * tab[i])
+        r2 = r2 | (shift * tab[i + len])
+    end
+    local n = r1 | (r2 << len) | (1 << (len * 2))
+    return n
+end
+
+function V.morphemes()
     local b = gestku.gest.behavior
     local gm = b.gliss_medium
     local lin = b.linear
@@ -218,4 +232,53 @@ function gen_vocab()
     return morphemes
 end
 
-return gen_vocab
+function V.bitrunes()
+    vocab = {}
+    vocab[table_to_number({
+        1, 1,
+        1, 1,
+    })] = "2(A)"
+
+    vocab[table_to_number({
+        1,
+        1,
+    })] = "4(B)"
+
+    vocab[table_to_number({
+        0,
+        1,
+    })] = "3(C)"
+
+    vocab[table_to_number({
+        1,
+        0,
+    })] = "4(D)"
+
+    vocab[table_to_number({
+        0, 0, 0,
+        1, 1, 1
+    })] = "2[E]"
+
+    vocab[table_to_number({
+        1, 1, 1,
+        0, 0, 0,
+    })] = "2[F]"
+
+    vocab[table_to_number({
+        0, 0,
+        1, 1,
+    })] = "G"
+
+    vocab[table_to_number({
+        1, 1, 1, 0, 1,
+        1, 0, 1, 1, 1,
+    })] = "H"
+
+    vocab[table_to_number({
+        1, 0, 1,
+        1, 1, 1,
+    })] = "2[I]"
+    return vocab
+end
+
+return V

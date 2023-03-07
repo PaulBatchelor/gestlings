@@ -1,5 +1,12 @@
 MR = {}
 
+MR.grid_current_preset = "init"
+MR.grid_state_file = "state.json"
+grid_state_presets = {}
+grid_state = {0, 0, 0, 0, 0, 0, 0, 0}
+
+grid = monome_grid
+
 Sequence = "A2(B)C4(D)4[EF]2[G]2[H]"
 
 function MR.sequence_get()
@@ -49,16 +56,16 @@ function MR.run_grid()
     print("starting grid")
 
     redraw_from_state()
-    grid_current_preset = "init"
+    MR.grid_current_preset = "init"
     --grid_current_preset = "testing"
 
-    if grid_state_presets[grid_current_preset] == nil then
-        print("creating new preset " .. grid_current_preset)
+    if grid_state_presets[MR.grid_current_preset] == nil then
+        print("creating new preset " .. MR.grid_current_preset)
         grid_state_presets[grid_current_preset] = {
             0, 0, 0, 0, 0, 0, 0, 0
         }
     end
-    grid_state = grid_state_presets[grid_current_preset]
+    grid_state = grid_state_presets[MR.grid_current_preset]
     redraw_from_state()
     grid.update(m, quadL, quadR)
 
@@ -86,17 +93,17 @@ function MR.run_grid()
 
                 if x == 1 then
                     print("saving")
-                    local fp = io.open(grid_state_file, "w")
+                    local fp = io.open(MR.grid_state_file, "w")
                     fp:write(json.encode(grid_state_presets))
                     fp:close()
                 end
                 if x == 2 then
                     print("loading")
-                    load_state(grid_state_file)
+                    load_state(MR.grid_state_file)
                     -- local fp = io.open("state.json", "r")
                     -- --grid_state = json.decode(fp:read("*all"))
                     -- grid_state_presets = json.decode(fp:read("*all"))
-                    -- grid_state = grid_state_presets[grid_current_preset]
+                    -- grid_state = grid_state_presets[MR.grid_current_preset]
                     -- fp:close()
                     redraw_from_state()
                     draw = true
@@ -138,5 +145,76 @@ function MR.run_grid()
     print("closing grid")
     grid.close(m)
 end
+
+function tokenize(gs, vocab)
+    local glyphs = {}
+    for y = 1, 3 do
+        local ypos = ((y - 1) * 3) + 1
+        local row1 = gs[ypos]
+        local row2 = gs[ypos + 1]
+        local tmp1 = 0
+        local tmp2 = 0
+        local len = 0
+        for x = 1, 16 do
+            local shift = x - 1
+            local b1 = (row1 & (1 << shift)) >> shift
+            local b2 = (row2 & (1 << shift)) >> shift
+
+            if (b1 | b2) == 1 then
+                tmp1 = tmp1 | (1 << len) * b1
+                tmp2 = tmp2 | (1 << len) * b2
+                len = len + 1
+            else
+                if len > 0 then
+                    val = tmp1 | (tmp2  << len) | (1 << (len*2))
+                    val = tmp1 | (tmp2  << len) | (1 << (len*2))
+                    if vocab[val] ~= nil then
+                        table.insert(glyphs, vocab[val])
+                    end
+                end
+                len = 0
+                tmp1 = 0
+                tmp2 = 0
+            end
+        end
+
+        if len > 0 then
+            val = tmp1 | (tmp2  << len) | (1 << (len*2))
+            if vocab[val] ~= nil then
+                table.insert(glyphs, vocab[val])
+            end
+        end
+    end
+    return table.concat(glyphs, "")
+end
+
+MR.vocab = {}
+
+function MR.parse_grid()
+    print("tokenizing")
+	local s = tokenize(grid_state, MR.vocab)
+    mcr.sequence_set(s)
+    print(mcr.sequence_get())
+end
+
+function MR.load_state_from_file(statefile)
+    if grid_state_presets[MR.grid_current_preset] == nil then
+        print("creating new preset " .. MR.grid_current_preset)
+        grid_state_presets[MR.grid_current_preset] = {
+            0, 0, 0, 0, 0, 0, 0, 0
+        }
+    end
+    local fp = io.open(statefile, "r")
+    --grid_state = json.decode(fp:read("*all"))
+    grid_state_presets = json.decode(fp:read("*all"))
+    grid_state = grid_state_presets[MR.grid_current_preset]
+    fp:close()
+end
+
+function MR.load_state()
+	MR.load_state_from_file(MR.grid_state_file)
+end
+
+
 
 return MR

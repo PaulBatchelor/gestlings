@@ -36,14 +36,13 @@ s16 = gestku.seq.seqfun(gestku.morpho)
 gest16 = gestku.gest.gest16fun(gestku.sr, gestku.core)
 json = require("util/json")
 morpher = require("gestku/bits/morpher")
-mcr = require("gestku/bits/microrunes")
 gen_vocab = require("gestku/bits/vocab_march_2023")
-grid = monome_grid
-grid_state = {0, 0, 0, 0, 0, 0, 0, 0}
-grid_current_preset = "init"
-grid_state_file = "gestku/2023_03_07.json"
+mcr = require("gestku/bits/microrunes")
 
-grid_state_presets = {}
+mcr.vocab = gen_vocab.bitrunes()
+mcr.grid_current_preset = "init"
+mcr.grid_state_file = "gestku/2023_03_07.json"
+
 function G:init()
 lil("opendb db /home/paul/proj/smp/a.db")
     lil([[ftlnew ftl
@@ -88,8 +87,8 @@ WT.sinesum = pop()
 lil("drop")
 
 lil("valnew button")
-load_state(grid_state_file)
-parse_grid()
+mcr.load_state()
+mcr.parse_grid()
 end
 -- </@>
 -- <@>
@@ -97,7 +96,7 @@ end
 function articulate()
     G:start()
 
-    morphemes = gen_vocab()
+    morphemes = gen_vocab.morphemes()
     G:articulate(gestku.mseq.parse(mcr.sequence_get(), morphemes))
 
     G:compile()
@@ -176,145 +175,11 @@ end
 -- </@>
 
 -- <@>
-
-function load_state(statefile)
-    if grid_state_presets[grid_current_preset] == nil then
-        print("creating new preset " .. grid_current_preset)
-        grid_state_presets[grid_current_preset] = {
-            0, 0, 0, 0, 0, 0, 0, 0
-        }
-    end
-    local fp = io.open(statefile, "r")
-    --grid_state = json.decode(fp:read("*all"))
-    grid_state_presets = json.decode(fp:read("*all"))
-    grid_state = grid_state_presets[grid_current_preset]
-    fp:close()
-end
-
--- </@>
-
-
--- <@>
 function run()
     G:run()
-    --run_grid()
 end
 function altrun()
-    --G:run()
     mcr.run_grid()
-end
--- </@>
-
--- <@>
-function table_to_number(tab)
-    local len = #tab / 2
-    local r1 = 0
-    local r2 = 0
-    for i = 1, len do
-        local shift = 1 << (i - 1)
-        r1 = r1 | (shift * tab[i])
-        r2 = r2 | (shift * tab[i + len])
-    end
-    local n = r1 | (r2 << len) | (1 << (len * 2))
-    return n
-end
--- </@>
--- <@>
-vocab = {}
-vocab[table_to_number({
-    1, 1,
-    1, 1,
-})] = "2(A)"
-
-vocab[table_to_number({
-    1,
-    1,
-})] = "4(B)"
-
-vocab[table_to_number({
-    0,
-    1,
-})] = "3(C)"
-
-vocab[table_to_number({
-    1,
-    0,
-})] = "4(D)"
-
-vocab[table_to_number({
-    0, 0, 0,
-    1, 1, 1
-})] = "2[E]"
-
-vocab[table_to_number({
-    1, 1, 1,
-    0, 0, 0,
-})] = "2[F]"
-
-vocab[table_to_number({
-    0, 0,
-    1, 1,
-})] = "G"
-
-vocab[table_to_number({
-    1, 1, 1, 0, 1,
-    1, 0, 1, 1, 1,
-})] = "H"
-
-vocab[table_to_number({
-    1, 0, 1,
-    1, 1, 1,
-})] = "2[I]"
--- </@>
-
--- <@>
-function tokenize(gs, vocab)
-    local glyphs = {}
-    for y = 1, 3 do
-        local ypos = ((y - 1) * 3) + 1
-        local row1 = gs[ypos]
-        local row2 = gs[ypos + 1]
-        local tmp1 = 0
-        local tmp2 = 0
-        local len = 0
-        for x = 1, 16 do
-            local shift = x - 1
-            local b1 = (row1 & (1 << shift)) >> shift
-            local b2 = (row2 & (1 << shift)) >> shift
-
-            if (b1 | b2) == 1 then
-                tmp1 = tmp1 | (1 << len) * b1
-                tmp2 = tmp2 | (1 << len) * b2
-                len = len + 1
-            else
-                if len > 0 then
-                    val = tmp1 | (tmp2  << len) | (1 << (len*2))
-                    val = tmp1 | (tmp2  << len) | (1 << (len*2))
-                    if vocab[val] ~= nil then
-                        table.insert(glyphs, vocab[val])
-                    end
-                end
-                len = 0
-                tmp1 = 0
-                tmp2 = 0
-            end
-        end
-
-        if len > 0 then
-            val = tmp1 | (tmp2  << len) | (1 << (len*2))
-            if vocab[val] ~= nil then
-                table.insert(glyphs, vocab[val])
-            end
-        end
-    end
-    return table.concat(glyphs, "")
-end
-
-function parse_grid()
-    print("tokenizing")
-	local s = tokenize(grid_state, vocab)
-    mcr.sequence_set(s)
-    print(mcr.sequence_get())
 end
 -- </@>
 
