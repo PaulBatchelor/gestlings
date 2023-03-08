@@ -79,7 +79,7 @@ function MR.run_grid()
 
             if s == 1 and y == 5 then
                 if x == 15 then
-                    parse_grid()
+                    MR.parse_grid()
                     G:run()
                 end
                 if x == 14 then
@@ -193,6 +193,10 @@ MR.vocab = {}
 function MR.parse_grid()
     print("tokenizing")
 	local s = tokenize(grid_state, MR.vocab)
+	if s == "" then
+        print("invalid empty sequence.")
+        return
+    end
     mcr.sequence_set(s)
     print(mcr.sequence_get())
 end
@@ -205,6 +209,10 @@ function MR.load_state_from_file(statefile)
         }
     end
     local fp = io.open(statefile, "r")
+    if fp == nil then
+        print("no file '" .. statefile .. "'. skipping load." )
+        return
+    end
     --grid_state = json.decode(fp:read("*all"))
     grid_state_presets = json.decode(fp:read("*all"))
     grid_state = grid_state_presets[MR.grid_current_preset]
