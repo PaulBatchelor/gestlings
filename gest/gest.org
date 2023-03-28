@@ -128,13 +128,14 @@ name of the gesture to use.
 function Gest:node()
 	local glive = self.get(self)
 	local mem = self.bufname
+	local glivef =  function(self) return glive end
 
     return function(n, p)
         local name = p.name or "gst"
         local program = 
             string.format("[gmemsym [grab %s] %s]", mem, name)
 
-        n.glive = n:param(glive)
+        n.glive = n:param(glivef)
         n.conductor = n:param(p.conductor or 0)
         n:lil("gestvmnode zz " .. program .. " zz")
         n:label("gesture: " .. name)
@@ -180,6 +181,7 @@ Gest.behavior = {
     linear = 0,
     step = 1,
     gliss_medium = 2,
+    gliss = 3,
     gate_125 = 4,
     gate_25 = 5,
     gate_50 = 6 

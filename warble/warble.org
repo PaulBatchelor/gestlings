@@ -54,8 +54,8 @@ function Warble.graph(params)
         eval(string.format("regget %d", tab))
     end
 
-    ng  = core.nodegen(diagraf.Node, g)
-    pg  = core.paramgen(ng)
+    ng = core.nodegen(diagraf.Node, g)
+    pg = core.paramgen(ng)
     con = g:connector()
     prmf = core.paramf
     local p = params
