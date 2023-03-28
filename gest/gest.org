@@ -135,7 +135,11 @@ function Gest:node()
         local program = 
             string.format("[gmemsym [grab %s] %s]", mem, name)
 
-        n.glive = n:param(glivef)
+        -- TODO: glivef makes this work as a regular node
+        -- glive works as only a parameter node. Tests
+        -- will break if glivef is used
+        --n.glive = n:param(glivef)
+        n.glive = n:param(glive)
         n.conductor = n:param(p.conductor or 0)
         n:lil("gestvmnode zz " .. program .. " zz")
         n:label("gesture: " .. name)
