@@ -381,3 +381,24 @@ function S.qgliss(n, p)
     n:label("qgliss")
 end
 #+END_SRC
+
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.tract(n, p)
+    n.tract = n:param(p.tract)
+    n.input = n:param(p.input or 0)
+    n.velum = n:param(p.velum or 0)
+    n:lil("tract zz zz zz")
+    n:label("tract")
+end
+#+END_SRC
+
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.glottis(n, p)
+    n.freq = n:param(p.freq or 0)
+    n.aspiration = n:param(p.aspiration or 0.8)
+    n:lil("glottis zz zz")
+    n:label("glottis")
+end
+#+END_SRC

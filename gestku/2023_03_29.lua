@@ -1,10 +1,6 @@
-
 --[[
-dots? make it go fast? idk. life is stressful right now,
-can't focus, and I'm running out of ideas with this thing.
-
 -- <@>
-dofile("gestku/2023_03_08.lua")
+dofile("gestku/2023_03_29.lua")
 G:rtsetup()
 G:setup()
 -- </@>
@@ -108,6 +104,16 @@ tal.jump(words, "freq")
 lil("genvals [tabnew 1] \"0 2 4 7 9 12 14 16\"")
 lil("regset zz 0; regmrk 0")
 
+lil([[
+tabload "shapes/julia_ah.raw"
+regset zz 1
+regmrk 1
+tractnew
+regset zz 2
+regmrk 2
+tractshape [regget 2] [regget 1]
+]])
+
 gst:compile(words)
 con = grf:connector()
 
@@ -143,16 +149,44 @@ con(LFO, LFO_scaler.input)
 con(LFO_scaler, qgliss.input)
 con(freq_ctrl, qgliss.clock)
 
-add1 = ng(sr.add){b=60}
+add1 = ng(sr.add){b=48 + 3}
 con(qgliss, add1.a)
 con(add1, mtof.input)
-sine = ng(sr.sine) {amp = 0.1}
+-- sine = ng(sr.sine) {amp = 0.1}
+-- con(mtof, sine.freq)
 
-con(mtof, sine.freq)
+glottis = ng(sr.glottis) {}
+con(mtof, glottis.freq)
+mul1 = ng(sr.mul){b = 0.5}
+con(glottis, mul1.a)
+
+tract = ng(sr.tract) {
+    tract = function(self) return "[regget 2]" end
+}
+
+con(mul1, tract.input)
 
 l = grf:generate_nodelist()
 grf:compute(l)
 
+lil([[
+regclr 0
+regclr 1
+regclr 2
+]])
+
+lil([[
+butlp zz 5000
+butlp zz 5000
+
+dup
+dup
+bigverb zz zz [rline 0.9 0.98 0.3] [param 8000]
+add zz zz
+mul zz [dblin [rline -15 -20 0.4] ]
+dcblocker zz
+add zz zz
+]])
 --lil("wavout zz test.wav")
 --lil("computes 15")
 end
