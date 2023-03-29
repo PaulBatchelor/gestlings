@@ -111,7 +111,7 @@ function gest16(gst, name, cnd, mn, mx)
 
 	local node = pn(sr.scale) {
 		input = pn(sr.mul) {
-			a = pn(gst:node()) {
+			a = pn(gst:node{paramnode_hack=True}) {
 				name = name,
 				conductor = lvl(cnd:getstr())
 			},
@@ -150,7 +150,6 @@ function G:sound()
     ag = pn(sr.dblin) {
         db = gest16(gst, "amp", cnd, -40, 0)
     }
-
     local g = whistle.graph {
 		freq = fg,
 		timbre = tg,
@@ -158,7 +157,8 @@ function G:sound()
         sig = sig,
         core = core,
         diagraf = diagraf,
-        sigrunes = sr
+        sigrunes = sr,
+        debug=false
     }
 
 	l = g:generate_nodelist()

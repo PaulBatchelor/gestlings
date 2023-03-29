@@ -203,12 +203,23 @@ end
 
 <<nodes>>
 
+
+-- spoof the "node" interface from diagraf
 dummy = {}
 dummy.eval = lil
+
+-- this is a hack for the specifically gest node
+-- the "glive" parameter for some reason has to be a string
+-- it can't work as a callback when it is a parameter node
+dummy.sigrune_dummy = true
 function dummy:lil(str)
     self.eval(str)
 end
 
+-- this is a shim for the Node:param() method
+-- for some reason, this evals in-place. the current diagraf
+-- node method returns something. I think this might be
+-- outdated or something? I'll need to revisit.
 function dummy:param(v)
     if type(v) == "function" then
         v(self.eval)
@@ -237,6 +248,8 @@ end
 -- paramnode
 function S.paramnode(n, p)
     p = p or {}
+    -- Note to self: nested callbacks weren't a great idea
+    -- I'm having a hard time keeping all the scope in my head
     return function(p)
         return function (eval)
             -- eval is already in dummy

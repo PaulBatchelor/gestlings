@@ -138,8 +138,14 @@ function Gest:node()
         -- TODO: glivef makes this work as a regular node
         -- glive works as only a parameter node. Tests
         -- will break if glivef is used
-        --n.glive = n:param(glivef)
-        n.glive = n:param(glive)
+        -- The quick fix is to just introduce a flag
+        local is_param_node = n.sigrune_dummy or false
+        if is_param_node then
+            n.glive = n:param(glive)
+        else
+            n.glive = n:param(glivef)
+        end
+
         n.conductor = n:param(p.conductor or 0)
         n:lil("gestvmnode zz " .. program .. " zz")
         n:label("gesture: " .. name)
