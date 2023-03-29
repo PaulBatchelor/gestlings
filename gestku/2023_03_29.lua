@@ -1,4 +1,5 @@
 --[[
+Shapes and Voices
 -- <@>
 dofile("gestku/2023_03_29.lua")
 G:rtsetup()
@@ -16,14 +17,14 @@ G = gestku:new()
 
 function G.symbol()
     return [[
-##-#---##-#-----
-##---#-##---#---
-----------------
-##-#---##-#-----
-##---#-##---#---
-----------------
-##-#---##-#---#-
-##---#-##---#-#-
+------------------
+-#-#--#---#-----#-
+-#-#--#---#-----#-
+-#-#--#---#-----#-
+-#-#--#---#-----#-
+-#-#--#---#-----#-
+-#-#--#---#-----#-
+------------------
 ]]
 end
 -- </@>
@@ -108,10 +109,18 @@ lil([[
 tabload "shapes/julia_ah.raw"
 regset zz 1
 regmrk 1
+
+tabload "shapes/julia_oo.raw"
+regset zz 3
+regmrk 3
+
+diphone [regget 1] [regget 3] [flipper [phasor [rline 1 3 1] 0] ]
+regset zz 4
+
 tractnew
 regset zz 2
 regmrk 2
-tractshape [regget 2] [regget 1]
+tractshape [regget 2] [regget 4]
 ]])
 
 gst:compile(words)
@@ -195,9 +204,6 @@ end
 -- <@>
 function run()
     G:run()
-end
-function altrun()
-    mcr.run_grid()
 end
 -- </@>
 
