@@ -32,3 +32,4 @@ check goblin_deciding
 check grumpy_goblin
 check singing_goblin
 check snoring_goblin
+check shapes_and_voices
