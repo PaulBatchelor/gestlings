@@ -369,3 +369,15 @@ function S.smoother(n, p)
     n:label("smoother")
 end
 #+END_SRC
+
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.qgliss(n, p)
+    n.tab = n:param(p.tab)
+    n.input = n:param(p.input or 0)
+    n.clock = n:param(p.clock or 0)
+    n.gliss = n:param(p.gliss or 0.9)
+    n:lil("qgliss zz zz zz zz")
+    n:label("qgliss")
+end
+#+END_SRC

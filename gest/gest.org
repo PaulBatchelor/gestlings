@@ -132,7 +132,7 @@ function Gest:node()
 
     return function(n, p)
         local name = p.name or "gst"
-        local program = 
+        local program =
             string.format("[gmemsym [grab %s] %s]", mem, name)
 
         -- TODO: glivef makes this work as a regular node
