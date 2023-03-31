@@ -220,7 +220,7 @@
 -	b5b24843-bf3f-4b25-8c09-f137f22912b7	#9a1741dd-1170-48dd-9785-f4e73e9fbb96
 2022-12-19 10:53:18	86dabb04-f5b9-473a-9a7e-fdc51dbbeab8	>create low level uxn example using gestvm
 -	86dabb04-f5b9-473a-9a7e-fdc51dbbeab8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-12-19 10:53:19	86dabb04-f5b9-473a-9a7e-fdc51dbbeab8	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-03-31 09:55:37	86dabb04-f5b9-473a-9a7e-fdc51dbbeab8	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-12-19 10:54:36	a7181750-eaa5-4b69-8f16-28d3b526f226	>it is important to have a lineage of abstraction. Lua has become so good at it's job, I'm worried I'll forget how the lower-level components work!
 -	a7181750-eaa5-4b69-8f16-28d3b526f226	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	a7181750-eaa5-4b69-8f16-28d3b526f226	#86dabb04-f5b9-473a-9a7e-fdc51dbbeab8
@@ -467,7 +467,7 @@
 -	612c2a9d-dee0-4d6a-956c-a3a5f8a2c067	#59afea3b-493a-4ec1-b9dd-b82418f6d85e
 2023-01-30 11:41:39	21843a1a-e652-47a3-a660-6d7d24e549d4	>add constructs for managing larger morphemes
 -	21843a1a-e652-47a3-a660-6d7d24e549d4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-01-30 11:41:39	21843a1a-e652-47a3-a660-6d7d24e549d4	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-03-31 09:54:51	21843a1a-e652-47a3-a660-6d7d24e549d4	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-01-30 11:43:03	f7a7b1a9-4144-47ba-b5d0-b062b1c26468	>create goblins page
 -	f7a7b1a9-4144-47ba-b5d0-b062b1c26468	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2023-02-18 19:45:42	f7a7b1a9-4144-47ba-b5d0-b062b1c26468	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
@@ -488,7 +488,7 @@
 -	5e9e123d-37d0-4c88-9ffb-a61f94ad0020	#53a2e179-eb60-4c13-b749-59d5d3b893c5
 2023-02-21 11:41:31	6a3b9a69-687a-41ec-b04e-35ef816603c5	>add creation myth page
 -	6a3b9a69-687a-41ec-b04e-35ef816603c5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-02-21 11:41:31	6a3b9a69-687a-41ec-b04e-35ef816603c5	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-03-31 09:52:15	6a3b9a69-687a-41ec-b04e-35ef816603c5	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-02-21 11:42:23	18e6f5ff-9201-4a59-8f83-b73573014631	>this is a particularly significant step in order to get out of the "Cauldron"
 -	18e6f5ff-9201-4a59-8f83-b73573014631	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	18e6f5ff-9201-4a59-8f83-b73573014631	#6a3b9a69-687a-41ec-b04e-35ef816603c5
@@ -508,3 +508,18 @@
 -	9fb36be9-d6b5-4b6d-a906-2f8679fc2dba	#9010c118-0c31-4ac0-b7a3-000e4a57bc19
 2023-03-08 12:46:58	153f43f2-8068-400d-a5df-1a1b9c3d36a1	>today's gestku was truly uninhibited. I'm running out of ideas for this vocabulary, and my focus is pretty thin right now.
 -	153f43f2-8068-400d-a5df-1a1b9c3d36a1	#9010c118-0c31-4ac0-b7a3-000e4a57bc19
+2023-03-31 09:52:09	dbb90914-295a-4ed9-9df0-ef7a075b4869	>done. see: !beginning
+-	dbb90914-295a-4ed9-9df0-ef7a075b4869	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	dbb90914-295a-4ed9-9df0-ef7a075b4869	#6a3b9a69-687a-41ec-b04e-35ef816603c5
+2023-03-31 09:53:40	0ef6c319-56f8-44c6-8fe3-b76fda6a9c78	>Did a pass of this a few weeks ago, didn't have time to update this yet. Partial morphmemes are the bulk of this. I haven't had much chance to test this out though yet.
+-	0ef6c319-56f8-44c6-8fe3-b76fda6a9c78	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0ef6c319-56f8-44c6-8fe3-b76fda6a9c78	#21843a1a-e652-47a3-a660-6d7d24e549d4
+2023-03-31 09:54:44	59d3a78d-7a50-4dc6-8e70-cd192aaec735	>the implementation seems to be completed, and from what little I've used of it, it seems to work. Good enough.
+-	59d3a78d-7a50-4dc6-8e70-cd192aaec735	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	59d3a78d-7a50-4dc6-8e70-cd192aaec735	#21843a1a-e652-47a3-a660-6d7d24e549d4
+2023-03-31 09:57:27	b94fcae1-da69-4229-bfb8-2fd70a02a457	>Last week, I constructed a "balloon" envelop generator, with the idea that it could be used to create "ripples" of control. Could almost be similar to weight when used to modulate the tempo of the conductor.
+-	b94fcae1-da69-4229-bfb8-2fd70a02a457	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b94fcae1-da69-4229-bfb8-2fd70a02a457	#fd11b75c-2691-4ec3-819e-39152b1638ae
+2023-03-31 09:57:40	4f04425e-ab9c-469e-b3e4-83671f913677	>this is all to say that I might be returning to this in a few weeks
+-	4f04425e-ab9c-469e-b3e4-83671f913677	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4f04425e-ab9c-469e-b3e4-83671f913677	#fd11b75c-2691-4ec3-819e-39152b1638ae
