@@ -36,14 +36,10 @@
 (ww-add-page "cauldron" `Welcome to the Cauldron.
 
 @!(zet/page-amalg "cauldron")!@`)
-(ww-add-page "beginning" `In the beginning, there @!(ref "was")!@.
-`)
-(ww-add-page "was" `Because there was, there had to @!(ref "be")!@.
-`)
-(ww-add-page "be" `Since there had to be, there was @!(ref "necessity")!@.
-`)
-(ww-add-page "necessity" `Out of necessity was born the @!(ref "universe" "Universe")!@.
-`)
+(ww-add-page "beginning" `In the beginning, there @!(ref "was")!@.`)
+(ww-add-page "was" `Because there was, there had to @!(ref "be")!@.`)
+(ww-add-page "be" `Since there had to be, there was @!(ref "necessity")!@.`)
+(ww-add-page "necessity" `Out of necessity was born the @!(ref "universe" "Universe")!@.`)
 (ww-add-page "universe" `When the Universe was young, an energy known as @!(ref
 "inspiration")!@ flowed through it like a river.`)
 (ww-add-page "cavernius" `Cavernius was a massive asteroid, with a hollow core that
@@ -67,15 +63,13 @@ the @!(ref "springs" "Great Springs")!@, which is where
 life began to grow.
 
 It was at this point that Cavernius
-became @!(ref "cauldronia" "Cauldronia")!@.
-`)
+became @!(ref "cauldronia" "Cauldronia")!@.`)
 (ww-add-page "inspiration" `These veins of inspiration shaped and molded all matter
 in our Universe. Countless galaxies, stars, and planets were
 formed from inspiration, amongst many, many, other things.
 
 One of those things, was a celestial body known as @!(ref
-"cavernius" "Cavernius")!@.
-`)
+"cavernius" "Cavernius")!@.`)
 (ww-add-page "springs" `The Great Springs are the birthplace of all life on @!(ref
 "cauldronia" "Cauldronia")!@. Curious @!(ref "goblins"
 "creatures")!@ thrive here.
@@ -83,8 +77,8 @@ One of those things, was a celestial body known as @!(ref
 The Springs are warmed by the molten core of Cauldronia,
 which is sometimes referred to as the @!(ref
 "cauldron" "Cauldron")!@.
-
 `)
+(ww-add-page "cantor" `@!(wikipage "cantor")!@`)
 
 # linked pages
 

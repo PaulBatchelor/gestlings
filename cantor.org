@@ -1,0 +1,31 @@
+#+TITLE: Cantor
+
+#+NAME: cantor.c
+#+BEGIN_SRC c :tangle cantor.c
+#include <stdlib.h>
+
+#include "lua.h"
+int mno_lua_main_noloader(int argc, char *argv[]);
+void mno_lua_load(lua_State *L);
+void mno_lua_clean(lua_State *L);
+
+int mno_lua_main(int argc, char **argv,
+                 void (*load)(lua_State*),
+                 void (*clean)(lua_State*));
+
+static void load(lua_State *L)
+{
+    mno_lua_load(L);
+}
+
+static void clean(lua_State *L)
+{
+    mno_lua_clean(L);
+}
+
+
+int main(int argc, char *argv[])
+{
+    return mno_lua_main(argc, argv, load, clean);
+}
+#+END_SRC

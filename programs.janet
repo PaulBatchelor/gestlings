@@ -166,4 +166,11 @@
  :org "warble/warble.org"
  :tangled @["warble/warble.lua"]
  }
+
+ "cantor"
+ @{
+ :id 24
+ :org "cantor.org"
+ :tangled @["cantor.c"]
+ }
 })
