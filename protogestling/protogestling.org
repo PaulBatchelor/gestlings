@@ -1,0 +1,114 @@
+#+TITLE: Protogestling
+The first Gestling. Or, the thing the lead up to the first
+gestling.
+
+#+NAME: protogestling.c
+#+BEGIN_SRC c :tangle protogestling/protogestling.c
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
+
+#include "mathc/mathc.h"
+#include "sdf2d/sdf.h"
+#include "btprnt/btprnt.h"
+
+static void draw_ellipse(btprnt_region *r, float a, float b)
+{
+    int x, y;
+    int w, h;
+    float ratio;
+    w = r->w;
+    h = r->h;
+
+    ratio = (float)w / h;
+
+    if (ratio > 1) {
+        ratio = 1.0 / ratio;
+    }
+    for (y = 0; y < h; y++) {
+        for (x = 0; x < w; x++) {
+            struct vec2 p;
+            float d;
+            struct vec2 res;
+            struct vec2 ab;
+            int c;
+            res = svec2(w, h);
+
+            p = sdf_normalize(svec2(x, y), res);
+            p.x *= ratio;
+            ab = svec2(a, b);
+            d = sdf_ellipse(p, ab);
+
+            if (isnan(d)) {
+                printf("oops\n");
+            }
+
+            c = (int)(1 - sdf_sign(d));
+            c = c != 0;
+            if (c) {
+                btprnt_region_draw(r, x, y, c);
+            }
+        }
+    }
+}
+
+static void draw_face(btprnt_region *r,
+                      double mouth_w,
+                      double mouth_h,
+                      double eye_left_w,
+                      double eye_left_h,
+                      double eye_right_w,
+                      double eye_right_h)
+{
+    btprnt_region mouth;
+    btprnt_region eyes[2];
+
+    mouth = *r;
+
+    mouth.y += mouth.h / 2;
+    mouth.h = mouth.h / 2;
+    eyes[0] = *r;
+    eyes[0].w /= 2;
+    eyes[0].h /= 2;
+    eyes[1] = eyes[0];
+    eyes[1].x += eyes[1].w;
+
+    draw_ellipse(&mouth, mouth_w, mouth_h);
+    draw_ellipse(&eyes[0], eye_left_w, eye_left_h);
+    draw_ellipse(&eyes[1], eye_right_w, eye_right_h);
+}
+
+static int face(lua_State *L)
+{
+    btprnt_region *reg;
+    double mouth_w;
+    double mouth_h;
+    double eye_left_w;
+    double eye_left_h;
+    double eye_right_w;
+    double eye_right_h;
+    reg = lua_touserdata(L, 1);
+    mouth_w = lua_tonumber(L, 2);
+    mouth_h = lua_tonumber(L, 3);
+    eye_left_w = lua_tonumber(L, 4);
+    eye_left_h = lua_tonumber(L, 5);
+    eye_right_w = lua_tonumber(L, 6);
+    eye_right_h = lua_tonumber(L, 7);
+    draw_face(reg,
+      mouth_w, mouth_h,
+      eye_left_w, eye_left_h,
+      eye_right_w, eye_right_h);
+    return 0;
+}
+
+static const luaL_Reg protogestling_lib[] = {
+    {"face", face},
+    {NULL, NULL}
+};
+
+int luaopen_protogestling(lua_State *L)
+{
+    luaL_newlib(L, protogestling_lib);
+    return 1;
+}
+#+END_SRC

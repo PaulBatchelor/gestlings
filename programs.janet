@@ -173,4 +173,12 @@
  :org "cantor.org"
  :tangled @["cantor.c"]
  }
+
+ "protogestling"
+ @{
+ :id 25
+ :org "protogestling/protogestling.org"
+ :tangled @["protogestling/protogestling.c"]
+ :cprogram true
+ }
 })
