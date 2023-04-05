@@ -1,5 +1,9 @@
 (import programs)
 
+(def args (dyn :args))
+
+(var use-monome false)
+
 (defn tangle [janet-file org-file]
   (print (string "build " janet-file ": tangle " org-file)))
 
@@ -17,7 +21,9 @@
 
 (defn link-rule []
   (print "ldflags = -L/opt/homebrew/lib -L/usr/local/lib")
-  (print "libs = -lmnolth -lx264 -lmonome")
+  (def libs @["-lmnolth" "-lx264"])
+  (if (= use-monome true) (array/push libs "-lmonome"))
+  (print (string "libs = " (string/join libs " ")))
   (print "rule link")
   (print "    command = gcc $cflags $in -o $out $ldflags $libs")
   (print "    description = creating $in"))
@@ -32,6 +38,9 @@
       "build cantor: link "
       (string/join
         (map (fn [x] (string x ".o")) obj) " "))))
+
+(each a args
+  (if (= a "monome") (set use-monome true)))
 
 (tangler-var)
 (tangle-rule)

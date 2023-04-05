@@ -1,1 +1,1 @@
-weewiki janet ninjagen.janet > build.ninja
+weewiki janet ninjagen.janet $* > build.ninja
