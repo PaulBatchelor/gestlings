@@ -129,6 +129,7 @@ function Gest:node()
 	local glive = self.get(self)
 	local mem = self.bufname
 	local glivef =  function(self) return glive end
+	local cndstr = self.conductor
 
     return function(n, p)
         local name = p.name or "gst"
@@ -146,7 +147,7 @@ function Gest:node()
             n.glive = n:param(glivef)
         end
 
-        n.conductor = n:param(p.conductor or 0)
+        n.conductor = n:param(p.conductor or cndstr)
         n:lil("gestvmnode zz " .. program .. " zz")
         n:label("gesture: " .. name)
     end

@@ -1,5 +1,5 @@
 runtest () {
-    mnolth lua test/t/$1.lua
+    ./cantor test/t/$1.lua
 
     if [ ! "$?" -eq 0 ]
     then
@@ -33,3 +33,5 @@ check grumpy_goblin
 check singing_goblin
 check snoring_goblin
 check shapes_and_voices
+check nrt_duo
+check morpheme_minimal

@@ -1,5 +1,3 @@
--- "^[drmfsltDRMFSLT][+\-\=]?[,']*(?:[1-9][0-9]?[.]?)?$"
-
 morpheme = require("morpheme/morpheme")
 
 pprint = require("util/pprint")
@@ -7,7 +5,8 @@ tal = require("tal/tal")
 gest = require("gest/gest")
 path = require("path/path")
 nrt = require("nrt/nrt")
-sigrunes = require("sigrunes/sigrunes")
+sr = require("sigrunes/sigrunes")
+verify = require("test/verify")
 
 eval = NRT.eval
 
@@ -32,17 +31,22 @@ g:compile(words)
 
 lil("phasor 2 0; hold zz; regset zz 0")
 g:swapper()
---g:node_old("seq")
-sigrunes.node(g:node()) {name="seq"}
+
+sr.node(g:node()) {
+    name="seq"
+}
 lil("mtof zz")
 lil("blsaw zz; butlp zz 500; mul zz 0.3")
 
---g:node_old("seq2")
-sigrunes.node(g:node()) {name="seq2"}
+sr.node(g:node()){
+    name="seq2"
+}
 lil("mtof zz")
 lil("blsaw zz; butlp zz 500; mul zz 0.3")
 lil("add zz zz")
 
-lil("wavout zz test.wav")
 lil("unhold [regget 0]")
-lil("computes 10")
+
+chksm = "043867aee329854be2e8dd72ce12aad2"
+
+verify.verify(chksm)
