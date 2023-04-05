@@ -17,7 +17,7 @@
 
 (defn link-rule []
   (print "ldflags = -L/opt/homebrew/lib -L/usr/local/lib")
-  (print "libs = -lmnolth -lx264")
+  (print "libs = -lmnolth -lx264 -lmonome")
   (print "rule link")
   (print "    command = gcc $cflags $in -o $out $ldflags $libs")
   (print "    description = creating $in"))
