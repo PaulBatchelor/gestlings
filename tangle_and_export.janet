@@ -31,10 +31,10 @@
         "/usr/local/bin/worgle"
         "-Werror"
         "-p" (string program-id)
-        "-d" "a.db"))
+        "-d" "a.db" filename))
 
     # (update-flags cmd program-id)
-    (array/push cmd filename)
+    # (array/push cmd filename)
 
     (os/execute cmd))
   (error "Please supply a valid filename"))
