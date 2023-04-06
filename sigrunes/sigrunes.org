@@ -351,31 +351,6 @@ function S.phasor(n, p)
     n:label("phasor")
 end
 #+END_SRC
-** Gesture (deprecated)
-TODO: gesture nodes might not be needed anymore...
-use gest module instead
-
-#+NAME: nodes
-#+BEGIN_SRC lua
-function gestvmnode(glive, membuf, program, conductor)
-    return string.format(
-        "%s; [gmemsym [grab %s] %s]; %s; gestvmnode zz zz zz",
-        glive, membuf, program, conductor)
-
-end
-function S.gesture(n, p)
-	local glive = p.glive or "[glget [grab glive]]"
-	local mem = p.mem or "mem"
-	local name = p.name or "gst"
-
-	program = 
-		string.format("[gmemsym [grab %s] %s]", mem, name)
-	n.glive = n:param(glive)
-    n.conductor = n:param(p.conductor or 0)
-    n:lil("gestvmnode zz " .. program .. " zz")
-    n:label("gesture: " .. name)
-end
-#+END_SRC
 ** fmpair
 #+NAME: nodes
 #+BEGIN_SRC lua
