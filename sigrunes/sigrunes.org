@@ -1,4 +1,5 @@
-#+TITLE: Sigrunes (WIP)
+#+TITLE: Sigrunes
+* Overview and Tangled File
 Signal Runes, or Sigrunes, are core unit generators from
 sndkit that have a specific symbol associated with it,
 known runes. The runes are used to help build up
@@ -10,7 +11,6 @@ Sigrunes will also have additional information attached
 to them concerning their associated glyph, probably
 in the form of some bitmap (12x12 or 16x16, not sure yet).
 
-Incomplete work. For now, these just need to be runes.
 
 #+NAME: sigrunes.lua
 #+BEGIN_SRC lua :tangle sigrunes/sigrunes.lua
@@ -18,192 +18,15 @@ Sigrunes = {}
 
 S = Sigrunes
 
-function S.butlp(n, p)
-    n.input = n:param(0)
-    n.cutoff = n:param(p.cutoff or 1000)
-    n:lil("butlp zz zz")
-    n:label("butlp")
-end
-
-function S.buthp(n, p)
-    n.input = n:param(0)
-    n.cutoff = n:param(p.cutoff or 1000)
-    n:lil("buthp zz zz")
-    n:label("buthp")
-end
-
-function S.wavout(n, p)
-    local file = p.file or "test.wav"
-    n.input = n:param(p.input or 0)
-    n:lil(string.format("wavout zz %s", file))
-    n:label("wavout")
-end
-
-function S.blsaw(n, p)
-    n.freq = n:param(p.freq or 440)
-    n:lil("blsaw zz")
-    n:label("blsaw")
-end
-
-function S.blsquare(n, p)
-    n:lil("blsquare zz")
-    n.freq = n:param(p.freq or 440)
-    n:label("blsquare")
-end
-
-function S.mul(n, p)
-    n.a = n:param(p.a or 0)
-    n.b = n:param(p.b or 0)
-    n:lil("mul zz zz")
-    n:label("mul")
-end
-
-function S.add(n, p)
-    n.a = n:param(p.a or 0)
-    n.b = n:param(p.b or 0)
-    n:lil("add zz zz")
-    n:label("add")
-end
-
-function S.add(n, p)
-    n.a = n:param(p.a or 0)
-    n.b = n:param(p.b or 0)
-    n:lil("add zz zz")
-    n:label("add")
-end
-
-function S.sub(n, p)
-    n.a = n:param(p.a or 0)
-    n.b = n:param(p.b or 0)
-    n:lil("sub zz zz")
-    n:label("sub")
-end
-
-function S.sine(n, p)
-    n.freq = n:param(p.freq or 440)
-    n.amp = n:param(p.amp or 0.5)
-    n:lil("sine zz zz")
-    n:label("sine")
-end
-
-function S.biscale(n, p)
-    n.input = n:param(p.input or 0)
-    n.min = n:param(p.min or 0)
-    n.max = n:param(p.max or 1)
-    n:lil("biscale zz zz zz")
-    n:label("biscale")
-end
-
-function S.scale(n, p)
-    n.input = n:param(p.input or 0)
-    n.min = n:param(p.min or 0)
-    n.max = n:param(p.max or 1)
-    n:lil("scale zz zz zz")
-    n:label("scale")
-end
-
-function S.getter(n, p)
-    n.cab = p.cab
-    n.data.gen = function(self)
-        return self.cab:getstr()
-    end
-
-    n.data.constant = false
-    n:label("getter")
-end
-
-function S.setter(n, p)
-    n.input = n:param(0)
-    local sig = p.sig
-    n.cab = sig:new()
-
-    n.data.gen = function(self)
-        return self.cab:hold(self.data.g.eval)
-    end
-
-    n.data.constant = false
-    n:label("setter")
-end
-
-function S.releaser(n, p)
-    n.cab = p.cab
-
-    n.data.gen = function(self)
-        return self.cab:unhold(self.data.g.eval)
-    end
-
-    n.data.constant = false
-    n:label("releaser")
-end
-
-function S.metro(n, p)
-    n.rate = n:param(p.rate or 1)
-    n:lil("metro zz")
-    n:label("metro")
-end
-
-function S.env(n, p)
-    n.trig = n:param(0)
-    n.atk = n:param(p.atk or 0.001)
-    n.dec = n:param(p.dec or 0.01)
-    n.rel = n:param(p.rel or 0.1)
-    n:lil("env zz zz zz zz")
-    n:label("env")
-end
-
-function S.noise(n, p)
-    n:lil("noise")
-    n:label("noise")
-end
-
-function S.peakeq(n, p)
-    n.input = n:param(0)
-    n.freq = n:param(p.freq or 1000)
-    n.bw = n:param(p.bw or 1000)
-    n.gain = n:param(p.gain or 1)
-    n:lil("peakeq zz zz zz zz")
-    n:label("peakeq")
-end
-
-function S.mtof(n, p)
-    n.input = n:param(p.input or 0)
-    n:lil("mtof zz")
-    n:label("mtof")
-end
-
-function S.butbp(n, p)
-    n.input = n:param(0)
-    n.freq = n:param(p.freq or 1000)
-    n.bw = n:param(p.bw or 1000)
-    n:lil("butbp zz zz zz")
-    n:label("butbp")
-end
-
-function S.crossfade(n, p)
-    n.a = n:param(p.a or 0)
-    n.b = n:param(p.b or 1)
-    n.pos  = n:param(p.pos or 0)
-    n:lil("crossfade zz zz zz")
-    n:label("crossfade")
-end
-
-function S.dblin(n, p)
-    n.db = n:param(p.db or 0)
-    n:lil("dblin zz")
-    n:label("dblin")
-end
-
-function S.rline(n, p)
-    n.min = n:param(p.min or 0)
-    n.max = n:param(p.max or 1)
-    n.rate = n:param(p.rate or 3)
-    n:lil("rline zz zz zz")
-    n:label("rline")
-end
-
 <<nodes>>
+<<util>>
 
-
+return Sigrunes
+#+END_SRC
+* Utilities
+** in-place node
+#+NAME: util
+#+BEGIN_SRC lua
 -- spoof the "node" interface from diagraf
 dummy = {}
 dummy.eval = lil
@@ -243,7 +66,10 @@ function S.node(n, p)
         n(dummy, p)
     end
 end
-
+#+END_SRC
+** parameter node
+#+NAME: util
+#+BEGIN_SRC lua
 -- to use a node as a parameter inside of lilnode, call
 -- paramnode
 function S.paramnode(n, p)
@@ -257,7 +83,10 @@ function S.paramnode(n, p)
         end
     end
 end
-
+#+END_SRC
+** debug mode
+#+NAME: util
+#+BEGIN_SRC lua
 function S.node_debug(debug)
     if debug then
         dummy.eval = print
@@ -265,10 +94,254 @@ function S.node_debug(debug)
         dummy.eval = lil
     end
 end
-
-return Sigrunes
 #+END_SRC
+* Nodes
+** rline
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.rline(n, p)
+    n.min = n:param(p.min or 0)
+    n.max = n:param(p.max or 1)
+    n.rate = n:param(p.rate or 3)
+    n:lil("rline zz zz zz")
+    n:label("rline")
+end
+#+END_SRC
+** dblin
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.dblin(n, p)
+    n.db = n:param(p.db or 0)
+    n:lil("dblin zz")
+    n:label("dblin")
+end
+#+END_SRC
+** crossfade
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.crossfade(n, p)
+    n.a = n:param(p.a or 0)
+    n.b = n:param(p.b or 1)
+    n.pos  = n:param(p.pos or 0)
+    n:lil("crossfade zz zz zz")
+    n:label("crossfade")
+end
+#+END_SRC
+** butbp
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.butbp(n, p)
+    n.input = n:param(0)
+    n.freq = n:param(p.freq or 1000)
+    n.bw = n:param(p.bw or 1000)
+    n:lil("butbp zz zz zz")
+    n:label("butbp")
+end
+#+END_SRC
+** mtof
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.mtof(n, p)
+    n.input = n:param(p.input or 0)
+    n:lil("mtof zz")
+    n:label("mtof")
+end
+#+END_SRC
+** peakeq
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.peakeq(n, p)
+    n.input = n:param(0)
+    n.freq = n:param(p.freq or 1000)
+    n.bw = n:param(p.bw or 1000)
+    n.gain = n:param(p.gain or 1)
+    n:lil("peakeq zz zz zz zz")
+    n:label("peakeq")
+end
+#+END_SRC
+** noise
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.noise(n, p)
+    n:lil("noise")
+    n:label("noise")
+end
+#+END_SRC
+** env
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.env(n, p)
+    n.trig = n:param(0)
+    n.atk = n:param(p.atk or 0.001)
+    n.dec = n:param(p.dec or 0.01)
+    n.rel = n:param(p.rel or 0.1)
+    n:lil("env zz zz zz zz")
+    n:label("env")
+end
+#+END_SRC
+** metro
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.metro(n, p)
+    n.rate = n:param(p.rate or 1)
+    n:lil("metro zz")
+    n:label("metro")
+end
+#+END_SRC
+** releaser
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.releaser(n, p)
+    n.cab = p.cab
 
+    n.data.gen = function(self)
+        return self.cab:unhold(self.data.g.eval)
+    end
+
+    n.data.constant = false
+    n:label("releaser")
+end
+#+END_SRC
+** setter
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.setter(n, p)
+    n.input = n:param(0)
+    local sig = p.sig
+    n.cab = sig:new()
+
+    n.data.gen = function(self)
+        return self.cab:hold(self.data.g.eval)
+    end
+
+    n.data.constant = false
+    n:label("setter")
+end
+#+END_SRC
+** getter
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.getter(n, p)
+    n.cab = p.cab
+    n.data.gen = function(self)
+        return self.cab:getstr()
+    end
+
+    n.data.constant = false
+    n:label("getter")
+end
+#+END_SRC
+** scale
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.scale(n, p)
+    n.input = n:param(p.input or 0)
+    n.min = n:param(p.min or 0)
+    n.max = n:param(p.max or 1)
+    n:lil("scale zz zz zz")
+    n:label("scale")
+end
+#+END_SRC
+** wavout
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.wavout(n, p)
+    local file = p.file or "test.wav"
+    n.input = n:param(p.input or 0)
+    n:lil(string.format("wavout zz %s", file))
+    n:label("wavout")
+end
+#+END_SRC
+** biscale
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.biscale(n, p)
+    n.input = n:param(p.input or 0)
+    n.min = n:param(p.min or 0)
+    n.max = n:param(p.max or 1)
+    n:lil("biscale zz zz zz")
+    n:label("biscale")
+end
+#+END_SRC
+** sine
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.sine(n, p)
+    n.freq = n:param(p.freq or 440)
+    n.amp = n:param(p.amp or 0.5)
+    n:lil("sine zz zz")
+    n:label("sine")
+end
+#+END_SRC
+** sub
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.sub(n, p)
+    n.a = n:param(p.a or 0)
+    n.b = n:param(p.b or 0)
+    n:lil("sub zz zz")
+    n:label("sub")
+end
+#+END_SRC
+** add
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.add(n, p)
+    n.a = n:param(p.a or 0)
+    n.b = n:param(p.b or 0)
+    n:lil("add zz zz")
+    n:label("add")
+end
+#+END_SRC
+** mul
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.mul(n, p)
+    n.a = n:param(p.a or 0)
+    n.b = n:param(p.b or 0)
+    n:lil("mul zz zz")
+    n:label("mul")
+end
+#+END_SRC
+** blsquare
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.blsquare(n, p)
+    n:lil("blsquare zz")
+    n.freq = n:param(p.freq or 440)
+    n:label("blsquare")
+end
+#+END_SRC
+** blsaw
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.blsaw(n, p)
+    n.freq = n:param(p.freq or 440)
+    n:lil("blsaw zz")
+    n:label("blsaw")
+end
+#+END_SRC
+** butlp
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.butlp(n, p)
+    n.input = n:param(0)
+    n.cutoff = n:param(p.cutoff or 1000)
+    n:lil("butlp zz zz")
+    n:label("butlp")
+end
+#+END_SRC
+** Buthp
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.buthp(n, p)
+    n.input = n:param(0)
+    n.cutoff = n:param(p.cutoff or 1000)
+    n:lil("buthp zz zz")
+    n:label("buthp")
+end
+#+END_SRC
+** Phasor
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.phasor(n, p)
@@ -278,7 +351,7 @@ function S.phasor(n, p)
     n:label("phasor")
 end
 #+END_SRC
-
+** Gesture (deprecated)
 TODO: gesture nodes might not be needed anymore...
 use gest module instead
 
@@ -303,7 +376,7 @@ function S.gesture(n, p)
     n:label("gesture: " .. name)
 end
 #+END_SRC
-
+** fmpair
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.fmpair(n, p)
@@ -317,7 +390,7 @@ function S.fmpair(n, p)
     n:label("fmpair")
 end
 #+END_SRC
-
+** envar
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.envar(n, p)
@@ -328,7 +401,7 @@ function S.envar(n, p)
     n:label("envar")
 end
 #+END_SRC
-
+** osc
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.osc(n, p)
@@ -340,7 +413,7 @@ function S.osc(n, p)
     n:label("osc")
 end
 #+END_SRC
-
+** tgate
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.tgate(n, p)
@@ -350,7 +423,7 @@ function S.tgate(n, p)
     n:label("tgate")
 end
 #+END_SRC
-
+** gtick
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.gtick(n, p)
@@ -359,7 +432,7 @@ function S.gtick(n, p)
     n:label("gtick")
 end
 #+END_SRC
-
+** smoother
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.smoother(n, p)
@@ -369,7 +442,7 @@ function S.smoother(n, p)
     n:label("smoother")
 end
 #+END_SRC
-
+** qgliss
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.qgliss(n, p)
@@ -381,7 +454,7 @@ function S.qgliss(n, p)
     n:label("qgliss")
 end
 #+END_SRC
-
+** tract
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.tract(n, p)
@@ -392,7 +465,7 @@ function S.tract(n, p)
     n:label("tract")
 end
 #+END_SRC
-
+** glottis
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.glottis(n, p)
