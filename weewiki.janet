@@ -96,10 +96,13 @@
 ``
 ))
 
+(defn markerstr [id &opt msg]
+  (default msg "")
+  (string "<a id=\"" id "\">" msg "</a>"))
+
 (defn marker [id &opt msg]
   (default msg "")
-  (prin (string "<a id=\"" id "\">" msg "</a>")))
-
+  (prin (markerstr id msg)))
 
 # TODO: create citation
 (defn cite [keyword]
@@ -119,6 +122,9 @@
 
 (defn wikipage [pgname]
   (progparse/wikipage (programs/pages pgname)))
+
+(defn tocgen [pgname]
+  (progparse/tocgen (programs/pages pgname) pgname))
 
 (defn bpimg [bp alt]
   (print "<img src=\"data:image/png;base64,")

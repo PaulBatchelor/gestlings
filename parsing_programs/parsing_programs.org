@@ -1,4 +1,5 @@
 #+TITLE: Parsing Programs
+@!(tocgen "parsing_programs")!@
 * Literate Programming, Weewiki, and Worgle
 The Gestlings project makes heavy use of
 =literate programming=, a programming style that attempts
@@ -66,7 +67,9 @@ considered.
 #+BEGIN_SRC janet :tangle progparse.janet
 <<progparse>>
 <<codeblock-string>>
+<<jumptags>>
 <<docgen>>
+<<tocgen>>
 #+END_SRC
 * Phase 1: Generating Documents
 The first phase in parsing the metadata of a literate program
@@ -85,25 +88,31 @@ this was causing things to crash (oops).
 
 #+NAME: docgen
 #+BEGIN_SRC janet
+(defn create-marker [lines tag]
+  (array/push lines (string (markerstr tag))))
 (defn docgen [program &opt db]
   (default db "a.db")
   (var lines @[])
   # (array/push lines (string "#+TITLE: " title "\n"))
 
   (def md (open-metadata db program))
+  (def htags (generate-header-jump-tags (md :db) program))
   (def reslist (reslist md))
   (each res reslist
     (cond
       (is-header? (res "type"))
       (do
-        (def header (get-header md (res "id")))
-        (array/push
-          lines
-          (string
-            (string/join
-              (array/new-filled (header "level") "*"))
-            " "
-            (header "section") " " (header "name")"\n")))
+       (def header (get-header md (res "id")))
+       # (create-marker lines (htags (res "id")))
+       (array/push
+        lines
+        (string
+         (string/join
+          (array/new-filled (header "level") "*"))
+         " "
+         (header "section") " "
+         (markerstr (htags (res "id")) (header "name"))
+         "\n")))
 
       (is-content? (res "type"))
       (do
@@ -119,9 +128,10 @@ this was causing things to crash (oops).
         (array/push lines code))))
 
   (def orgstr (string/join lines ""))
-  (def fp (file/open "output.org" :w))
-  (file/write fp orgstr)
-  (file/close fp)
+  # (def fp (file/open "output.org" :w))
+  # (file/write fp orgstr)
+  # (file/close fp)
+  (close-metadata md)
   (org orgstr))
 
 (defn wikipage [page]
@@ -325,6 +335,107 @@ found in the Worgmap core operations code.
 ** Tangled Files
 *** Getting File Data
 * Phase 2: Map Generation
-Once it can be shown that a document of a literate program
-can be produced from its metadata, the next step is to
-augment it with better navigation.
+It has been shown that a document of a literate program
+can be produced from its metadata. Now, the next step is
+to augment it with better navigation. In HTML, these
+can be done using jump links. A common use for jump links
+is to use them to produce a table of contents, where each
+item is a link to a section. Jump links could also
+potentially used as references for code blocks, among
+other things. There is a great deal of information stored
+in the program metadata. And since it is stored in a SQLite
+database format, there is a great deal of navigation and
+mapping strategies that can be possible.
+** Jump Tags
+Perhaps the most conventional use jump links is for
+sections. Ideally, the URL tags for sections would be
+based off of the header name, as it makes for a more
+readable URL (and with any luck, a more permanent one
+that isn't always changing with every update).
+
+The function =generate-header-jump-tags= creates a dictionary
+that maps ID values of headers onto URL-friendly tag names
+derived from their names. =db= is a SQLite handle,
+and =pid= is the program id.
+
+#+NAME: jumptags
+#+BEGIN_SRC janet
+(defn generate-header-jump-tags [db pid]
+  (def query
+       (sqlite3/eval db
+                     (string
+                       "select * from headers where program == " pid)))
+
+  (def valid-chars
+       (string
+         "abcdefghijklmnopqrstuvwxyz"
+         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+         "0123456789_"
+         ))
+
+  (defn create-valid-str [charset str]
+    (def strlen (length str))
+    (if (= strlen 0) ""
+
+      (if (string/check-set charset str)
+        str
+        (if (> strlen 1)
+          (do
+            (def strlen2 (math/floor (/ strlen 2)))
+            (string
+              (create-valid-str valid-chars (string/slice str 0 strlen2))
+              (create-valid-str valid-chars (string/slice str strlen2 -1))))
+          ""))))
+
+  (defn mklabel [name]
+    (create-valid-str valid-chars (string/replace-all
+                                    " " "-"
+                                    (string/ascii-lower name))))
+
+  (def id-to-name @{})
+
+  (each row query
+        # (def data @{
+               #     :name (mklabel (row "name"))
+               #     :id (row "id")
+               # })
+        #     (pp data)
+        (set (id-to-name (row "id")) (mklabel (row "name"))))
+  id-to-name)
+#+END_SRC
+** Table Of Contents
+#+NAME: tocgen
+#+BEGIN_SRC janet
+(defn tocgen [program pgname &opt db]
+  (default db "a.db")
+  (def md (open-metadata db program))
+  (def headers
+    (sqlite3/eval (md :db)
+      (string
+        "SELECT * from headers WHERE program == "
+        (program :id) " ORDER by id")))
+  (print "<ul>\n")
+  (var plevel 1)
+  (def htags (generate-header-jump-tags (md :db) (program :id)))
+  (each hd headers
+    (cond
+      (> (hd "level") plevel)
+      (print "<ul>")
+      (< (hd "level") plevel)
+      (for i 0 (- plevel (hd "level")) (print "</ul>")))
+    (set plevel (hd "level"))
+    (print "<li>\n")
+    (org
+     (string
+      "[["
+      (pglink pgname (htags (hd "id")))
+      "]["
+    (string (hd "section") " " (hd "name"))
+      "]]"))
+
+    (print "</li>\n")
+    )
+  (for i 0 (- plevel 1) (print "</ul>"))
+  (print "</ul>\n")
+  (close-metadata md))
+#+END_SRC
