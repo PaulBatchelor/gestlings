@@ -1,4 +1,5 @@
 #+TITLE: Sigrunes
+@!(tocgen "sigrunes")!@
 * Overview and Tangled File
 Signal Runes, or Sigrunes, are core unit generators from
 sndkit that have a specific symbol associated with it,
