@@ -370,7 +370,7 @@ and =pid= is the program id.
        (string
          "abcdefghijklmnopqrstuvwxyz"
          "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-         "0123456789_"
+         "0123456789-"
          ))
 
   (defn create-valid-str [charset str]
