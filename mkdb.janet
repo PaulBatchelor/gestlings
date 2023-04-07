@@ -76,8 +76,7 @@ One of those things, was a celestial body known as @!(ref
 
 The Springs are warmed by the molten core of Cauldronia,
 which is sometimes referred to as the @!(ref
-"cauldron" "Cauldron")!@.
-`)
+"cauldron" "Cauldron")!@.`)
 (ww-add-page "cantor" `@!(wikipage "cantor")!@`)
 
 # linked pages
