@@ -1,4 +1,5 @@
 #+TITLE: Diagraf
+@!(tocgen "diagraf")!@
 * Intro
 Diagraf is short for DIrected Acyclic Graph (with the "f"
 added in for artistic flair). Diagraf is a lua module

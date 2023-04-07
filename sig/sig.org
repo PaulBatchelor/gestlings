@@ -1,4 +1,5 @@
 #+TITLE: Sig
+@!(tocgen "sig")!@
 * Overview/Top
 This module contains helper functions that assist in signal management
 in sndkit.
