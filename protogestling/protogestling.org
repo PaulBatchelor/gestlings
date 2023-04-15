@@ -1,6 +1,6 @@
 #+TITLE: Protogestling
-The first Gestling. Or, the thing the lead up to the first
-gestling.
+The first Gestling. Or, the thing that will lead up to the
+first gestling.
 
 #+NAME: protogestling.c
 #+BEGIN_SRC c :tangle protogestling/protogestling.c

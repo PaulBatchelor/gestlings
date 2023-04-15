@@ -78,6 +78,7 @@ The Springs are warmed by the molten core of Cauldronia,
 which is sometimes referred to as the @!(ref
 "cauldron" "Cauldron")!@.`)
 (ww-add-page "cantor" `@!(wikipage "cantor")!@`)
+(ww-add-page "protogestling" `@!(wikipage "protogestling")!@`)
 
 # linked pages
 
