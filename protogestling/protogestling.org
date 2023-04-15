@@ -101,8 +101,47 @@ static int face(lua_State *L)
     return 0;
 }
 
+btprnt_buf * lil_bpfont_buf(struct lil_bpfont *fnt);
+int lil_bpfont_width(struct lil_bpfont *fnt);
+int lil_bpfont_height(struct lil_bpfont *fnt);
+
+static int textline(lua_State *L)
+{
+    btprnt_region *reg;
+    struct lil_bpfont *fnt;
+    int x, y;
+    int clr, scale;
+    const char *str;
+    btprnt_buf *buf;
+    int fw, fh;
+    int sz;
+    int n;
+
+
+    reg = lua_touserdata(L, 1);
+    fnt = lua_touserdata(L, 2);
+    x = lua_tointeger(L, 3);
+    y = lua_tointeger(L, 4);
+    str = lua_tostring(L, 5);
+    scale = lua_tointeger(L, 6);
+    clr = lua_tointeger(L, 7);
+
+    buf = lil_bpfont_buf(fnt);
+    fw = lil_bpfont_width(fnt);
+    fh = lil_bpfont_height(fnt);
+
+    sz = strlen(str);
+    for (n = 0; n < sz; n++) {
+        btprnt_draw_char(reg, buf, x, y, fw, fh, str[n], scale, clr);
+        x += fw * scale;
+    }
+
+    return 0;
+}
+
 static const luaL_Reg protogestling_lib[] = {
     {"face", face},
+    {"textline", textline},
     {NULL, NULL}
 };
 

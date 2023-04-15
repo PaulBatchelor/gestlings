@@ -26,7 +26,7 @@
   (print (string "libs = " (string/join libs " ")))
   (print "rule link")
   (print "    command = gcc $cflags $in -o $out $ldflags $libs")
-  (print "    description = creating $in"))
+  (print "    description = creating $out"))
 
 (defn build-cantor [obj]
   (each o obj
