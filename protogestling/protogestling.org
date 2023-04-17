@@ -4,6 +4,7 @@ first gestling.
 
 #+NAME: protogestling.c
 #+BEGIN_SRC c :tangle protogestling/protogestling.c
+#include <string.h>
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
@@ -100,6 +101,8 @@ static int face(lua_State *L)
       eye_right_w, eye_right_h);
     return 0;
 }
+
+struct lil_bpfont;
 
 btprnt_buf * lil_bpfont_buf(struct lil_bpfont *fnt);
 int lil_bpfont_width(struct lil_bpfont *fnt);

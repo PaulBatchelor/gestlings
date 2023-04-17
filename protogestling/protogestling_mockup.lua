@@ -1,9 +1,9 @@
 lil([[
 bpnew bp 200 320
 # face
-bpset [grab bp] 0 0 0 200 240
+bpset [grab bp] 0 0 0 200 260
 # text
-bpset [grab bp] 1 0 240 200 80
+bpset [grab bp] 1 0 260 200 60
 # main
 bpset [grab bp] 2 0 0 200 320
 
@@ -23,13 +23,14 @@ msgbox_reg = pop()
 lil("grab font")
 font = pop()
 lines = {
-    "Hello!",
+    "Why Hello there!",
     "I am a Proto-Gestling.",
     "Pleased to meet you.",
+    "Welcome to Cauldronia!",
 }
 
 for pos, ln in pairs(lines) do
-    protogestling.textline(msgbox_reg, font, 4, 4 + 17*(pos -1), ln, 1, 1)
+    protogestling.textline(msgbox_reg, font, 10, 10 + 10*(pos -1), ln, 1, 1)
 end
 -- lil("bptxtbox [bpget [grab bp] 1]  [grab font] 4 4 " ..
 --     "\"" .. text .. "\"")
