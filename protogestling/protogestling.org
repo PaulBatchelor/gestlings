@@ -119,8 +119,9 @@ static int textline(lua_State *L)
     int fw, fh;
     int sz;
     int n;
+    int nargs;
 
-
+    nargs = lua_gettop(L);
     reg = lua_touserdata(L, 1);
     fnt = lua_touserdata(L, 2);
     x = lua_tointeger(L, 3);
@@ -134,6 +135,15 @@ static int textline(lua_State *L)
     fh = lil_bpfont_height(fnt);
 
     sz = strlen(str);
+    if (nargs >= 8) {
+        int tmp;
+        tmp = lua_tointeger(L, 8);
+
+        if (tmp < sz) {
+            sz = tmp;
+        }
+    }
+
     for (n = 0; n < sz; n++) {
         btprnt_draw_char(reg, buf, x, y, fw, fh, str[n], scale, clr);
         x += fw * scale;
