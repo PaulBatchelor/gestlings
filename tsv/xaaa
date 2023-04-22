@@ -245,7 +245,7 @@
 -	142b9ad6-c829-4ada-be8a-cb208ba06222	#e6188e43-00d7-4116-8e9d-5065104173e7
 2022-12-21 11:07:04	2edd1277-12bd-4e62-a2a3-64088548e780	>create prop clone
 -	2edd1277-12bd-4e62-a2a3-64088548e780	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-12-21 11:07:05	2edd1277-12bd-4e62-a2a3-64088548e780	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-04-21 23:54:06	2edd1277-12bd-4e62-a2a3-64088548e780	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-12-21 11:09:29	69bbab2a-e9e2-438e-90e9-1972c0c980ae	>this would be used with !morpheme. the proportional duration format lends itself well to the prop syntax. I wouldn't include slices or pobabilities, just basic metric modulation. Going to intentionally keep it limited to gates and +/- symbols, just to keep things simple.
 -	69bbab2a-e9e2-438e-90e9-1972c0c980ae	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	69bbab2a-e9e2-438e-90e9-1972c0c980ae	#2edd1277-12bd-4e62-a2a3-64088548e780
@@ -526,3 +526,42 @@
 2023-04-15 20:22:35	79649bab-5bbf-4782-b0db-6fb06fffd744	!protogestling
 2023-04-15 20:23:19	79649bab-5bbf-4782-b0db-6fb06fffd744	$blurb:>The first Gestling. Or, the thing that will lead up to the first Gestling.
 -	79649bab-5bbf-4782-b0db-6fb06fffd744	#ee57514a-a83b-45e5-8058-0ce712106dd8
+2023-04-21 23:31:31	b2cafd9e-e98d-4160-8af9-9e35ce0ea5a9	>add more messages to message box proof-of-concept
+-	b2cafd9e-e98d-4160-8af9-9e35ce0ea5a9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-04-21 23:31:31	b2cafd9e-e98d-4160-8af9-9e35ce0ea5a9	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-04-21 23:33:24	bee76c40-e260-4379-9191-468a6507511c	>use goblin mechanism and vocab to make phrase
+-	bee76c40-e260-4379-9191-468a6507511c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-04-21 23:33:24	bee76c40-e260-4379-9191-468a6507511c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-04-21 23:33:41	64da8143-6658-45b3-a924-e4aec47a2f28	>face animation: coordinate with with sound
+-	64da8143-6658-45b3-a924-e4aec47a2f28	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-04-21 23:33:41	64da8143-6658-45b3-a924-e4aec47a2f28	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-04-21 23:33:50	6e10f91a-0304-4e1e-95d4-39431a3cc366	>protogestling creation
+-	6e10f91a-0304-4e1e-95d4-39431a3cc366	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-04-21 23:33:50	6e10f91a-0304-4e1e-95d4-39431a3cc366	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	bee76c40-e260-4379-9191-468a6507511c	#6e10f91a-0304-4e1e-95d4-39431a3cc366
+-	64da8143-6658-45b3-a924-e4aec47a2f28	#6e10f91a-0304-4e1e-95d4-39431a3cc366
+-	b2cafd9e-e98d-4160-8af9-9e35ce0ea5a9	#6e10f91a-0304-4e1e-95d4-39431a3cc366
+2023-04-21 23:47:05	fbc8987a-7197-4d93-91ad-871de301eea9	>table of contents generator has been made. code blocks would be nice, not urgent.
+-	fbc8987a-7197-4d93-91ad-871de301eea9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	fbc8987a-7197-4d93-91ad-871de301eea9	#0223af47-63c6-4161-a6c2-5ae7015b3868
+2023-04-21 23:53:59	b364e99e-1a21-4856-bec3-b5e3af9ab276	>I think !mseq does this well enough to be considered done
+-	b364e99e-1a21-4856-bec3-b5e3af9ab276	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b364e99e-1a21-4856-bec3-b5e3af9ab276	#2edd1277-12bd-4e62-a2a3-64088548e780
+2023-04-21 23:57:17	e55ae00e-1089-4ae6-8661-9836b7178edb	>with the introduction of the gesture !morpheme, I don't even think this card makes much sense anymore. My usage of gestures got several times more complex.
+-	e55ae00e-1089-4ae6-8661-9836b7178edb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e55ae00e-1089-4ae6-8661-9836b7178edb	#685b4fc4-4a23-411c-a392-51a494be8054
+2023-04-22 00:00:19	491971da-6e49-4ede-9459-9de6d88ea33d	>brainstorm: how to notate morphemes?
+-	491971da-6e49-4ede-9459-9de6d88ea33d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-04-22 00:00:19	491971da-6e49-4ede-9459-9de6d88ea33d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-04-22 00:01:46	f375b35d-6abc-45d0-b9c7-ead96833bf53	>generate visualizations using node trees
+-	f375b35d-6abc-45d0-b9c7-ead96833bf53	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-04-22 00:01:46	f375b35d-6abc-45d0-b9c7-ead96833bf53	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-04-22 00:02:12	fc3f0f54-4764-4ee4-adfe-fa1290077e92	>diagraf: how to include signals that do not produce any output?
+-	fc3f0f54-4764-4ee4-adfe-fa1290077e92	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-04-22 00:02:12	fc3f0f54-4764-4ee4-adfe-fa1290077e92	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-04-22 00:04:01	e103a551-4bca-46b9-800c-152eb45ec0c3	>this is needed for things like routing signals to channels for graphics stuff. I was thinking a "black hole" concept could maybe work?
+-	e103a551-4bca-46b9-800c-152eb45ec0c3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e103a551-4bca-46b9-800c-152eb45ec0c3	#fc3f0f54-4764-4ee4-adfe-fa1290077e92
+2023-04-22 00:07:36	63a9ea14-0830-4733-928d-817df5931584	>If I am to use diagraf to hook up signals to facial movements, it would be a good thing to figure out. I can sort of work around it, but I'd rather not.
+-	63a9ea14-0830-4733-928d-817df5931584	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	63a9ea14-0830-4733-928d-817df5931584	#fc3f0f54-4764-4ee4-adfe-fa1290077e92
