@@ -484,6 +484,33 @@ bracket_r = {
     }
 }
 
+divider = {
+    id = 0x13,
+    width = 4,
+    name = "divider",
+    shortcut = "",
+    bits = {
+        "------",
+        "------",
+        "------",
+        "------",
+
+        "-#----",
+        "-#----",
+        "-#----",
+        "-#----",
+        "-#----",
+        "-#----",
+        "-#----",
+        "-#----",
+        "-#----",
+
+        "-#----",
+        "------",
+        "------",
+    }
+}
+
 font = {}
 
 font[zero.id] = zero
@@ -504,5 +531,6 @@ font[fourteen.id] = fourteen
 font[fifteen.id] = fifteen
 font[bracket_l.id] = bracket_l
 font[bracket_r.id] = bracket_r
+font[divider.id] = divider
 
 return font

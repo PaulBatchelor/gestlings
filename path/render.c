@@ -4,16 +4,17 @@
 #include "btprnt/btprnt.h"
 #define MNOLTH_UF2_PRIV
 #include "mnolth/uf2.h"
-/*
 #define WIDTH 320
 #define HEIGHT 200
 #define MARGIN 20
-*/
 
+/*
 #define WIDTH 160
 #define HEIGHT 100
 #define MARGIN 10
+*/
 
+#define LINEHEIGHT 12
 int main(int argc, char *argv[])
 {
     btprnt *bp;
@@ -40,7 +41,7 @@ int main(int argc, char *argv[])
         if (buf[n] == 0x00) {
             btprnt_uf2_draw_bytes(&r,
                                   fnt,
-                                  0, linepos*12,
+                                  0, linepos*LINEHEIGHT,
                                   &buf[start],
                                   n - start);
             start = n + 1;
