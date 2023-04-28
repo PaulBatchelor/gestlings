@@ -26,13 +26,14 @@ fifteen="fifteen"
 brackl="bracket_left"
 brackr="bracket_right"
 div = "divider"
+ratemulstart = "ratemulstart"
+ratemulend = "ratemulend"
 
 lines = {}
 table.insert(lines, {
 brackl,
-zero, one, div,
-two, three, div,
-four, five, div,
+zero, one,
+ratemulstart, two, three, four, five, ratemulend, div,
 six, seven, div,
 eight, nine, div,
 ten, eleven, div,
@@ -80,6 +81,8 @@ Thirteen = lpeg.P(string.format("%02x", symtab["thirteen"]))
 Fourteen = lpeg.P(string.format("%02x", symtab["fourteen"]))
 Fifteen = lpeg.P(string.format("%02x", symtab["fifteen"]))
 Zero = lpeg.P(string.format("%02x", symtab["zero"]))
+RateMulStart = lpeg.P(string.format("%02x", symtab["ratemulstart"]))
+RateMulEnd = lpeg.P(string.format("%02x", symtab["ratemulend"]))
 Null = lpeg.P("00")
 Divider = lpeg.P(string.format("%02x", symtab["divider"]))
 Symbol = LBrack + RBrack + One + Two + Three + Four
@@ -104,8 +107,10 @@ Number =
 Nibble = Space * Number * Space
 Div = (Space * Divider * Space)^0
 Hex = Div * lpeg.Ct(Nibble*Nibble) * Div
+RateMul = RateMulStart * Hex * Div * Hex * RateMulEnd
+Value = lpeg.Ct(lpeg.Cg(Hex, "value") * lpeg.Cg(RateMul, "ratemul")^0)
 
-Path = LBrack * (Hex)^0 * RBrack * Space
+Path = LBrack * (Value)^0 * RBrack * Space
 --Line = lpeg.Ct((Space * lpeg.Cg(Symbol, "symbol") * Space))^1 * Null
 Line = Path * Null * Space
 Line = lpeg.Ct(Line)
@@ -113,4 +118,4 @@ Lines = lpeg.Ct(Line^0)
 
 t = lpeg.match(Lines, hexstr)
 
--- pprint.pprint(t[2])
+-- pprint.pprint(t[1])
