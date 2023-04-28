@@ -1,5 +1,3 @@
-uf2 = require("uf2")
-
 zero = {
     id = 0x01,
     width = 5,
@@ -507,4 +505,4 @@ font[fifteen.id] = fifteen
 font[bracket_l.id] = bracket_l
 font[bracket_r.id] = bracket_r
 
-uf2.generate(font, "test.uf2.txt")
+return font
