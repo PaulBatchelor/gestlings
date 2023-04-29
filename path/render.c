@@ -5,8 +5,9 @@
 #define MNOLTH_UF2_PRIV
 #include "mnolth/uf2.h"
 #define WIDTH 320
-#define HEIGHT 200
-#define MARGIN 20
+/* #define HEIGHT 200 */
+#define HEIGHT 44
+#define MARGIN 10
 
 /*
 #define WIDTH 160
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
     btprnt *bp;
     btprnt_region r;
     struct uf2_font *fnt;
+    struct uf2_font *chicago;
     unsigned char buf[128];
     int i, n;
     int nbytes;
@@ -28,7 +30,8 @@ int main(int argc, char *argv[])
 
     bp = btprnt_new(WIDTH, HEIGHT);
     fnt = malloc(uf2_size());
-    /* uf2_load(fnt, "chicago12.uf2"); */
+    chicago = malloc(uf2_size());
+    uf2_load(chicago, "chicago12.uf2");
     uf2_load(fnt, "test.uf2");
     btprnt_region_init(btprnt_canvas_get(bp),
                        &r, MARGIN, MARGIN,
@@ -36,7 +39,9 @@ int main(int argc, char *argv[])
 
     nbytes = fread(buf, 1, 256, stdin);
     start = 0;
-    linepos = 0;
+    linepos = 1;
+    btprnt_uf2_draw_textline(&r, chicago, 0, 0,
+            "Notating a Linear Gesture Path:");
     for (n = 0; n < nbytes; n++) {
         if (buf[n] == 0x00) {
             btprnt_uf2_draw_bytes(&r,
@@ -50,5 +55,7 @@ int main(int argc, char *argv[])
     }
     btprnt_pbm(bp, NULL);
     btprnt_del(&bp);
+    free(fnt);
+    free(chicago);
     return 0;
 }

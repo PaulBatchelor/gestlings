@@ -28,27 +28,44 @@ brackr="bracket_right"
 div = "divider"
 ratemulstart = "ratemulstart"
 ratemulend = "ratemulend"
+linear = "linear"
+step = "step"
+gliss_big = "gliss_big"
+gliss_medium = "gliss_medium"
+gliss_small= "gliss_small"
 
 lines = {}
 table.insert(lines, {
 brackl,
 zero, one,
-ratemulstart, two, three, four, five, ratemulend, div,
-six, seven, div,
-eight, nine, div,
-ten, eleven, div,
-twelve, thirteen, div,
+ratemulstart, two, three, four, five, ratemulend, linear,
+div,
+
+six, seven,
+ratemulstart, eight, seven, zero, three, ratemulend, step,
+div,
+eight, nine,
+ratemulstart, eight, eight, nine, nine, ratemulend, gliss_big,
+div,
+
+ten, eleven,
+ratemulstart, fifteen, eleven, ten, eleven, ratemulend, gliss_medium,
+div,
+twelve, thirteen,
+ratemulstart, one, two, twelve, thirteen, ratemulend, gliss_small,
+div,
 fourteen, fifteen,
+-- ratemulstart, fourteen, fourteen, fourteen, fourteen, ratemulend,
 brackr
 })
 
-table.insert(lines, {
-brackl,
-zero, one, two, three, four,
-five, six, seven, eight, nine,
-ten, eleven, twelve, thirteen, fifteen, fifteen,
-brackr
-})
+-- table.insert(lines, {
+-- brackl,
+-- zero, one, two, three, four,
+-- five, six, seven, eight, nine,
+-- ten, eleven, twelve, thirteen, fifteen, fifteen,
+-- brackr
+-- })
 
 hexstr = ""
 for _,ln in pairs(lines) do
@@ -85,6 +102,12 @@ RateMulStart = lpeg.P(string.format("%02x", symtab["ratemulstart"]))
 RateMulEnd = lpeg.P(string.format("%02x", symtab["ratemulend"]))
 Null = lpeg.P("00")
 Divider = lpeg.P(string.format("%02x", symtab["divider"]))
+Linear = lpeg.P(string.format("%02x", symtab["linear"]))
+Step = lpeg.P(string.format("%02x", symtab["step"]))
+GlissBig = lpeg.P(string.format("%02x", symtab["gliss_big"]))
+GlissMedium = lpeg.P(string.format("%02x", symtab["gliss_medium"]))
+GlissSmall = lpeg.P(string.format("%02x", symtab["gliss_small"]))
+
 Symbol = LBrack + RBrack + One + Two + Three + Four
 Number =
     Zero / "0" +
@@ -103,12 +126,21 @@ Number =
     Thirteen / "d" +
     Fourteen / "e" +
     Fifteen / "f"
-
+Behavior = Space * (
+    Linear / "linear" +
+    Step / "step" +
+    GlissBig / "gliss_big" +
+    GlissMedium / "gliss_medium" +
+    GlissSmall / "gliss_small"
+    ) * Space
 Nibble = Space * Number * Space
 Div = (Space * Divider * Space)^0
 Hex = Div * lpeg.Ct(Nibble*Nibble) * Div
 RateMul = RateMulStart * Hex * Div * Hex * RateMulEnd
-Value = lpeg.Ct(lpeg.Cg(Hex, "value") * lpeg.Cg(RateMul, "ratemul")^0)
+Value = lpeg.Ct(lpeg.Cg(Hex, "value") *
+                lpeg.Cg(RateMul, "ratemul")^0 *
+                lpeg.Cg(Behavior, "behavior")^0
+                )
 
 Path = LBrack * (Value)^0 * RBrack * Space
 --Line = lpeg.Ct((Space * lpeg.Cg(Symbol, "symbol") * Space))^1 * Null
