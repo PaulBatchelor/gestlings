@@ -6,7 +6,7 @@
 #include "mnolth/uf2.h"
 #define WIDTH 320
 /* #define HEIGHT 200 */
-#define HEIGHT 44
+#define HEIGHT 54
 #define MARGIN 10
 
 /*
