@@ -26,7 +26,20 @@ return Sigrunes
 #+END_SRC
 * Utilities
 ** in-place node
+instead of using a sigrune node in a graph, evaluate it
+by itself in-place
 #+NAME: util
+#+BEGIN_SRC lua
+<<spoofed_node_interface>>
+function S.node(n, p)
+    p = p or {}
+    return function (p)
+        n(dummy, p)
+    end
+end
+#+END_SRC
+
+#+NAME: spoofed_node_interface
 #+BEGIN_SRC lua
 -- spoof the "node" interface from diagraf
 dummy = {}
@@ -56,16 +69,6 @@ end
 
 function dummy:label(str)
 
-end
-
-
--- instead of using a sigrune node in a graph, evaluate it
--- by itself in-place
-function S.node(n, p)
-    p = p or {}
-    return function (p)
-        n(dummy, p)
-    end
 end
 #+END_SRC
 ** parameter node

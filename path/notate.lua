@@ -64,13 +64,15 @@ brackr
 table.insert(lines, {
 brackl,
 three, twelve,
-ratemulstart, zero, one, zero, one, ratemulend, gliss_medium,
+ratemulstart, zero, two, zero, one, ratemulend, gliss_medium,
 div,
 three, fourteen,
 div,
 four, zero,
 div,
 four, three,
+div,
+four, seven,
 brackr
 })
 
@@ -206,9 +208,9 @@ for p=1,#b64path,40 do
 end
 fp:close()
 
-fp = io.open("path.bin.txt", "rb")
-path_packed_b64 = fp:read("*all")
-fp:close()
-path_packed = base64.decode(path_packed_b64)
-gpath = msgpack.unpack(path_packed)
+-- fp = io.open("path.bin.txt", "rb")
+-- path_packed_b64 = fp:read("*all")
+-- fp:close()
+-- path_packed = base64.decode(path_packed_b64)
+-- gpath = msgpack.unpack(path_packed)
 -- pprint.pprint(gpath)
