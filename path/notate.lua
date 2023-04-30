@@ -1,5 +1,7 @@
 symbols = require("symbols")
 pprint = dofile("../util/pprint.lua")
+msgpack = dofile("../util/MessagePack.lua")
+base64 = dofile("../util/base64.lua")
 
 symtab = {}
 
@@ -59,13 +61,18 @@ fourteen, fifteen,
 brackr
 })
 
--- table.insert(lines, {
--- brackl,
--- zero, one, two, three, four,
--- five, six, seven, eight, nine,
--- ten, eleven, twelve, thirteen, fifteen, fifteen,
--- brackr
--- })
+table.insert(lines, {
+brackl,
+three, twelve,
+ratemulstart, zero, one, zero, one, ratemulend, gliss_medium,
+div,
+three, fourteen,
+div,
+four, zero,
+div,
+four, three,
+brackr
+})
 
 hexstr = ""
 for _,ln in pairs(lines) do
@@ -129,7 +136,7 @@ Number =
 Behavior = Space * (
     Linear / "linear" +
     Step / "step" +
-    GlissBig / "gliss_big" +
+    GlissBig / "gliss_large" +
     GlissMedium / "gliss_medium" +
     GlissSmall / "gliss_small"
     ) * Space
@@ -138,7 +145,7 @@ Div = (Space * Divider * Space)^0
 Hex = Div * lpeg.Ct(Nibble*Nibble) * Div
 RateMul = RateMulStart * Hex * Div * Hex * RateMulEnd
 Value = lpeg.Ct(lpeg.Cg(Hex, "value") *
-                lpeg.Cg(RateMul, "ratemul")^0 *
+                lpeg.Cg(lpeg.Ct(RateMul), "ratemul")^0 *
                 lpeg.Cg(Behavior, "behavior")^0
                 )
 
@@ -150,4 +157,58 @@ Lines = lpeg.Ct(Line^0)
 
 t = lpeg.match(Lines, hexstr)
 
--- pprint.pprint(t[1])
+-- pprint.pprint(t[2])
+
+local behaviors = {
+    linear = 0,
+    step = 1,
+    gliss_medium = 2,
+    gliss_large = 3,
+    gliss_small = 4,
+}
+local ratemul = {1, 1}
+local behavior = behaviors["linear"]
+local gpath = {}
+
+for _,v in pairs(t[2]) do
+    local val = tonumber("0x" .. v.value[1] .. v.value[2])
+    if v.behavior ~= nil then
+        behavior = behaviors[v.behavior]
+    end
+
+    if v.ratemul ~= nil then
+        local num, den
+        num = v.ratemul[1]
+        num = tonumber("0x" .. num[1] .. num[2])
+        den = v.ratemul[2]
+        den = tonumber("0x" .. den[1] .. den[2])
+        ratemul = {num, den}
+    end
+    local vertex = {
+        val = val,
+        rat = ratemul,
+        bhv = behavior
+    }
+    table.insert(gpath, vertex)
+    -- pprint(ratemul)
+    -- print(val, ratemul[1], ratemul[2], behavior)
+end
+
+-- pprint(gpath)
+path_packed = msgpack.pack(gpath)
+
+b64path = base64.encode(path_packed)
+-- print(b64path)
+
+fp = io.open("path.bin.txt", "wb")
+for p=1,#b64path,40 do
+    fp:write(string.sub(b64path, p, p + 39) .. "\n")
+end
+fp:close()
+
+fp = io.open("path.bin.txt", "rb")
+path_packed_b64 = fp:read("*all")
+fp:close()
+path_packed = base64.decode(path_packed_b64)
+gpath = msgpack.unpack(path_packed)
+-- pprint.pprint(gpath)
