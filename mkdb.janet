@@ -79,6 +79,7 @@ which is sometimes referred to as the @!(ref
 "cauldron" "Cauldron")!@.`)
 (ww-add-page "cantor" `@!(wikipage "cantor")!@`)
 (ww-add-page "protogestling" `@!(wikipage "protogestling")!@`)
+(ww-add-page "asset" `@!(wikipage "asset")!@`)
 
 # linked pages
 

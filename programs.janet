@@ -181,4 +181,11 @@
  :tangled @["protogestling/protogestling.c"]
  :cprogram true
  }
+
+ "asset"
+ @{
+ :id 26
+ :org "asset/asset.org"
+ :tangled @["asset/asset.lua"]
+ }
 })
