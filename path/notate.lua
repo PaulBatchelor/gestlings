@@ -5,12 +5,16 @@ base64 = dofile("../util/base64.lua")
 asset = dofile("../asset/asset.lua")
 asset = asset:new({msgpack=msgpack, base64=base64})
 
-symtab = {}
+function generate_symtab(symbols)
+    local symtab = {}
 
-for id, sym in pairs(symbols) do
-    symtab[sym.name] = id
+    for id, sym in pairs(symbols) do
+        symtab[sym.name] = id
+    end
+    return symtab
 end
 
+symtab = generate_symtab(symbols)
 zero = "zero"
 one = "one"
 two = "two"
@@ -78,16 +82,19 @@ four, seven,
 brackr
 })
 
-hexstr = ""
-for _,ln in pairs(lines) do
-    local s = {}
-    for _,c in pairs(ln) do
-        table.insert(s, string.format("%02x", symtab[c]))
+function generate_hexstring(symtab, lines)
+    local hexstr = ""
+    for _,ln in pairs(lines) do
+        local s = {}
+        for _,c in pairs(ln) do
+            table.insert(s, string.format("%02x", symtab[c]))
+        end
+        table.insert(s, "00")
+        hexstr = hexstr .. table.concat(s, " ") .. "\n"
     end
-    table.insert(s, "00")
-    hexstr = hexstr .. table.concat(s, " ") .. "\n"
+    return hexstr
 end
-
+hexstr = generate_hexstring(symtab, lines)
 print(hexstr)
 
 function generate_path_grammar(symtab)
