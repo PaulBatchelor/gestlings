@@ -171,42 +171,46 @@ Path = generate_path_grammar(symtab)
 Line = Path * Null * Space
 Line = lpeg.Ct(Line)
 Lines = lpeg.Ct(Line^0)
-
-t = lpeg.match(Lines, hexstr)
-
--- pprint.pprint(t[2])
-
-local behaviors = {
+behaviors = {
     linear = 0,
     step = 1,
     gliss_medium = 2,
     gliss_large = 3,
     gliss_small = 4,
 }
-local ratemul = {1, 1}
-local behavior = behaviors["linear"]
-local gpath = {}
 
-for _,v in pairs(t[2]) do
-    local val = tonumber("0x" .. v.value[1] .. v.value[2])
-    if v.behavior ~= nil then
-        behavior = behaviors[v.behavior]
-    end
+function parse(Lines, hexstr)
+    local t = lpeg.match(Lines, hexstr)
 
-    if v.ratemul ~= nil then
-        local num, den
-        num = v.ratemul[1]
-        num = tonumber("0x" .. num[1] .. num[2])
-        den = v.ratemul[2]
-        den = tonumber("0x" .. den[1] .. den[2])
-        ratemul = {num, den}
+    -- pprint.pprint(t[2])
+
+    local ratemul = {1, 1}
+    local behavior = behaviors["linear"]
+    local gpath = {}
+
+    for _,v in pairs(t[2]) do
+        local val = tonumber("0x" .. v.value[1] .. v.value[2])
+        if v.behavior ~= nil then
+            behavior = behaviors[v.behavior]
+        end
+
+        if v.ratemul ~= nil then
+            local num, den
+            num = v.ratemul[1]
+            num = tonumber("0x" .. num[1] .. num[2])
+            den = v.ratemul[2]
+            den = tonumber("0x" .. den[1] .. den[2])
+            ratemul = {num, den}
+        end
+        local vertex = {
+            val,
+            ratemul,
+            behavior
+        }
+        table.insert(gpath, vertex)
     end
-    local vertex = {
-        val,
-        ratemul,
-        behavior
-    }
-    table.insert(gpath, vertex)
+    return gpath
 end
 
+gpath = parse(Lines, hexstr)
 asset:save(gpath, "path.bin.txt")
