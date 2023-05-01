@@ -19,7 +19,7 @@ path_data = a:load("path.bin.txt")
 
 gpath = {}
 for _,v in pairs(path_data) do
-    table.insert(gpath, path.vertex({v.val, v.rat, v.bhv}))
+    table.insert(gpath, path.vertex(v))
 end
 
 words = {}

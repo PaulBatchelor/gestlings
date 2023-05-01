@@ -188,13 +188,11 @@ for _,v in pairs(t[2]) do
         ratemul = {num, den}
     end
     local vertex = {
-        val = val,
-        rat = ratemul,
-        bhv = behavior
+        val,
+        ratemul,
+        behavior
     }
     table.insert(gpath, vertex)
-    -- pprint(ratemul)
-    -- print(val, ratemul[1], ratemul[2], behavior)
 end
 local a = asset:new({msgpack=msgpack, base64=base64})
 a:save(gpath, "path.bin.txt")
