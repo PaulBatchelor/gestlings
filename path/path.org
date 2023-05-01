@@ -79,3 +79,23 @@ function Path.path(tal, words, path)
 end
 
 #+END_SRC
+* Saving/Loading Paths as Assets
+Requires an instantiated @!(ref "asset")!@ component.
+
+#+NAME: path
+#+BEGIN_SRC lua
+function Path.save(asset, gpath, filename)
+    asset:save(gpath, filename)
+end
+
+function Path.load(asset, filename)
+    local path_data = asset:load("path.bin.txt")
+
+    local gpath = {}
+    for _,v in pairs(path_data) do
+        table.insert(gpath, Path.vertex(v))
+    end
+
+    return gpath
+end
+#+END_SRC

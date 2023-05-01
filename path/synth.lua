@@ -7,21 +7,9 @@ gest = dofile("../gest/gest.lua")
 sigrunes = dofile("../sigrunes/sigrunes.lua")
 core = dofile("../util/core.lua")
 asset = dofile("../asset/asset.lua")
+asset = asset:new()
 
--- fp = io.open("path.bin.txt", "rb")
--- path_packed_b64 = fp:read("*all")
--- fp:close()
--- path_packed = base64.decode(path_packed_b64)
--- path_data = msgpack.unpack(path_packed)
-
-a = asset:new()
-path_data = a:load("path.bin.txt")
-
-gpath = {}
-for _,v in pairs(path_data) do
-    table.insert(gpath, path.vertex(v))
-end
-
+gpath = path.load(asset, "path.bin.txt")
 words = {}
 
 tal.start(words)
@@ -51,4 +39,3 @@ lil("mul zz 0.5")
 lil("wavout zz synth.wav")
 lil("computes 10")
 G:done()
-

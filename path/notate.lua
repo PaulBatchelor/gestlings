@@ -3,6 +3,7 @@ pprint = dofile("../util/pprint.lua")
 msgpack = dofile("../util/MessagePack.lua")
 base64 = dofile("../util/base64.lua")
 asset = dofile("../asset/asset.lua")
+asset = asset:new({msgpack=msgpack, base64=base64})
 
 symtab = {}
 
@@ -194,5 +195,4 @@ for _,v in pairs(t[2]) do
     }
     table.insert(gpath, vertex)
 end
-local a = asset:new({msgpack=msgpack, base64=base64})
-a:save(gpath, "path.bin.txt")
+asset:save(gpath, "path.bin.txt")
