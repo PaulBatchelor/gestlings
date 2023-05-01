@@ -195,4 +195,5 @@ for _,v in pairs(t[2]) do
     }
     table.insert(gpath, vertex)
 end
+
 asset:save(gpath, "path.bin.txt")

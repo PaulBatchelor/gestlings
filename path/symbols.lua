@@ -702,31 +702,35 @@ gliss_small = {
 
 font = {}
 
-font[zero.id] = zero
-font[one.id] = one
-font[two.id] = two
-font[three.id] = three
-font[four.id] = four
-font[five.id] = five
-font[six.id] = six
-font[seven.id] = seven
-font[eight.id] = eight
-font[nine.id] = nine
-font[ten.id] = ten
-font[eleven.id] = eleven
-font[twelve.id] = twelve
-font[thirteen.id] = thirteen
-font[fourteen.id] = fourteen
-font[fifteen.id] = fifteen
-font[bracket_l.id] = bracket_l
-font[bracket_r.id] = bracket_r
-font[divider.id] = divider
-font[ratemulstart.id] = ratemulstart
-font[ratemulend.id] = ratemulend
-font[linear.id] = linear
-font[step.id] = step
-font[gliss_big.id] = gliss_big
-font[gliss_medium.id] = gliss_medium
-font[gliss_small.id] = gliss_small
+function add_to_font(sym)
+    font[sym.id] = sym
+end
+
+add_to_font(zero)
+add_to_font(one)
+add_to_font(two)
+add_to_font(three)
+add_to_font(four)
+add_to_font(five)
+add_to_font(six)
+add_to_font(seven)
+add_to_font(eight)
+add_to_font(nine)
+add_to_font(ten)
+add_to_font(eleven)
+add_to_font(twelve)
+add_to_font(thirteen)
+add_to_font(fourteen)
+add_to_font(fifteen)
+add_to_font(bracket_l)
+add_to_font(bracket_r)
+add_to_font(divider)
+add_to_font(ratemulstart)
+add_to_font(ratemulend)
+add_to_font(linear)
+add_to_font(step)
+add_to_font(gliss_big)
+add_to_font(gliss_medium)
+add_to_font(gliss_small)
 
 return font
