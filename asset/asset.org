@@ -39,7 +39,7 @@ function Asset:save(data, filename)
     local data_packed = self.msgpack.pack(data)
     local data_b64 = self.base64.encode(data_packed)
 
-    fp = io.open(filename, "wb")
+    local fp = io.open(filename, "wb")
     for p=1,#data_b64, 40 do
         fp:write(string.sub(data_b64, p, p + 39) .. "\n")
     end

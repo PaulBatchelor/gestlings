@@ -2,6 +2,7 @@ symbols = require("symbols")
 pprint = dofile("../util/pprint.lua")
 msgpack = dofile("../util/MessagePack.lua")
 base64 = dofile("../util/base64.lua")
+asset = dofile("../asset/asset.lua")
 
 symtab = {}
 
@@ -195,22 +196,5 @@ for _,v in pairs(t[2]) do
     -- pprint(ratemul)
     -- print(val, ratemul[1], ratemul[2], behavior)
 end
-
--- pprint(gpath)
-path_packed = msgpack.pack(gpath)
-
-b64path = base64.encode(path_packed)
--- print(b64path)
-
-fp = io.open("path.bin.txt", "wb")
-for p=1,#b64path,40 do
-    fp:write(string.sub(b64path, p, p + 39) .. "\n")
-end
-fp:close()
-
--- fp = io.open("path.bin.txt", "rb")
--- path_packed_b64 = fp:read("*all")
--- fp:close()
--- path_packed = base64.decode(path_packed_b64)
--- gpath = msgpack.unpack(path_packed)
--- pprint.pprint(gpath)
+local a = asset:new({msgpack=msgpack, base64=base64})
+a:save(gpath, "path.bin.txt")
