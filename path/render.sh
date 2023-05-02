@@ -11,4 +11,5 @@ xxd -p -r notation.hex | ./render | convert -scale 200% - out.png
 # parse notation hex and produce path data (path.b64)
 ../cantor parse.lua
 
-# ../cantor synth.lua
+# use path data to render sound
+../cantor synth.lua
