@@ -9,7 +9,7 @@ core = dofile("../util/core.lua")
 asset = dofile("../asset/asset.lua")
 asset = asset:new()
 
-gpath = path.load(asset, "path.bin.txt")
+gpath = path.load(asset, "path.b64")
 words = {}
 
 tal.start(words)
