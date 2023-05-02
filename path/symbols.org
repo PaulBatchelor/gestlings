@@ -1,3 +1,30 @@
+#+TITLE: Path Symbols
+@!(tocgen "path_symbols")!@
+* Overview
+Data for the Path Symbolset, represented as Lua code.
+
+This is primarily used to produce a bitmap font (uxn ufx font
+format)
+and a symbol table.
+* Tangled File
+#+NAME: symbols.lua
+#+BEGIN_SRC lua :tangle path/symbols.lua
+<<symbols>>
+
+font = {}
+
+function add_to_font(sym)
+    font[sym.id] = sym
+end
+
+<<add_to_font>>
+
+return font
+#+END_SRC
+* Symbols
+** Zero
+#+NAME: symbols
+#+BEGIN_SRC lua
 zero = {
     id = 0x01,
     width = 5,
@@ -24,7 +51,15 @@ zero = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(zero)
+#+END_SRC
+** One
+#+NAME: symbols
+#+BEGIN_SRC lua
 one = {
     id = 0x02,
     width = 5,
@@ -51,7 +86,15 @@ one = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(one)
+#+END_SRC
+** Two
+#+NAME: symbols
+#+BEGIN_SRC lua
 two = {
     id = 0x03,
     width = 5,
@@ -78,7 +121,15 @@ two = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(two)
+#+END_SRC
+** Three
+#+NAME: symbols
+#+BEGIN_SRC lua
 three = {
     id = 0x04,
     width = 4,
@@ -105,7 +156,15 @@ three = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(three)
+#+END_SRC
+** Four
+#+NAME: symbols
+#+BEGIN_SRC lua
 four = {
     id = 0x05,
     width = 5,
@@ -132,7 +191,15 @@ four = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(four)
+#+END_SRC
+** Five
+#+NAME: symbols
+#+BEGIN_SRC lua
 five = {
     id = 0x06,
     width = 5,
@@ -159,7 +226,15 @@ five = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(five)
+#+END_SRC
+** Six
+#+NAME: symbols
+#+BEGIN_SRC lua
 six = {
     id = 0x07,
     width = 5,
@@ -186,7 +261,15 @@ six = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(six)
+#+END_SRC
+** Seven
+#+NAME: symbols
+#+BEGIN_SRC lua
 seven = {
     id = 0x08,
     width = 4,
@@ -213,7 +296,15 @@ seven = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(seven)
+#+END_SRC
+** Eight
+#+NAME: symbols
+#+BEGIN_SRC lua
 eight = {
     id = 0x09,
     width = 7,
@@ -240,7 +331,15 @@ eight = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(eight)
+#+END_SRC
+** Nine
+#+NAME: symbols
+#+BEGIN_SRC lua
 nine = {
     id = 0x0a,
     width = 6,
@@ -267,7 +366,15 @@ nine = {
         "-----",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(nine)
+#+END_SRC
+** Ten
+#+NAME: symbols
+#+BEGIN_SRC lua
 ten = {
     id = 0x0b,
     width = 7,
@@ -294,7 +401,15 @@ ten = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(ten)
+#+END_SRC
+** Eleven
+#+NAME: symbols
+#+BEGIN_SRC lua
 eleven = {
     id = 0x0c,
     width = 6,
@@ -321,7 +436,15 @@ eleven = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(eleven)
+#+END_SRC
+** Twelve
+#+NAME: symbols
+#+BEGIN_SRC lua
 twelve = {
     id = 0x0d,
     width = 4,
@@ -349,6 +472,15 @@ twelve = {
     }
 }
 
+#+END_SRC
+
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(twelve)
+#+END_SRC
+** Thirteen
+#+NAME: symbols
+#+BEGIN_SRC lua
 thirteen = {
     id = 0x0e,
     width = 7,
@@ -375,7 +507,15 @@ thirteen = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(thirteen)
+#+END_SRC
+** Fourteen
+#+NAME: symbols
+#+BEGIN_SRC lua
 fourteen = {
     id = 0x0f,
     width = 4,
@@ -402,7 +542,15 @@ fourteen = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(fourteen)
+#+END_SRC
+** Fifteen
+#+NAME: symbols
+#+BEGIN_SRC lua
 fifteen = {
     id = 0x10,
     width = 4,
@@ -430,6 +578,15 @@ fifteen = {
     }
 }
 
+#+END_SRC
+
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(fifteen)
+#+END_SRC
+** Brackets (Left and Right)
+#+NAME: symbols
+#+BEGIN_SRC lua
 bracket_l = {
     id = 0x11,
     width = 5,
@@ -456,7 +613,15 @@ bracket_l = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(bracket_l)
+#+END_SRC
+
+#+NAME: symbols
+#+BEGIN_SRC lua
 bracket_r = {
     id = 0x12,
     width = 5,
@@ -483,7 +648,15 @@ bracket_r = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(bracket_r)
+#+END_SRC
+** Divider
+#+NAME: symbols
+#+BEGIN_SRC lua
 divider = {
     id = 0x13,
     width = 6,
@@ -510,7 +683,15 @@ divider = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(divider)
+#+END_SRC
+** rate multiplier start/end
+#+NAME: symbols
+#+BEGIN_SRC lua
 ratemulstart = {
     id = 0x14,
     width = 3,
@@ -537,7 +718,15 @@ ratemulstart = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(ratemulstart)
+#+END_SRC
+
+#+NAME: symbols
+#+BEGIN_SRC lua
 ratemulend = {
     id = 0x15,
     width = 3,
@@ -564,7 +753,15 @@ ratemulend = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(ratemulend)
+#+END_SRC
+** Linear Behavior
+#+NAME: symbols
+#+BEGIN_SRC lua
 linear = {
     id = 0x16,
     width = 6,
@@ -591,7 +788,15 @@ linear = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(linear)
+#+END_SRC
+** Step
+#+NAME: symbols
+#+BEGIN_SRC lua
 step = {
     id = 0x17,
     width = 4,
@@ -618,7 +823,15 @@ step = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(step)
+#+END_SRC
+** Gliss Big
+#+NAME: symbols
+#+BEGIN_SRC lua
 gliss_big = {
     id = 0x18,
     width = 5,
@@ -645,7 +858,15 @@ gliss_big = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(gliss_big)
+#+END_SRC
+** Gliss Medium
+#+NAME: symbols
+#+BEGIN_SRC lua
 gliss_medium = {
     id = 0x19,
     width = 4,
@@ -672,7 +893,15 @@ gliss_medium = {
         "------",
     }
 }
+#+END_SRC
 
+#+NAME: add_to_font
+#+BEGIN_SRC lua
+add_to_font(gliss_medium)
+#+END_SRC
+** Gliss Small
+#+NAME: symbols
+#+BEGIN_SRC lua
 gliss_small = {
     id = 0x20,
     width = 4,
@@ -699,38 +928,9 @@ gliss_small = {
         "------",
     }
 }
+#+END_SRC
 
-font = {}
-
-function add_to_font(sym)
-    font[sym.id] = sym
-end
-
-add_to_font(zero)
-add_to_font(one)
-add_to_font(two)
-add_to_font(three)
-add_to_font(four)
-add_to_font(five)
-add_to_font(six)
-add_to_font(seven)
-add_to_font(eight)
-add_to_font(nine)
-add_to_font(ten)
-add_to_font(eleven)
-add_to_font(twelve)
-add_to_font(thirteen)
-add_to_font(fourteen)
-add_to_font(fifteen)
-add_to_font(bracket_l)
-add_to_font(bracket_r)
-add_to_font(divider)
-add_to_font(ratemulstart)
-add_to_font(ratemulend)
-add_to_font(linear)
-add_to_font(step)
-add_to_font(gliss_big)
-add_to_font(gliss_medium)
+#+NAME: add_to_font
+#+BEGIN_SRC lua
 add_to_font(gliss_small)
-
-return font
+#+END_SRC

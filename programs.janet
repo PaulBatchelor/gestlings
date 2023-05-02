@@ -188,4 +188,11 @@
  :org "asset/asset.org"
  :tangled @["asset/asset.lua"]
  }
+
+ "path_symbols"
+ @{
+ :id 27
+ :org "path/symbols.org"
+ :tangled @["path/symbols.lua"]
+ }
 })
