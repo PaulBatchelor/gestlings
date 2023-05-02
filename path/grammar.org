@@ -1,3 +1,12 @@
+#+TITLE: Path Grammar
+A formal grammar for notating paths, to be used
+with the @!(ref "path_symbols" "path symbol set")!@.
+
+Constructed as a Parsing Expression Grammar using LPEG,
+this is defined to be concatenated into a larger grammar.
+
+#+NAME: grammar.lua
+#+BEGIN_SRC lua :tangle path/grammar.lua
 function generate_path_grammar(symtab)
     local Space = lpeg.S(" \n\t")^0
     local LBrack = lpeg.P(string.format("%02x", symtab["bracket_left"]))
@@ -64,3 +73,4 @@ function generate_path_grammar(symtab)
     local Path = LBrack * (Value)^0 * RBrack * Space
     return Path
 end
+#+END_SRC

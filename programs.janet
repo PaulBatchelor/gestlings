@@ -195,4 +195,11 @@
  :org "path/symbols.org"
  :tangled @["path/symbols.lua"]
  }
+
+ "path_grammar"
+ @{
+ :id 28
+ :org "path/grammar.org"
+ :tangled @["path/grammar.lua"]
+ }
 })

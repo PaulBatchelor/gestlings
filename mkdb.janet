@@ -80,6 +80,8 @@ which is sometimes referred to as the @!(ref
 (ww-add-page "cantor" `@!(wikipage "cantor")!@`)
 (ww-add-page "protogestling" `@!(wikipage "protogestling")!@`)
 (ww-add-page "asset" `@!(wikipage "asset")!@`)
+(ww-add-page "path_symbols" `@!(wikipage "path_symbols")!@`)
+(ww-add-page "path_grammar" `@!(wikipage "path_grammar")!@`)
 
 # linked pages
 

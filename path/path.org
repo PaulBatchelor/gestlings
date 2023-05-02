@@ -99,3 +99,7 @@ function Path.load(asset, filename)
     return gpath
 end
 #+END_SRC
+* Symbol Set and Grammar
+For the symbol set, see @!(ref "path_symbols")!@.
+The corresponding grammar can be found
+at @!(ref "path_grammar")!@.
