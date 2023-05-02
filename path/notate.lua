@@ -1,4 +1,3 @@
-symbols = require("symbols")
 pprint = dofile("../util/pprint.lua")
 msgpack = dofile("../util/MessagePack.lua")
 base64 = dofile("../util/base64.lua")
@@ -6,13 +5,8 @@ asset = dofile("../asset/asset.lua")
 asset = asset:new({msgpack=msgpack, base64=base64})
 path_grammar = dofile("grammar.lua")
 
-function generate_symtab(symbols)
-    local symtab = {}
-
-    for id, sym in pairs(symbols) do
-        symtab[sym.name] = id
-    end
-    return symtab
+function generate_symtab()
+    return asset:load("symtab.b64")
 end
 
 function generate_hexstring(symtab, lines)
@@ -36,7 +30,7 @@ function symtab_vars(symtab)
     return load(evalstr)
 end
 
-symtab = generate_symtab(symbols)
+symtab = generate_symtab()
 symvars = symtab_vars(symtab)
 symvars()
 
