@@ -1,6 +1,4 @@
-Grammar = {}
-
-function Grammar.generate(symtab)
+function generate_path_grammar(symtab)
     local Space = lpeg.S(" \n\t")^0
     local LBrack = lpeg.P(string.format("%02x", symtab["bracket_left"]))
     local RBrack = lpeg.P(string.format("%02x", symtab["bracket_right"]))
@@ -66,5 +64,3 @@ function Grammar.generate(symtab)
     local Path = LBrack * (Value)^0 * RBrack * Space
     return Path
 end
-
-return Grammar

@@ -2,6 +2,9 @@
 ../cantor generate_uf2.lua
 xxd -r -p test.uf2.txt test.uf2
 
+# assemble grammar (grammar.out, lua bytecode)
+../cantor generate_grammar.lua
+
 # Use symtab to create notation (notation.hex)
 ../cantor notate.lua > notation.hex
 

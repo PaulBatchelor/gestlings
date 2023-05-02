@@ -1,17 +1,9 @@
-path_grammar = dofile("grammar.lua")
+-- path_grammar = dofile("grammar.lua")
 msgpack = dofile("../util/MessagePack.lua")
 base64 = dofile("../util/base64.lua")
 asset = dofile("../asset/asset.lua")
 asset = asset:new({msgpack=msgpack, base64=base64})
-
-function generate_grammar(pathgram)
-    local Space = lpeg.S(" \n\t")^0
-    local Null = lpeg.P("00")
-    local Line = pathgram * Null * Space
-    Line = lpeg.Ct(Line)
-    local Lines = lpeg.Ct(Line^0)
-    return Lines
-end
+generate_grammar = dofile("grammar.out")
 
 function parse(Lines, hexstr)
     behaviors = {
@@ -53,12 +45,12 @@ function parse(Lines, hexstr)
 end
 
 symtab = asset:load("symtab.b64")
-Path = path_grammar.generate(symtab)
+-- Path = path_grammar.generate(symtab)
 fp = io.open("notation.hex")
 hexstr = fp:read("*all")
 fp:close()
 
-Grammar = generate_grammar(Path)
+Grammar = generate_grammar(symtab)
 
 gpath = parse(Grammar, hexstr)
 asset:save(gpath, "path.b64")
