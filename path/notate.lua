@@ -15,74 +15,6 @@ function generate_symtab(symbols)
     return symtab
 end
 
-symtab = generate_symtab(symbols)
-zero = "zero"
-one = "one"
-two = "two"
-three = "three"
-four = "four"
-five = "five"
-six = "six"
-seven = "seven"
-eight = "eight"
-nine = "nine"
-ten = "ten"
-eleven = "eleven"
-twelve = "twelve"
-thirteen = "thirteen"
-fourteen = "fourteen"
-fifteen = "fifteen"
-brackl = "bracket_left"
-brackr = "bracket_right"
-div = "divider"
-ratemulstart = "ratemulstart"
-ratemulend = "ratemulend"
-linear = "linear"
-step = "step"
-gliss_big = "gliss_big"
-gliss_medium = "gliss_medium"
-gliss_small= "gliss_small"
-
-lines = {}
-table.insert(lines, {
-brackl,
-zero, one,
-ratemulstart, two, three, four, five, ratemulend, linear,
-div,
-
-six, seven,
-ratemulstart, eight, seven, zero, three, ratemulend, step,
-div,
-eight, nine,
-ratemulstart, eight, eight, nine, nine, ratemulend, gliss_big,
-div,
-
-ten, eleven,
-ratemulstart, fifteen, eleven, ten, eleven, ratemulend, gliss_medium,
-div,
-twelve, thirteen,
-ratemulstart, one, two, twelve, thirteen, ratemulend, gliss_small,
-div,
-fourteen, fifteen,
--- ratemulstart, fourteen, fourteen, fourteen, fourteen, ratemulend,
-brackr
-})
-
-table.insert(lines, {
-brackl,
-three, twelve,
-ratemulstart, zero, two, zero, one, ratemulend, gliss_medium,
-div,
-three, fourteen,
-div,
-four, zero,
-div,
-four, three,
-div,
-four, seven,
-brackr
-})
-
 function generate_hexstring(symtab, lines)
     local hexstr = ""
     for _,ln in pairs(lines) do
@@ -95,6 +27,58 @@ function generate_hexstring(symtab, lines)
     end
     return hexstr
 end
+
+function symtab_vars(symtab)
+    local evalstr = ""
+    for k,_ in pairs(symtab) do
+        evalstr= evalstr .. string.format("%s=%q", k, k)
+    end
+    return load(evalstr)
+end
+
+symtab = generate_symtab(symbols)
+symvars = symtab_vars(symtab)
+symvars()
+
+lines = {}
+table.insert(lines, {
+bracket_left,
+zero, one,
+ratemulstart, two, three, four, five, ratemulend, linear,
+divider,
+
+six, seven,
+ratemulstart, eight, seven, zero, three, ratemulend, step,
+divider,
+eight, nine,
+ratemulstart, eight, eight, nine, nine, ratemulend, gliss_big,
+divider,
+
+ten, eleven,
+ratemulstart, fifteen, eleven, ten, eleven, ratemulend, gliss_medium,
+divider,
+twelve, thirteen,
+ratemulstart, one, two, twelve, thirteen, ratemulend, gliss_small,
+divider,
+fourteen, fifteen,
+bracket_right
+})
+
+table.insert(lines, {
+bracket_left,
+three, twelve,
+ratemulstart, zero, two, zero, one, ratemulend, gliss_medium,
+divider,
+three, fourteen,
+divider,
+four, zero,
+divider,
+four, three,
+divider,
+four, seven,
+bracket_right
+})
+
 hexstr = generate_hexstring(symtab, lines)
 print(hexstr)
 
