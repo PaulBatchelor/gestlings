@@ -35,3 +35,4 @@ check snoring_goblin
 check shapes_and_voices
 check nrt_duo
 check morpheme_minimal
+check path_grammar
