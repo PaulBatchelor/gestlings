@@ -16,4 +16,14 @@ function Symtools.hexstring(symtab, line)
     return hexstr
 end
 
+function Symtools.symtab(symbols)
+    local symtab = {}
+
+    for id, sym in pairs(symbols) do
+        symtab[sym.name] = id
+    end
+    return symtab
+end
+
+
 return Symtools

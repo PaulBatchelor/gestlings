@@ -85,7 +85,7 @@ function uf2.generate(font, filename)
         glyphs = glyphs .. glystr .. "\n"
     end
 
-    local f = io.open("test.uf2.txt", "wb")
+    local f = io.open(filename, "wb")
     f:write(wstr .. "\n")
     f:write(glyphs)
     f:close()

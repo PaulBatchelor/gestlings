@@ -7,6 +7,14 @@
 (defn tangle [janet-file org-file]
   (print (string "build " janet-file ": tangle " org-file)))
 
+(defn asset [outputs inputs]
+  (print
+    (string
+      "build "
+      (string/join outputs " ")
+      ": asset "
+      (string/join inputs " ") " || cantor")))
+
 (defn tangler-var []
   (print "tangler = weewiki janet tangle_and_export.janet"))
 
@@ -27,6 +35,11 @@
   (print "rule link")
   (print "    command = gcc $cflags $in -o $out $ldflags $libs")
   (print "    description = creating $out"))
+
+(defn asset-rule []
+  (print "rule asset")
+  (print "    command = ./cantor $in")
+  (print "    description = asset $in"))
 
 (defn build-cantor [obj]
   (each o obj
@@ -54,6 +67,7 @@
     ])
 (cc-rule cflags)
 (link-rule)
+(asset-rule)
 (def obj @["cantor" "protogestling/protogestling"])
 (build-cantor obj)
 
@@ -62,3 +76,4 @@
     (tangle (string/join (prog :tangled) " ") (prog :org))
     (tangle (prog :tangled) (prog :org))))
 
+(asset ["path/symtab.b64" "path/test.uf2.hex"] ["path/test_uf2.lua"])
