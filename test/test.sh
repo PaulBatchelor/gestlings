@@ -36,3 +36,4 @@ check shapes_and_voices
 check nrt_duo
 check morpheme_minimal
 check path_grammar
+check path_synth
