@@ -7,13 +7,19 @@
 (defn tangle [janet-file org-file]
   (print (string "build " janet-file ": tangle " org-file)))
 
-(defn asset [outputs inputs]
+(defn asset [outputs inputs &opt deps]
+  (default deps nil)
   (print
     (string
       "build "
       (string/join outputs " ")
       ": asset "
-      (string/join inputs " ") " || cantor")))
+      (string/join inputs " ")
+      " || cantor"
+      (if-not (= deps nil)
+        (string " " (string/join deps " ")))
+
+      )))
 
 (defn tangler-var []
   (print "tangler = weewiki janet tangle_and_export.janet"))
@@ -76,4 +82,8 @@
     (tangle (string/join (prog :tangled) " ") (prog :org))
     (tangle (prog :tangled) (prog :org))))
 
-(asset ["path/symtab.b64" "path/test.uf2.hex"] ["path/test_uf2.lua"])
+(import config)
+(each a config/assets
+  (if (= (length a) 2)
+      (asset (a 0) (a 1))
+      (asset (a 0) (a 1) (a 2))))

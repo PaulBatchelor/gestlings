@@ -10,7 +10,7 @@ asset = require("asset/asset")
 asset = asset:new({msgpack=msgpack, base64=base64})
 symtools = require("util/symtools")
 
-uf2.generate(symbols, "path/test.uf2.hex")
+uf2.generate(symbols, "path/test.uf2")
 
 symtab = symtools.symtab(symbols)
 asset:save(symtab, "path/symtab.b64")

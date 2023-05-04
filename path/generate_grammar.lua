@@ -19,7 +19,7 @@ function generate_chunk(files)
     return chunk
 end
 
-chunk = generate_chunk({"grammar.lua", "full_grammar.lua"})
-out = io.open("grammar.out", "wb")
+chunk = generate_chunk({"path/grammar.lua", "path/full_grammar.lua"})
+out = io.open("path/grammar.out", "wb")
 out:write(string.dump(chunk))
 out:close()

@@ -1,11 +1,11 @@
-pprint = dofile("../util/pprint.lua")
-msgpack = dofile("../util/MessagePack.lua")
-base64 = dofile("../util/base64.lua")
-asset = dofile("../asset/asset.lua")
+pprint = dofile("util/pprint.lua")
+msgpack = dofile("util/MessagePack.lua")
+base64 = dofile("util/base64.lua")
+asset = dofile("asset/asset.lua")
 asset = asset:new({msgpack=msgpack, base64=base64})
 
 function generate_symtab()
-    return asset:load("symtab.b64")
+    return asset:load("path/symtab.b64")
 end
 
 function generate_hexstring(symtab, lines)
@@ -73,4 +73,6 @@ bracket_right
 })
 
 hexstr = generate_hexstring(symtab, lines)
-print(hexstr)
+out = io.open("path/notation.hex", "w")
+out:write(hexstr)
+out:close()

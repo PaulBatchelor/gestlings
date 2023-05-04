@@ -85,9 +85,18 @@ function uf2.generate(font, filename)
         glyphs = glyphs .. glystr .. "\n"
     end
 
+    local i = 1
+    local bytes = {}
+    wstr = wstr .. " " .. glyphs
+    while true do
+        local m = wstr:match("([0-9a-fA-F][0-9a-fA-F]%s?)", i)
+        if not m then break end
+        i = i + #m
+        table.insert(bytes, string.char(tonumber(m, 16)))
+    end
+
     local f = io.open(filename, "wb")
-    f:write(wstr .. "\n")
-    f:write(glyphs)
+    f:write(table.concat(bytes))
     f:close()
 end
 

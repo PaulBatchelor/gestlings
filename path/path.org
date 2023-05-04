@@ -89,7 +89,7 @@ function Path.save(asset, gpath, filename)
 end
 
 function Path.load(asset, filename)
-    local path_data = asset:load("path.bin.txt")
+    local path_data = asset:load(filename)
 
     local gpath = {}
     for _,v in pairs(path_data) do
