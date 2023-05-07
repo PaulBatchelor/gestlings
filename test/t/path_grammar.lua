@@ -37,32 +37,36 @@ fourteen, fifteen,
 bracket_right
 }
 
-hexstr = symtools.hexstring(symtab, gesture_path)
+function test_path(symtab, gpath)
+    local hexstr = symtools.hexstring(symtab, gpath)
 
-t = lpeg.match(lpeg.Ct(grammar), hexstr)
-out = {}
-for _,v in pairs(t) do
-    if v.value ~= nil then
-        table.insert(out, v.value[1])
-        table.insert(out, v.value[2])
-    end
-    if v.ratemul ~= nil then
-        table.insert(out, v.ratemul[1][1])
-        table.insert(out, v.ratemul[1][2])
-        table.insert(out, v.ratemul[2][1])
-        table.insert(out, v.ratemul[2][2])
-    end
+    local t = lpeg.match(lpeg.Ct(grammar), hexstr)
+    local out = {}
+    for _,v in pairs(t) do
+        if v.value ~= nil then
+            table.insert(out, v.value[1])
+            table.insert(out, v.value[2])
+        end
+        if v.ratemul ~= nil then
+            table.insert(out, v.ratemul[1][1])
+            table.insert(out, v.ratemul[1][2])
+            table.insert(out, v.ratemul[2][1])
+            table.insert(out, v.ratemul[2][2])
+        end
 
-    if v.behavior ~= nil then
-        table.insert(out, v.behavior)
+        if v.behavior ~= nil then
+            table.insert(out, v.behavior)
+        end
     end
+    out = table.concat(out)
+    return out
 end
 
 ref=
 "012345linear678703step898899gliss_largea"..
 "bfbabgliss_mediumcd12cdgliss_smallef"
 
-out = table.concat(out)
+out = test_path(symtab, gesture_path)
 
 verbose = os.getenv("VERBOSE")
 verbose = verbose ~= nil and verbose == "1"
