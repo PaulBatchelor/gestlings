@@ -28,8 +28,9 @@ function generate_morpheme_grammar(symtab, pathgram)
         end
     end
     local MorphVals = Space * MorphSymbols * Space
+    local LineBegin = hexpat("morph_line_begin") * Space
     local Define = hexpat("morph_define") * Space
-    local MorphPath = lpeg.Ct(lpeg.Cg(lpeg.Ct(MorphVals^1) * Define, "attribute") *
+    local MorphPath = lpeg.Ct(LineBegin^0*lpeg.Cg(lpeg.Ct(MorphVals^1) * Define, "attribute") *
         lpeg.Cg(lpeg.Ct(pathgram), "path")
         )
     local MorphBegin = hexpat("morph_begin")
@@ -52,6 +53,7 @@ local morpheme_symtab = {
     morph_begin = 6,
     morph_end = 7,
     morph_define = 8,
+    morph_line_begin = 9,
 }
 
 symtab = asset:load("../path/symtab.b64")
@@ -70,7 +72,7 @@ symtools.vars(symtab)()
 syms = {
     morph_begin, morph_sym00, morph_sym00, morph_break,
 
-    morph_sym00, morph_sym01, morph_sym02, morph_sym03, morph_sym03, morph_define,
+    morph_line_begin, morph_sym00, morph_sym01, morph_sym02, morph_sym03, morph_sym03, morph_define,
 
     bracket_left,
         zero, zero,
@@ -80,7 +82,7 @@ syms = {
         ratemulstart, three, three, ratemulend, step,
     bracket_right, morph_break,
 
-    morph_sym03, morph_sym03, morph_define,
+    morph_line_begin, morph_sym03, morph_sym03, morph_define,
     bracket_left,
         one, one,
         ratemulstart, nine, nine, ratemulend, gliss_big,
