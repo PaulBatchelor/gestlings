@@ -7,6 +7,7 @@ asset = asset:new {
     msgpack = dofile("../util/MessagePack.lua"),
     base64 = dofile("../util/base64.lua")
 }
+path = dofile("../path/path.lua")
 
 function generate_morpheme_grammar(symtab, pathgram)
     local Space = lpeg.S(" \n\t")^0
@@ -133,6 +134,7 @@ local m = {}
 
 for _,at in pairs(t.attributes) do
     local atname = generate_attribute_name(symbol2letter, at.attribute)
-    print(atname)
+    local p = path.AST_to_path(at.path)
+    m[atname] = p
 end
--- pprint(t)
+pprint(m)
