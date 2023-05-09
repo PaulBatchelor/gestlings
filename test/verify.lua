@@ -9,10 +9,7 @@ function V.verify(chksm)
             print(msg)
         end
         os.exit(1)
-    else
-        os.exit(0)
     end
 end
-
 
 return V
