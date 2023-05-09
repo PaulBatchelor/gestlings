@@ -56,6 +56,13 @@ local morpheme_symtab = {
     morph_line_begin = 9,
 }
 
+local symbol2letter = {
+    morph_sym00 = "p",
+    morph_sym01 = "f",
+    morph_sym02 = "th",
+    morph_sym03 = "d",
+}
+
 symtab = asset:load("../path/symtab.b64")
 symstart = 0
 
@@ -102,4 +109,30 @@ grammar = generate_morpheme_grammar(symtab, path_grammar)
 t = lpeg.match(grammar, str)
 -- t = lpeg.match(path_grammar, str)
 
-pprint(t)
+function djb_hash(str)
+    local hash = 5381
+    for i = 1, #str do
+        hash = ((hash << 5) + hash) + string.byte(str, i)
+    end
+    return hash
+end
+
+function generate_attribute_name(sym, attr)
+    local l = ""
+    local vow = {"a", "o", "e", "i", "u"}
+    local vowpos = 0
+    for pos,at in pairs(attr) do
+        vowpos = ((vowpos + djb_hash(sym[at])) % #vow) + 1
+        l = l .. sym[at] .. vow[vowpos]
+    end
+
+    return l
+end
+
+local m = {}
+
+for _,at in pairs(t.attributes) do
+    local atname = generate_attribute_name(symbol2letter, at.attribute)
+    print(atname)
+end
+-- pprint(t)
