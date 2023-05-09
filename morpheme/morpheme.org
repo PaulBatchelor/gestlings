@@ -386,3 +386,44 @@ function M.merge(A, B)
     return o
 end
 #+END_SRC
+* Loading/Saving Morphemes
+Similar to how it's done in @!(ref "path")!@, using
+the @!(ref "asset")!@ component. Make sure that the
+asset component is initialized.
+
+Note that the =load= function will require the
+@!(ref "path")!@ component, in order to properly
+convert the data structure to a path that lua can read.
+
+#+NAME: morpheme
+#+BEGIN_SRC lua
+function M.morpheme_to_data(path, morpheme)
+    local morpheme_data = {}
+
+    for k,v in pairs(morpheme) do
+        morpheme_data[k] = path.path_to_data(v)
+    end
+
+    return morpheme_data
+end
+
+function M.save(asset, path, morpheme, filename)
+    asset:save(M.morpheme_to_data(path, morpheme), filename)
+end
+
+function M.load(asset, path, filename)
+    local morpheme_data = asset:load(filename)
+
+    local morpheme = {}
+
+    for k, v in pairs(morpheme_data) do
+        morpheme[k] = path.data_to_path(v)
+    end
+    -- local gpath = {}
+    -- for _,v in pairs(path_data) do
+    --     table.insert(gpath, Path.vertex(v))
+    -- end
+
+    return morpheme
+end
+#+END_SRC

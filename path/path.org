@@ -91,12 +91,35 @@ end
 function Path.load(asset, filename)
     local path_data = asset:load(filename)
 
+    return Path.data_to_path(path_data)
+end
+#+END_SRC
+
+Path data saved to disk is a simpler format than the
+format used by Path. The function =data_to_path= does the
+conversion.
+
+#+NAME: path
+#+BEGIN_SRC lua
+function Path.data_to_path(path_data)
     local gpath = {}
     for _,v in pairs(path_data) do
         table.insert(gpath, Path.vertex(v))
     end
-
     return gpath
+end
+
+function Path.path_to_data(path)
+    local path_data = {}
+    for _,v in pairs(path) do
+        table.insert(path_data, {
+            v.val,
+            v.dur,
+            v.bhvr,
+        })
+    end
+
+    return path_data
 end
 #+END_SRC
 * Symbol Set and Grammar
@@ -108,7 +131,7 @@ Converts an abstract syntax tree generated from the @!(
 ref "path_grammar)!@ into an actual path.
 #+NAME: path
 #+BEGIN_SRC lua
-function Path.AST_to_path(t)
+function Path.AST_to_data(t)
     behaviors = {
         linear = 0,
         step = 1,

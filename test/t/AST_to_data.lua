@@ -30,7 +30,7 @@ bracket_right
 
 local hexstr = symtools.hexstring(symtab, tokens)
 local ast = lpeg.match(lpeg.Ct(grammar), hexstr)
-local gpath = path.AST_to_path(ast)
+local gpath = path.AST_to_data(ast)
 
 local ref = {
     {0x00, {0x11}, 0},

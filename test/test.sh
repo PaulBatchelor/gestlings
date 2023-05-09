@@ -37,4 +37,4 @@ check nrt_duo
 check morpheme_minimal
 check path_grammar
 check path_synth
-check AST_to_path
+check AST_to_data
