@@ -78,9 +78,13 @@ end
 
 symtools.vars(symtab)()
 
+-- syms: test notation , represented as tokens / "symbols"
+
 syms = {
+    -- begin the morpheme and give it name
     morph_begin, morph_sym00, morph_sym00, morph_break,
 
+    -- first path in morpheme
     morph_line_begin, morph_sym00, morph_sym01, morph_sym02, morph_sym03, morph_sym03, morph_define,
 
     bracket_left,
@@ -91,6 +95,7 @@ syms = {
         ratemulstart, three, three, ratemulend, step,
     bracket_right, morph_break,
 
+    -- second path in morpheme
     morph_line_begin, morph_sym03, morph_sym03, morph_define,
     bracket_left,
         one, one,
@@ -102,14 +107,22 @@ syms = {
 
     morph_end
 }
--- print(bracket_left)
--- pprint(symtab)
+-- convert tokens to hex string values for grammar
 str = symtools.hexstring(symtab, syms)
--- print(str)
+
+-- morpheme grammar encapsulates path grammar (PEG)
 path_grammar = generate_path_grammar(symtab)
 grammar = generate_morpheme_grammar(symtab, path_grammar)
+
+-- generate AST from hex string
 t = lpeg.match(grammar, str)
--- t = lpeg.match(path_grammar, str)
+
+
+-- silly way to produce human-readable names from attribute symbols
+-- this most likely won't cause collisions?
+-- method: each symbol gets a consonant prefix in a lookup table,
+-- a hash based on location is used to determine the vowel (this
+-- helps add some deterministic variation)
 
 function djb_hash(str)
     local hash = 5381
@@ -131,6 +144,8 @@ function generate_attribute_name(sym, attr)
     return l
 end
 
+-- generate morpheme data from "attributes" key in AST
+
 local m = {}
 
 for _,at in pairs(t.attributes) do
@@ -141,6 +156,8 @@ end
 
 pprint(m)
 
+
+-- save/load from disk as asset
 morpheme.save(asset, path, m, "morpheme.b64")
 
 m = morpheme.load(asset, path, "morpheme.b64")
