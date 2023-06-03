@@ -569,3 +569,15 @@
 -	1ab71e0c-8fc3-4e5e-b883-b84f6665c22e	#53a2e179-eb60-4c13-b749-59d5d3b893c5
 2023-05-02 20:19:21	0fda1b5c-0eaf-4946-b09d-3049f6278079	>added !path_grammar
 -	0fda1b5c-0eaf-4946-b09d-3049f6278079	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2023-06-03 20:00:14	0c77f83c-25ff-41a7-af04-88b87c55eb83	>create lua version of path notation renderer
+-	0c77f83c-25ff-41a7-af04-88b87c55eb83	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-06-03 20:00:14	0c77f83c-25ff-41a7-af04-88b87c55eb83	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-03 20:01:12	57f969be-861d-4975-832d-9dda6f4fbcff	>current version is written in C, probably because of all the new uf2 functionality. this will probably involve some mnolth work.
+-	57f969be-861d-4975-832d-9dda6f4fbcff	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	57f969be-861d-4975-832d-9dda6f4fbcff	#0c77f83c-25ff-41a7-af04-88b87c55eb83
+2023-06-03 20:06:24	94fe9198-1edb-45d1-8c61-704b1cb1d29c	>create notation system for morphemes
+-	94fe9198-1edb-45d1-8c61-704b1cb1d29c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-06-03 20:06:24	94fe9198-1edb-45d1-8c61-704b1cb1d29c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-03 20:08:16	1ea6df95-bb8c-45e9-a189-119d60c9c9ec	>it looks like the initial grammar has been produced, though the code needs to be cleaned up. the display/symbol set has not yet been done. rendering is still a pain point, since the only program that does it is a hacked-together C program hard coded for a path notation demo.
+-	1ea6df95-bb8c-45e9-a189-119d60c9c9ec	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1ea6df95-bb8c-45e9-a189-119d60c9c9ec	#94fe9198-1edb-45d1-8c61-704b1cb1d29c
