@@ -581,3 +581,9 @@
 2023-06-03 20:08:16	1ea6df95-bb8c-45e9-a189-119d60c9c9ec	>it looks like the initial grammar has been produced, though the code needs to be cleaned up. the display/symbol set has not yet been done. rendering is still a pain point, since the only program that does it is a hacked-together C program hard coded for a path notation demo.
 -	1ea6df95-bb8c-45e9-a189-119d60c9c9ec	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	1ea6df95-bb8c-45e9-a189-119d60c9c9ec	#94fe9198-1edb-45d1-8c61-704b1cb1d29c
+2023-06-03 23:24:23	131c1c4a-88af-422d-a969-66c14212978e	>this seems to have been around for a while, it doesn't seem as important ATM since I'm more focused on "speeched music" rather than musical performance which is what weight is geared towards. Also, it might be a mechanic that could be implemented another way and not built into gestvm directly.
+-	131c1c4a-88af-422d-a969-66c14212978e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	131c1c4a-88af-422d-a969-66c14212978e	#fd11b75c-2691-4ec3-819e-39152b1638ae
+2023-06-04 00:10:06	1c36260a-fb9b-4a2b-a097-23d6ebade9a9	>working out the initial constructs in mnolth. I've decided to keep the primitives in LIL as much as possible because that's where the btprnt stuff is as well. LIL doesn't handle buffers well, so I'm going to whip a construct for that that allows Lua to write, and LIL to read.
+-	1c36260a-fb9b-4a2b-a097-23d6ebade9a9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1c36260a-fb9b-4a2b-a097-23d6ebade9a9	#0c77f83c-25ff-41a7-af04-88b87c55eb83
