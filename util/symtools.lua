@@ -1,4 +1,5 @@
 Symtools = {}
+
 function Symtools.vars(symtab)
     local evalstr = ""
     for k,_ in pairs(symtab) do
