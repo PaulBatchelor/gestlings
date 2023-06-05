@@ -1,5 +1,4 @@
 > a.db
-weewiki janet mkdb.janet
+weewiki janet wikigen.janet
 cat tsv/x* | weewiki zet import
 ./zetdo lstimp < priority.tsv
-# weewiki janet creation.janet
