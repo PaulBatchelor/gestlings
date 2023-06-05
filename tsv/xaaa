@@ -143,7 +143,7 @@
 2022-11-30 11:19:13	5087c400-5905-42de-b2f2-2f094bbe9793	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2022-11-13 21:55:55	3fd9f7e5-2216-435e-8953-fad49ae34de9	>create glyph sheet for numbers
 -	3fd9f7e5-2216-435e-8953-fad49ae34de9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2022-11-13 21:55:55	3fd9f7e5-2216-435e-8953-fad49ae34de9	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-05 01:53:29	3fd9f7e5-2216-435e-8953-fad49ae34de9	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
 2022-11-13 22:04:38	4aff5e9d-792b-469e-87da-2b6c75189e4d	>numbers 0-15 have been added to the the system. Larger numbers will come eventually, but this is a good start.
 -	4aff5e9d-792b-469e-87da-2b6c75189e4d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	4aff5e9d-792b-469e-87da-2b6c75189e4d	#00220f35-8e2d-41b5-a12f-17986ce03e4a
@@ -587,3 +587,9 @@
 2023-06-04 00:10:06	1c36260a-fb9b-4a2b-a097-23d6ebade9a9	>working out the initial constructs in mnolth. I've decided to keep the primitives in LIL as much as possible because that's where the btprnt stuff is as well. LIL doesn't handle buffers well, so I'm going to whip a construct for that that allows Lua to write, and LIL to read.
 -	1c36260a-fb9b-4a2b-a097-23d6ebade9a9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	1c36260a-fb9b-4a2b-a097-23d6ebade9a9	#0c77f83c-25ff-41a7-af04-88b87c55eb83
+2023-06-05 01:53:02	2af95365-5cb8-4d12-b239-57eb1fd14029	>at this point, this is pretty deprecated. removing from agenda list.
+-	2af95365-5cb8-4d12-b239-57eb1fd14029	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	2af95365-5cb8-4d12-b239-57eb1fd14029	#3fd9f7e5-2216-435e-8953-fad49ae34de9
+2023-06-05 01:54:16	8a276fef-d0e3-4a45-aafb-2caaa77cf260	>more swings in mnolth, created uf2txtln. the uf2bytes are what is really needed though.
+-	8a276fef-d0e3-4a45-aafb-2caaa77cf260	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8a276fef-d0e3-4a45-aafb-2caaa77cf260	#0c77f83c-25ff-41a7-af04-88b87c55eb83
