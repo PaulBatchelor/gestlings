@@ -1,4 +1,3 @@
-(do
 # open and clear wiki db
 
 (ww-open "a.db")
@@ -55,4 +54,3 @@
 
 (ww-sync)
 (ww-close)
-)
