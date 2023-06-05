@@ -128,7 +128,7 @@ The corresponding grammar can be found
 at @!(ref "path_grammar")!@.
 * AST to Path
 Converts an abstract syntax tree generated from the @!(
-ref "path_grammar)!@ into an actual path.
+ref "path_grammar")!@ into an actual path.
 #+NAME: path
 #+BEGIN_SRC lua
 function Path.AST_to_data(t)
