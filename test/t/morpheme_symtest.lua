@@ -1,21 +1,20 @@
-uf2 = dofile("../path/uf2.lua")
-symtools= dofile("../util/symtools.lua")
-pp = dofile("../util/pprint.lua")
+uf2 = require("path/uf2")
+symtools = require("util/symtools")
 
-msgpack = dofile("../util/MessagePack.lua")
-base64 = dofile("../util/base64.lua")
-asset = dofile("../asset/asset.lua")
+msgpack = require("util/MessagePack")
+base64 = require("util/base64")
+asset = require("asset/asset")
 asset = asset:new({msgpack=msgpack, base64=base64})
 
-symtab = asset:load("test_syms_tab.b64")
+symtab = asset:load("morpheme/test_syms_tab.b64")
 symtools.vars(symtab)()
 lil("bpnew bp 320 200")
 lil("bufnew buf 256")
 lil("bpset [grab bp] 0 10 10 300 180")
 lil("grab buf")
 buf = pop()
-lil("uf2load syms test_syms.uf2")
-lil("uf2load chicago ../fonts/chicago12.uf2")
+lil("uf2load syms morpheme/test_syms.uf2")
+lil("uf2load chicago fonts/chicago12.uf2")
 
 bytes = {}
 morph_break = "morph_break"
@@ -170,11 +169,11 @@ end
 
 
 -- attempt to parse grammar
-path_grammar = loadfile("../path/grammar.lua")
+path_grammar = loadfile("path/grammar.lua")
 path_grammar()
 path_grammar = generate_path_grammar(symtab)
 
-morpheme_grammar = loadfile("../morpheme/grammar.lua")
+morpheme_grammar = loadfile("morpheme/grammar.lua")
 morpheme_grammar()
 
 grammar = generate_morpheme_grammar(symtab, path_grammar)
@@ -185,3 +184,16 @@ hexstr = symtools.hexstring(symtab, tokens)
 -- t = lpeg.match(lpeg.Ct(path_grammar), hexstr)
 t = lpeg.match(lpeg.Ct(grammar), hexstr)
 
+chksm = "db97f2025e464cca19ad016d302e2df8"
+
+rc, msg = pcall(lil, "bpverify [grab bp] " .. chksm)
+
+verbose = os.getenv("VERBOSE")
+if rc == false then
+    if verbose ~= nil and verbose == "1" then
+        print(msg)
+    end
+    os.exit(1)
+else
+    os.exit(0)
+end

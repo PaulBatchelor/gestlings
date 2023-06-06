@@ -10,4 +10,8 @@
     @[["path/synth.wav"]
       ["path/synth.lua"]
       ["path/path.b64"]]
+
+    @[["morpheme/test_syms_tab.b64"
+       "morpheme/test_syms.uf2"]
+      ["morpheme/test_uf2.lua"]]
 ])

@@ -39,3 +39,4 @@ check path_grammar
 check path_synth
 check AST_to_data
 check morpheme_grammar
+check morpheme_symtest
