@@ -593,3 +593,15 @@
 2023-06-05 01:54:16	8a276fef-d0e3-4a45-aafb-2caaa77cf260	>more swings in mnolth, created uf2txtln. the uf2bytes are what is really needed though.
 -	8a276fef-d0e3-4a45-aafb-2caaa77cf260	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	8a276fef-d0e3-4a45-aafb-2caaa77cf260	#0c77f83c-25ff-41a7-af04-88b87c55eb83
+2023-06-05 20:50:23	ee0d0910-fb82-4fb7-a095-a312a3eaa665	>I made some 3h tiles with the intent of using those to make attributes. going to attempt to port those first.
+-	ee0d0910-fb82-4fb7-a095-a312a3eaa665	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ee0d0910-fb82-4fb7-a095-a312a3eaa665	#94fe9198-1edb-45d1-8c61-704b1cb1d29c
+2023-06-05 21:00:03	bbef33e0-b85e-4c5a-8388-66158c2c1f86	>move uf2.lua out of path folder
+-	bbef33e0-b85e-4c5a-8388-66158c2c1f86	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-06-05 21:00:03	bbef33e0-b85e-4c5a-8388-66158c2c1f86	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-05 21:00:21	1deffe27-eb53-494a-b22d-216d509af1eb	>possibly put into util folder?
+-	1deffe27-eb53-494a-b22d-216d509af1eb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1deffe27-eb53-494a-b22d-216d509af1eb	#bbef33e0-b85e-4c5a-8388-66158c2c1f86
+2023-06-06 00:44:47	d855b4dd-6ea2-4ad8-8ee4-9cdf0d233ff4	>initial test notation for morpheme created. have not yet tested to see if it will actual parse into an AST, but I know for a fact that I'll need to tweak the grammar at least a little bit.
+-	d855b4dd-6ea2-4ad8-8ee4-9cdf0d233ff4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d855b4dd-6ea2-4ad8-8ee4-9cdf0d233ff4	#94fe9198-1edb-45d1-8c61-704b1cb1d29c
