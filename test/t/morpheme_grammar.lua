@@ -51,7 +51,8 @@ local symbol2letter = {
 symtab = asset:load("path/symtab.b64")
 symstart = 0
 
-for _,_ in pairs(symtab) do
+for _,v in pairs(symtab) do
+    --if (v > symstart) then symstart = v end
     symstart = symstart + 1
 end
 
