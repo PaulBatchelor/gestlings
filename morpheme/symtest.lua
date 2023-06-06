@@ -36,7 +36,7 @@ lil("uf2load syms attrsyms.uf2")
 lil("uf2load chicago ../fonts/chicago12.uf2")
 
 bytes = {}
-endline = "endline"
+morph_break = "morph_break"
 
 function tcat(dst, src)
     for _,v in pairs(src) do
@@ -48,7 +48,7 @@ tokens = {}
 
 tcat(tokens, { morph_begin, lbrack, parallel, rbrack, rtee, dash,
 dashground, grounddash, dashsky, skydash, dash, dashsky, skyground,
-rhook, endline,
+rhook, morph_break,
 })
 
 path1 = {
@@ -73,14 +73,6 @@ ratemulstart, one, two, twelve, thirteen, ratemulend, gliss_small,
 divider,
 fourteen, fifteen,
 bracket_right,
-
-    bracket_left,
-        zero, zero,
-        ratemulstart, one, one, ratemulend, linear,
-        divider,
-        fifteen, fifteen,
-        ratemulstart, three, three, ratemulend, step,
-    bracket_right,
 
 }
 
@@ -139,40 +131,36 @@ dash, lbrack, parallel, parallel, ground, morph_define,
 })
 
 tcat(tokens, path1)
-tcat(tokens, {endline})
+tcat(tokens, {morph_break})
 
-tcat(tokens, {
-morph_line_begin,
-skydash, dashsky, sky, skydash, rtee, rbrack, morph_define,
-})
+-- tcat(tokens, {
+-- morph_line_begin,
+-- skydash, dashsky, sky, skydash, rtee, rbrack, morph_define,
+-- })
+-- 
+-- tcat(tokens, path2)
+-- tcat(tokens, {morph_break})
+-- 
+-- tcat(tokens, {
+-- morph_line_begin,
+-- rhook, rhook, rhook, groundsky, morph_define,
+-- })
+-- 
+-- tcat(tokens, path3)
+-- tcat(tokens, {morph_break})
+-- 
+-- tcat(tokens, {
+-- morph_line_begin,
+-- rbrack, dash, lbrack, ltee, morph_define,
+-- })
+-- 
+-- tcat(tokens, path4)
+-- tcat(tokens, {morph_break})
 
-tcat(tokens, path2)
-tcat(tokens, {endline})
-
-tcat(tokens, {
-morph_line_begin,
-rhook, rhook, rhook, groundsky, morph_define,
-})
-
-tcat(tokens, path3)
-tcat(tokens, {endline})
-
-tcat(tokens, {
-morph_line_begin,
-rbrack, dash, lbrack, ltee, morph_define,
-})
-
-tcat(tokens, path4)
-tcat(tokens, {endline})
-
-tcat(tokens, {morph_end, endline})
+tcat(tokens, {morph_end, morph_break})
 
 for _,t in pairs(tokens) do
-    if t == "endline" then
-        table.insert(bytes, 0x00)
-    else
-        table.insert(bytes, symtab[t])
-    end
+    table.insert(bytes, symtab[t])
 end
 
 line = {}
@@ -183,7 +171,7 @@ mnobuf.clear(buf)
 linepos = 2
 lineheight = 12
 for _,b in pairs(bytes) do
-    if b == 0x00 then
+    if b == symtab["morph_break"] then
         mnobuf.append(buf, line)
         lil(string.format(
             "uf2bytes [bpget [grab bp] 0] [grab syms] [grab buf] 0 %d",
@@ -195,13 +183,20 @@ for _,b in pairs(bytes) do
     table.insert(line, b)
 end
 
-lil("bppbm [grab bp]")
+-- lil("bppbm [grab bp]")
 
 
--- -- attempt to parse grammar
--- path_grammar = loadfile("../path/grammar.lua")
--- path_grammar()
--- path_grammar = generate_path_grammar(symtab)
--- hexstr = symtools.hexstring(symtab, path4)
+-- attempt to parse grammar
+path_grammar = loadfile("../path/grammar.lua")
+path_grammar()
+path_grammar = generate_path_grammar(symtab)
+
+morpheme_grammar = loadfile("../morpheme/grammar.lua")
+morpheme_grammar()
+
+grammar = generate_morpheme_grammar(symtab, path_grammar)
+
+hexstr = symtools.hexstring(symtab, tokens)
 -- t = lpeg.match(lpeg.Ct(path_grammar), hexstr)
--- pp(t)
+t = lpeg.match(lpeg.Ct(grammar), hexstr)
+pp(t)

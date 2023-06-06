@@ -12,16 +12,33 @@ morpheme = dofile("morpheme/morpheme.lua")
 morpheme_grammar = loadfile("morpheme/grammar.lua")
 morpheme_grammar()
 
+-- simulate symbol table mapping
+
 local morpheme_symtab = {
     morph_sym00 = 1,
     morph_sym01 = 2,
     morph_sym02 = 3,
     morph_sym03 = 4,
-    morph_break = 5,
-    morph_begin = 6,
-    morph_end = 7,
-    morph_define = 8,
-    morph_line_begin = 9,
+    morph_sym04 = 5,
+    morph_sym05 = 6,
+    morph_sym06 = 7,
+    morph_sym07 = 8,
+    morph_sym08 = 9,
+    morph_sym09 = 10,
+    morph_sym10 = 11,
+    morph_sym11 = 12,
+    morph_sym12 = 13,
+    morph_sym13 = 14,
+    morph_sym14 = 15,
+    morph_sym15 = 16,
+    morph_sym16 = 17,
+    morph_sym17 = 18,
+    morph_sym18 = 19,
+    morph_break = 20,
+    morph_begin = 21,
+    morph_end = 22,
+    morph_define = 23,
+    morph_line_begin = 24,
 }
 
 local symbol2letter = {
