@@ -137,6 +137,9 @@ for _,at in pairs(t.attributes) do
     m[atname] = p
 end
 
+local mname = generate_attribute_name(symbol2letter, t.name)
+
+local refname = "papo"
 local ref = { 
   dide = { { 
       bhvr = 3,
@@ -171,8 +174,8 @@ function path2str(p)
 end
 
 -- TODO account for morpheme name as well
-function morpheme2str(m)
-    local s = ""
+function morpheme2str(m, name)
+    local s = name
     -- first pass: retrieve and sort attributes
     local attr_list = {}
     for attr, _ in pairs(m) do
@@ -190,8 +193,8 @@ end
 verbose = os.getenv("VERBOSE")
 verbose = (verbose ~= nil and verbose == "1")
 
-refstr = morpheme2str(ref)
-outstr = morpheme2str(m)
+refstr = morpheme2str(ref, refname)
+outstr = morpheme2str(m, mname)
 
 if outstr ~= refstr then
     if verbose then
