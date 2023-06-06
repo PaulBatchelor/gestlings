@@ -86,8 +86,10 @@ function generate_morpheme_grammar(symtab, pathgram)
     local MorphBreak = hexpat("morph_break")
     local cg = lpeg.Cg
     local ct = lpeg.Ct
-    local Morpheme =
-        ct(MorphBegin * Space * cg(MorphVals^1, "name") * MorphBreak * Space *
-            cg(ct((MorphPath*MorphBreak*Space)^0), "attributes") * MorphEnd)
+    local MorphHeader =
+        MorphBegin * Space * cg(MorphVals^1, "name") * MorphBreak * Space
+    local MorphAttributes = 
+        cg(ct((MorphPath*MorphBreak*Space)^0), "attributes")
+    local Morpheme = ct(MorphHeader * MorphAttributes * MorphEnd)
     return Morpheme
 end
