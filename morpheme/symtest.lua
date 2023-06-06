@@ -74,7 +74,14 @@ divider,
 fourteen, fifteen,
 bracket_right,
 
-endline,
+    bracket_left,
+        zero, zero,
+        ratemulstart, one, one, ratemulend, linear,
+        divider,
+        fifteen, fifteen,
+        ratemulstart, three, three, ratemulend, step,
+    bracket_right,
+
 }
 
 path2 = {
@@ -90,8 +97,6 @@ zero, three,
 divider,
 zero, four,
 bracket_right,
-
-endline,
 }
 
 path3 = {
@@ -109,8 +114,6 @@ zero, eight,
 divider,
 zero, nine,
 bracket_right,
-
-endline,
 }
 
 path4 = {
@@ -128,8 +131,6 @@ zero, thirteen,
 divider,
 zero, fourteen,
 bracket_right,
-
-endline,
 }
 
 tcat(tokens, {
@@ -138,6 +139,7 @@ dash, lbrack, parallel, parallel, ground, morph_define,
 })
 
 tcat(tokens, path1)
+tcat(tokens, {endline})
 
 tcat(tokens, {
 morph_line_begin,
@@ -145,6 +147,7 @@ skydash, dashsky, sky, skydash, rtee, rbrack, morph_define,
 })
 
 tcat(tokens, path2)
+tcat(tokens, {endline})
 
 tcat(tokens, {
 morph_line_begin,
@@ -152,6 +155,7 @@ rhook, rhook, rhook, groundsky, morph_define,
 })
 
 tcat(tokens, path3)
+tcat(tokens, {endline})
 
 tcat(tokens, {
 morph_line_begin,
@@ -159,6 +163,7 @@ rbrack, dash, lbrack, ltee, morph_define,
 })
 
 tcat(tokens, path4)
+tcat(tokens, {endline})
 
 tcat(tokens, {morph_end, endline})
 
@@ -191,3 +196,12 @@ for _,b in pairs(bytes) do
 end
 
 lil("bppbm [grab bp]")
+
+
+-- -- attempt to parse grammar
+-- path_grammar = loadfile("../path/grammar.lua")
+-- path_grammar()
+-- path_grammar = generate_path_grammar(symtab)
+-- hexstr = symtools.hexstring(symtab, path4)
+-- t = lpeg.match(lpeg.Ct(path_grammar), hexstr)
+-- pp(t)
