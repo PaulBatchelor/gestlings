@@ -46,11 +46,6 @@ end
 
 tokens = {}
 
-tcat(tokens, { morph_begin, lbrack, parallel, rbrack, rtee, dash,
-dashground, grounddash, dashsky, skydash, dash, dashsky, skyground,
-rhook, morph_break,
-})
-
 path1 = {
 -- gesture path
 bracket_left,
@@ -125,37 +120,43 @@ zero, fourteen,
 bracket_right,
 }
 
-tcat(tokens, {
-morph_line_begin,
-dash, lbrack, parallel, parallel, ground, morph_define,
+tcat(tokens, { morph_begin, lbrack, parallel, rbrack, rtee, dash,
+dashground, grounddash, dashsky, skydash, dash, dashsky, skyground,
+rhook, morph_break,
 })
 
+
+tcat(tokens, {
+morph_line_begin,
+dash, lbrack, parallel, parallel, ground,
+morph_define,
+})
 tcat(tokens, path1)
 tcat(tokens, {morph_break})
 
--- tcat(tokens, {
--- morph_line_begin,
--- skydash, dashsky, sky, skydash, rtee, rbrack, morph_define,
--- })
--- 
--- tcat(tokens, path2)
--- tcat(tokens, {morph_break})
--- 
--- tcat(tokens, {
--- morph_line_begin,
--- rhook, rhook, rhook, groundsky, morph_define,
--- })
--- 
--- tcat(tokens, path3)
--- tcat(tokens, {morph_break})
--- 
--- tcat(tokens, {
--- morph_line_begin,
--- rbrack, dash, lbrack, ltee, morph_define,
--- })
--- 
--- tcat(tokens, path4)
--- tcat(tokens, {morph_break})
+tcat(tokens, {
+morph_line_begin,
+skydash, dashsky, sky, skydash, rtee, rbrack, morph_define,
+})
+
+tcat(tokens, path2)
+tcat(tokens, {morph_break})
+
+tcat(tokens, {
+morph_line_begin,
+rhook, rhook, rhook, groundsky, morph_define,
+})
+
+tcat(tokens, path3)
+tcat(tokens, {morph_break})
+
+tcat(tokens, {
+morph_line_begin,
+rbrack, dash, lbrack, ltee, morph_define,
+})
+
+tcat(tokens, path4)
+tcat(tokens, {morph_break})
 
 tcat(tokens, {morph_end, morph_break})
 
@@ -196,7 +197,9 @@ morpheme_grammar()
 
 grammar = generate_morpheme_grammar(symtab, path_grammar)
 
+-- pp(tokens)
 hexstr = symtools.hexstring(symtab, tokens)
+-- pp(hexstr)
 -- t = lpeg.match(lpeg.Ct(path_grammar), hexstr)
 t = lpeg.match(lpeg.Ct(grammar), hexstr)
 pp(t)

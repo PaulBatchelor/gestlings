@@ -101,7 +101,6 @@ grammar = generate_morpheme_grammar(symtab, path_grammar)
 -- generate AST from hex string
 t = lpeg.match(grammar, str)
 
-
 -- silly way to produce human-readable names from attribute symbols
 -- this most likely won't cause collisions?
 -- method: each symbol gets a consonant prefix in a lookup table,
@@ -171,6 +170,7 @@ function path2str(p)
     return s
 end
 
+-- TODO account for morpheme name as well
 function morpheme2str(m)
     local s = ""
     -- first pass: retrieve and sort attributes

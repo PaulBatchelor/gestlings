@@ -40,7 +40,6 @@ function generate_morpheme_grammar(symtab, pathgram)
         morph_sym15 = "morph_begin",
         morph_sym16 = "morph_line_begin",
         morph_sym17 = "morph_end",
-        morph_sym18 = "morph_define",
     }
 
     hexpat = function(msym)
@@ -51,7 +50,7 @@ function generate_morpheme_grammar(symtab, pathgram)
         return lpeg.P(string.format("%02x", num))
     end
 
-    for i = 1,19 do
+    for i = 1,18 do
         local msym = string.format("morph_sym%02d", i - 1)
         local symnum = symtab[msym]
         if symnum ~= nil then
@@ -77,19 +76,21 @@ function generate_morpheme_grammar(symtab, pathgram)
     end
     local MorphVals = Space * MorphSymbols * Space
     local LineBegin = hexpat("morph_line_begin") * Space
-    local Define = hexpat("morph_define") * Space
-    local MorphPath = lpeg.Ct(LineBegin^0*lpeg.Cg(lpeg.Ct(MorphVals^1) * Define, "attribute") *
-        lpeg.Cg(lpeg.Ct(pathgram), "path")
-        )
+    local Define = Space * hexpat("morph_define") * Space
+    local MorphAttrName = lpeg.Cg(lpeg.Ct(MorphVals^1) * Define, "attribute") 
+    local GesturePath = lpeg.Cg(lpeg.Ct(pathgram), "path")
+    local MorphPath = lpeg.Ct(LineBegin^0 * MorphAttrName * GesturePath)
+
     local MorphBegin = hexpat("morph_begin")
     local MorphEnd = hexpat("morph_end")
     local MorphBreak = hexpat("morph_break")
     local cg = lpeg.Cg
     local ct = lpeg.Ct
     local MorphHeader =
-        MorphBegin * Space * cg(MorphVals^1, "name") * MorphBreak * Space
+        MorphBegin * Space * cg(ct(MorphVals^1), "name") * MorphBreak * Space
     local MorphAttributes = 
         cg(ct((MorphPath*MorphBreak*Space)^0), "attributes")
     local Morpheme = ct(MorphHeader * MorphAttributes * MorphEnd)
     return Morpheme
+    --return ct(MorphPath)
 end
