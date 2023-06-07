@@ -14,4 +14,8 @@
     @[["morpheme/test_syms_tab.b64"
        "morpheme/test_syms.uf2"]
       ["morpheme/test_uf2.lua"]]
+
+    @[["seq/test_syms_tab.b64"
+       "seq/test_syms.uf2"]
+      ["seq/test_uf2.lua"]]
 ])
