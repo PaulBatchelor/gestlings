@@ -38,11 +38,19 @@ tokens = {
     seq_dur1, seq_dur2, seq_dur3, seq_dur4,
     seq_dur5, seq_dur6, seq_dur7, seq_dur8,
     seq_end,
-    seq_val8, seq_dur1, seq_val1, seq_dur2, seq_val9, seq_dur3,
+    seq_step, seq_linear, seq_gliss_big, seq_gliss_medium,
+    seq_gliss_small,
+    seq_end,
+
+    seq_val8, seq_dur1, seq_linear,
+    seq_val1, seq_dur2, seq_val9,
+    seq_dur3, seq_step,
     seq_val15, seq_dur4, seq_val11, seq_dur5,
-    seq_val3, seq_dur6, seq_val4, seq_dur7,
-    seq_val10, seq_dur8,
-    seq_val16, seq_dur1, seq_dur8, seq_end
+    seq_val3, seq_dur6, seq_linear, seq_val4, seq_dur7,
+    seq_val10, seq_dur8, seq_gliss_small,
+    seq_val16, seq_dur1, seql_val8, seq_dur8, seq_gliss_big,
+    seq_val0, seq_val3, seq_val5, seq_gliss_big,
+    seq_end
 }
 
 for _,t in pairs(tokens) do

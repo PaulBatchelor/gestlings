@@ -585,4 +585,114 @@ seq_end = {
 }
 add_to_font(seq_end)
 
+seq_step = {
+    id = 0x1a,
+    width = 3,
+    name = "seq_step",
+    shortcut = "",
+    bits = {
+        "-","-","-","-",
+
+        "##--",
+        "##--",
+        "##--",
+        "----",
+        "----",
+        "----",
+        "----",
+        "##--",
+
+        "#","-","-","-",
+    }
+}
+add_to_font(seq_step)
+
+seq_linear = {
+    id = 0x1b,
+    width = 3,
+    name = "seq_linear",
+    shortcut = "",
+    bits = {
+        "-","-","-","-",
+
+        "-#--",
+        "-#--",
+        "-#--",
+        "-#--",
+        "-#--",
+        "##--",
+        "----",
+        "##--",
+
+        "#","-","-","-",
+    }
+}
+add_to_font(seq_linear)
+
+seq_gliss_big = {
+    id = 0x1c,
+    width = 3,
+    name = "seq_gliss_big",
+    shortcut = "",
+    bits = {
+        "-","-","-","-",
+
+        "##--",
+        "-#--",
+        "##--",
+        "#---",
+        "#---",
+        "##--",
+        "----",
+        "##--",
+
+        "#","-","-","-",
+    }
+}
+add_to_font(seq_gliss_big)
+
+seq_gliss_medium = {
+    id = 0x1d,
+    width = 3,
+    name = "seq_gliss_medium",
+    shortcut = "",
+    bits = {
+        "-","-","-","-",
+
+        "#---",
+        "#---",
+        "##--",
+        "-#--",
+        "##--",
+        "#---",
+        "----",
+        "##--",
+
+        "#","-","-","-",
+    }
+}
+add_to_font(seq_gliss_medium)
+
+seq_gliss_small = {
+    id = 0x1e,
+    width = 3,
+    name = "seq_gliss_small",
+    shortcut = "",
+    bits = {
+        "-","-","-","-",
+
+        "##--",
+        "#---",
+        "##--",
+        "#---",
+        "##--",
+        "#---",
+        "----",
+        "##--",
+
+        "-","-","-","-",
+    }
+}
+add_to_font(seq_gliss_small)
+
 return font
