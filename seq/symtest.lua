@@ -31,10 +31,11 @@ tokens = {
     seq_val16, seq_val15, seq_val14, seq_val13, seq_val12,
     seq_val11, seq_val10, seq_val9,
     seq_end,
-    seq_val8, seq_dur1, seq_val8, seq_dur2, seq_val8, seq_dur3,
-    seq_val8, seq_dur4, seq_val8, seq_dur5,
-    seq_dur6, seq_dur7,
-    seq_dur16, seq_end
+    seq_val8, seq_dur1, seq_val1, seq_dur2, seq_val9, seq_dur3,
+    seq_val15, seq_dur4, seq_val11, seq_dur5,
+    seq_val3, seq_dur6, seq_val4, seq_dur7,
+    seq_val10, seq_dur8,
+    seq_val16, seq_dur1, seq_dur8, seq_end
 }
 
 for _,t in pairs(tokens) do
