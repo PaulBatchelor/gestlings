@@ -61,3 +61,51 @@ function S.gatefun(morpho, str)
     end
 end
 #+END_SRC
+
+More words needed here. This is related to the notation
+system being developed.
+
+#+NAME: functions
+#+BEGIN_SRC lua
+function S.parse_tree(tree)
+    local btab = {
+        linear = 0,
+        step = 1,
+        gliss_medium = 2,
+        gliss_big = 3,
+        gliss_small = 4,
+    }
+
+    local behavior = btab["linear"]
+    local dur = 1
+
+    local gpath = {}
+
+    for _,leaf in pairs(t) do
+        local v = {}
+
+        if leaf.value == nil then
+            error("leaf value is nil")
+        end
+
+        if leaf.behavior ~= nil then
+            behavior = btab[leaf.behavior]
+        end
+
+        if leaf.dur ~= nil then
+            local r = 0
+            for _, digit in pairs(leaf.dur) do
+                r = r * 8 + tonumber(digit)
+            end
+            dur = r
+        end
+
+        v[1] = tonumber(leaf.value)
+        v[2] = dur
+        v[3] = behavior
+        table.insert(gpath, v)
+    end
+
+    return gpath
+end
+#+END_SRC

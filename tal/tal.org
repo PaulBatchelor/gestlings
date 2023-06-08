@@ -127,6 +127,11 @@ other Tal stuff.
 function tal.start(words)
     table.insert(words, "|0100")
 end
+
+-- I keep wanting to call it begin, not start
+function tal.begin(words)
+    tal.start(words)
+end
 #+END_SRC
 ** compile_words
 The =compile_words= function takes a set of populated

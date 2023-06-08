@@ -33,11 +33,16 @@ tokens = {
     seq_val8, seq_dur1, seq_dur2, seq_linear,
     seq_val1, seq_dur2,
     seq_val9, seq_dur3, seq_step,
-    seq_val15, seq_dur4, seq_val11, seq_dur5,
-    seq_val3, seq_dur6, seq_linear, seq_val4, seq_dur7,
+    seq_val15, seq_dur4,
+    seq_val11, seq_dur5,
+    seq_val3, seq_dur6, seq_linear,
+    seq_val4, seq_dur7,
     seq_val10, seq_dur8, seq_gliss_small,
-    seq_val16, seq_dur1, seql_val8, seq_dur8, seq_gliss_big,
-    seq_val0, seq_val3, seq_val5, seq_gliss_big,
+    seq_val16, seq_dur1,
+    seq_val8, seq_dur8, seq_gliss_big,
+    seq_val0,
+    seq_val3,
+    seq_val5, seq_gliss_big,
     seq_end
 }
 
@@ -79,10 +84,62 @@ seq_grammar()
 grammar = generate_seq_grammar(symtab)
 -- 
 -- -- pp(tokens)
-hexstr = symtools.hexstring(symtab, tokens)
-print(hexstr)
 -- -- pp(hexstr)
 -- -- t = lpeg.match(lpeg.Ct(path_grammar), hexstr)
-t = lpeg.match(lpeg.Ct(grammar), hexstr)
-pp(t)
 
+function seq_parse_tree(tree)
+    local btab = {
+        linear = 0,
+        step = 1,
+        gliss_medium = 2,
+        gliss_big = 3,
+        gliss_small = 4,
+    }
+
+    local behavior = btab["linear"]
+    local dur = 1
+
+    local gpath = {}
+
+    for _,leaf in pairs(t) do
+        local v = {}
+
+        if leaf.value == nil then
+            error("leaf value is nil")
+        end
+
+        if leaf.behavior ~= nil then
+            behavior = btab[leaf.behavior]
+        end
+
+        if leaf.dur ~= nil then
+            local r = 0
+            for _, digit in pairs(leaf.dur) do
+                r = r * 8 + tonumber(digit)
+            end
+            dur = r
+        end
+
+        v[1] = tonumber(leaf.value)
+        v[2] = dur
+        v[3] = behavior
+        table.insert(gpath, v)
+    end
+
+    return gpath
+end
+
+path = dofile("../path/path.lua")
+hexstr = symtools.hexstring(symtab, tokens)
+t = lpeg.match(lpeg.Ct(grammar), hexstr)
+gpath = seq_parse_tree(t)
+
+-- tal = dofile("../tal/tal.lua")
+-- words = {}
+
+-- tal.begin(words)
+-- path.path(tal, words, gpath)
+-- pp(words)
+
+morpho = dofile("../morpheme/morpho.lua")
+pp(gpath)

@@ -41,3 +41,4 @@ check AST_to_data
 check morpheme_grammar
 check morpheme_symtest
 check seq_symtest
+check seq_grammar
