@@ -26,5 +26,18 @@ function Symtools.symtab(symbols)
     return symtab
 end
 
+function Symtools.append_symbols(dst, src)
+    local off = 0
+    for _,v in pairs(dst) do
+        if v.id > off then
+            off = v.id
+        end
+    end
+
+    for k, v in pairs(src) do
+        dst[k + off] = src[k]
+        dst[k + off].id = src[k].id + off
+    end
+end
 
 return Symtools

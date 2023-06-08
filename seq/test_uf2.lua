@@ -6,26 +6,14 @@ asset = asset:new({msgpack=msgpack, base64=base64})
 symtools = require("util/symtools")
 
 seq_symbols = require("seq/symbols")
--- psymbols = require("path/symbols")
+path_symbols = require("path/symbols")
+morpheme_symbols = require("morpheme/symbols")
 
--- function append_symbols(dst, src)
---     local off = 0
---     for _,v in pairs(dst) do
---         if v.id > off then
---             off = v.id
---         end
---     end
--- 
---     for k, v in pairs(src) do
---         dst[k + off] = src[k]
---         dst[k + off].id = src[k].id + off
---     end
--- end
--- 
--- append_symbols(symbols, psymbols)
-symtab = symtools.symtab(seq_symbols)
+symbols = seq_symbols
+symtools.append_symbols(symbols, path_symbols)
+symtools.append_symbols(symbols, morpheme_symbols)
 
-uf2.generate(seq_symbols, "seq/test_syms.uf2")
+uf2.generate(symbols, "seq/test_syms.uf2")
 
-symtab = symtools.symtab(seq_symbols)
+symtab = symtools.symtab(symbols)
 asset:save(symtab, "seq/test_syms_tab.b64")

@@ -5,7 +5,7 @@ asset = require("asset/asset")
 asset = asset:new({msgpack=msgpack, base64=base64})
 symtools = require("util/symtools")
 
-symbols = require("morpheme/attribute_symbols")
+symbols = require("morpheme/symbols")
 psymbols = require("path/symbols")
 
 function append_symbols(dst, src)
