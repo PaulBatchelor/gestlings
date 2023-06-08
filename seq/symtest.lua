@@ -30,21 +30,9 @@ function tcat(dst, src)
 end
 
 tokens = {
-    seq_val1, seq_val2, seq_val3, seq_val4, seq_val5,
-    seq_val6, seq_val7, seq_val8, seq_val0, seq_end,
-    seq_val9, seq_val10, seq_val11, seq_val12, seq_val13,
-    seq_val14, seq_val15, seq_val16,
-    seq_end,
-    seq_dur1, seq_dur2, seq_dur3, seq_dur4,
-    seq_dur5, seq_dur6, seq_dur7, seq_dur8,
-    seq_end,
-    seq_step, seq_linear, seq_gliss_big, seq_gliss_medium,
-    seq_gliss_small,
-    seq_end,
-
-    seq_val8, seq_dur1, seq_linear,
-    seq_val1, seq_dur2, seq_val9,
-    seq_dur3, seq_step,
+    seq_val8, seq_dur1, seq_dur2, seq_linear,
+    seq_val1, seq_dur2,
+    seq_val9, seq_dur3, seq_step,
     seq_val15, seq_dur4, seq_val11, seq_dur5,
     seq_val3, seq_dur6, seq_linear, seq_val4, seq_dur7,
     seq_val10, seq_dur8, seq_gliss_small,
@@ -77,7 +65,7 @@ for _,b in pairs(bytes) do
     table.insert(line, b)
 end
 
-lil("bppbm [grab bp]")
+-- lil("bppbm [grab bp]")
 
 
 -- -- attempt to parse grammar
@@ -85,14 +73,16 @@ lil("bppbm [grab bp]")
 -- path_grammar()
 -- path_grammar = generate_path_grammar(symtab)
 -- 
--- morpheme_grammar = loadfile("../morpheme/grammar.lua")
--- morpheme_grammar()
+seq_grammar = loadfile("grammar.lua")
+seq_grammar()
 -- 
--- grammar = generate_morpheme_grammar(symtab, path_grammar)
+grammar = generate_seq_grammar(symtab)
 -- 
 -- -- pp(tokens)
--- hexstr = symtools.hexstring(symtab, tokens)
+hexstr = symtools.hexstring(symtab, tokens)
+print(hexstr)
 -- -- pp(hexstr)
 -- -- t = lpeg.match(lpeg.Ct(path_grammar), hexstr)
--- t = lpeg.match(lpeg.Ct(grammar), hexstr)
+t = lpeg.match(lpeg.Ct(grammar), hexstr)
+pp(t)
 
