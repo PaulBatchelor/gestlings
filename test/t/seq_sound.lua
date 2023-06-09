@@ -128,13 +128,25 @@ function draw(tokens)
         table.insert(line, b)
     end
 
-    lil("bppbm [grab bp]")
+    -- lil("bppbm [grab bp]")
 end
 
 morpheme_tokens, lookup = generate_tokens(symtab)
 
 gfx_setup()
 draw(morpheme_tokens)
+
+chksm="c48701ad34ad33b0e890ec4ed0442734"
+rc, msg = pcall(lil, "bpverify [grab bp] " .. chksm)
+
+verbose = os.getenv("VERBOSE")
+if rc == false then
+    if verbose ~= nil and verbose == "1" then
+        error(msg)
+    end
+    os.exit(1)
+end
+
 
 loadfile("path/grammar.lua")()
 path_grammar = generate_path_grammar(symtab)
@@ -237,5 +249,14 @@ con(butlp, mul1.a)
 l = grf:generate_nodelist()
 grf:compute(l)
 
-lil("wavout zz test.wav")
-lil("computes 10")
+chksm="be8ffb2455ffd07b1f33b3aa5a9ce0ed"
+rc, msg = pcall(lil, "verify " .. chksm)
+
+if rc == false then
+    if verbose ~= nil and verbose == "1" then
+        error(msg)
+    end
+    os.exit(1)
+end
+-- lil("wavout zz test.wav")
+-- lil("computes 10")
