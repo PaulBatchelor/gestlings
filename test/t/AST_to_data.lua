@@ -43,10 +43,14 @@ function path2str(p)
 
     for _, vx in pairs(p) do
         s = s .. string.format("[%d:", vx[1])
-        if #vx[2] == 1 then
-            s = s .. string.format("%d:", vx[2][1])
-        elseif #vx[2] == 2 then
-            s = s .. string.format("%d,%d:", vx[2][1], vx[2][2])
+        if type(vx[2]) == "table" then
+            if #vx[2] == 1 then
+                s = s .. string.format("%d:", vx[2][1])
+            elseif #vx[2] == 2 then
+                s = s .. string.format("%d,%d:", vx[2][1], vx[2][2])
+            end
+        else
+                s = s .. string.format("%d:", vx[2])
         end
         s = s .. string.format("%d]", vx[3])
     end

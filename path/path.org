@@ -162,10 +162,7 @@ function Path.AST_to_data(t)
                 local num, den
                 num = v.ratemul[1]
                 num = tonumber("0x" .. num[1] .. num[2])
-                -- shouldn't be a table
-                ratemul = {num}
-                -- should be single value.
-                -- ratemul = num
+                ratemul = num
             end
         end
         local vertex = {

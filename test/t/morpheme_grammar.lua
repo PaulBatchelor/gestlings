@@ -147,20 +147,20 @@ local refname = "papo"
 local ref = { 
   dide = { { 
       bhvr = 3,
-      dur = { 153 },
+      dur = 153,
       val = 17 
     }, { 
       bhvr = 1,
-      dur = { 1 },
+      dur = 1,
       val = 17 
     } },
   pafothidedo = { { 
       bhvr = 0,
-      dur = { 17 },
+      dur = 17,
       val = 0 
     }, { 
       bhvr = 1,
-      dur = { 51 },
+      dur = 51,
       val = 255 
     } } 
 }
@@ -170,7 +170,7 @@ function path2str(p)
 
     for _,v in pairs(p) do
         s = v.bhvr .. 
-            string.format("%x", v.dur[1]) ..
+            string.format("%x", v.dur) ..
             string.format("%x", v.val)
     end
 
