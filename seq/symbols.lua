@@ -1,6 +1,6 @@
 font = {}
 function add_to_font(sym)
-    font[sym.id] = sym
+    table.insert(font, sym)
 end
 
 seq_val1 = {

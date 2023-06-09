@@ -10,9 +10,16 @@ runtest () {
 }
 
 MAX_SPACES=41
+NERR=0
 check () {
     NSPACES=$(expr $MAX_SPACES - ${#1})
-    printf "%s:%"$NSPACES"s\n" $1 $(runtest $1)
+    STATUS=$(runtest $1)
+    printf "%s:%"$NSPACES"s\n" $1 $STATUS
+
+    if [ $STATUS == "fail" ]
+    then
+        NERR=$(echo "$NERR + 1" | bc)
+    fi
 }
 
 check warble1
@@ -42,3 +49,17 @@ check morpheme_grammar
 check morpheme_symtest
 check seq_symtest
 check seq_grammar
+check append_symbols
+
+if [ "$NERR" -gt 0 ]
+then
+    if [ "$NERR" -eq 1 ]
+    then
+        echo "Tests returned 1 error"
+    else
+        echo "Tests returned $NERR errors"
+    fi
+    exit 1
+fi
+
+echo "All tests pass successfully"

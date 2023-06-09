@@ -35,8 +35,8 @@ function Symtools.append_symbols(dst, src)
     end
 
     for k, v in pairs(src) do
-        dst[k + off] = src[k]
-        dst[k + off].id = src[k].id + off
+        v.id = v.id + off
+        table.insert(dst, v)
     end
 end
 

@@ -44,14 +44,14 @@ function generate_tokens(symtab)
             bracket_right,
         morph_break,
 
-        morph_line_begin,
-        groundsky, skydash, dashground, morph_define,
-            seq_val0, seq_dur1, seq_linear,
-            seq_val16, seq_dur2,
-            seq_val0, seq_dur2,
-            seq_val16, seq_dur1,
-            seq_end,
-        morph_break,
+        -- morph_line_begin,
+        -- groundsky, skydash, dashground, morph_define,
+        --     seq_val0, seq_dur1, seq_linear,
+        --     seq_val16, seq_dur2,
+        --     seq_val0, seq_dur2,
+        --     seq_val16, seq_dur1,
+        --     seq_end,
+        -- morph_break,
 
         morph_end, morph_break
     }
@@ -105,4 +105,20 @@ end
 morpheme_tokens = generate_tokens(symtab)
 
 gfx_setup()
-draw(morpheme_tokens)
+-- draw(morpheme_tokens)
+
+loadfile("path/grammar.lua")()
+print(symtab["gliss_medium"])
+-- path_grammar = generate_path_grammar(symtab)
+
+-- morpheme_grammar = loadfile("morpheme/grammar.lua")
+-- morpheme_grammar()
+-- 
+-- grammar = generate_morpheme_grammar(symtab, path_grammar)
+-- 
+-- -- pp(tokens)
+-- hexstr = symtools.hexstring(symtab, tokens)
+-- -- pp(hexstr)
+-- -- t = lpeg.match(lpeg.Ct(path_grammar), hexstr)
+-- t = lpeg.match(lpeg.Ct(grammar), hexstr)
+-- pp(t)

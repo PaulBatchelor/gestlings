@@ -16,4 +16,5 @@ symtools.append_symbols(symbols, morpheme_symbols)
 uf2.generate(symbols, "seq/test_syms.uf2")
 
 symtab = symtools.symtab(symbols)
+tmp = symtools.symtab(path_symbols)
 asset:save(symtab, "seq/test_syms_tab.b64")
