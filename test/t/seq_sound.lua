@@ -44,14 +44,14 @@ function generate_tokens(symtab)
             bracket_right,
         morph_break,
 
-        -- morph_line_begin,
-        -- groundsky, skydash, dashground, morph_define,
-        --     seq_val0, seq_dur1, seq_linear,
-        --     seq_val16, seq_dur2,
-        --     seq_val0, seq_dur2,
-        --     seq_val16, seq_dur1,
-        --     seq_end,
-        -- morph_break,
+        morph_line_begin,
+        groundsky, skydash, dashground, morph_define,
+            seq_val0, seq_dur1, seq_linear,
+            seq_val16, seq_dur2,
+            seq_val0, seq_dur2,
+            seq_val16, seq_dur1,
+            seq_end,
+        morph_break,
 
         morph_end, morph_break
     }
@@ -109,11 +109,14 @@ gfx_setup()
 
 loadfile("path/grammar.lua")()
 path_grammar = generate_path_grammar(symtab)
+loadfile("seq/grammar.lua")()
+seq_grammar = generate_seq_grammar(symtab)
 
 loadfile("morpheme/grammar.lua")()
 
 local notations = {
-    path=path_grammar,
+    path = path_grammar,
+    seq = seq_grammar,
 }
 morpheme_grammar = generate_morpheme_grammar(symtab, notations)
 
@@ -125,4 +128,15 @@ hexstr = symtools.hexstring(symtab, morpheme_tokens)
 pat = lpeg.Ct(morpheme_grammar)
 t = lpeg.match(pat, hexstr)
 -- pp(t[1].attributes[1].path_type)
-pp(t)
+seq = require("seq/seq")
+seqtree = t[1].attributes[2]
+pp(seq.parse_tree(seqtree.path))
+pp(seqtree.attribute)
+
+id = "sym_"
+
+for _,v in pairs(seqtree.attribute) do
+    id = id .. symtab[v]
+end
+
+print(id)

@@ -81,7 +81,7 @@ function S.parse_tree(tree)
 
     local gpath = {}
 
-    for _,leaf in pairs(t) do
+    for _,leaf in pairs(tree) do
         local v = {}
 
         if leaf.value == nil then
