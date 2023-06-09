@@ -108,17 +108,13 @@ gfx_setup()
 -- draw(morpheme_tokens)
 
 loadfile("path/grammar.lua")()
-print(symtab["gliss_medium"])
--- path_grammar = generate_path_grammar(symtab)
+path_grammar = generate_path_grammar(symtab)
 
--- morpheme_grammar = loadfile("morpheme/grammar.lua")
--- morpheme_grammar()
--- 
--- grammar = generate_morpheme_grammar(symtab, path_grammar)
--- 
--- -- pp(tokens)
--- hexstr = symtools.hexstring(symtab, tokens)
--- -- pp(hexstr)
--- -- t = lpeg.match(lpeg.Ct(path_grammar), hexstr)
--- t = lpeg.match(lpeg.Ct(grammar), hexstr)
--- pp(t)
+loadfile("morpheme/grammar.lua")()
+morpheme_grammar = generate_morpheme_grammar(symtab, path_grammar)
+
+hexstr = symtools.hexstring(symtab, morpheme_tokens)
+-- TODO: we need a way for this tree to support multiple
+-- notation systems for gesture paths...
+t = lpeg.match(lpeg.Ct(morpheme_grammar), hexstr)
+pp(t)
