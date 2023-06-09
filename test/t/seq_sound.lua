@@ -109,11 +109,11 @@ function draw(tokens)
         table.insert(bytes, symtab[t])
     end
 
-    -- lil("uf2txtln [bpget [grab bp] 0] [grab chicago] 0 0 'Morpheme Notation Test'")
+    lil("uf2txtln [bpget [grab bp] 0] [grab chicago] 0 0 'Morpheme Notation Sound Test'")
 
     line = {}
     mnobuf.clear(buf)
-    linepos = 0
+    linepos = 2
     lineheight = 12
     for _,b in pairs(bytes) do
         if b == symtab["morph_break"] then
@@ -134,7 +134,7 @@ end
 morpheme_tokens, lookup = generate_tokens(symtab)
 
 gfx_setup()
--- draw(morpheme_tokens)
+draw(morpheme_tokens)
 
 loadfile("path/grammar.lua")()
 path_grammar = generate_path_grammar(symtab)
@@ -160,9 +160,9 @@ t = lpeg.match(pat, hexstr)
 seq = require("seq/seq")
 path = require("path/path")
 seqtree = t[1].attributes[2]
-pp(seq.parse_tree(seqtree.path))
-pp(seqtree.attribute)
-pp(lookup)
+-- pp(seq.parse_tree(seqtree.path))
+-- pp(seqtree.attribute)
+-- pp(lookup)
 
 -- produce morpheme from tree
 local m = {}
@@ -180,7 +180,7 @@ for _,att in pairs(t[1].attributes) do
     m[aname] = p
 end
 
-pp(m)
+-- pp(m)
 
 tal = require("tal/tal")
 morpheme = require("morpheme/morpheme")
@@ -191,7 +191,6 @@ gest = require("gest/gest")
 sigrunes = require("sigrunes/sigrunes")
 sig = require("sig/sig")
 core = require("util/core")
-
 
 
 grf = diagraf.Graph:new{sig=sig}
@@ -240,9 +239,3 @@ grf:compute(l)
 
 lil("wavout zz test.wav")
 lil("computes 10")
-
--- lvl("phasor 0 2")
--- lvl("hold zz")
--- lvl("regset zz 0")
--- 
--- lvl("unhold [regget 0]")
