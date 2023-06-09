@@ -18,16 +18,30 @@ local function tcat(dst, src)
     end
 end
 
+function tokens_to_string(symtab, tk)
+
+    local str = "sym_"
+
+    for _,v in pairs(tk) do
+        str = str .. symtab[v]
+    end
+
+    return str
+end
+
 function generate_tokens(symtab)
     symtools.vars(symtab)()
+    local morph_name = {lbrack, parallel, rbrack, rtee, dash}
+    local pitch_name = {dash, rtee, rtee}
+    local brightness_name = {groundsky, skydash, dashground}
+    local tk = {}
+    tcat(tk, {morph_begin})
+    tcat(tk, morph_name)
+    tcat(tk, {morph_break})
 
-    local tk = {
-        morph_begin,
-            lbrack, parallel, rbrack, rtee, dash,
-        morph_break,
-
-        morph_line_begin,
-        dash, rtee, rtee, morph_define,
+    tcat(tk, {morph_line_begin})
+    tcat(tk, pitch_name)
+    tcat(tk, {morph_define,
             bracket_left,
             zero, zero,
             ratemulstart, zero, one, ratemulend, gliss_medium,
@@ -42,20 +56,25 @@ function generate_tokens(symtab)
             zero, eleven,
 
             bracket_right,
-        morph_break,
+        morph_break})
 
-        morph_line_begin,
-        groundsky, skydash, dashground, morph_define,
+    tcat(tk, {morph_line_begin})
+    tcat(tk, brightness_name)
+    tcat(tk, {morph_define,
             seq_val0, seq_dur1, seq_linear,
             seq_val16, seq_dur2,
             seq_val0, seq_dur2,
             seq_val16, seq_dur1,
             seq_end,
         morph_break,
-
-        morph_end, morph_break
+        morph_end, morph_break})
+    local lookup = {
+        name = tokens_to_string(symtab, morph_name),
+        pitch = tokens_to_string(symtab, pitch_name),
+        brightness = tokens_to_string(symtab, brightness_name)
     }
-    return tk
+
+    return tk, lookup
 end
 
 function gfx_setup()
@@ -102,7 +121,7 @@ function draw(tokens)
     lil("bppbm [grab bp]")
 end
 
-morpheme_tokens = generate_tokens(symtab)
+morpheme_tokens, lookup = generate_tokens(symtab)
 
 gfx_setup()
 -- draw(morpheme_tokens)
@@ -129,14 +148,26 @@ pat = lpeg.Ct(morpheme_grammar)
 t = lpeg.match(pat, hexstr)
 -- pp(t[1].attributes[1].path_type)
 seq = require("seq/seq")
+path = require("path/path")
 seqtree = t[1].attributes[2]
 pp(seq.parse_tree(seqtree.path))
 pp(seqtree.attribute)
+pp(lookup)
 
-id = "sym_"
+-- produce morpheme from tree
+local m = {}
 
-for _,v in pairs(seqtree.attribute) do
-    id = id .. symtab[v]
+
+for _,att in pairs(t[1].attributes) do
+    local aname = tokens_to_string(symtab, att.attribute)
+    local p = nil
+
+    if att.path_type == "path" then
+        p = path.AST_to_data(att.path)
+    elseif att.path_type == "seq" then
+        p = seq.parse_tree(att.path)
+    end
+    m[aname] = p
 end
 
-print(id)
+pp(m)
