@@ -54,6 +54,18 @@ function generate_tokens(symtab)
             divider,
 
             zero, eleven,
+            divider,
+
+            zero, fourteen,
+            divider,
+
+            zero, eleven,
+            divider,
+
+            zero, seven,
+            divider,
+
+            zero, four,
 
             bracket_right,
         morph_break})
@@ -62,8 +74,6 @@ function generate_tokens(symtab)
     tcat(tk, brightness_name)
     tcat(tk, {morph_define,
             seq_val0, seq_dur1, seq_linear,
-            seq_val16, seq_dur2,
-            seq_val0, seq_dur2,
             seq_val16, seq_dur1,
             seq_end,
         morph_break,
@@ -175,12 +185,6 @@ pp(m)
 tal = require("tal/tal")
 morpheme = require("morpheme/morpheme")
 
--- 
--- pp(morpheme.morpheme(m, {1,1}))
--- mseq = {{m, {1, 1}}}
--- morpheme.articulate(path, tal, words, mseq)
--- pp(words)
-
 -- hook up morpheme to gestvm
 diagraf = require("diagraf/diagraf")
 gest = require("gest/gest")
@@ -201,7 +205,7 @@ gst:create()
 
 words = {}
 tal.begin(words)
-mseq = {{m, {1, 1}}}
+mseq = {{m, {1, 2}}}
 morpheme.articulate(path, tal, words, mseq)
 gst:compile(words)
 
@@ -217,12 +221,14 @@ con(pitch, add1.a)
 con(add1, mtof.input)
 saw = ng(sr.blsaw){}
 con(mtof, saw.freq)
-cutoff = ng(sr.scale){min=100, max=1000, input=1}
+cutoff = ng(sr.scale){min=200, max=2000, input=1}
 butlp = ng(sr.butlp){}
 
 brightness = ng(gst:node()) {name = lookup["brightness"]}
 con(cnd, brightness.conductor)
-con(brightness, cutoff.input)
+mul2 = ng(sr.mul) {b=1.0/16}
+con(brightness, mul2.a)
+con(mul2, cutoff.input)
 con(cutoff, butlp.cutoff)
 con(saw, butlp.input)
 
