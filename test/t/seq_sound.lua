@@ -175,10 +175,68 @@ pp(m)
 tal = require("tal/tal")
 morpheme = require("morpheme/morpheme")
 
+-- 
+-- pp(morpheme.morpheme(m, {1,1}))
+-- mseq = {{m, {1, 1}}}
+-- morpheme.articulate(path, tal, words, mseq)
+-- pp(words)
+
+-- hook up morpheme to gestvm
+diagraf = require("diagraf/diagraf")
+gest = require("gest/gest")
+sigrunes = require("sigrunes/sigrunes")
+sig = require("sig/sig")
+core = require("util/core")
+
+
+
+grf = diagraf.Graph:new{sig=sig}
+sr = sigrunes
+ng = core.nodegen(diagraf.Node, grf)
+pg = core.paramgen(ng)
+pn = sr.paramnode
+con = grf:connector()
+gst = gest:new{tal=tal}
+gst:create()
+
 words = {}
 tal.begin(words)
-
-pp(morpheme.morpheme(m, {1,1}))
 mseq = {{m, {1, 1}}}
 morpheme.articulate(path, tal, words, mseq)
-pp(words)
+gst:compile(words)
+
+cnd = ng(sr.phasor) {rate = 2}
+
+pitch = ng(gst:node()) {name = lookup["pitch"]}
+con(cnd, pitch.conductor)
+mtof = ng(sr.mtof) {}
+
+add1 = ng(sr.add){b=48 + 3}
+
+con(pitch, add1.a)
+con(add1, mtof.input)
+saw = ng(sr.blsaw){}
+con(mtof, saw.freq)
+cutoff = ng(sr.scale){min=100, max=1000, input=1}
+butlp = ng(sr.butlp){}
+
+brightness = ng(gst:node()) {name = lookup["brightness"]}
+con(cnd, brightness.conductor)
+con(brightness, cutoff.input)
+con(cutoff, butlp.cutoff)
+con(saw, butlp.input)
+
+mul1 = ng(sr.mul){b=0.3}
+con(butlp, mul1.a)
+
+l = grf:generate_nodelist()
+grf:compute(l)
+
+lil("wavout zz test.wav")
+lil("computes 10")
+
+-- lvl("phasor 0 2")
+-- lvl("hold zz")
+-- lvl("regset zz 0")
+-- 
+-- lvl("unhold [regget 0]")
