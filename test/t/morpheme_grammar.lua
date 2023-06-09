@@ -96,8 +96,12 @@ str = symtools.hexstring(symtab, syms)
 
 -- morpheme grammar encapsulates path grammar (PEG)
 path_grammar = generate_path_grammar(symtab)
-grammar = generate_morpheme_grammar(symtab, path_grammar)
- 
+
+local notations = {
+    path=path_grammar,
+}
+grammar = generate_morpheme_grammar(symtab, notations)
+
 -- generate AST from hex string
 t = lpeg.match(grammar, str)
 

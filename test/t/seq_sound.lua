@@ -111,10 +111,18 @@ loadfile("path/grammar.lua")()
 path_grammar = generate_path_grammar(symtab)
 
 loadfile("morpheme/grammar.lua")()
-morpheme_grammar = generate_morpheme_grammar(symtab, path_grammar)
+
+local notations = {
+    path=path_grammar,
+}
+morpheme_grammar = generate_morpheme_grammar(symtab, notations)
 
 hexstr = symtools.hexstring(symtab, morpheme_tokens)
 -- TODO: we need a way for this tree to support multiple
 -- notation systems for gesture paths...
-t = lpeg.match(lpeg.Ct(morpheme_grammar), hexstr)
+--
+-- pat = lpeg.Ct(morpheme_grammar * lpeg.Cg(lpeg.Cc("world"), "hello"))
+pat = lpeg.Ct(morpheme_grammar)
+t = lpeg.match(pat, hexstr)
+-- pp(t[1].attributes[1].path_type)
 pp(t)

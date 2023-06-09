@@ -176,7 +176,10 @@ path_grammar = generate_path_grammar(symtab)
 morpheme_grammar = loadfile("morpheme/grammar.lua")
 morpheme_grammar()
 
-grammar = generate_morpheme_grammar(symtab, path_grammar)
+local notations = {
+    path=path_grammar,
+}
+grammar = generate_morpheme_grammar(symtab, notations)
 
 -- pp(tokens)
 hexstr = symtools.hexstring(symtab, tokens)

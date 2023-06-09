@@ -1,16 +1,5 @@
--- pprint = dofile("../util/pprint.lua")
--- symtools = dofile("../util/symtools.lua")
--- path_grammar = loadfile("../path/grammar.lua")
--- path_grammar()
--- asset = dofile("../asset/asset.lua")
--- asset = asset:new {
---     msgpack = dofile("../util/MessagePack.lua"),
---     base64 = dofile("../util/base64.lua")
--- }
--- path = dofile("../path/path.lua")
--- morpheme = dofile("../morpheme/morpheme.lua")
-
-function generate_morpheme_grammar(symtab, pathgram)
+-- function generate_morpheme_grammar(symtab, pathgram)
+function generate_morpheme_grammar(symtab, notations)
     local Space = lpeg.S(" \n\t")^0
     local MorphSymbols = nil
 
@@ -77,9 +66,29 @@ function generate_morpheme_grammar(symtab, pathgram)
     local MorphVals = Space * MorphSymbols * Space
     local LineBegin = hexpat("morph_line_begin") * Space
     local Define = Space * hexpat("morph_define") * Space
-    local MorphAttrName = lpeg.Cg(lpeg.Ct(MorphVals^1) * Define, "attribute") 
-    local GesturePath = lpeg.Cg(lpeg.Ct(pathgram), "path")
-    local MorphPath = lpeg.Ct(LineBegin^0 * MorphAttrName * GesturePath)
+    local MorphAttrName = lpeg.Cg(lpeg.Ct(MorphVals^1) * Define, "attribute")
+
+    -- local notations = {
+    --     path=pathgram,
+    -- }
+
+    local GesturePath = nil
+
+    for name, gram in pairs(notations) do
+        local p =
+            lpeg.Cg(lpeg.Ct(gram), "path") *
+            lpeg.Cg(lpeg.Cc(name), "path_type")
+        if GesturePath == nil then
+            GesturePath = p
+        else
+            GesturePath = GesturePath + p
+        end
+    end
+
+    local MorphPath =
+        lpeg.Ct(LineBegin^0 *
+            MorphAttrName *
+            GesturePath)
 
     local MorphBegin = hexpat("morph_begin")
     local MorphEnd = hexpat("morph_end")
