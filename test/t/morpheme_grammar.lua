@@ -177,7 +177,6 @@ function path2str(p)
     return s
 end
 
--- TODO account for morpheme name as well
 function morpheme2str(m, name)
     local s = name
     -- first pass: retrieve and sort attributes

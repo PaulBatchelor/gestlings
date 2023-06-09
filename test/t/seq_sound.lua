@@ -171,3 +171,14 @@ for _,att in pairs(t[1].attributes) do
 end
 
 pp(m)
+
+tal = require("tal/tal")
+morpheme = require("morpheme/morpheme")
+
+words = {}
+tal.begin(words)
+
+pp(morpheme.morpheme(m, {1,1}))
+mseq = {{m, {1, 1}}}
+morpheme.articulate(path, tal, words, mseq)
+pp(words)
