@@ -577,7 +577,7 @@
 -	57f969be-861d-4975-832d-9dda6f4fbcff	#0c77f83c-25ff-41a7-af04-88b87c55eb83
 2023-06-03 20:06:24	94fe9198-1edb-45d1-8c61-704b1cb1d29c	>create notation system for morphemes
 -	94fe9198-1edb-45d1-8c61-704b1cb1d29c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-06-03 20:06:24	94fe9198-1edb-45d1-8c61-704b1cb1d29c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-10 00:20:23	94fe9198-1edb-45d1-8c61-704b1cb1d29c	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-06-03 20:08:16	1ea6df95-bb8c-45e9-a189-119d60c9c9ec	>it looks like the initial grammar has been produced, though the code needs to be cleaned up. the display/symbol set has not yet been done. rendering is still a pain point, since the only program that does it is a hacked-together C program hard coded for a path notation demo.
 -	1ea6df95-bb8c-45e9-a189-119d60c9c9ec	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	1ea6df95-bb8c-45e9-a189-119d60c9c9ec	#94fe9198-1edb-45d1-8c61-704b1cb1d29c
@@ -605,3 +605,14 @@
 2023-06-06 00:44:47	d855b4dd-6ea2-4ad8-8ee4-9cdf0d233ff4	>initial test notation for morpheme created. have not yet tested to see if it will actual parse into an AST, but I know for a fact that I'll need to tweak the grammar at least a little bit.
 -	d855b4dd-6ea2-4ad8-8ee4-9cdf0d233ff4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	d855b4dd-6ea2-4ad8-8ee4-9cdf0d233ff4	#94fe9198-1edb-45d1-8c61-704b1cb1d29c
+2023-06-10 00:20:53	bc874227-6b45-4226-b916-1d37f2679d6e	>create goblo language
+-	bc874227-6b45-4226-b916-1d37f2679d6e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-06-10 00:20:53	bc874227-6b45-4226-b916-1d37f2679d6e	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-10 00:21:47	cf993c47-24b2-4a5a-a369-c2044ab2f71d	>the idea here is to adapt some of the goblin stuff I created previously into a vocabulary using the rudimentary morpheme constructs I have created.
+-	cf993c47-24b2-4a5a-a369-c2044ab2f71d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	cf993c47-24b2-4a5a-a369-c2044ab2f71d	#bc874227-6b45-4226-b916-1d37f2679d6e
+2023-06-10 00:25:03	8ff08d09-02f4-4d8f-b432-868fcaeb8ff0	>the approach I have in mind is to construct partial morphemes using the notation system, then combine/modify them with operations in Lua for now. Eventually these will need to be converted into notation however, so that is something to keep in mind.
+-	8ff08d09-02f4-4d8f-b432-868fcaeb8ff0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8ff08d09-02f4-4d8f-b432-868fcaeb8ff0	#bc874227-6b45-4226-b916-1d37f2679d6e
+2023-06-10 01:18:14	5166dc0a-e0db-463d-8973-46eb6d13f982	>intial goblo code hacked off from !goblins work. trying to ungestku it, then develop a set of morphemes, which will then turn into a vocabulary sequenced by... something
+-	5166dc0a-e0db-463d-8973-46eb6d13f982	#53a2e179-eb60-4c13-b749-59d5d3b893c5
