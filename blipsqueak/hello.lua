@@ -1,4 +1,3 @@
-gestku = require("gestku/gestku")
 warble = require("warble/warble")
 pp = require("util/pprint")
 json = require("util/json")
@@ -8,14 +7,24 @@ base64 = require("util/base64")
 asset = require("asset/asset")
 asset = asset:new({msgpack=msgpack, base64=base64})
 
-G = gestku:new()
+core = require("util/core")
+sigrunes = require("sigrunes/sigrunes")
+gest = require("gest/gest")
+tal = require("tal/tal")
+morpheme = require("morpheme/morpheme")
+path = require("path/path")
+seq = require("seq/seq")
+morpho = require("morpheme/morpho")
+mseqlang = require("morpheme/mseq")
+sig = require("sig/sig")
+diagraf = require("diagraf/diagraf")
 
 function mkseq(seq, morpho)
     vocab = asset:load("blipsqueak/morphemes.b64")
     words = asset:load("blipsqueak/words.b64")
 
     SEQ = words.HELLO .. words.IAM .. words.PLEASED .. words.WELCOME
-    SEQ = gestku.mseq.parse(SEQ, vocab)
+    SEQ = mseqlang.parse(SEQ, vocab)
     return SEQ
 end
 
@@ -25,8 +34,7 @@ function mechanism(sr, core, gst, cnd_main)
     local param = core.paramf
     local ln = sr.node
 
-    local sig = gestku.sig
-    gest16 = gestku.gest.gest16fun(sr, core)
+    gest16 = gest.gest16fun(sr, core)
 
     -- cnd = cnd_main
     cnd = sig:new()
@@ -104,10 +112,10 @@ function mechanism(sr, core, gst, cnd_main)
         },
         mod = mod,
         car = car,
-        diagraf = gestku.diagraf,
+        diagraf = diagraf,
         sr = sr,
         sig = sig,
-        core = gestku.core,
+        core = core,
 
         vib = {
             rate = vrate,
@@ -225,65 +233,60 @@ function create_aligned_path(path, tal, words, mseq, gpath, name)
     local gpath_rescaled =
         apply_ratemul(gpath, total_ratemul, path.vertex)
 
-    G.tal.label(words, name)
+    tal.label(words, name)
     -- if head[label] ~= nil then
     --     head[label](G.words)
     -- end
-    G.path.path(tal, words, gpath_rescaled)
-    G.tal.jump(words, name)
+    path.path(tal, words, gpath_rescaled)
+    tal.jump(words, name)
 end
 
-function G:sound()
-    local lvl = gestku.core.liln
-    local sr = gestku.sr
+function sound()
+    local lvl = core.liln
+    local sr = sigrunes
     local pn = sr.paramnode
     local ln = sr.node
-    local sig = gestku.sig
     local cnd = sig:new()
-    local gst = G.gest
-    local param = gestku.core.paramf
+    local gst = gest:new{tal=tal}
+    local param = core.paramf
+    local words = {}
 
-    local seq = mkseq(gestku.seq, gestku.morpho)
+    gst:create()
+    local mseq = mkseq(seq, morpho)
 
-    G.words = {}
-	G.tal.start(G.words)
+    words = {}
+	tal.start(words)
 
     head = {
         gate = function(words)
-            gestku.tal.interpolate(words, 0)
+            tal.interpolate(words, 0)
         end,
         aspgt = function(words)
-            gestku.tal.interpolate(words, 0)
+            tal.interpolate(words, 0)
         end
 
     }
 
-    local s16 = gestku.seq.seqfun(gestku.morpho)
-    -- global_pitch = s16("a1/ h4/ o1/")
-    -- global_tempo = s16("a1/ o a o a o")
-    --
+    local s16 = seq.seqfun(morpho)
     global_pitch = s16("h1/ k2~ h1/ d h i2~ h4_")
-    -- global_tempo = s16("d1/ f c")
-    -- global_pitch = s16("h1_")
     global_tempo = s16("d1/ f d4 c")
 
-    create_aligned_path(G.path, G.tal, G.words, seq, global_pitch, "gpitch")
-    create_aligned_path(G.path, G.tal, G.words, seq, global_tempo, "gtempo")
+    create_aligned_path(path, tal, words, mseq, global_pitch, "gpitch")
+    create_aligned_path(path, tal, words, mseq, global_tempo, "gtempo")
 
-	G.morpheme.articulate(G.path,
-	    G.tal, G.words, seq, head)
+	morpheme.articulate(path, tal, words, mseq, head)
 
-    G.gest:compile(G.words)
+    gst:compile(words)
 
 	gst:swapper()
 
-    gest16 = gestku.gest.gest16fun(sr, G.core)
+    gest16 = gest.gest16fun(sr, core)
     ln(sr.phasor) {
         rate = 14 / 10
     }
 
     cnd:hold()
-    mechanism(sr, gestku.core, gst, cnd)
+    mechanism(sr, core, gst, cnd)
     cnd:unhold()
 	gst:done()
 
@@ -298,7 +301,6 @@ add zz zz
     ]])
 end
 
-G:setup()
-G:sound()
+sound()
 lil("wavout zz test.wav")
 lil("computes 10")
