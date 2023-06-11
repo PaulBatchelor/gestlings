@@ -29,92 +29,14 @@ function mkseq(seq, morpho)
     return SEQ
 end
 
-function gcd(m, n)
-    while n ~= 0 do
-        local q = m
-        m = n
-        n = q % n
-    end
-    return m
-end
-
-function lcm(m, n)
-    return (m ~= 0 and n ~= 0) and
-        m * n / gcd(m, n) or 0
-end
-
-function fracadd(a, b)
-    if a[2] == 0 then return b end
-    if b[2] == 0 then return a end
-    local s = lcm(a[2], b[2])
-    local as = s / a[2]
-    local bs = s / b[2]
-    return {as*a[1] + bs*b[1], s}
-end
-
-function reduce(a)
-    out = a
-    local s = gcd(out[1], out[2])
-
-    if (s ~= 0) then
-        out[1] = out[1] / s
-        out[2] = out[2] / s
-    end
-
-    return out
-end
-
-function fracmul(a, b)
-    local out = {a[1]*b[1], a[2]*b[2]}
-
-    return reduce(out)
-end
-
-function morphseq_dur(mseq)
-    local total = {0, 0}
-    for _, m in pairs(mseq) do
-        local r = m[2]
-        total = fracadd(total, r)
-    end
-    -- r is a ratemultiplier against a normalize
-    -- path with dur 1. 2/1 is 2x faster, or dur 1/2.
-    -- inverse to get duration
-    -- this can be multiplied with normalized path
-    -- to stretch/squash it out
-    return {total[2], total[1]}
-end
-
-function path_normalizer(p)
-    local total = 0
-
-    for _, v in pairs(p) do
-        total = total + v[2]
-    end
-
-    return {total, 1}
-end
-
-function apply_ratemul(p, r, vertexer)
-    path_with_ratemul = {}
-
-    for _,v in pairs(p) do
-        local v_rm = {
-            v[1],
-            reduce({r[1], v[2]*r[2]}),
-            v[3]
-        }
-        table.insert(path_with_ratemul, vertexer(v_rm))
-    end
-
-    return path_with_ratemul
-end
-
 function create_aligned_path(path, tal, words, mseq, gpath, name)
-    local seqdur = morphseq_dur(mseq)
-    local pnorm = path_normalizer(gpath)
-    local total_ratemul = fracmul(pnorm, seqdur)
-    local gpath_rescaled =
-        apply_ratemul(gpath, total_ratemul, path.vertex)
+    -- local seqdur = morphseq_dur(mseq)
+    -- local pnorm = path_normalizer(gpath)
+    -- local total_ratemul = fracmul(pnorm, seqdur)
+    -- local gpath_rescaled =
+    --     apply_ratemul(gpath, total_ratemul, path.vertex)
+
+    gpath_rescaled = path.scale_to_morphseq(gpath, mseq)
 
     head = head or {}
 
