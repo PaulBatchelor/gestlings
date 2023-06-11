@@ -153,10 +153,10 @@ function mkseq(seq, morpho)
     --SEQ = "D2(S)DA2[C]2(S)2[B]2(S)"
     HELLO="AS"
     IAM="DE4(D)3(A)S"
-    WELCOME="2(IJ)B2(FB)DS"
-    HOME="2(JCB)H4[S]"
+    PLEASED="2(IJ)B2(F)S"
+    WELCOME="2(JCB)H4[S]"
     --SEQ = "ASBSCSDSESFSHSISJSSS"
-    SEQ = HELLO .. IAM .. WELCOME .. HOME
+    SEQ = HELLO .. IAM .. PLEASED .. WELCOME
     SEQ = gestku.mseq.parse(SEQ, vocab)
     return SEQ
 end
@@ -179,7 +179,7 @@ function mechanism(sr, core, gst, cnd_main)
 
     ln(sr.add) {
         a = 0,
-        b = gest16(gst, "gtempo", cnd_main, 0.75, 2)
+        b = gest16(gst, "gtempo", cnd_main, 0.75, 1.25)
     }
 
     lil("rephasor zz zz")
@@ -188,7 +188,7 @@ function mechanism(sr, core, gst, cnd_main)
 
     fg = gest16(gst, "pitch", cnd, 48, 72)
 
-    global_pitch = gest16(gst, "gpitch", cnd, -12, 12)
+    global_pitch = gest16(gst, "gpitch", cnd, -7, 7)
 
     pitch_biased = pn(sr.add) {
         a = global_pitch,
@@ -403,8 +403,11 @@ function G:sound()
     local s16 = gestku.seq.seqfun(gestku.morpho)
     -- global_pitch = s16("a1/ h4/ o1/")
     -- global_tempo = s16("a1/ o a o a o")
-    global_pitch = s16("h1_")
-    global_tempo = s16("d1_")
+    --
+    global_pitch = s16("h1/ k2~ h1/ d h i2~ h4_")
+    -- global_tempo = s16("d1/ f c")
+    -- global_pitch = s16("h1_")
+    global_tempo = s16("d1/ f d4 c")
 
     create_aligned_path(G.path, G.tal, G.words, seq, global_pitch, "gpitch")
     create_aligned_path(G.path, G.tal, G.words, seq, global_tempo, "gtempo")
