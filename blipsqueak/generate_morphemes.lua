@@ -151,7 +151,12 @@ function mkseq(seq, morpho)
 
 
     --SEQ = "D2(S)DA2[C]2(S)2[B]2(S)"
-    SEQ = "ASBSDSJSDSESFSHSIS"
+    HELLO="AS"
+    IAM="DE4(D)3(A)S"
+    WELCOME="2(IJ)B2(FB)DS"
+    HOME="2(JCB)H4[S]"
+    --SEQ = "ASBSCSDSESFSHSISJSSS"
+    SEQ = HELLO .. IAM .. WELCOME .. HOME
     SEQ = gestku.mseq.parse(SEQ, vocab)
     return SEQ
 end
@@ -174,7 +179,7 @@ function mechanism(sr, core, gst, cnd_main)
 
     ln(sr.add) {
         a = 0,
-        b = gest16(gst, "gtempo", cnd_main, 0.5, 2)
+        b = gest16(gst, "gtempo", cnd_main, 0.75, 2)
     }
 
     lil("rephasor zz zz")
@@ -396,8 +401,10 @@ function G:sound()
     }
 
     local s16 = gestku.seq.seqfun(gestku.morpho)
-    global_pitch = s16("a1/ h4/ o1/")
-    global_tempo = s16("a1/ o a o a o")
+    -- global_pitch = s16("a1/ h4/ o1/")
+    -- global_tempo = s16("a1/ o a o a o")
+    global_pitch = s16("h1_")
+    global_tempo = s16("d1_")
 
     create_aligned_path(G.path, G.tal, G.words, seq, global_pitch, "gpitch")
     create_aligned_path(G.path, G.tal, G.words, seq, global_tempo, "gtempo")
@@ -411,7 +418,7 @@ function G:sound()
 
     gest16 = gestku.gest.gest16fun(sr, G.core)
     ln(sr.phasor) {
-        rate = 15 / 10
+        rate = 14 / 10
     }
 
     cnd:hold()
@@ -439,4 +446,4 @@ end
 G:setup()
 G:sound()
 lil("wavout zz test.wav")
-lil("computes 30")
+lil("computes 10")
