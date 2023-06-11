@@ -464,3 +464,13 @@ function S.valset (n, p)
     n:label("valset")
 end
 #+END_SRC
+** rephasor
+#+NAME: nodes
+#+BEGIN_SRC lua
+function S.rephasor(n, p)
+    n.input = n:param(p.input or 0)
+    n.ratemul = n:param(p.ratemul or 1)
+    n:lil("rephasor zz zz")
+    n:label("rephasor ")
+end
+#+END_SRC

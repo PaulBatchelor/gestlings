@@ -151,18 +151,35 @@ function mkseq(seq, morpho)
 
 
     --SEQ = "D2(S)DA2[C]2(S)2[B]2(S)"
-    SEQ = "JSDSESFSHSIS"
+    SEQ = "ASBSDSJSDSESFSHSIS"
     SEQ = gestku.mseq.parse(SEQ, vocab)
     return SEQ
 end
 
-function mechanism(sr, core, gst, cnd)
+function mechanism(sr, core, gst, cnd_main)
     local pn = sr.paramnode
     local lvl = core.liln
     local param = core.paramf
     local ln = sr.node
 
+    local sig = gestku.sig
     gest16 = gestku.gest.gest16fun(sr, core)
+
+    -- cnd = cnd_main
+    cnd = sig:new()
+    cnd_main:get()
+
+    -- hack, gest16 creates parameter node, wrap it
+    -- in add to eval it immediately with ln
+
+    ln(sr.add) {
+        a = 0,
+        b = gest16(gst, "gtempo", cnd_main, 0.5, 2)
+    }
+
+    lil("rephasor zz zz")
+    cnd:hold()
+
 
     fg = gest16(gst, "pitch", cnd, 48, 72)
 
@@ -255,6 +272,7 @@ function mechanism(sr, core, gst, cnd)
     }
 
     lil("mul zz zz")
+    cnd:unhold()
 end
 
 function gcd(m, n)
@@ -271,7 +289,7 @@ function lcm(m, n)
         m * n / gcd(m, n) or 0
 end
 
-function add_fraction(a, b)
+function fracadd(a, b)
     if a[2] == 0 then return b end
     if b[2] == 0 then return a end
     local s = lcm(a[2], b[2])
@@ -302,7 +320,7 @@ function morphseq_dur(mseq)
     local total = {0, 0}
     for _, m in pairs(mseq) do
         local r = m[2]
-        total = add_fraction(total, r)
+        total = fracadd(total, r)
     end
     -- r is a ratemultiplier against a normalize
     -- path with dur 1. 2/1 is 2x faster, or dur 1/2.
@@ -337,6 +355,21 @@ function apply_ratemul(p, r, vertexer)
     return path_with_ratemul
 end
 
+function create_aligned_path(path, tal, words, mseq, gpath, name)
+    local seqdur = morphseq_dur(mseq)
+    local pnorm = path_normalizer(gpath)
+    local total_ratemul = fracmul(pnorm, seqdur)
+    local gpath_rescaled =
+        apply_ratemul(gpath, total_ratemul, path.vertex)
+
+    G.tal.label(words, name)
+    -- if head[label] ~= nil then
+    --     head[label](G.words)
+    -- end
+    G.path.path(tal, words, gpath_rescaled)
+    G.tal.jump(words, name)
+end
+
 function G:sound()
     local lvl = gestku.core.liln
     local sr = gestku.sr
@@ -346,12 +379,6 @@ function G:sound()
     local cnd = sig:new()
     local gst = G.gest
     local param = gestku.core.paramf
-
-    ln(sr.phasor) {
-        rate = 15 / 10
-    }
-
-    cnd:hold()
 
     local seq = mkseq(gestku.seq, gestku.morpho)
 
@@ -368,33 +395,26 @@ function G:sound()
 
     }
 
-
-    seqdur = morphseq_dur(seq)
-    -- pp(seqdur)
     local s16 = gestku.seq.seqfun(gestku.morpho)
-    global_pitch = s16("a1/ h4~ o1/")
-    -- pp(global_pitch)
-    pnorm = path_normalizer(global_pitch)
-    -- pp(pnorm)
-    total_ratemul =fracmul(pnorm, seqdur)
-    -- pp(total_ratemul)
-    global_pitch_rescaled = apply_ratemul(global_pitch, total_ratemul, G.path.vertex)
-    -- pp(global_pitch_rescaled)
+    global_pitch = s16("a1/ h4/ o1/")
+    global_tempo = s16("a1/ o a o a o")
+
+    create_aligned_path(G.path, G.tal, G.words, seq, global_pitch, "gpitch")
+    create_aligned_path(G.path, G.tal, G.words, seq, global_tempo, "gtempo")
+
 	G.morpheme.articulate(G.path,
 	    G.tal, G.words, seq, head)
 
-    label = "gpitch"
-    G.tal.label(G.words, label)
-    if head[label] ~= nil then
-        head[label](G.words)
-    end
-    G.path.path(G.tal, G.words, global_pitch_rescaled)
-    G.tal.jump(G.words, label)
-
-    -- pp(G.words)
     G.gest:compile(G.words)
 
 	gst:swapper()
+
+    gest16 = gestku.gest.gest16fun(sr, G.core)
+    ln(sr.phasor) {
+        rate = 15 / 10
+    }
+
+    cnd:hold()
     mechanism(sr, gestku.core, gst, cnd)
     cnd:unhold()
 	gst:done()
@@ -413,10 +433,10 @@ add zz zz
     ]])
 
     --lil("tgate [tick] 10; smoother zz 0.01; mul zz zz")
-    lil("tgate [tick] 14; smoother zz 0.01; mul zz zz")
+    -- lil("tgate [tick] 14; smoother zz 0.01; mul zz zz")
 end
 
 G:setup()
 G:sound()
 lil("wavout zz test.wav")
-lil("computes 10")
+lil("computes 30")
