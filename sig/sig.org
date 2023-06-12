@@ -145,12 +145,15 @@ Gets the signal and pushes it onto the buffer stack.
 
 #+NAME: sig
 #+BEGIN_SRC lua
-function Sig:get()
+function Sig:get(eval)
     if self.reg < 0 then
         error("no signal")
     end
 
-    lil(string.format("regget %d", self.reg))
+    if eval == nil then
+        eval = lil
+    end
+    eval(string.format("regget %d", self.reg))
 end
 #+END_SRC
 * Getstr

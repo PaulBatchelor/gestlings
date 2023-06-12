@@ -39,19 +39,20 @@ function Warble.graph(params)
     local g = diagraf.Graph:new{sig=sig}
 
     g.init = function(grf)
-        lil("gensine [tabnew 8192]")
+        grf.eval("gensine [tabnew 8192]")
+        -- grf.eval("param [regnxt 0]")
         lil("param [regnxt 0]")
         local tab = pop()
-        lil(string.format("regset zz %d; regmrk %d", tab, tab))
+        grf.eval(string.format("regset zz %d; regmrk %d", tab, tab))
         grf.data = {}
         grf.data.tab = tab
     end
 
     local sintab = function(node, eval)
-        eval = eval or lil
         local grf = node.data.g
+        eval = eval or grf.eval
         local tab = grf.data.tab
-        eval(string.format("regget %d", tab))
+        eval(string.format("regget %d # sintab", tab))
     end
 
     ng = core.nodegen(diagraf.Node, g)

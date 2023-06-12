@@ -4,11 +4,22 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
     local param = core.paramf
     local ln = sr.node
 
+    local lines = {}
+
+    function eval(s)
+        table.insert(lines, s)
+        if type(s) == "table" then
+            s = table.concat(s, " ")
+        end
+        lil(s)
+    end
+
+    sr.node_eval(eval)
     gest16 = gest.gest16fun(sr, core)
 
     -- cnd = cnd_main
     cnd = sig:new()
-    cnd_main:get()
+    cnd_main:get(eval)
 
     -- hack, gest16 creates parameter node, wrap it
     -- in add to eval it immediately with ln
@@ -18,8 +29,8 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
         b = gest16(gst, "gtempo", cnd_main, 0.75, 1.25)
     }
 
-    lil("rephasor zz zz")
-    cnd:hold()
+    eval("rephasor zz zz")
+    cnd:hold(eval)
 
 
     fg = gest16(gst, "pitch", cnd, 48, 72)
@@ -104,6 +115,7 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
         },
     }
 
+    g.eval = eval
 	l = g:generate_nodelist()
 	g:compute(l)
 
@@ -112,8 +124,19 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
         smooth = 0.003,
     }
 
-    lil("mul zz zz")
-    cnd:unhold()
+    eval("mul zz zz")
+
+	for _,l in pairs(lines) do
+	    -- if type(l) == "table" then
+	    --     l = table.concat(l, " ")
+        -- end
+        -- print(l)
+        -- lil(l)
+    end
+
+    cnd:unhold(eval)
+
+    return lines
 end
 
 return mechanism
