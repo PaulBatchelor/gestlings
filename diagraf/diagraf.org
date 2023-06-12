@@ -893,6 +893,42 @@ function Graph:compute(lst)
     end
 end
 #+END_SRC
+** Intermediate Code Format (WIP)
+(Work in Progress...)
+
+Generates an intermediate code format to be evaluated
+later. Intended to be a low-level format that is portable
+and can be loaded/saved as a data asset.
+
+#+NAME: graph
+#+BEGIN_SRC lua
+function Graph:intermediate(lst)
+    -- if type(self.init) == "function" then
+    --     self.init(self)
+    -- end
+    local lines = {}
+
+    for _, i in pairs(lst) do
+        local n = self.nodes[i]
+        -- n:compute()
+        if n.data.gen ~= nil then
+            -- TODO functions that return strings is kinda
+            -- messy. sig breaks this. maybe fix?
+            local str = n.data.gen(n)
+            if str ~= nil then
+                -- self.data.g.eval(str)
+                table.insert(lines, str)
+            end
+        end
+    end
+
+    -- -- User-defined cleanup after computation
+    -- if type(self.cleanup) == "function" then
+    --     self.cleanup(self)
+    -- end
+    return lines
+end
+#+END_SRC
 ** Graphviz Code Generation (Dot)
 Dot code generation in Graphviz can be generated with
 the =dot= method. This can be helpful for debugging any
@@ -1105,7 +1141,8 @@ function Node:new(g)
     o.data.val = 1.0
     o.data.params = {}
     o.data.gen = function(self)
-        return string.format("param %g", self.data.val)
+        -- return string.format("param %g", self.data.val)
+        return {"param", self.data.val}
     end
     o.data.constant = true
     table.insert(g.nodes, o)
@@ -1115,7 +1152,7 @@ function Node:new(g)
 end
 <<node>>
 #+END_SRC
-** Setting Constants (TODO: words)
+** Setting Constants
 TODO: words.
 
 #+NAME: node
@@ -1129,7 +1166,9 @@ function Node:isconstant()
     return self.data.constant
 end
 #+END_SRC
-** Cables and Parameters (TODO: words)
+** Cables and Parameters
+TODO: words.
+
 #+NAME: node
 #+BEGIN_SRC lua
 function Node:param(val)
@@ -1157,7 +1196,11 @@ function Node:param(val)
     return p.data.id
 end
 #+END_SRC
-** Silent Nodes (TODO: words)
+** Silent Nodes
+A silent node is a node that doesn't actually compute anything.
+This can happen an internal parameter node gets overriden
+with a parameter (I think? will need to double check).
+
 #+NAME: node
 #+BEGIN_SRC lua
 function Node:disable()
@@ -1172,14 +1215,19 @@ function Node:disabled()
     return self.data.gen == nil
 end
 #+END_SRC
-** Labels (TODO: words)
+** Labels
+Labels are strings that are used when displaying things
+in GraphViz.
+
 #+NAME: node
 #+BEGIN_SRC lua
 function Node:label(label)
     self.data.label = label
 end
 #+END_SRC
-** Generator (TODO: words)
+** Generator
+TODO: Words.
+
 #+NAME: node
 #+BEGIN_SRC lua
 function Node:generator(g, f)
@@ -1194,7 +1242,9 @@ function Node:generator(g, f)
     end
 end
 #+END_SRC
-** Compute (TODO: words)
+** Compute
+Method that evaluates LIL code.
+
 #+NAME: node
 #+BEGIN_SRC lua
 function Node:compute()
@@ -1203,6 +1253,12 @@ function Node:compute()
         -- messy. sig breaks this. maybe fix?
         local str = self.data.gen(self)
         if str ~= nil then
+            -- refactoring things so that eval string is
+            -- represented as table of words instead of
+            -- string literal
+            if type(str) == "table" then
+                str = table.concat(str, " ")
+            end
             self.data.g.eval(str)
         end
     end

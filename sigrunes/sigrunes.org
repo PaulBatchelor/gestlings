@@ -252,7 +252,7 @@ end
 function S.wavout(n, p)
     local file = p.file or "test.wav"
     n.input = n:param(p.input or 0)
-    n:lil(string.format("wavout zz %s", file))
+    n:lil({"wavout", "zz", file})
     n:label("wavout")
 end
 #+END_SRC
@@ -273,7 +273,7 @@ end
 function S.sine(n, p)
     n.freq = n:param(p.freq or 440)
     n.amp = n:param(p.amp or 0.5)
-    n:lil("sine zz zz")
+    n:lil({"sine", "zz", "zz"})
     n:label("sine")
 end
 #+END_SRC

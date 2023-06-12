@@ -51,6 +51,7 @@ check seq_symtest
 check seq_grammar
 check append_symbols
 check seq_sound
+check diagraf_intermediate
 
 if [ "$NERR" -gt 0 ]
 then
