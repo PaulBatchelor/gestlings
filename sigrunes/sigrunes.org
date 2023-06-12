@@ -50,6 +50,9 @@ dummy.eval = lil
 -- it can't work as a callback when it is a parameter node
 dummy.sigrune_dummy = true
 function dummy:lil(str)
+    if type(str) == "table" then
+        str = table.concat(str, " ")
+    end
     self.eval(str)
 end
 
