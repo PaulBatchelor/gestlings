@@ -15,8 +15,10 @@ seq = require("seq/seq")
 morpho = require("morpheme/morpho")
 mseqlang = require("morpheme/mseq")
 sig = require("sig/sig")
-diagraf = require("diagraf/diagraf")
-mechanism = require("blipsqueak/mechanism")
+-- diagraf = require("diagraf/diagraf")
+-- mechanism = require("blipsqueak/mechanism")
+
+pprint = require("util/pprint")
 
 function mkseq(seq, morpho)
     vocab = asset:load("blipsqueak/morphemes.b64")
@@ -43,6 +45,129 @@ function mkconductor(sig, sr, rate)
     cnd:hold()
 
     return cnd
+end
+
+function analyze_patch(patch)
+    local getmap = {}
+    local setmap = {}
+
+    for _, line in pairs(patch) do
+        if line[1] == "regget" then
+            local key = string.format("%d", line[2])
+            getmap[tonumber(key)] = true
+        elseif line[1] == "regset" then
+            local key = string.format("%d", line[3])
+            setmap[tonumber(key)] = true
+        end
+    end
+
+    getter = {}
+    setter = {}
+
+    for k, _ in pairs(getmap) do
+        table.insert(getter, k)
+    end
+
+    for k, _ in pairs(setmap) do
+        table.insert(setter, k)
+    end
+
+    return {setters = setter, getters = getter}
+end
+
+function insert_register_macros(patch, patch_data, ext)
+    -- generate inverse lookup table for registers
+    ilookup = {}
+    extlookup = {}
+
+    ext = ext or {}
+
+    for k,v in pairs(patch_data.setters) do
+        ilookup[v] = k
+    end
+
+    for k,v in pairs(ext) do
+        extlookup[v] = k
+    end
+
+    for _, line in pairs(patch) do
+        -- pprint(line)
+        if line[1] == "regget" then
+            -- local key = string.format("%d", line[2])
+            -- getmap[tonumber(key)] = true
+            if ilookup[line[2]] ~= nil then
+                -- print(line[2] .. " is nil")
+                line[2] = {macro="reg", index=ilookup[line[2]]}
+            elseif extlookup[line[2]] ~= nil then
+                line[2] = {macro="extreg", key=extlookup[line[2]]}
+            end
+        elseif line[1] == "regset" then
+            -- local key = string.format("%d", line[3])
+            -- setmap[tonumber(key)] = true
+            if ilookup[line[3]] ~= nil then
+                -- print(line[2] .. " is nil")
+                line[3] = {macro="reg", index=ilookup[line[3]]}
+            end
+        elseif line[1] == "regclr" then
+            if ilookup[line[2]] ~= nil then
+                line[2] = {macro="reg", index=ilookup[line[2]]}
+            end
+        elseif line[1] == "regmrk" then
+            if ilookup[line[2]] ~= nil then
+                line[2] = {macro="reg", index=ilookup[line[2]]}
+            end
+        end
+    end
+end
+
+function apply_register_macros(patch, patch_data, free, ext)
+    -- generate inverse lookup table for registers
+    ilookup = {}
+    extlookup = {}
+
+    ext = ext or {}
+
+    for k,v in pairs(patch_data.setters) do
+        ilookup[v] = k
+    end
+
+    for k,v in pairs(ext) do
+        extlookup[v] = k
+    end
+
+    newpatch = {}
+
+    for _, oldline in pairs(patch) do
+        line = {}
+
+        for _, v in pairs(oldline) do
+            table.insert(line, v)
+        end
+
+        if line[1] == "regget" and type(line[2]) == "table" then
+            if line[2].macro == "reg" then
+                line[2] = free[line[2].index]
+            elseif line[2].macro == "extreg" then
+                line[2] = ext[line[2].key]
+            end
+        elseif line[1] == "regset" and type(line[3]) == "table" then
+            if line[3].macro == "reg" then
+                line[3] = free[line[3].index]
+            end
+        elseif line[1] == "regclr" and type(line[2]) == "table" then
+            if line[2].macro == "reg" then
+                line[2] = free[line[2].index]
+            end
+        elseif line[1] == "regmrk" and type(line[2]) == "table" then
+            if line[2].macro == "reg" then
+                line[2] = free[line[2].index]
+            end
+        end
+        table.insert(newpatch, line)
+    end
+
+    -- pprint(newpatch)
+    return newpatch
 end
 
 function sound()
@@ -86,14 +211,34 @@ function sound()
 	gst:swapper()
 
     cnd = mkconductor(sig, sr, 14/10)
-    lines = mechanism(sr, core, gst, diagraf, cnd)
-    -- asset:save(lines, "blipsqueak/mechanism.b64")
-    
-    -- lines = asset:load("blipsqueak/mechanism.b64")
+
+    -- lines = mechanism(sr, core, gst, diagraf, cnd)
+    -- patch_data = analyze_patch(lines)
+    -- ext = {
+    --     cnd=cnd.reg
+    -- }
+    -- insert_register_macros(lines, patch_data, ext)
+    -- asset:save({info=patch_data, patch=lines}, "blipsqueak/mechanism.b64")
+
+    lines = asset:load("blipsqueak/mechanism.b64")
+
+    ext = {
+        cnd = cnd.reg
+    }
+
+    -- TODO: dynamically select/mark free registers based
+    -- on data contents
+
+    free = {7, 8}
+    info = lines.info
+
+    lines = apply_register_macros(lines.patch, info, free, ext)
     for _, l in pairs(lines) do
         if type(l) == "string" then
             error("expected table structure: '" .. l .. "'")
         end
+
+        lil(table.concat(l, " "))
     end
 
     cnd:unhold()
