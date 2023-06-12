@@ -1,6 +1,4 @@
 warble = require("warble/warble")
-pp = require("util/pprint")
-json = require("util/json")
 
 msgpack = require("util/MessagePack")
 base64 = require("util/base64")
@@ -30,22 +28,21 @@ function mkseq(seq, morpho)
 end
 
 function create_aligned_path(path, tal, words, mseq, gpath, name)
-    -- local seqdur = morphseq_dur(mseq)
-    -- local pnorm = path_normalizer(gpath)
-    -- local total_ratemul = fracmul(pnorm, seqdur)
-    -- local gpath_rescaled =
-    --     apply_ratemul(gpath, total_ratemul, path.vertex)
-
     gpath_rescaled = path.scale_to_morphseq(gpath, mseq)
 
-    head = head or {}
-
     tal.label(words, name)
-    -- if head[label] ~= nil then
-    --     head[label](G.words)
-    -- end
     path.path(tal, words, gpath_rescaled)
     tal.jump(words, name)
+end
+
+function mkconductor(sig, sr, rate)
+    local cnd = sig:new()
+    sr.node(sr.phasor) {
+        rate = 14 / 10
+    }
+    cnd:hold()
+
+    return cnd
 end
 
 function sound()
@@ -75,6 +72,7 @@ function sound()
     }
 
     local s16 = seq.seqfun(morpho)
+
     global_pitch = s16("h1/ k2~ h1/ d h i2~ h4_")
     global_tempo = s16("d1/ f d4 c")
 
@@ -87,13 +85,8 @@ function sound()
 
 	gst:swapper()
 
-    gest16 = gest.gest16fun(sr, core)
-    ln(sr.phasor) {
-        rate = 14 / 10
-    }
-
-    cnd:hold()
-    mechanism(sr, core, gst, cnd)
+    cnd = mkconductor(sig, sr, 14/10)
+    mechanism(sr, core, gst, diagraf, cnd)
     cnd:unhold()
 	gst:done()
 

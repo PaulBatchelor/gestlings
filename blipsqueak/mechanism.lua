@@ -1,4 +1,4 @@
-function mechanism(sr, core, gst, cnd_main)
+function mechanism(sr, core, gst, diagraf, cnd_main)
     local pn = sr.paramnode
     local lvl = core.liln
     local param = core.paramf
