@@ -148,7 +148,7 @@ function Gest:node()
         end
 
         n.conductor = n:param(p.conductor or cndstr)
-        n:lil("gestvmnode zz " .. program .. " zz")
+        n:lil({"gestvmnode", "zz", program, "zz"})
         n:label("gesture: " .. name)
     end
 end

@@ -11,6 +11,13 @@ that can't be done using stack operations can be considered non-trivial.
 #+NAME: sig.lua
 #+BEGIN_SRC lua :tangle sig/sig.lua
 Sig = {}
+function lil_default(s)
+    if (type(s) == "table") then
+        s = table.concat(s, " ")
+    end
+
+    lil(s)
+end
 <<sig>>
 return Sig
 #+END_SRC
@@ -79,7 +86,7 @@ be called by =lil_eval= if they are different functions.
 #+BEGIN_SRC lua
 function Sig:hold(lil_eval)
     -- can be a callback used to simulate holding
-    lil_eval = lil_eval or lil
+    lil_eval = lil_eval or lil_default
     if self.reg >= 0 then
         error("can't hold, already holding")
     end
@@ -102,17 +109,19 @@ function Sig:hold(lil_eval)
     end
 
     -- hold/regset can be simulated without issue
-    lil_eval("hold zz")
-    lil_eval(string.format("regset zz %d", reg))
+    lil_eval({"hold", "zz"})
+    -- lil_eval("hold zz # sig")
+    lil_eval({"regset", "zz",reg})
 
     -- regmrk actually has to be called for it to work
-    local lstr = string.format("regmrk %d", reg)
+    -- local lstr = string.format("regmrk %d", reg)
+    local lstr = {"regmrk", reg}
 
     if lil_eval ~= lil then
         lil_eval(lstr)
     end
 
-    lil(lstr)
+    lil(table.concat(lstr, " "))
     -- lil(string.format("regset zz %d; regmrk %d", reg, reg))
 
     self.reg = reg
@@ -129,13 +138,16 @@ originally used for debugging purposes.
 #+NAME: sig
 #+BEGIN_SRC lua
 function Sig:unhold(lil_eval)
-    lil_eval = lil_eval or lil
+    lil_eval = lil_eval or lil_default
     if self.reg < 0 then
         error("no signal to unhold")
     end
 
-    lil_eval(string.format("unhold [regget %d]; regclr %d",
-        self.reg, self.reg))
+    -- lil_eval(string.format("unhold [regget %d]; regclr %d",
+    --    self.reg, self.reg))
+    lil_eval({"regget", self.reg})
+    lil_eval({"unhold", "zz"})
+    lil_eval({"regclr", self.reg})
 
     self.reg = -1
 end
@@ -153,7 +165,8 @@ function Sig:get(eval)
     if eval == nil then
         eval = lil
     end
-    eval(string.format("regget %d", self.reg))
+    -- eval(string.format("regget %d", self.reg))
+    eval({"regget", self.reg})
 end
 #+END_SRC
 * Getstr
@@ -167,7 +180,8 @@ function Sig:getstr()
         error("no signal")
     end
 
-    return string.format("[regget %d]", self.reg)
+    --return string.format("[regget %d]", self.reg)
+    return {"regget", self.reg}
 end
 #+END_SRC
 * zero

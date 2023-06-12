@@ -39,11 +39,13 @@ function Warble.graph(params)
     local g = diagraf.Graph:new{sig=sig}
 
     g.init = function(grf)
-        grf.eval("gensine [tabnew 8192]")
+        grf.eval({"gensine", "[tabnew 8192]"})
         -- grf.eval("param [regnxt 0]")
         lil("param [regnxt 0]")
         local tab = pop()
-        grf.eval(string.format("regset zz %d; regmrk %d", tab, tab))
+        -- grf.eval(string.format("regset zz %d; regmrk %d", tab, tab))
+        grf.eval({"regset", "zz", tab})
+        grf.eval({"regmrk", tab})
         grf.data = {}
         grf.data.tab = tab
     end
@@ -52,7 +54,8 @@ function Warble.graph(params)
         local grf = node.data.g
         eval = eval or grf.eval
         local tab = grf.data.tab
-        eval(string.format("regget %d # sintab", tab))
+        --eval(string.format("regget %d # sintab", tab))
+        eval({"regget" , tab, "#sintab"})
     end
 
     ng = core.nodegen(diagraf.Node, g)
@@ -188,7 +191,7 @@ function Warble.graph(params)
 
     g.cleanup = function(grf)
         local tab = grf.data.tab
-        grf.eval(string.format("regclr %d", tab))
+        grf.eval({"regclr", tab})
     end
     return g
 end

@@ -86,18 +86,15 @@ function sound()
 	gst:swapper()
 
     cnd = mkconductor(sig, sr, 14/10)
-
     lines = mechanism(sr, core, gst, diagraf, cnd)
     -- asset:save(lines, "blipsqueak/mechanism.b64")
     
     -- lines = asset:load("blipsqueak/mechanism.b64")
-    -- for _, l in pairs(lines) do
-    --     if type(l) == "table" then
-    --         l = table.concat(l, " ")
-    --     end
-    --     print(l)
-    --     lil(l)
-    -- end
+    for _, l in pairs(lines) do
+        if type(l) == "string" then
+            error("expected table structure: '" .. l .. "'")
+        end
+    end
 
     cnd:unhold()
 	gst:done()

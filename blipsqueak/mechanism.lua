@@ -29,7 +29,7 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
         b = gest16(gst, "gtempo", cnd_main, 0.75, 1.25)
     }
 
-    eval("rephasor zz zz")
+    eval({"rephasor", "zz", "zz"})
     cnd:hold(eval)
 
 
@@ -124,7 +124,7 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
         smooth = 0.003,
     }
 
-    eval("mul zz zz")
+    eval({"mul", "zz", "zz"})
 
 	for _,l in pairs(lines) do
 	    -- if type(l) == "table" then

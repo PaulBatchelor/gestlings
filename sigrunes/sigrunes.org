@@ -146,7 +146,7 @@ function S.crossfade(n, p)
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 1)
     n.pos  = n:param(p.pos or 0)
-    n:lil("crossfade zz zz zz")
+    n:lil({"crossfade", "zz", "zz", "zz"})
     n:label("crossfade")
 end
 #+END_SRC
@@ -157,7 +157,7 @@ function S.butbp(n, p)
     n.input = n:param(0)
     n.freq = n:param(p.freq or 1000)
     n.bw = n:param(p.bw or 1000)
-    n:lil("butbp zz zz zz")
+    n:lil({"butbp", "zz", "zz", "zz"})
     n:label("butbp")
 end
 #+END_SRC
@@ -166,7 +166,7 @@ end
 #+BEGIN_SRC lua
 function S.mtof(n, p)
     n.input = n:param(p.input or 0)
-    n:lil("mtof zz")
+    n:lil({"mtof", "zz"})
     n:label("mtof")
 end
 #+END_SRC
@@ -186,7 +186,7 @@ end
 #+NAME: nodes
 #+BEGIN_SRC lua
 function S.noise(n, p)
-    n:lil("noise")
+    n:lil({"noise"})
     n:label("noise")
 end
 #+END_SRC
@@ -261,7 +261,7 @@ function S.scale(n, p)
     n.input = n:param(p.input or 0)
     n.min = n:param(p.min or 0)
     n.max = n:param(p.max or 1)
-    n:lil("scale zz zz zz")
+    n:lil({"scale", "zz", "zz", "zz"})
     n:label("scale")
 end
 #+END_SRC
@@ -312,7 +312,7 @@ end
 function S.add(n, p)
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 0)
-    n:lil("add zz zz")
+    n:lil({"add", "zz", "zz"})
     n:label("add")
 end
 #+END_SRC
@@ -322,7 +322,7 @@ end
 function S.mul(n, p)
     n.a = n:param(p.a or 0)
     n.b = n:param(p.b or 0)
-    n:lil("mul zz zz")
+    n:lil({"mul", "zz", "zz"})
     n:label("mul")
 end
 #+END_SRC
@@ -350,7 +350,7 @@ end
 function S.butlp(n, p)
     n.input = n:param(0)
     n.cutoff = n:param(p.cutoff or 1000)
-    n:lil("butlp zz zz")
+    n:lil({"butlp", "zz", "zz"})
     n:label("butlp")
 end
 #+END_SRC
@@ -384,7 +384,7 @@ function S.fmpair(n, p)
     n.mod = n:param(p.mod or 1)
     n.mi = n:param(p.mi or 1)
     n.fdbk = n:param(p.fdbk or 0)
-    n:lil("fmpair zz zz zz zz zz zz")
+    n:lil({"fmpair", "zz", "zz", "zz", "zz", "zz", "zz"})
     n:label("fmpair")
 end
 #+END_SRC
@@ -395,7 +395,7 @@ function S.envar(n, p)
     n.gate = n:param(p.gate or 0)
     n.atk = n:param(p.atk or 0.1)
     n.rel = n:param(p.rel or 0.1)
-    n:lil("envar zz zz zz")
+    n:lil({"envar", "zz", "zz", "zz"})
     n:label("envar")
 end
 #+END_SRC
@@ -407,7 +407,7 @@ function S.osc(n, p)
     n.iphs = p.iphs or 0
     n.freq = n:param(p.freq or 440)
     n.amp = n:param(p.amp or 0.5)
-    n:lil(string.format("osc zz zz zz %g", n.iphs))
+    n:lil({"osc", "zz", "zz", "zz", n.iphs})
     n:label("osc")
 end
 #+END_SRC
@@ -417,7 +417,7 @@ end
 function S.tgate(n, p)
     n.trig = n:param(p.trig or 0)
     n.dur = n:param(p.dur or 0.5)
-    n:lil("tgate zz zz")
+    n:lil({"tgate", "zz", "zz"})
     n:label("tgate")
 end
 #+END_SRC
@@ -426,7 +426,7 @@ end
 #+BEGIN_SRC lua
 function S.gtick(n, p)
     n.gate = n:param(p.gate or 0)
-    n:lil("gtick zz")
+    n:lil({"gtick", "zz"})
     n:label("gtick")
 end
 #+END_SRC
@@ -436,7 +436,7 @@ end
 function S.smoother(n, p)
     n.input = n:param(p.input or 0)
     n.smooth = n:param(p.smooth or 0)
-    n:lil("smoother zz zz")
+    n:lil({"smoother", "zz", "zz"})
     n:label("smoother")
 end
 #+END_SRC
@@ -489,7 +489,7 @@ end
 function S.rephasor(n, p)
     n.input = n:param(p.input or 0)
     n.ratemul = n:param(p.ratemul or 1)
-    n:lil("rephasor zz zz")
+    n:lil({"rephasor", "zz", "zz"})
     n:label("rephasor ")
 end
 #+END_SRC

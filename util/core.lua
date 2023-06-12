@@ -11,6 +11,7 @@ end
 function Core.plilf(str)
     return function(node, eval)
         eval = eval or lil
+        --eval = eval or node.data.grf.eval
         eval(str)
     end
 end
@@ -24,7 +25,8 @@ function Core.liln(str)
 end
 
 function Core.paramf(val)
-    return Core.lilf(string.format("param %g", val))
+    --return Core.lilf(string.format("param %g", val))
+    return Core.lilf({"param", val})
 end
 
 function Core.nodegen(node, graph)
