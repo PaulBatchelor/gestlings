@@ -108,16 +108,25 @@ output instead.
 
 #+NAME: graph
 #+BEGIN_SRC lua
+local function lil_default(s)
+    if type(s) == "table" then
+        s = table.concat(s, " ")
+    end
+    lil(s)
+end
 function Graph:new(o)
     o = o or {}
     o.nverts = 0
     o.edges = {}
     o.nodes = {}
     o.sig = o.sig or sig
-    if o.debug then
-        o.eval = print
-    else
-        o.eval = lil
+
+    if o.eval == nil then
+        if o.debug then
+            o.eval = print
+        else
+            o.eval = lil_default
+        end
     end
     setmetatable(o, self)
     self.__index = self
@@ -1256,9 +1265,9 @@ function Node:compute()
             -- refactoring things so that eval string is
             -- represented as table of words instead of
             -- string literal
-            if type(str) == "table" then
-                str = table.concat(str, " ")
-            end
+            -- if type(str) == "table" then
+            --     str = table.concat(str, " ")
+            -- end
             self.data.g.eval(str)
         end
     end

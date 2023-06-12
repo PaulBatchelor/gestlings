@@ -42,17 +42,23 @@ end
 #+NAME: spoofed_node_interface
 #+BEGIN_SRC lua
 -- spoof the "node" interface from diagraf
+function default_lil_eval(s)
+    if type(s) == "table" then
+        s = table.concat(s, " ")
+    end
+    lil(s)
+end
 dummy = {}
-dummy.eval = lil
+dummy.eval = default_lil_eval
 
 -- this is a hack for the specifically gest node
 -- the "glive" parameter for some reason has to be a string
 -- it can't work as a callback when it is a parameter node
 dummy.sigrune_dummy = true
 function dummy:lil(str)
-    if type(str) == "table" then
-        str = table.concat(str, " ")
-    end
+    -- if type(str) == "table" then
+    --     str = table.concat(str, " ")
+    -- end
     self.eval(str)
 end
 
@@ -66,7 +72,7 @@ function dummy:param(v)
     elseif type(v) == "table" and v.lilnode then
 		self.eval(v.lilstr)
     else
-        self.eval("param " .. v)
+        self.eval({"param", v})
     end
 end
 
@@ -100,6 +106,16 @@ function S.node_debug(debug)
     else
         dummy.eval = lil
     end
+end
+#+END_SRC
+
+For more customization, use =node_eval= to supply
+a custom eval callback.
+
+#+NAME: util
+#+BEGIN_SRC lua
+function S.node_eval(eval)
+    dummy.eval = eval
 end
 #+END_SRC
 * Nodes
