@@ -1,3 +1,20 @@
+warble = require("warble/warble")
+
+msgpack = require("util/MessagePack")
+base64 = require("util/base64")
+asset = require("asset/asset")
+asset = asset:new({msgpack=msgpack, base64=base64})
+
+core = require("util/core")
+sigrunes = require("sigrunes/sigrunes")
+gest = require("gest/gest")
+tal = require("tal/tal")
+morpheme = require("morpheme/morpheme")
+path = require("path/path")
+seq = require("seq/seq")
+sig = require("sig/sig")
+diagraf = require("diagraf/diagraf")
+
 function mechanism(sr, core, gst, diagraf, cnd_main)
     local pn = sr.paramnode
     local lvl = core.liln
@@ -125,18 +142,135 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
     }
 
     eval({"mul", "zz", "zz"})
-
-	for _,l in pairs(lines) do
-	    -- if type(l) == "table" then
-	    --     l = table.concat(l, " ")
-        -- end
-        -- print(l)
-        -- lil(l)
-    end
-
     cnd:unhold(eval)
 
     return lines
 end
 
-return mechanism
+function analyze_patch(patch)
+    local getmap = {}
+    local setmap = {}
+
+    for _, line in pairs(patch) do
+        if line[1] == "regget" then
+            local key = string.format("%d", line[2])
+            getmap[tonumber(key)] = true
+        elseif line[1] == "regset" then
+            local key = string.format("%d", line[3])
+            setmap[tonumber(key)] = true
+        end
+    end
+
+    getter = {}
+    setter = {}
+
+    for k, _ in pairs(getmap) do
+        table.insert(getter, k)
+    end
+
+    for k, _ in pairs(setmap) do
+        table.insert(setter, k)
+    end
+
+    return {setters = setter, getters = getter}
+end
+
+function insert_register_macros(patch, patch_data, ext)
+    -- generate inverse lookup table for registers
+    ilookup = {}
+    extlookup = {}
+
+    ext = ext or {}
+
+    for k,v in pairs(patch_data.setters) do
+        ilookup[v] = k
+    end
+
+    for k,v in pairs(ext) do
+        extlookup[v] = k
+    end
+
+    for _, line in pairs(patch) do
+        -- pprint(line)
+        if line[1] == "regget" then
+            -- local key = string.format("%d", line[2])
+            -- getmap[tonumber(key)] = true
+            if ilookup[line[2]] ~= nil then
+                -- print(line[2] .. " is nil")
+                line[2] = {macro="reg", index=ilookup[line[2]]}
+            elseif extlookup[line[2]] ~= nil then
+                line[2] = {macro="extreg", key=extlookup[line[2]]}
+            end
+        elseif line[1] == "regset" then
+            -- local key = string.format("%d", line[3])
+            -- setmap[tonumber(key)] = true
+            if ilookup[line[3]] ~= nil then
+                -- print(line[2] .. " is nil")
+                line[3] = {macro="reg", index=ilookup[line[3]]}
+            end
+        elseif line[1] == "regclr" then
+            if ilookup[line[2]] ~= nil then
+                line[2] = {macro="reg", index=ilookup[line[2]]}
+            end
+        elseif line[1] == "regmrk" then
+            if ilookup[line[2]] ~= nil then
+                line[2] = {macro="reg", index=ilookup[line[2]]}
+            end
+        end
+    end
+end
+
+function sound()
+    local lvl = core.liln
+    local sr = sigrunes
+    local pn = sr.paramnode
+    local ln = sr.node
+    local cnd = sig:new()
+    local gst = gest:new{tal=tal}
+    local param = core.paramf
+    local words = {}
+
+    gst:create()
+
+    vocab = asset:load("blipsqueak/morphemes.b64")
+    local slice = {}
+    for k, _ in pairs(vocab.A) do
+        slice[k] = {{0, 1, 0}}
+    end
+    mseq = {{slice, {1, 1}}}
+
+
+    words = {}
+	tal.start(words)
+
+    global_pitch = {{0, 0, 0}}
+    global_tempo = {{0, 0, 0}}
+
+    tal.label(words, "gpitch")
+    path.path(tal, words, global_pitch)
+    tal.jump(words, "gpitch")
+
+    tal.label(words, "gtempo")
+    path.path(tal, words, global_tempo)
+    tal.jump(words, "gtempo")
+
+	morpheme.articulate(path, tal, words, mseq, head)
+
+    gst:compile(words)
+
+	gst:swapper()
+
+    local cnd = sig:new()
+    lil("mul 0 0")
+    cnd:hold()
+
+    lines = mechanism(sr, core, gst, diagraf, cnd)
+    patch_data = analyze_patch(lines)
+    ext = {
+        cnd=cnd.reg
+    }
+    insert_register_macros(lines, patch_data, ext)
+    asset:save({info=patch_data, patch=lines}, "blipsqueak/mechanism.b64")
+end
+
+sound()
