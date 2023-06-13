@@ -479,7 +479,7 @@ end
 function S.valset (n, p)
     n.val = n:param(p.val or nil)
     n.input = n:param(p.input or 0)
-    n:lil("valset2 zz zz")
+    n:lil({"valset2", "zz", "zz"})
     n:label("valset")
 end
 #+END_SRC

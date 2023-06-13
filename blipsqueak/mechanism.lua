@@ -31,6 +31,7 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
         lil(s)
     end
 
+    eval({"valnew", "mouth"})
     sr.node_eval(eval)
     gest16 = gest.gest16fun(sr, core)
 
@@ -57,6 +58,30 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
     pitch_biased = pn(sr.add) {
         a = global_pitch,
         b = fg,
+    }
+
+
+    mouthvalset = pn(sr.valset) {
+        val = function(eval)
+            eval ({"grab", "mouth"})
+        end,
+
+        input = pn(gst:node()) {
+            name = "mouthpos",
+            conductor = lvl(cnd:getstr())
+        }
+    }
+
+    -- hack because diagraf doesn't support stuff without outputs
+    
+    mouthvalset0 = pn(sr.mul) {
+        a = 0,
+        b = mouthvalset,
+    }
+
+    pitch_biased2 = pn(sr.add) {
+        a = pitch_biased,
+        b = mouthvalset0,
     }
 
     tg = gest16(gst, "timbre", cnd, 0.0, 10)
@@ -98,7 +123,9 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
 
     local g = warble.graph {
         -- pitch = fg,
-        pitch = pitch_biased,
+        -- pitch = pitch_biased,
+        -- pitch + mouthshape hack
+        pitch = pitch_biased2,
         mi = tg,
         fdbk = fdbk,
         amp = {

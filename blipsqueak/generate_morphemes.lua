@@ -15,6 +15,20 @@ function multimerge(merge, A, P)
     return A
 end
 
+function mouthpos (pos)
+    local seq = {}
+    if type(pos) == "number" then
+        table.insert(seq, {pos, 1, 1})
+    else
+        for _, v in pairs(pos) do
+            table.insert(seq, {v, 1, 1})
+        end
+    end
+
+    return {
+        mouthpos = seq
+    }
+end
 function mkvocab(seq, morpho, morpheme)
     local m = morpheme
     local s16 = seq.seqfun(morpho)
@@ -123,21 +137,22 @@ function mkvocab(seq, morpho, morpheme)
     mother = m.merge(mother, pm_asp_default)
     mother = m.merge(mother, pm_amp_default)
     mother = m.merge(mother, pm_gain_full)
+    mother = m.merge(mother, mouthpos({0, 1}))
 
     mother = m.template(mother)
 
     default = mother{}
 
     local A = default
-    B = mm(A, {pm_asp_breathy, pm_pitch_losigh})
-    C = mm(B, {pm_pitch_hisigh})
-    D = mm(default, {pm_pitch_chippy})
-    E = mm(D, {pm_pitch_hisigh})
-    F = mm(D, {pm_pitch_huhlo})
-    H = mm(A, {pm_pitch_huhlo, pm_timbre_sharpdown})
-    I = mm(A, {pm_pitch_wambo, pm_timbre_sharpdown})
-    J = mm(A, {pm_pitch_hambo, pm_timbre_sharpdown, pm_asp_breathy})
-    local S = m.merge(default, pm_gain_silence)
+    B = mm(A, {pm_asp_breathy, pm_pitch_losigh, mouthpos({1, 2, 1})})
+    C = mm(B, {pm_pitch_hisigh, mouthpos({2, 3, 1})})
+    D = mm(default, {pm_pitch_chippy, mouthpos({3, 4, 2, 3, 4, 3, 4})})
+    E = mm(D, {pm_pitch_hisigh, mouthpos({4, 5, 1, 4})})
+    F = mm(D, {pm_pitch_huhlo, mouthpos({5, 3})})
+    H = mm(A, {pm_pitch_huhlo, pm_timbre_sharpdown, mouthpos({6, 3})})
+    I = mm(A, {pm_pitch_wambo, pm_timbre_sharpdown, mouthpos({7, 0, 1})})
+    J = mm(A, {pm_pitch_hambo, pm_timbre_sharpdown, pm_asp_breathy, mouthpos({8, 5, 0, 1})})
+    local S = m.merge(default, pm_gain_silence, mouthpos({0}))
 
     vocab = {
         S = S,

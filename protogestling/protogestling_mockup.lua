@@ -3,12 +3,12 @@ val = valutil
 
 -- setup audio
 lil("blkset 49")
-lil("valnew mouth")
-lil("grab mouth")
+-- lil("valnew mouth")
+-- lil("grab mouth")
 -- lil("biscale [sine 0.2 1] 0 1")
-lil("tog [metro 2]")
-lil("valset2 zz zz")
-lil("drop")
+-- lil("tog [metro 2]")
+-- lil("valset2 zz zz")
+-- lil("drop")
 local bs = blipsqueak
 comp = bs.components(bs.load_components())
 bs.load_data(comp)
@@ -83,17 +83,40 @@ end
 
 wide_mouth = {0.9, 0.3}
 thin_mouth = {0.9, 0.1}
+small_mouth = {0.1, 0.1}
+
 big_eye = {0.3, 0.9}
-round_eye = {0.3, 0.4}
+round_eye = {0.3, 0.3}
+
+thin_eye = {0.1, 0.9}
+
 mouth_shapes = {
+    -- 0
     {wide_mouth, big_eye, big_eye},
+    -- 1
+    {thin_mouth, round_eye, round_eye},
+    -- 2
+    {small_mouth, big_eye, round_eye},
+    -- 3
+    {wide_mouth, round_eye, big_eye},
+    -- 4
     {thin_mouth, round_eye, big_eye},
+    -- 5
+    {small_mouth, thin_eye, thin_eye},
+    -- 6
+    {wide_mouth, round_eye, big_eye},
+    -- 7
+    {thin_mouth, round_eye, thin_eye},
+    -- 8
+    {small_mouth, thin_eye, round_eye},
 }
 
+test_shape = 0
 prev_face = nil
 
 function lerp(curval, target)
-    curval = curval + ((target - curval) * 0.3)
+    local speed = 0.2
+    curval = curval + ((target - curval) * speed)
     return curval
 end
 
@@ -119,6 +142,7 @@ local curface = nil
 
 function draw_face()
     local shape = math.floor(val.get("mouth")) + 1
+    -- local shape = test_shape + 1
     lil("bpfill [bpget [grab bp] 0] 0")
 
     if (curface == nil) then
@@ -170,6 +194,8 @@ for n=1,nframes do
     if fpos == 0 then
         print(n)
         fpos = 60
+        test_shape = test_shape + 1
+        test_shape = test_shape % 9
     end
     fpos = fpos - 1
     lil("compute 15")
