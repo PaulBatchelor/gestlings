@@ -1,7 +1,14 @@
 blipsqueak = require("blipsqueak/blipsqueak")
+val = valutil
 
 -- setup audio
 lil("blkset 49")
+lil("valnew mouth")
+lil("grab mouth")
+-- lil("biscale [sine 0.2 1] 0 1")
+lil("tog [metro 2]")
+lil("valset2 zz zz")
+lil("drop")
 local bs = blipsqueak
 comp = bs.components(bs.load_components())
 bs.load_data(comp)
@@ -22,7 +29,8 @@ add zz zz
 lil("wavout zz out.wav")
 
 lil("gfxnew gfx 200 320")
-lil("grab gfx; gfxopen out.h264")
+lil("grab gfx")
+lil("gfxopen out.h264")
 lil([[
 grab gfx
 gfxclrset 1 0.0 0.0 0.0
@@ -45,8 +53,6 @@ bproundrect [bpget [grab bp] 2] 0 0 200 320 16 1
 
 lil("bpget [grab bp] 0")
 face_reg = pop()
-protogestling.face(face_reg, 0.9, 0.3, 0.3, 0.9, 0.3, 0.9)
-
 lil("bpfnt_default font")
 lil("bpget [grab bp] 1")
 msgbox_reg = pop()
@@ -63,6 +69,66 @@ total_length = 0
 
 for _,ln in pairs(lines) do
     total_length = total_length + #ln
+end
+
+function protoface(reg, shape)
+    mouth = shape[1]
+    left_eye = shape[2]
+    right_eye = shape[3]
+    protogestling.face(reg,
+        mouth[1], mouth[2],
+        left_eye[1], left_eye[2],
+        right_eye[1], right_eye[2])
+end
+
+wide_mouth = {0.9, 0.3}
+thin_mouth = {0.9, 0.1}
+big_eye = {0.3, 0.9}
+round_eye = {0.3, 0.4}
+mouth_shapes = {
+    {wide_mouth, big_eye, big_eye},
+    {thin_mouth, round_eye, big_eye},
+}
+
+prev_face = nil
+
+function lerp(curval, target)
+    curval = curval + ((target - curval) * 0.3)
+    return curval
+end
+
+function lerp_face(curface, target)
+    mouthlerp = {
+        lerp(curface[1][1], target[1][1]),
+        lerp(curface[1][2], target[1][2]),
+    }
+    leyelerp = {
+        lerp(curface[2][1], target[2][1]),
+        lerp(curface[2][2], target[2][2]),
+    }
+    reyelerp = {
+        lerp(curface[3][1], target[3][1]),
+        lerp(curface[3][2], target[3][2]),
+    }
+    return {
+        mouthlerp, leyelerp, reyelerp
+    }
+end
+
+local curface = nil
+
+function draw_face()
+    local shape = math.floor(val.get("mouth")) + 1
+    lil("bpfill [bpget [grab bp] 0] 0")
+
+    if (curface == nil) then
+        curface = mouth_shapes[shape]
+    end
+
+    curface = lerp_face(curface, mouth_shapes[shape])
+    protoface(face_reg, curface)
+    -- protogestling.face(face_reg, 0.9, 0.3, 0.3, 0.9, 0.3, 0.9)
+    -- protogestling.face(face_reg, 0.9, 0.3, 0.3, 0.9, 0.3, 0.9)
 end
 
 function draw_textblock(lines, textpos)
@@ -99,9 +165,16 @@ timer = speed
 
 txtpos = 0
 nframes = 60 * 10
+fpos = 0
 for n=1,nframes do
-    local lpos, cpos = draw_textblock(lines, txtpos)
+    if fpos == 0 then
+        print(n)
+        fpos = 60
+    end
+    fpos = fpos - 1
     lil("compute 15")
+    draw_face()
+    local lpos, cpos = draw_textblock(lines, txtpos)
     lil("grab gfx")
     lil("gfxfill 0")
     lil("bptr [grab bp] 0 0 200 320 0 0 1")

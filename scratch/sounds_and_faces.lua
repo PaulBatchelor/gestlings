@@ -255,3 +255,5 @@ grab gfx
 gfxclose
 gfxmp4 test.h264 test.mp4
 ]])
+
+os.execute("ffmpeg -y -i test.mp4 -i test.wav -pix_fmt yuv420p -acodec aac combined.mp4")
