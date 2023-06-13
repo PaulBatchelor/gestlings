@@ -607,7 +607,7 @@
 -	d855b4dd-6ea2-4ad8-8ee4-9cdf0d233ff4	#94fe9198-1edb-45d1-8c61-704b1cb1d29c
 2023-06-10 00:20:53	bc874227-6b45-4226-b916-1d37f2679d6e	>create goblo language
 -	bc874227-6b45-4226-b916-1d37f2679d6e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-06-10 00:20:53	bc874227-6b45-4226-b916-1d37f2679d6e	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-13 17:08:34	bc874227-6b45-4226-b916-1d37f2679d6e	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-06-10 00:21:47	cf993c47-24b2-4a5a-a369-c2044ab2f71d	>the idea here is to adapt some of the goblin stuff I created previously into a vocabulary using the rudimentary morpheme constructs I have created.
 -	cf993c47-24b2-4a5a-a369-c2044ab2f71d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	cf993c47-24b2-4a5a-a369-c2044ab2f71d	#bc874227-6b45-4226-b916-1d37f2679d6e
@@ -622,3 +622,6 @@
 2023-06-11 18:41:30	79ce5633-55ad-4e90-b0cf-ba6a68c5d6da	>okay, it has been renamed to blipsqueak now.
 -	79ce5633-55ad-4e90-b0cf-ba6a68c5d6da	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	79ce5633-55ad-4e90-b0cf-ba6a68c5d6da	#bc874227-6b45-4226-b916-1d37f2679d6e
+2023-06-13 17:08:32	d16a496d-265c-4569-8f41-021923bef2ab	>enough has been done here to make an initial sentence, with testing in place. I think this is good enough.
+-	d16a496d-265c-4569-8f41-021923bef2ab	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d16a496d-265c-4569-8f41-021923bef2ab	#bc874227-6b45-4226-b916-1d37f2679d6e
