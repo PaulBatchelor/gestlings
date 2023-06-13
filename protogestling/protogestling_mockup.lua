@@ -1,3 +1,26 @@
+blipsqueak = require("blipsqueak/blipsqueak")
+
+-- setup audio
+lil("blkset 49")
+local bs = blipsqueak
+comp = bs.components(bs.load_components())
+bs.load_data(comp)
+phrase = {"HELLO", "IAM", "PLEASED", "WELCOME"}
+pitchseq = "h1/ k2~ h1/ d h i2~ h4_"
+temposeq = "d1/ f d4 c"
+bs.speak(comp, phrase, pitchseq, temposeq)
+lil("mul zz [dblin -6]")
+lil([[
+dup; dup;
+bigverb zz zz 0.8 8000
+drop;
+dcblocker zz
+mul zz [dblin -20];
+add zz zz
+]])
+
+lil("wavout zz out.wav")
+
 lil("gfxnew gfx 200 320")
 lil("grab gfx; gfxopen out.h264")
 lil([[
@@ -78,6 +101,7 @@ txtpos = 0
 nframes = 60 * 10
 for n=1,nframes do
     local lpos, cpos = draw_textblock(lines, txtpos)
+    lil("compute 15")
     lil("grab gfx")
     lil("gfxfill 0")
     lil("bptr [grab bp] 0 0 200 320 0 0 1")
@@ -103,7 +127,4 @@ end
 
 lil("gfxclose")
 lil("gfxmp4 out.h264 out.mp4")
---os.system("ffmpeg -i test.mp4 -i test.wav -pix_fmt yuv420p -acodec aac combined.mp4")
-os.execute("ffmpeg -y -i out.mp4 -pix_fmt yuv420p -acodec aac combined.mp4")
--- lil("gfxppm out.ppm")
--- lil("bppbm [grab bp] out.pbm")
+os.execute("ffmpeg -y -i out.mp4 -i out.wav -pix_fmt yuv420p -acodec aac combined.mp4")
