@@ -147,79 +147,6 @@ function mechanism(sr, core, gst, diagraf, cnd_main)
     return lines
 end
 
-function analyze_patch(patch)
-    local getmap = {}
-    local setmap = {}
-
-    for _, line in pairs(patch) do
-        if line[1] == "regget" then
-            local key = string.format("%d", line[2])
-            getmap[tonumber(key)] = true
-        elseif line[1] == "regset" then
-            local key = string.format("%d", line[3])
-            setmap[tonumber(key)] = true
-        end
-    end
-
-    getter = {}
-    setter = {}
-
-    for k, _ in pairs(getmap) do
-        table.insert(getter, k)
-    end
-
-    for k, _ in pairs(setmap) do
-        table.insert(setter, k)
-    end
-
-    return {setters = setter, getters = getter}
-end
-
-function insert_register_macros(patch, patch_data, ext)
-    -- generate inverse lookup table for registers
-    ilookup = {}
-    extlookup = {}
-
-    ext = ext or {}
-
-    for k,v in pairs(patch_data.setters) do
-        ilookup[v] = k
-    end
-
-    for k,v in pairs(ext) do
-        extlookup[v] = k
-    end
-
-    for _, line in pairs(patch) do
-        -- pprint(line)
-        if line[1] == "regget" then
-            -- local key = string.format("%d", line[2])
-            -- getmap[tonumber(key)] = true
-            if ilookup[line[2]] ~= nil then
-                -- print(line[2] .. " is nil")
-                line[2] = {macro="reg", index=ilookup[line[2]]}
-            elseif extlookup[line[2]] ~= nil then
-                line[2] = {macro="extreg", key=extlookup[line[2]]}
-            end
-        elseif line[1] == "regset" then
-            -- local key = string.format("%d", line[3])
-            -- setmap[tonumber(key)] = true
-            if ilookup[line[3]] ~= nil then
-                -- print(line[2] .. " is nil")
-                line[3] = {macro="reg", index=ilookup[line[3]]}
-            end
-        elseif line[1] == "regclr" then
-            if ilookup[line[2]] ~= nil then
-                line[2] = {macro="reg", index=ilookup[line[2]]}
-            end
-        elseif line[1] == "regmrk" then
-            if ilookup[line[2]] ~= nil then
-                line[2] = {macro="reg", index=ilookup[line[2]]}
-            end
-        end
-    end
-end
-
 function sound()
     local lvl = core.liln
     local sr = sigrunes
@@ -265,11 +192,11 @@ function sound()
     cnd:hold()
 
     lines = mechanism(sr, core, gst, diagraf, cnd)
-    patch_data = analyze_patch(lines)
+    patch_data = core.analyze_patch(lines)
     ext = {
         cnd=cnd.reg
     }
-    insert_register_macros(lines, patch_data, ext)
+    core.insert_register_macros(lines, patch_data, ext)
     asset:save({info=patch_data, patch=lines}, "blipsqueak/mechanism.b64")
 end
 

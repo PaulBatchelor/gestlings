@@ -99,4 +99,127 @@ function Core.reggetstr(reg, lil_eval)
     return lstr
 end
 
+function Core.apply_register_macros(patch, patch_data, free, ext)
+    -- generate inverse lookup table for registers
+    ilookup = {}
+    extlookup = {}
+
+    ext = ext or {}
+
+    for k,v in pairs(patch_data.setters) do
+        ilookup[v] = k
+    end
+
+    for k,v in pairs(ext) do
+        extlookup[v] = k
+    end
+
+    newpatch = {}
+
+    for _, oldline in pairs(patch) do
+        line = {}
+
+        for _, v in pairs(oldline) do
+            table.insert(line, v)
+        end
+
+        if line[1] == "regget" and type(line[2]) == "table" then
+            if line[2].macro == "reg" then
+                line[2] = free[line[2].index]
+            elseif line[2].macro == "extreg" then
+                line[2] = ext[line[2].key]
+            end
+        elseif line[1] == "regset" and type(line[3]) == "table" then
+            if line[3].macro == "reg" then
+                line[3] = free[line[3].index]
+            end
+        elseif line[1] == "regclr" and type(line[2]) == "table" then
+            if line[2].macro == "reg" then
+                line[2] = free[line[2].index]
+            end
+        elseif line[1] == "regmrk" and type(line[2]) == "table" then
+            if line[2].macro == "reg" then
+                line[2] = free[line[2].index]
+            end
+        end
+        table.insert(newpatch, line)
+    end
+
+    -- pprint(newpatch)
+    return newpatch
+end
+
+function Core.insert_register_macros(patch, patch_data, ext)
+    -- generate inverse lookup table for registers
+    ilookup = {}
+    extlookup = {}
+
+    ext = ext or {}
+
+    for k,v in pairs(patch_data.setters) do
+        ilookup[v] = k
+    end
+
+    for k,v in pairs(ext) do
+        extlookup[v] = k
+    end
+
+    for _, line in pairs(patch) do
+        -- pprint(line)
+        if line[1] == "regget" then
+            -- local key = string.format("%d", line[2])
+            -- getmap[tonumber(key)] = true
+            if ilookup[line[2]] ~= nil then
+                -- print(line[2] .. " is nil")
+                line[2] = {macro="reg", index=ilookup[line[2]]}
+            elseif extlookup[line[2]] ~= nil then
+                line[2] = {macro="extreg", key=extlookup[line[2]]}
+            end
+        elseif line[1] == "regset" then
+            -- local key = string.format("%d", line[3])
+            -- setmap[tonumber(key)] = true
+            if ilookup[line[3]] ~= nil then
+                -- print(line[2] .. " is nil")
+                line[3] = {macro="reg", index=ilookup[line[3]]}
+            end
+        elseif line[1] == "regclr" then
+            if ilookup[line[2]] ~= nil then
+                line[2] = {macro="reg", index=ilookup[line[2]]}
+            end
+        elseif line[1] == "regmrk" then
+            if ilookup[line[2]] ~= nil then
+                line[2] = {macro="reg", index=ilookup[line[2]]}
+            end
+        end
+    end
+end
+
+function Core.analyze_patch(patch)
+    local getmap = {}
+    local setmap = {}
+
+    for _, line in pairs(patch) do
+        if line[1] == "regget" then
+            local key = string.format("%d", line[2])
+            getmap[tonumber(key)] = true
+        elseif line[1] == "regset" then
+            local key = string.format("%d", line[3])
+            setmap[tonumber(key)] = true
+        end
+    end
+
+    getter = {}
+    setter = {}
+
+    for k, _ in pairs(getmap) do
+        table.insert(getter, k)
+    end
+
+    for k, _ in pairs(setmap) do
+        table.insert(setter, k)
+    end
+
+    return {setters = setter, getters = getter}
+end
+
 return Core

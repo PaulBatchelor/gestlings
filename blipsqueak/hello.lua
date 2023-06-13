@@ -13,17 +13,40 @@ morpheme = require("morpheme/morpheme")
 path = require("path/path")
 seq = require("seq/seq")
 morpho = require("morpheme/morpho")
-mseqlang = require("morpheme/mseq")
 sig = require("sig/sig")
 
 pprint = require("util/pprint")
 
-function mkseq(seq, morpho)
+function resolve(seq, lookup)
+    local o = {}
+
+    for _, v in pairs(seq) do
+        table.insert(o, {lookup[v[1]], v[2]})
+    end
+
+    return o
+end
+
+function mcat(tab)
+    local o = {}
+
+    for _,w in pairs(tab) do
+        for _,m in pairs(w) do
+            table.insert(o, m)
+        end
+    end
+
+    return o
+end
+
+function mkseq(seq)
     vocab = asset:load("blipsqueak/morphemes.b64")
     words = asset:load("blipsqueak/words.b64")
 
-    SEQ = words.HELLO .. words.IAM .. words.PLEASED .. words.WELCOME
-    SEQ = mseqlang.parse(SEQ, vocab)
+    SEQ = mcat {
+        words.HELLO, words.IAM, words.PLEASED, words.WELCOME
+    }
+    SEQ = resolve(SEQ, vocab)
     return SEQ
 end
 
@@ -45,56 +68,6 @@ function mkconductor(sig, sr, rate)
     return cnd
 end
 
-function apply_register_macros(patch, patch_data, free, ext)
-    -- generate inverse lookup table for registers
-    ilookup = {}
-    extlookup = {}
-
-    ext = ext or {}
-
-    for k,v in pairs(patch_data.setters) do
-        ilookup[v] = k
-    end
-
-    for k,v in pairs(ext) do
-        extlookup[v] = k
-    end
-
-    newpatch = {}
-
-    for _, oldline in pairs(patch) do
-        line = {}
-
-        for _, v in pairs(oldline) do
-            table.insert(line, v)
-        end
-
-        if line[1] == "regget" and type(line[2]) == "table" then
-            if line[2].macro == "reg" then
-                line[2] = free[line[2].index]
-            elseif line[2].macro == "extreg" then
-                line[2] = ext[line[2].key]
-            end
-        elseif line[1] == "regset" and type(line[3]) == "table" then
-            if line[3].macro == "reg" then
-                line[3] = free[line[3].index]
-            end
-        elseif line[1] == "regclr" and type(line[2]) == "table" then
-            if line[2].macro == "reg" then
-                line[2] = free[line[2].index]
-            end
-        elseif line[1] == "regmrk" and type(line[2]) == "table" then
-            if line[2].macro == "reg" then
-                line[2] = free[line[2].index]
-            end
-        end
-        table.insert(newpatch, line)
-    end
-
-    -- pprint(newpatch)
-    return newpatch
-end
-
 function sound()
     local lvl = core.liln
     local sr = sigrunes
@@ -106,7 +79,7 @@ function sound()
     local words = {}
 
     gst:create()
-    local mseq = mkseq(seq, morpho)
+    local mseq = mkseq(seq)
 
     words = {}
 	tal.start(words)
@@ -149,7 +122,7 @@ function sound()
     free = {7, 8}
     info = lines.info
 
-    lines = apply_register_macros(lines.patch, info, free, ext)
+    lines = core.apply_register_macros(lines.patch, info, free, ext)
     for _, l in pairs(lines) do
         if type(l) == "string" then
             error("expected table structure: '" .. l .. "'")

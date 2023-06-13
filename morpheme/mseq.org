@@ -46,6 +46,7 @@ Mseq = {}
 <<grammar>>
 <<tree_traversal>>
 <<parsing>>
+<<parsing_symbol_lookup>>
 return Mseq
 #+END_SRC
 
@@ -136,5 +137,68 @@ function iterate(x, m, r, out)
 			iterate(v.seq, m, r_new, out)
 		end
 	end
+end
+#+END_SRC
+* Two-Phase Parse With Symbol Lookup (v2)
+This parser splits the sequence up into two parts:
+the first part generates the morpheme sequence with
+the morphemes as symbols instead of the actual data.
+The second part uses a lookup table to convert
+the symbols into morphemes.
+
+#+NAME: parsing_symbol_lookup
+#+BEGIN_SRC lua
+<<iterate2>>
+<<resolve>>
+function Mseq.parse2(str, r)
+    local S = {}
+    local t = lpeg.match(G, str)
+	r = r or {1, 1}
+
+    if t == nil then
+        error("mseq: invalid string")
+    end
+
+    iterate2(t, r, S)
+
+    return S
+end
+#+END_SRC
+
+#+NAME: iterate2
+#+BEGIN_SRC lua
+function iterate2(x, r, out)
+	for _, v in pairs(x) do
+		if type(v) == "string" then
+			table.insert(out, {v, {r[1], r[2]}})
+		else
+			r_new = {r[1], r[2]}
+			if v.div ~= nil then
+				r_new[2] = r_new[2] * v.div
+			elseif v.mul ~= nil then
+				r_new[1] = r_new[1] * v.mul
+			end
+			iterate2(v.seq, r_new, out)
+		end
+	end
+end
+#+END_SRC
+
+The =resolve= function that replaces symbols with morphemes
+is so straight forward, it may be not a bad idea to just
+copy-paste these lines of code and avoid using mseq
+as a dependency if you generate morpheme sequences
+ahead of time.
+
+#+NAME: resolve
+#+BEGIN_SRC lua
+function Mseq.resolve(seq, lookup)
+    local o = {}
+
+    for _, v in pairs(seq) do
+        table.insert(o, {lookup[v[1]], v[2]})
+    end
+
+    return o
 end
 #+END_SRC

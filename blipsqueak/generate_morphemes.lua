@@ -6,6 +6,7 @@ asset = asset:new({msgpack=msgpack, base64=base64})
 morpheme = require("morpheme/morpheme")
 seq = require("seq/seq")
 morpho = require("morpheme/morpho")
+mseqlang = require("morpheme/mseq")
 
 function multimerge(merge, A, P)
     for _, B in pairs(P) do
@@ -157,11 +158,12 @@ end
 local vocab = mkvocab(seq, morpho, morpheme)
 asset:save(vocab, "blipsqueak/morphemes.b64")
 
+parse = mseqlang.parse2
 words = {
-    HELLO="AS",
-    IAM="DE4(D)3(A)S",
-    PLEASED="2(IJ)B2(F)S",
-    WELCOME="2(JCB)H4[S]"
+    HELLO=parse("AS"),
+    IAM=parse("DE4(D)3(A)S"),
+    PLEASED=parse("2(IJ)B2(F)S"),
+    WELCOME=parse("2(JCB)H4[S]")
 }
 
 asset:save(words, "blipsqueak/words.b64")
