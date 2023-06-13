@@ -18,4 +18,13 @@
     @[["seq/test_syms_tab.b64"
        "seq/test_syms.uf2"]
       ["seq/test_uf2.lua"]]
+
+    @[["blipsqueak/morphemes.b64"
+       "blipsqueak/words.b64"]
+      ["blipsqueak/generate_morphemes.lua"]]
+
+    @[["blipsqueak/mechanism.b64"]
+      ["blipsqueak/mechanism.lua"]
+      ["blipsqueak/morphemes.b64"
+       "blipsqueak/words.b64"]]
 ])
