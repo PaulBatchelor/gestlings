@@ -202,4 +202,11 @@
  :org "path/grammar.org"
  :tangled @["path/grammar.lua"]
  }
+
+ "protogestling_mockup"
+ @{
+ :id 29
+ :org "protogestling/mockup.org"
+ :tangled @["protogestling/protogestling_mockup.lua"]
+ }
 })

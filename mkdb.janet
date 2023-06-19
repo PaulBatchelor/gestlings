@@ -36,6 +36,7 @@
 (ww-add-page "asset" `@!(wikipage "asset")!@`)
 (ww-add-page "path_grammar" `@!(wikipage "path_grammar")!@`)
 (ww-add-page "path_symbols" `@!(wikipage "path_symbols")!@`)
+(ww-add-page "protogestling_mockup" `@!(wikipage "protogestling_mockup")!@`)
 
 # linked pages
 
