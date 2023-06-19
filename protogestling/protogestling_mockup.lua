@@ -201,6 +201,7 @@ for n=1,nframes do
     lil("compute 15")
     draw_face()
     local lpos, cpos = draw_textblock(lines, txtpos)
+    lil("bproundrect [bpget [grab bp] 2] 0 0 200 320 16 1")
     lil("grab gfx")
     lil("gfxfill 0")
     lil("bptr [grab bp] 0 0 200 320 0 0 1")
