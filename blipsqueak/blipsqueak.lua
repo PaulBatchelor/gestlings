@@ -98,7 +98,7 @@ function BlipSqueak.components(o)
     assert(comp.sig ~= nil, "sig not found")
     comp.path = o.path or path
     assert(comp.path ~= nil, "path not found")
-    comp.warble = o.warble or warble 
+    comp.warble = o.warble or warble
     assert(comp.warble ~= nil, "warble not found")
     comp.morpheme = o.morpheme or morpheme
     assert(comp.morpheme ~= nil, "morpheme not found")

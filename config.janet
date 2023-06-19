@@ -1,3 +1,23 @@
+(def blipsqueak-assets @[
+    "blipsqueak/words.b64" "blipsqueak/morphemes.b64"
+    "blipsqueak/blipsqueak.lua"
+    "blipsqueak/mechanism.b64"
+
+    # these should be put in another array, as they are more general
+    "asset/asset.lua"
+    "diagraf/diagraf.lua"
+    "sigrunes/sigrunes.lua"
+    "tal/tal.lua"
+    "gest/gest.lua"
+    "morpheme/morpho.lua"
+    "seq/seq.lua"
+    "sig/sig.lua"
+    "path/path.lua"
+    "warble/warble.lua"
+    "morpheme/morpheme.lua"
+    "morpheme/mseq.lua"
+])
+
 (def assets @[
     @[["path/symtab.b64" "path/test.uf2"] ["path/test_uf2.lua"]]
     @[["path/notation.hex"] ["path/notate.lua"] ["path/symtab.b64"]]
@@ -27,4 +47,8 @@
       ["blipsqueak/mechanism.lua"]
       ["blipsqueak/morphemes.b64"
        "blipsqueak/words.b64"]]
+
+    @[["res/protogestling.mp4"]
+      ["protogestling/protogestling_mockup.lua"]
+      blipsqueak-assets]
 ])
