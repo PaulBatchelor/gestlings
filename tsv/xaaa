@@ -628,3 +628,6 @@
 2023-06-13 18:21:03	ef267bf4-785f-40cc-84d4-dc4dace52f0f	>port blipsqueak components into org files
 -	ef267bf4-785f-40cc-84d4-dc4dace52f0f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2023-06-13 18:21:03	ef267bf4-785f-40cc-84d4-dc4dace52f0f	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-19 21:19:57	7397088f-b33a-4ff2-83a2-a499be109e87	>create resource list for rsync transfer
+-	7397088f-b33a-4ff2-83a2-a499be109e87	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-06-19 21:19:57	7397088f-b33a-4ff2-83a2-a499be109e87	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
