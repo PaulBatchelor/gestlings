@@ -172,3 +172,64 @@ ORDER BY value ASC
         (org ": ")
         (org (fmtmsg blurb))
         (org "\n")))))
+
+(defn- charfill [char rep]
+  (string (buffer/new-filled rep ((string/bytes char) 0))))
+
+(defn printblurb [UUID]
+  (def rows
+    (sqlite3/eval
+     (ww-db) (string/format `
+SELECT substr(value, 9) as blurb FROM wikizet
+WHERE UUID is '%s' AND
+value LIKE '$blurb:>%%'
+;` UUID)))
+
+  (each r rows (org (string (fmtmsg (r "blurb")) "\n\n"))))
+
+(defn printhistory [UUID]
+  (def rows
+    (sqlite3/eval
+     (ww-db) (string/format `
+SELECT datetime(time, 'localtime') as ltime,
+substr(value, 2) as val
+FROM wikizet
+WHERE UUID in(
+    SELECT UUID from wikizet where value is '#' || '%s'
+)
+AND value LIKE '>%%'
+ORDER BY strftime('%%s', time) DESC
+;` UUID)))
+
+  (print "<blockquote>")
+  (each r rows
+    (org (string "*" (r "ltime") "*: "))
+    (org (string
+          (fmtmsg (r "val")) "\n\n")))
+
+  (print "</blockquote>"))
+
+(defn print-task [r level]
+  (org (string (charfill "*" level) " " (r "task") "\n"))
+  (marker (string/slice (r "UUID") 0 8))
+  (org (string "UUID: [[#" (string/slice (r "UUID") 0 8) "]].\n\n"))
+  (printblurb (r "UUID"))
+  (printhistory (r "UUID"))
+)
+
+
+(defn zetdo-agenda []
+  (def rows
+       (sqlite3/eval
+         (ww-db)
+         (string
+           "SELECT "
+           "zetdo_priority.UUID, "
+           "substr(wikizet.value, 2) as task "
+           "from zetdo_priority "
+           "INNER join wikizet on zetdo_priority.UUID = wikizet.UUID "
+           "WHERE wikizet.value LIKE '>%' "
+           "ORDER BY zetdo_priority.score DESC"
+           )))
+  (each r rows (print-task r 1))
+  )

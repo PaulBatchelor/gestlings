@@ -631,3 +631,16 @@
 2023-06-19 21:19:57	7397088f-b33a-4ff2-83a2-a499be109e87	>create resource list for rsync transfer
 -	7397088f-b33a-4ff2-83a2-a499be109e87	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2023-06-19 21:19:57	7397088f-b33a-4ff2-83a2-a499be109e87	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-29 17:13:59	54ee590d-1314-475d-a5a5-2ffe3d8e191d	>implement tubular
+-	54ee590d-1314-475d-a5a5-2ffe3d8e191d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-06-29 17:13:59	54ee590d-1314-475d-a5a5-2ffe3d8e191d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-29 17:15:27	54ee590d-1314-475d-a5a5-2ffe3d8e191d	$blurb:>tubular aims to be yet another tract physical model, simplified to be one tube without velum, with adjustable size at init-time, and no oversampling.
+2023-06-29 17:16:39	6534637c-7d98-4f25-9d68-8da21139695d	>bitrune initial editor
+-	6534637c-7d98-4f25-9d68-8da21139695d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-06-29 17:16:39	6534637c-7d98-4f25-9d68-8da21139695d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-06-29 17:17:02	6534637c-7d98-4f25-9d68-8da21139695d	$blurb:>scope out and create bitrune: a text editor for symbols and slabs
+2023-06-29 17:50:40	7b4aae3c-889b-4525-9281-3a30542ccdd6	!TODO
+-	7b4aae3c-889b-4525-9281-3a30542ccdd6	#ee57514a-a83b-45e5-8058-0ce712106dd8
+2023-06-29 17:53:09	7b4aae3c-889b-4525-9281-3a30542ccdd6	$blurb:>tasks for gestlings on the active agenda board
+2023-06-29 17:54:38	f85e6d8f-8fb5-4348-97e8-bf830b6eae9c	>added !TODO page, generated from internal zetdo agenda
+-	f85e6d8f-8fb5-4348-97e8-bf830b6eae9c	#53a2e179-eb60-4c13-b749-59d5d3b893c5

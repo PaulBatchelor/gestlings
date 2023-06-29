@@ -37,6 +37,10 @@
 (ww-add-page "path_grammar" `@!(wikipage "path_grammar")!@`)
 (ww-add-page "path_symbols" `@!(wikipage "path_symbols")!@`)
 (ww-add-page "protogestling_mockup" `@!(wikipage "protogestling_mockup")!@`)
+(ww-add-page "TODO" `#+TITLE: TODO
+Tasks for Gestlings. Updated automatically using [[/wiki/zetdo][zetdo]].
+
+@!(zet/zetdo-agenda)!@`)
 
 # linked pages
 
