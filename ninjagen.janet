@@ -36,7 +36,7 @@
 (defn link-rule []
   (print "ldflags = -L/opt/homebrew/lib -L/usr/local/lib")
   (def libs @["-lmnolth" "-lx264"])
-  (if (= use-monome true) (array/push libs "-lmonome"))
+  (if (= use-monome true) (array/push libs "-lmonome -ljack"))
   (print (string "libs = " (string/join libs " ")))
   (print "rule link")
   (print "    command = gcc $cflags $in -o $out $ldflags $libs")

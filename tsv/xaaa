@@ -650,3 +650,32 @@
 2023-06-29 18:22:32	e365a076-9640-4457-9274-2f1bb4fb9c10	$duration:>1582
 -	e365a076-9640-4457-9274-2f1bb4fb9c10	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	e365a076-9640-4457-9274-2f1bb4fb9c10	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-06-29 19:10:23	9cd44220-45a4-4278-bb34-bcc6335943d1	>trying to get an initial implementation. Usually, I wrap things into a LIL function immediately, but writing a C program as an intermediate step using the sndkit API will actually get sound faster.
+-	9cd44220-45a4-4278-bb34-bcc6335943d1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9cd44220-45a4-4278-bb34-bcc6335943d1	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-06-29 21:57:59	f65aa321-8de4-4687-8ae9-61fc0200109b	$duration:>10049
+-	f65aa321-8de4-4687-8ae9-61fc0200109b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f65aa321-8de4-4687-8ae9-61fc0200109b	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-06-29 21:59:36	4732a5dd-7cfa-4d51-a73b-ce5dd3451437	>got some initial sounds. spent some time playing around with DRM shapes. I may want to do some more studies and research here, as it can get quite noisy sometimes (also it sometimes NaNs out). but, I guess it works?
+-	4732a5dd-7cfa-4d51-a73b-ce5dd3451437	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4732a5dd-7cfa-4d51-a73b-ce5dd3451437	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-06-30 01:10:37	fd1c3c9a-e9c1-4ab5-aeb0-f02b875e6ba4	>it's becoming clear to me that DRM isn't the silver bullet I thought it was for generating tract shapes. Going to experiment a little more, but it's looking like I'll want to make it so multiple empirical techniques are possible.
+-	fd1c3c9a-e9c1-4ab5-aeb0-f02b875e6ba4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	fd1c3c9a-e9c1-4ab5-aeb0-f02b875e6ba4	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-06-30 01:16:35	4c69b7b1-6dce-429f-8204-c54f60b0e3f8	$duration:>352
+-	4c69b7b1-6dce-429f-8204-c54f60b0e3f8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4c69b7b1-6dce-429f-8204-c54f60b0e3f8	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-06-30 16:09:46	85d35ef9-6fab-41de-bddd-0145f889cbe5	>attempting to hack out the tongue control I use for voc/tractxy to work on any length. If I can get some contrasting phonemes from that, I'll be happy.
+-	85d35ef9-6fab-41de-bddd-0145f889cbe5	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-06-30 16:55:57	5cf23cbc-3348-4ada-96a0-db91a23ac7e3	>I keep NaNing out with these tract shapes. Why?
+-	5cf23cbc-3348-4ada-96a0-db91a23ac7e3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5cf23cbc-3348-4ada-96a0-db91a23ac7e3	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-06-30 17:52:59	a467cca0-4a53-433f-9286-ae2221b4c84c	>I found a typo in my code which was causing the NaNs. DRM now works pretty well. Oversampling makes a difference, and now I can control that too!
+-	a467cca0-4a53-433f-9286-ae2221b4c84c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a467cca0-4a53-433f-9286-ae2221b4c84c	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-06-30 17:53:53	4deb558c-ba88-4e7e-85a5-72ced0240f2f	>Going to do add a gentle 1-pole lowpass filter to reduce some of the bright frequencies before downsampling. Doubtful it's 100% "correct", but I think it'll be good enough.
+-	4deb558c-ba88-4e7e-85a5-72ced0240f2f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4deb558c-ba88-4e7e-85a5-72ced0240f2f	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-06-30 16:09:46	f5e1808c-b64f-4f3a-a6db-835a5a62ce4f	$duration:>9000
+-	f5e1808c-b64f-4f3a-a6db-835a5a62ce4f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f5e1808c-b64f-4f3a-a6db-835a5a62ce4f	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
