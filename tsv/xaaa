@@ -693,3 +693,24 @@
 -	f3e7d42e-011e-4f14-9b48-ef8bf2a72a95	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
 2023-07-01 01:37:54	f61960ed-895c-4697-9835-1aafb03849be	>the interface works with diphone now, so it's more or less in a good place. I think it's ready for the LIL code.
 -	f61960ed-895c-4697-9835-1aafb03849be	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-07-01 18:14:42	824be9e7-daec-4af7-837c-909b5de4112a	>making LIL bindings today
+-	824be9e7-daec-4af7-837c-909b5de4112a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	824be9e7-daec-4af7-837c-909b5de4112a	#f61960ed-895c-4697-9835-1aafb03849be
+2023-07-01 18:37:06	78bf9e90-e66e-4bb6-b888-ed769fc93927	$duration:>1337
+-	78bf9e90-e66e-4bb6-b888-ed769fc93927	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	78bf9e90-e66e-4bb6-b888-ed769fc93927	#f61960ed-895c-4697-9835-1aafb03849be
+2023-07-01 19:00:56	860a04db-9ae2-4f3b-bc1d-52a25e9a1536	$duration:>1023
+-	860a04db-9ae2-4f3b-bc1d-52a25e9a1536	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	860a04db-9ae2-4f3b-bc1d-52a25e9a1536	#f61960ed-895c-4697-9835-1aafb03849be
+2023-07-01 19:38:47	89d6282d-63d4-4ab1-be72-bb09372c52e8	$duration:>1687
+-	89d6282d-63d4-4ab1-be72-bb09372c52e8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	89d6282d-63d4-4ab1-be72-bb09372c52e8	#f61960ed-895c-4697-9835-1aafb03849be
+2023-07-01 19:44:41	0d53513c-f569-4e90-91ff-b908699b6505	>the LIL bindings work! I think I want to add oversampling as a parameter instead of a macro now.
+-	0d53513c-f569-4e90-91ff-b908699b6505	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0d53513c-f569-4e90-91ff-b908699b6505	#f61960ed-895c-4697-9835-1aafb03849be
+2023-07-01 20:01:20	dfdaa114-63a2-4fe7-9609-c357c826886d	>okay, I think that's a wrap. everything is merged upstream now.
+-	dfdaa114-63a2-4fe7-9609-c357c826886d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	dfdaa114-63a2-4fe7-9609-c357c826886d	#f61960ed-895c-4697-9835-1aafb03849be
+2023-07-01 20:01:25	51b608bd-5ab6-4461-85e6-c79ad9d18ca3	$duration:>1355
+-	51b608bd-5ab6-4461-85e6-c79ad9d18ca3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	51b608bd-5ab6-4461-85e6-c79ad9d18ca3	#f61960ed-895c-4697-9835-1aafb03849be
