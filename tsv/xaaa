@@ -679,3 +679,17 @@
 2023-06-30 16:09:46	f5e1808c-b64f-4f3a-a6db-835a5a62ce4f	$duration:>9000
 -	f5e1808c-b64f-4f3a-a6db-835a5a62ce4f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	f5e1808c-b64f-4f3a-a6db-835a5a62ce4f	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-07-01 00:11:45	39bcd90f-bb54-40f3-b814-1f3623007c2e	>I think it's about nearly time to wrap tubular into a LIL function
+-	39bcd90f-bb54-40f3-b814-1f3623007c2e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	39bcd90f-bb54-40f3-b814-1f3623007c2e	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-07-01 00:15:26	e304f625-33de-4e44-9f68-0670548135db	$duration:>217
+-	e304f625-33de-4e44-9f68-0670548135db	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e304f625-33de-4e44-9f68-0670548135db	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-07-01 00:48:20	3f6e1eb3-a872-4898-85f6-e6260a3f5082	>you know what, the LIL can wait. All I need is enough for a demo, and there's a lot of C code to be made before the LIL code. sndkit's C API is pretty easy to work with, so I'm just going to get the C example working nicely.
+-	3f6e1eb3-a872-4898-85f6-e6260a3f5082	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3f6e1eb3-a872-4898-85f6-e6260a3f5082	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-07-01 01:37:12	f3e7d42e-011e-4f14-9b48-ef8bf2a72a95	$duration:>4547
+-	f3e7d42e-011e-4f14-9b48-ef8bf2a72a95	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f3e7d42e-011e-4f14-9b48-ef8bf2a72a95	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
+2023-07-01 01:37:54	f61960ed-895c-4697-9835-1aafb03849be	>the interface works with diphone now, so it's more or less in a good place. I think it's ready for the LIL code.
+-	f61960ed-895c-4697-9835-1aafb03849be	#54ee590d-1314-475d-a5a5-2ffe3d8e191d
