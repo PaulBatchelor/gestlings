@@ -633,7 +633,7 @@
 2023-06-19 21:19:57	7397088f-b33a-4ff2-83a2-a499be109e87	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
 2023-06-29 17:13:59	54ee590d-1314-475d-a5a5-2ffe3d8e191d	>implement tubular
 -	54ee590d-1314-475d-a5a5-2ffe3d8e191d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-06-29 17:13:59	54ee590d-1314-475d-a5a5-2ffe3d8e191d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-01 20:08:03	54ee590d-1314-475d-a5a5-2ffe3d8e191d	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-06-29 17:15:27	54ee590d-1314-475d-a5a5-2ffe3d8e191d	$blurb:>tubular aims to be yet another tract physical model, simplified to be one tube without velum, with adjustable size at init-time, and no oversampling.
 2023-06-29 17:16:39	6534637c-7d98-4f25-9d68-8da21139695d	>bitrune initial editor
 -	6534637c-7d98-4f25-9d68-8da21139695d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -714,3 +714,35 @@
 2023-07-01 20:01:25	51b608bd-5ab6-4461-85e6-c79ad9d18ca3	$duration:>1355
 -	51b608bd-5ab6-4461-85e6-c79ad9d18ca3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	51b608bd-5ab6-4461-85e6-c79ad9d18ca3	#f61960ed-895c-4697-9835-1aafb03849be
+2023-07-01 20:03:20	1d6484b3-be7a-4010-bda5-97e4783d6b4b	>create a "progress" page
+-	1d6484b3-be7a-4010-bda5-97e4783d6b4b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-01 20:03:20	1d6484b3-be7a-4010-bda5-97e4783d6b4b	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-01 20:04:40	3886266b-2c21-41f4-8d7d-129cc0488bd1	>I am thinking about keeping track of my time working on the Gestlings, and want to have a fixed time budget. I'm thinking of about 275 hours + 25 hours overtime. If I work 3-4 hrs a day, that puts me somewhere in October.
+-	3886266b-2c21-41f4-8d7d-129cc0488bd1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3886266b-2c21-41f4-8d7d-129cc0488bd1	#1d6484b3-be7a-4010-bda5-97e4783d6b4b
+2023-07-01 20:06:25	559117db-ed61-4b90-8a86-afac3636edbc	>the progress page would show the total time spent so far on the Gestlings since end of June, percentage of total time budget, average velocity, and projected end date based on that velocity, and if I'm on schedule for meeting a deadline (such as october 1st).
+-	559117db-ed61-4b90-8a86-afac3636edbc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	559117db-ed61-4b90-8a86-afac3636edbc	#1d6484b3-be7a-4010-bda5-97e4783d6b4b
+2023-07-01 20:07:23	74daacba-4e78-4c7a-bc50-875a99373a87	>if I really had my act together, I would have high-level objectives and some way of measuring how "done" they are. but first things first... time
+-	74daacba-4e78-4c7a-bc50-875a99373a87	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	74daacba-4e78-4c7a-bc50-875a99373a87	#1d6484b3-be7a-4010-bda5-97e4783d6b4b
+2023-07-01 20:10:21	eba266de-b274-4ba6-b02e-f0016f0714c9	>there's a lot of small components already made here. uf2 font rendering, a proof of concept ortho33 handler, some SDL framebuffer code lying around which is very close to what is needed, etc. the trick is gluing this all together into something cohesive, and to focus things around an MVP that is actually helpful for the Gestlings.
+-	eba266de-b274-4ba6-b02e-f0016f0714c9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	eba266de-b274-4ba6-b02e-f0016f0714c9	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-01 20:11:51	8d808eed-896a-44d4-a333-8153b77cebb8	>tubular just got done, and I need a way to more interactively sculpt states for it. setting things up well enough for this task would be great.
+-	8d808eed-896a-44d4-a333-8153b77cebb8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8d808eed-896a-44d4-a333-8153b77cebb8	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-01 20:12:14	f4a31e9c-bfb5-48e3-a935-14811e142d77	>create gesture controlled table morpher that works with tubular
+-	f4a31e9c-bfb5-48e3-a935-14811e142d77	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-01 20:12:14	f4a31e9c-bfb5-48e3-a935-14811e142d77	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-01 20:12:56	56295d2b-7873-4456-b5c2-8492c6506301	>I need a way for tubular to morph between shapes via gesture, we can generalize this to be a table morpher where all the tables are the same size.
+-	56295d2b-7873-4456-b5c2-8492c6506301	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	56295d2b-7873-4456-b5c2-8492c6506301	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-01 20:14:32	44919d9c-b3f0-4f77-af42-2738fc209bcf	>create interactive interface for exploring sound states in tubular
+-	44919d9c-b3f0-4f77-af42-2738fc209bcf	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-01 20:14:32	44919d9c-b3f0-4f77-af42-2738fc209bcf	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	6534637c-7d98-4f25-9d68-8da21139695d	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+-	f4a31e9c-bfb5-48e3-a935-14811e142d77	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-01 20:17:12	c00f8751-9f71-4bc6-8337-e22c7dcd7d3a	$duration:>526
+-	c00f8751-9f71-4bc6-8337-e22c7dcd7d3a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c00f8751-9f71-4bc6-8337-e22c7dcd7d3a	#6534637c-7d98-4f25-9d68-8da21139695d
