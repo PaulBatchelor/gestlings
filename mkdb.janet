@@ -54,6 +54,7 @@ Tasks for Gestlings. Updated automatically using [[/wiki/zetdo][zetdo]].
 (ww-add-link "goblin_remembering" "goblins/remembering.org")
 (ww-add-link "goblin_snoring" "goblins/snoring.org")
 (ww-add-link "goblin_grumpy" "goblins/grumpy.org")
+(ww-add-link "progress" "progress.org")
 
 # sync and close
 

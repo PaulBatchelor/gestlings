@@ -1,0 +1,61 @@
+#+TITLE: Progress
+An auto-generated update on the gestlings.
+
+@!
+(do
+  (def db (sqlite3/open "a.db"))
+  (def budget 275) # hours
+
+  (defn sec->hour [sec] (/ sec 3600))
+  (defn sec->minutes [sec] (/ sec 60))
+
+  (defn times [sec]
+    (def hours (math/floor (sec->hour sec)))
+    (def minutes (math/floor (sec->minutes (- sec (* 3600 hours)))))
+    (def seconds
+      (math/floor (- sec (* 3600 hours) (* 60 minutes))))
+    (string hours "h" minutes "m" seconds "s"))
+
+  (defn print-row [row]
+    (org (string (row "day") ": " (times (row "duration")) "\n\n")))
+
+  (defn total-seconds [rows]
+    (reduce (fn [accum el] (+ accum (el "duration"))) 0 rows))
+
+  (defn print-summary [total-hours budget]
+      (def percent-completed (* (/ total-hours budget) 100))
+      (org 
+        (string
+          "So far, " total-hours " hours of work have been logged in "
+          "Gestlings development since June 29th, 2023.\n\n"))
+
+      (org
+        (string "This represents "
+                percent-completed
+                "% of the time budget of "
+                budget " hours.")))
+
+  (defn print-hours [q]
+      (each row q (print-row row)))
+
+  (def q
+    (sqlite3/eval
+      db
+      (string
+        "SELECT "
+        "date(time) as day, "
+        "strftime('%s', time) as timesecs, "
+        "sum(substr(value, 12)) as duration "
+        "from wikizet "
+        "WHERE value LIKE '$duration:%' "
+        "AND timesecs > strftime('%s', '2023-06-28') "
+        "GROUP BY day ORDER BY day DESC"
+        )))
+
+  (org "* Summary\n")
+  (print-summary (sec->hour (total-seconds q)) budget)
+
+  (org "* Hours\n")
+  (print-hours q)
+  )
+!@
