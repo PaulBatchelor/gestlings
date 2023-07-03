@@ -1,6 +1,8 @@
 #+TITLE: Progress
 An auto-generated update on the gestlings.
 
+To see what I'm currently working on, see: @!(ref "TODO")!@.
+
 @!
 (do
   (def db (sqlite3/open "a.db"))
@@ -16,6 +18,14 @@ An auto-generated update on the gestlings.
       (math/floor (- sec (* 3600 hours) (* 60 minutes))))
     (string hours "h" minutes "m" seconds "s"))
 
+  (def days-since-start
+    (((sqlite3/eval
+        db
+        (string
+          "SELECT ((strftime('%s', datetime()) - "
+          "strftime('%s', '2023-06-29')) / 3600 / 24) as days_since")) 0)
+     "days_since"))
+
   (defn print-row [row]
     (org (string (row "day") ": " (times (row "duration")) "\n\n")))
 
@@ -24,7 +34,20 @@ An auto-generated update on the gestlings.
 
   (defn print-summary [total-hours budget]
       (def percent-completed (* (/ total-hours budget) 100))
-      (org 
+      (def average-velocity (/ total-hours days-since-start))
+      (def hours-left (- budget total-hours))
+      (def estimated-days (/ hours-left average-velocity))
+      (def estimated-end-date
+        (((sqlite3/eval
+           db
+           (string
+             "SELECT "
+             "(date("
+             "strftime('%s', datetime()) + "
+             (string/format "%d" (math/floor (* estimated-days 3600 24)))
+             ", 'unixepoch')) as end_date")) 0) "end_date"))
+
+      (org
         (string
           "So far, " total-hours " hours of work have been logged in "
           "Gestlings development since June 29th, 2023.\n\n"))
@@ -33,7 +56,26 @@ An auto-generated update on the gestlings.
         (string "This represents "
                 percent-completed
                 "% of the time budget of "
-                budget " hours.")))
+                budget " hours.\n\n"))
+
+      (org
+        (string
+          "The average velocity is "
+          average-velocity
+          " hours/day.\n\n"))
+
+      (org
+        (string
+          "At this rate, there are " estimated-days
+          " days left of development.\n\n"))
+
+      (org
+        (string
+          "This gives a projected end date of "
+          estimated-end-date
+          "."))
+
+      )
 
   (defn print-hours [q]
       (each row q (print-row row)))

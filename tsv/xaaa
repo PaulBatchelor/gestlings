@@ -716,7 +716,7 @@
 -	51b608bd-5ab6-4461-85e6-c79ad9d18ca3	#f61960ed-895c-4697-9835-1aafb03849be
 2023-07-01 20:03:20	1d6484b3-be7a-4010-bda5-97e4783d6b4b	>create a "progress" page
 -	1d6484b3-be7a-4010-bda5-97e4783d6b4b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-01 20:03:20	1d6484b3-be7a-4010-bda5-97e4783d6b4b	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-03 21:00:27	1d6484b3-be7a-4010-bda5-97e4783d6b4b	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-07-01 20:04:40	3886266b-2c21-41f4-8d7d-129cc0488bd1	>I am thinking about keeping track of my time working on the Gestlings, and want to have a fixed time budget. I'm thinking of about 275 hours + 25 hours overtime. If I work 3-4 hrs a day, that puts me somewhere in October.
 -	3886266b-2c21-41f4-8d7d-129cc0488bd1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	3886266b-2c21-41f4-8d7d-129cc0488bd1	#1d6484b3-be7a-4010-bda5-97e4783d6b4b
@@ -754,3 +754,9 @@
 2023-07-02 18:12:47	c5a370da-6039-4677-8bbd-5a33938c0b19	$duration:>2931
 -	c5a370da-6039-4677-8bbd-5a33938c0b19	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	c5a370da-6039-4677-8bbd-5a33938c0b19	#1d6484b3-be7a-4010-bda5-97e4783d6b4b
+2023-07-03 19:57:10	ac23053b-d79f-423b-8dbe-72e3a040e4c5	>Now that I've created an initial progress page, I'm going to do a projection that takes my average daily velocity and estimates a deadline. That deadline will then be compared with a given deadline, and can be used as a barometer for if I'm working at the right pace.
+-	ac23053b-d79f-423b-8dbe-72e3a040e4c5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ac23053b-d79f-423b-8dbe-72e3a040e4c5	#1d6484b3-be7a-4010-bda5-97e4783d6b4b
+2023-07-03 20:59:05	6e35e163-fa69-402b-9a67-550ba8d14fab	$duration:>3704
+-	6e35e163-fa69-402b-9a67-550ba8d14fab	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	6e35e163-fa69-402b-9a67-550ba8d14fab	#1d6484b3-be7a-4010-bda5-97e4783d6b4b
