@@ -209,12 +209,52 @@ ORDER BY strftime('%%s', time) DESC
 
   (print "</blockquote>"))
 
+(defn subtasks [r]
+ (def zetdo-uuid (ww-zet-resolve "@zetdo"))
+ (sqlite3/eval
+  (ww-db)
+  (string
+    "SELECT time, UUID, substr(value, 2) as task, substr(state, 9) as state "
+    "FROM wikizet "
+    "INNER JOIN "
+        "(SELECT UUID as ID, value as state "
+        "FROM wikizet WHERE value LIKE '$state:%' "
+        ") states "
+    "ON wikizet.UUID = states.ID "
+
+    "WHERE UUID in "
+        "(SELECT UUID "
+    "FROM wikizet "
+    "WHERE UUID in "
+        "(SELECT UUID "
+            "from wikizet "
+            "WHERE "
+            "UUID in "
+                "(SELECT UUID "
+                "FROM wikizet "
+                "WHERE value IS '#' || '" zetdo-uuid "') "
+            "AND value LIKE '$state:%') "
+        "AND value IS '#' || '" (r "UUID") "') "
+    "AND value like '>%' ")))
+
 (defn print-task [r level]
   (org (string (charfill "*" level) " " (r "task") "\n"))
   (marker (string/slice (r "UUID") 0 8))
   (org (string "UUID: [[#" (string/slice (r "UUID") 0 8) "]].\n\n"))
   (printblurb (r "UUID"))
+  (def tasks (subtasks r))
+
+  # subtasks show up in history, so that's not great
   (printhistory (r "UUID"))
+
+  (if (> (length tasks) 0)
+    (org (string (length tasks) " subtasks.\n\n")))
+
+  # max level check in case of weird recursion or something
+  (if (< level 5)
+   (do
+    (each tsk tasks
+     (print-task tsk (+ level 1)))))
 )
 
 
