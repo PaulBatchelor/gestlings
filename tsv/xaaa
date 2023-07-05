@@ -760,3 +760,15 @@
 2023-07-03 20:59:05	6e35e163-fa69-402b-9a67-550ba8d14fab	$duration:>3704
 -	6e35e163-fa69-402b-9a67-550ba8d14fab	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	6e35e163-fa69-402b-9a67-550ba8d14fab	#1d6484b3-be7a-4010-bda5-97e4783d6b4b
+2023-07-05 17:18:36	1dc7bedb-1e13-49f0-9559-c3e4c30de345	>there's been lots of off-the-clock casual thinking yesterday. trying to push this into something actionable
+-	1dc7bedb-1e13-49f0-9559-c3e4c30de345	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1dc7bedb-1e13-49f0-9559-c3e4c30de345	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-05 17:21:02	cc45df2f-ee49-41ea-8adb-d296a9d385af	>while it's tempting to jump right to rendering, a part of me first feels like I need to work out the interface and editing backend a little bit more. Creating a clean separation between the input method and the editing engine is going to be important.
+-	cc45df2f-ee49-41ea-8adb-d296a9d385af	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	cc45df2f-ee49-41ea-8adb-d296a9d385af	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-05 17:54:39	ecab04ec-e9a3-4047-a968-f93902a85c2e	>I have started creating words in playground/bitrune/engine.
+-	ecab04ec-e9a3-4047-a968-f93902a85c2e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ecab04ec-e9a3-4047-a968-f93902a85c2e	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-05 17:54:40	68e299e6-251c-449f-a0fc-163de490b427	$duration:>2215
+-	68e299e6-251c-449f-a0fc-163de490b427	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	68e299e6-251c-449f-a0fc-163de490b427	#6534637c-7d98-4f25-9d68-8da21139695d
