@@ -778,3 +778,12 @@
 2023-07-05 22:19:06	51811571-9e5c-410d-a384-8b4cb2c015b0	$duration:>2797
 -	51811571-9e5c-410d-a384-8b4cb2c015b0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	51811571-9e5c-410d-a384-8b4cb2c015b0	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-06 02:30:12	c28a75f0-c724-4003-9bd0-12c82774fc0a	>some initial sketches of code. something that happened while working it out was that "insert" turned into a compound of two verbs: something that actually does the insertion, and then a cursor movement. Without the cursor movement, things gets inserted to the right. So, "A,B,C" inserts would appear "C,B,A".
+-	c28a75f0-c724-4003-9bd0-12c82774fc0a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c28a75f0-c724-4003-9bd0-12c82774fc0a	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-06 02:33:06	77599069-4bf4-4fb4-b21c-7ff334ad076a	>not sure if I'm approaching the problem right, but the code seems slightly more elegant this way because I'm breaking actions up into smaller operations. Insert doesn't do anything but insert a character in the current row/symbol position, and change the length of the row by 1. The right movement updates the symbol position by 1. Both can be used independently.
+-	77599069-4bf4-4fb4-b21c-7ff334ad076a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	77599069-4bf4-4fb4-b21c-7ff334ad076a	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-06 02:33:11	1399ea3e-0292-4b85-b399-ec9cc4780e64	$duration:>3640
+-	1399ea3e-0292-4b85-b399-ec9cc4780e64	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1399ea3e-0292-4b85-b399-ec9cc4780e64	#6534637c-7d98-4f25-9d68-8da21139695d
