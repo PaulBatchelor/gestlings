@@ -793,3 +793,12 @@
 2023-07-06 19:56:43	73238db1-9fdf-455b-86a8-38d625fe9afa	$duration:>3010
 -	73238db1-9fdf-455b-86a8-38d625fe9afa	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	73238db1-9fdf-455b-86a8-38d625fe9afa	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-06 23:12:31	2a998111-b665-4e4e-85d6-929ad3939b7a	>okay, now going back to ortho33. this needs to be encapsulated so it can actually be re-used.
+-	2a998111-b665-4e4e-85d6-929ad3939b7a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	2a998111-b665-4e4e-85d6-929ad3939b7a	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 00:32:59	53b3f387-1c6f-41ce-9440-cda4b5cb32ad	$duration:>6185
+-	53b3f387-1c6f-41ce-9440-cda4b5cb32ad	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	53b3f387-1c6f-41ce-9440-cda4b5cb32ad	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 00:34:02	1f8fa23a-9c03-4931-b110-c3817f0b5ed6	>some stuff in ortho33 has been reworked. state logic is more decoupled from drawing. there's still a ways to go before it can be used to control the bitrune engine I built.
+-	1f8fa23a-9c03-4931-b110-c3817f0b5ed6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1f8fa23a-9c03-4931-b110-c3817f0b5ed6	#6534637c-7d98-4f25-9d68-8da21139695d
