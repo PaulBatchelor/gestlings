@@ -856,3 +856,15 @@
 2023-07-07 18:25:59	68fd2299-8824-4cd1-b894-3492299e7419	$duration:>1318
 -	68fd2299-8824-4cd1-b894-3492299e7419	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	68fd2299-8824-4cd1-b894-3492299e7419	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 20:13:04	a0c9dbe3-31ff-4433-a8ca-d678bdc5e76e	$duration:>514
+-	a0c9dbe3-31ff-4433-a8ca-d678bdc5e76e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a0c9dbe3-31ff-4433-a8ca-d678bdc5e76e	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-07 20:14:32	da9209f8-ab78-406d-b58d-611f6da2d898	>going to make another symbol set from a uf2. This will be set up so that they are aligned to the top pixels.
+-	da9209f8-ab78-406d-b58d-611f6da2d898	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	da9209f8-ab78-406d-b58d-611f6da2d898	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 21:08:31	8c98e8ce-17df-48b5-87be-54ccb675ff0a	>as a proof of concept, I got a small uf2 font to display on the monome grid, and I was able to scroll on the x-axis using the BNR1 knob.
+-	8c98e8ce-17df-48b5-87be-54ccb675ff0a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8c98e8ce-17df-48b5-87be-54ccb675ff0a	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 21:13:11	741444d6-da71-4302-b217-19d0e6c2df6a	$duration:>3592
+-	741444d6-da71-4302-b217-19d0e6c2df6a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	741444d6-da71-4302-b217-19d0e6c2df6a	#6534637c-7d98-4f25-9d68-8da21139695d
