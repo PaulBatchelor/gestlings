@@ -802,3 +802,51 @@
 2023-07-07 00:34:02	1f8fa23a-9c03-4931-b110-c3817f0b5ed6	>some stuff in ortho33 has been reworked. state logic is more decoupled from drawing. there's still a ways to go before it can be used to control the bitrune engine I built.
 -	1f8fa23a-9c03-4931-b110-c3817f0b5ed6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	1f8fa23a-9c03-4931-b110-c3817f0b5ed6	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 17:20:01	1ed43c2d-8d47-4826-82a1-3931d907b2b6	>so, it's come to my attention that monome is making a 16x16 grid. These don't get made too often, and may be my only shot to acquire one. Finances are tight for me, so if I'm to get it, I need to use it.
+-	1ed43c2d-8d47-4826-82a1-3931d907b2b6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1ed43c2d-8d47-4826-82a1-3931d907b2b6	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-07 17:21:41	ba2cbe74-be3b-4f71-934d-351c2cf238a3	>bitrune is going to be my editor for the gestlings. So, I've decided to pivot slightly. Instead of using a framebuffer for display, the grid is going to be used (my 16x8 grid). Obviously, this is going to change a few things in the plan.
+-	ba2cbe74-be3b-4f71-934d-351c2cf238a3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ba2cbe74-be3b-4f71-934d-351c2cf238a3	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-07 17:25:42	98cb2f03-1dc0-4d52-bb4d-bdddc07bb75a	>I'd like to think that the essence of bitrune and what it is for hasn't changed. Bitrune is about writing symbols down, and having the act of notation be the means of interfacing the systems underneath it.
+-	98cb2f03-1dc0-4d52-bb4d-bdddc07bb75a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	98cb2f03-1dc0-4d52-bb4d-bdddc07bb75a	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-07 17:28:32	d8f35842-69b3-4e65-9110-438389bdd394	>what will be significantly different is the information density. The "slab" was already quite small at the 320x240 resolution (most likely upscaled on a framebuffer). The monome offers 16x8 resolution, which is barely enough to display a few fragments of information at a time. I'm struggling with how to approach this constraint.
+-	d8f35842-69b3-4e65-9110-438389bdd394	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d8f35842-69b3-4e65-9110-438389bdd394	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-07 17:29:33	ef43e142-88b1-40b3-9d57-d2adfb99711c	$duration:>634
+-	ef43e142-88b1-40b3-9d57-d2adfb99711c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ef43e142-88b1-40b3-9d57-d2adfb99711c	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-07 17:30:35	5a51010b-4f7d-4a4b-a7aa-261c834bc050	>anyways, this is probably more of a line of thought for my bitrune editor task in gkjfhkfl. will ramble onwards there.
+-	5a51010b-4f7d-4a4b-a7aa-261c834bc050	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5a51010b-4f7d-4a4b-a7aa-261c834bc050	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-07 17:33:05	cffac8dd-f735-40f9-a4f3-89bec71e18a3	>Like I mentioned previously in another comment thread, theres a 16x16 grid that's getting released, and I want it. But it's enough of a purchase that I will need to use it right away for the Gestlings project. A Grid has been sat on my desk for years, and it has been hardly anything more than a paperweight. Between now and July 14th, I'm going to push even harder to make this thing an active tool in my creative workflow.
+-	cffac8dd-f735-40f9-a4f3-89bec71e18a3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	cffac8dd-f735-40f9-a4f3-89bec71e18a3	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 17:35:41	e5f5e640-b920-495d-8a5c-8cf71733d174	>The information density tradeoff is tough, and has always been the thing holding me back from using it more. While the 16x16 will help with that, it won't immediately overcome some of the hurdles.
+-	e5f5e640-b920-495d-8a5c-8cf71733d174	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e5f5e640-b920-495d-8a5c-8cf71733d174	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 17:38:23	305d05dd-d586-47a2-94a8-75535f635d9c	>After much thinking since last night, the best thing I can come up with with the information density issue is to use a scrolling model. Imagine a turing-like tape of (practically) infinite length, and the Grid as a window that projects part of the tape like looking at microfilm. Using one of the many knobs in my position, one could quickly scroll through the tape and view its contents.
+-	305d05dd-d586-47a2-94a8-75535f635d9c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	305d05dd-d586-47a2-94a8-75535f635d9c	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 17:40:52	0ace16ca-3ca7-4986-9b07-eb5376dd52b9	>on the tape are symbols. Due to the restrictions of the 16x8 grid, the character height will most likely be fixed at 6 units (pixels?) high, and variable width.
+-	0ace16ca-3ca7-4986-9b07-eb5376dd52b9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0ace16ca-3ca7-4986-9b07-eb5376dd52b9	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 17:42:46	0a51b95d-a268-4665-a718-d3f921378088	>An edit cursor will also be present, and can move from symbol to symbol, independently of the scroll. This will show up as a video inverter. If the 6-height symbols appear centered, the cursor will extend to the edges to be more visible.
+-	0a51b95d-a268-4665-a718-d3f921378088	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0a51b95d-a268-4665-a718-d3f921378088	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 17:45:23	ab92b191-09d1-4b08-acac-b521f1eab2c2	>left/right movement and insert/remove should still be usable as before. An added feature will be the ability for the edit cursor to jump to a place in the current viewing window.
+-	ab92b191-09d1-4b08-acac-b521f1eab2c2	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ab92b191-09d1-4b08-acac-b521f1eab2c2	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 17:49:05	5631b016-e08b-45db-b2f6-6c73bff85b59	>multiple rows might be a thing. that may be too much for such little information density.
+-	5631b016-e08b-45db-b2f6-6c73bff85b59	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5631b016-e08b-45db-b2f6-6c73bff85b59	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 17:56:13	6ed83e02-f776-4807-96ae-a33e0b95485e	>I've had a lot of thoughts about live coding languages for the grid over the last year. In many ways, this new development feels like a return to these ideas. It's tempting to throw out all the work I've made in the past few weeks and start over, but I think it would be more fruitful to try to still stay true to the bitrune vision.
+-	6ed83e02-f776-4807-96ae-a33e0b95485e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	6ed83e02-f776-4807-96ae-a33e0b95485e	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 18:00:20	c4086ec2-cfae-45cd-a0b0-de2230e6affe	>Due to the information density constraints of the Grid, the concept of a multi-line "slab" may need to change to a single long line "scroll". Creating a viewport mechanic with scrollwheel will also need to be implemented. Also, this new change implies that all symbols will have a maximum height of 6.
+-	c4086ec2-cfae-45cd-a0b0-de2230e6affe	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c4086ec2-cfae-45cd-a0b0-de2230e6affe	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-07 18:02:33	b6c1bec8-59d5-4477-bab8-eff7cab00f79	$duration:>1974
+-	b6c1bec8-59d5-4477-bab8-eff7cab00f79	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b6c1bec8-59d5-4477-bab8-eff7cab00f79	#6534637c-7d98-4f25-9d68-8da21139695d
