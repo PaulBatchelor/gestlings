@@ -94,4 +94,27 @@ dot = {
 }
 add_to_font(dot)
 
+rtee = {
+    id = 0x04,
+    width = 6,
+    name = "rtee",
+    shortcut = "",
+    bits = {
+
+        "##---",
+        "##---",
+        "#####",
+        "#####",
+        "##---",
+        "##---",
+
+        "--",
+        "--",
+        "--",
+        "-","-","-","-",
+        "-","-","-",
+    }
+}
+add_to_font(rtee)
+
 uf2.generate(font, "scratch/blocky6.uf2")

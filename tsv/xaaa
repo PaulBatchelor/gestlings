@@ -868,3 +868,12 @@
 2023-07-07 21:13:11	741444d6-da71-4302-b217-19d0e6c2df6a	$duration:>3592
 -	741444d6-da71-4302-b217-19d0e6c2df6a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	741444d6-da71-4302-b217-19d0e6c2df6a	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-08 00:31:18	6211d75d-6d73-4cec-a8ef-bdf8aa49d35f	$duration:>4570
+-	6211d75d-6d73-4cec-a8ef-bdf8aa49d35f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	6211d75d-6d73-4cec-a8ef-bdf8aa49d35f	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-08 00:42:38	1fe24e90-9c89-459a-8bd9-045668d249b5	>I now have a basic navigation interface working on the grid. scrolling, cursor jumping, scroll jumping, and arrow keys for cursor movement. nearly ready to be hooked up to the editor engine and ortho33 input system
+-	1fe24e90-9c89-459a-8bd9-045668d249b5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1fe24e90-9c89-459a-8bd9-045668d249b5	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-08 00:52:59	5ab1a8fa-49b9-451a-b691-028d867f51cb	$duration:>1300
+-	5ab1a8fa-49b9-451a-b691-028d867f51cb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5ab1a8fa-49b9-451a-b691-028d867f51cb	#6534637c-7d98-4f25-9d68-8da21139695d
