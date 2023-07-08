@@ -95,7 +95,7 @@ dot = {
 add_to_font(dot)
 
 rtee = {
-    id = 0x04,
+    id = 0x05,
     width = 6,
     name = "rtee",
     shortcut = "",
