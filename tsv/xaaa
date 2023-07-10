@@ -916,3 +916,15 @@
 2023-07-10 01:22:19	82047cd4-ef07-4381-8023-ecffce49efb4	$duration:>7694
 -	82047cd4-ef07-4381-8023-ecffce49efb4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	82047cd4-ef07-4381-8023-ecffce49efb4	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-10 20:26:03	e77e7a3d-ede5-4843-8312-bda18208c0a1	>going to attempt to get some keyboard shortcuts loaded from disk. will generate the data via messageback in a throw-away lua script, then write a parser that will load that data.
+-	e77e7a3d-ede5-4843-8312-bda18208c0a1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e77e7a3d-ede5-4843-8312-bda18208c0a1	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-10 21:07:31	0b4465a7-bdbd-465c-b9e7-32a2ca529aee	>it's the worlds brittlest incomplete msgpack parser, but it works well enough for the keyshape config file
+-	0b4465a7-bdbd-465c-b9e7-32a2ca529aee	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0b4465a7-bdbd-465c-b9e7-32a2ca529aee	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-10 22:19:11	9d5f527a-5b49-4ecb-b622-a996663ccadb	>added an initial message buffer for evaluating lines. nothing for blocks yet.
+-	9d5f527a-5b49-4ecb-b622-a996663ccadb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9d5f527a-5b49-4ecb-b622-a996663ccadb	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-10 22:19:14	dac8619f-fdd3-443d-91b6-48752205d7bc	$duration:>6898
+-	dac8619f-fdd3-443d-91b6-48752205d7bc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	dac8619f-fdd3-443d-91b6-48752205d7bc	#6534637c-7d98-4f25-9d68-8da21139695d
