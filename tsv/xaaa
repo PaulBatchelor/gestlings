@@ -901,3 +901,18 @@
 2023-07-09 20:40:14	88f49e79-d6c3-49a6-8c6e-cbba711e533b	$duration:>4244
 -	88f49e79-d6c3-49a6-8c6e-cbba711e533b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	88f49e79-d6c3-49a6-8c6e-cbba711e533b	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-09 23:15:48	f3562ff5-1a6f-4511-becd-dc87c9c2a373	>I'm about at the point where I need to start thinking about mnolth lua integration. mnolth already has grid keybindings, and I'd like to use that to manage the grid instead of libmonome directly. there's some magic involved with getting character input that would probably be best in C still.
+-	f3562ff5-1a6f-4511-becd-dc87c9c2a373	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f3562ff5-1a6f-4511-becd-dc87c9c2a373	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-09 23:16:53	c62e737a-9d51-4142-b121-a9d1de9a598e	>if I can get things split up right in C, I can begin porting those components over to this repo. at that point, I'll be able to rework the main control loop as a Lua program with smaller C subcomponents
+-	c62e737a-9d51-4142-b121-a9d1de9a598e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c62e737a-9d51-4142-b121-a9d1de9a598e	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-10 01:20:32	72e3c9e0-9ee3-4cfe-8540-3c26e3ed079e	>the structure of the main() function is beginning to resemble what I was imagining for the lua program, so I think this is a pretty good stopping point for today.
+-	72e3c9e0-9ee3-4cfe-8540-3c26e3ed079e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	72e3c9e0-9ee3-4cfe-8540-3c26e3ed079e	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-10 01:22:14	eab1610a-58e0-4bb9-924f-8f2035d2ac0e	>I'm going to need to way to load keyboard shortcuts ("keyshapes") into the program. I'm thinking about barebones msgpack again, since I'm doing that already for the symbols file.
+-	eab1610a-58e0-4bb9-924f-8f2035d2ac0e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	eab1610a-58e0-4bb9-924f-8f2035d2ac0e	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-10 01:22:19	82047cd4-ef07-4381-8023-ecffce49efb4	$duration:>7694
+-	82047cd4-ef07-4381-8023-ecffce49efb4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	82047cd4-ef07-4381-8023-ecffce49efb4	#6534637c-7d98-4f25-9d68-8da21139695d
