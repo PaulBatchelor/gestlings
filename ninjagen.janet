@@ -74,7 +74,13 @@
 (cc-rule cflags)
 (link-rule)
 (asset-rule)
-(def obj @["cantor" "protogestling/protogestling"])
+(def obj @[
+    "cantor"
+    "protogestling/protogestling"
+    "bitrune/bitrune"
+    "bitrune/engine"
+    "bitrune/ortho33"
+    ])
 (build-cantor obj)
 
 (each prog programs/pages

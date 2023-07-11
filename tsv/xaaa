@@ -928,3 +928,12 @@
 2023-07-10 22:19:14	dac8619f-fdd3-443d-91b6-48752205d7bc	$duration:>6898
 -	dac8619f-fdd3-443d-91b6-48752205d7bc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	dac8619f-fdd3-443d-91b6-48752205d7bc	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-11 18:18:23	41afb83e-314e-4c60-a441-786c273871e2	>I think I have enough in place where I can begin to start to think about writing out the lua components and importing code into this repo.
+-	41afb83e-314e-4c60-a441-786c273871e2	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	41afb83e-314e-4c60-a441-786c273871e2	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-11 19:37:35	b53375fe-fe0d-4269-920d-694ba45c099c	>initial lua components created. things seem to work.
+-	b53375fe-fe0d-4269-920d-694ba45c099c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b53375fe-fe0d-4269-920d-694ba45c099c	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-11 19:38:19	3dfca73c-d669-4793-855e-eb766c6f7669	$duration:>4861
+-	3dfca73c-d669-4793-855e-eb766c6f7669	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3dfca73c-d669-4793-855e-eb766c6f7669	#6534637c-7d98-4f25-9d68-8da21139695d
