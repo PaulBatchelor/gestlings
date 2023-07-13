@@ -6,6 +6,9 @@
 #define BITRUNE_MAXROWS 30
 #define BITRUNE_MAXSYMS 40
 
+uint32_t base64_triple(const unsigned char *data);
+uint32_t base64_encode_segment(const unsigned char *data, int input_length);
+
 struct bitrune_row {
     uint8_t symbols[BITRUNE_MAXSYMS];
     int length;
@@ -180,15 +183,65 @@ int bitrune_currow(bitrune_engine *br)
     return br->currow;
 }
 
+static void b64write(unsigned char *data, int len, FILE *fp)
+{
+    uint32_t out;
+    unsigned char bytes[4];
+
+    out = base64_encode_segment((const unsigned char *)data, len);
+    bytes[0] = (out >> 24) & 0xFF;
+    bytes[1] = (out >> 16) & 0xFF;
+    bytes[2] = (out >> 8) & 0xFF;
+    bytes[3] = out & 0xFF;
+
+    fwrite(bytes, 1, 4, fp);
+}
+
+
+static void append_byte(unsigned char *data,
+                        int *plen,
+                        int *prowpos,
+                        unsigned char c,
+                        FILE *fp)
+{
+    int len;
+    int rowpos;
+
+    len = *plen;
+    rowpos = *prowpos;
+
+    data[len] = c;
+    len++;
+
+    if (len >= 3) {
+        b64write(data, len, fp);
+        rowpos += 4;
+        if (rowpos >= 40) {
+            rowpos = 0;
+            fputc('\n', fp);
+        }
+        len = 0;
+    }
+
+    *plen = len;
+    *prowpos = rowpos;
+}
+
 static uint16_t writesymbols(bitrune_engine *br, FILE *fp, int dowrite)
 {
     int r;
     unsigned char zero;
     unsigned char msgpack_uint8;
     uint16_t nitems;
+    unsigned char data[3];
+    int len;
+    int rowpos;
+
+    len = 0;
     zero = 0;
     nitems = 0;
     msgpack_uint8 = 0xcc;
+    rowpos = 4; /* first 4 bytes are msgpack header */
 
     for (r = 0; r < BITRUNE_MAXROWS; r++) {
         bitrune_row *row;
@@ -197,17 +250,21 @@ static uint16_t writesymbols(bitrune_engine *br, FILE *fp, int dowrite)
             if (dowrite) {
                 int s;
                 for (s = 0; s < row->length; s++) {
-                    fputc(msgpack_uint8, fp);
-                    fputc(row->symbols[s], fp);
+                    append_byte(data, &len, &rowpos, msgpack_uint8, fp);
+                    append_byte(data, &len, &rowpos, row->symbols[s], fp);
                 }
             }
             nitems += row->length;
             if(dowrite) {
-                fputc(msgpack_uint8, fp);
-                fputc(zero, fp);
+                append_byte(data, &len, &rowpos, msgpack_uint8, fp);
+                append_byte(data, &len, &rowpos, zero, fp);
             }
             nitems++;
         }
+    }
+
+    if (dowrite && len > 0) {
+        b64write(data, len, fp);
     }
 
     return nitems;
@@ -224,38 +281,88 @@ void bitrune_save(bitrune_engine *br, const char *filename)
     msgpack_array16[0] = 0xdc;
     msgpack_array16[1] = (nitems >> 8) & 0xff;
     msgpack_array16[2] = nitems & 0xff;
-    fwrite(msgpack_array16, 1, 3, fp);
+    b64write(msgpack_array16, 3, fp);
     writesymbols(br, fp, 1);
     fclose(fp);
+}
+
+static void read_block(int *ppos,
+                       int *pnbytes,
+                       unsigned char *sextet,
+                       int *pspos,
+                       unsigned char *buf,
+                       unsigned char *b64buf,
+                       FILE *fp)
+{
+    int n, s, b64bytes;
+    int pos, nbytes;
+    int spos;
+
+    pos = *ppos;
+    nbytes = *pnbytes;
+    spos = *pspos;
+    /* in the rare case there are skipped bytes */
+    pos = pos - nbytes;
+    b64bytes = fread(b64buf, 1, 128, fp);
+    s = 0;
+    nbytes = 0;
+
+    for (n = 0; n < b64bytes; n++) {
+        /* TODO: check for valid b64 chars instead */
+        if (b64buf[n] != '\n') {
+            sextet[spos] = b64buf[n];
+            spos++;
+        }
+
+        if (spos == 4) {
+            spos = 0;
+            uint32_t triple;
+            triple = base64_triple(sextet);
+            buf[s] = (triple >> 16) & 0xFF;
+            buf[s + 1] = (triple >> 8) & 0xFF;
+            buf[s + 2] = (triple) & 0xFF;
+            s += 3;
+            nbytes += 3;
+        }
+    }
+
+    *ppos = pos;
+    *pnbytes = nbytes;
+    *pspos = spos;
 }
 
 void bitrune_load(bitrune_engine *br, const char *filename)
 {
     FILE *fp;
     unsigned char *buf;
+    unsigned char *b64buf;
     int nbytes;
     int pos;
     int row;
     int sym;
     int mode;
+    int spos;
+    unsigned char sextet[4];
 
     fp = fopen(filename, "rb");
     buf = calloc(1, 128);
+    b64buf = calloc(1, 128);
 
     if (fp == NULL) return;
 
-    nbytes = fread(buf, 1, 128, fp);
     pos = 0;
     row = 0;
     sym = 0;
     mode = 0;
+    spos = 0;
+    nbytes = 0;
+
+    read_block(&pos, &nbytes, sextet, &spos, buf, b64buf, fp);
 
     while (nbytes > 0) {
         unsigned char c;
         if (pos > nbytes) {
-            /* in the rare case there are skipped bytes */
-            pos = pos - nbytes;
-            nbytes = fread(buf, 1, 128, fp);
+            read_block(&pos, &nbytes, sextet, &spos, buf, b64buf, fp);
             continue;
         }
 
@@ -286,6 +393,7 @@ void bitrune_load(bitrune_engine *br, const char *filename)
     }
 
     free(buf);
+    free(b64buf);
     fclose(fp);
 }
 

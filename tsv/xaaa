@@ -937,3 +937,24 @@
 2023-07-11 19:38:19	3dfca73c-d669-4793-855e-eb766c6f7669	$duration:>4861
 -	3dfca73c-d669-4793-855e-eb766c6f7669	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	3dfca73c-d669-4793-855e-eb766c6f7669	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-13 14:10:35	457eeb6b-edb3-4a61-8c27-c2fe3ca85c38	>in what I hope will be my last finishing touches to this editor, I am going to add base64 encoding/decoding to the IO. This will make it match the other assets in this system.
+-	457eeb6b-edb3-4a61-8c27-c2fe3ca85c38	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	457eeb6b-edb3-4a61-8c27-c2fe3ca85c38	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-13 14:11:03	29ac284e-0b7a-451a-a0b5-21a410b54ed8	>finishing touches for now. I'm sure there will be more I'll want to tweak later. But time is limited.
+-	29ac284e-0b7a-451a-a0b5-21a410b54ed8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	29ac284e-0b7a-451a-a0b5-21a410b54ed8	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-13 14:15:34	30895fc4-42cd-4830-9fc7-ee359e06892a	$duration:>262
+-	30895fc4-42cd-4830-9fc7-ee359e06892a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	30895fc4-42cd-4830-9fc7-ee359e06892a	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-13 14:20:50	58bedd7b-4d3d-43e5-882f-736e00171909	$duration:>128
+-	58bedd7b-4d3d-43e5-882f-736e00171909	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	58bedd7b-4d3d-43e5-882f-736e00171909	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-13 14:48:53	0a7caa32-ea9e-4c6e-a9aa-362ccc9c1cb6	$duration:>1681
+-	0a7caa32-ea9e-4c6e-a9aa-362ccc9c1cb6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0a7caa32-ea9e-4c6e-a9aa-362ccc9c1cb6	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-13 16:15:21	cce7781e-7009-44ab-aa18-7848f9e69596	>wow, managed base64 encode/decode IO AND managed to get line breaks in there too.
+-	cce7781e-7009-44ab-aa18-7848f9e69596	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	cce7781e-7009-44ab-aa18-7848f9e69596	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-13 16:16:35	17efee39-ac14-4ba6-8d77-91b6e0eb693e	$duration:>3875
+-	17efee39-ac14-4ba6-8d77-91b6e0eb693e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	17efee39-ac14-4ba6-8d77-91b6e0eb693e	#6534637c-7d98-4f25-9d68-8da21139695d

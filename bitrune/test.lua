@@ -10,26 +10,8 @@ quadR = {0, 0, 0, 0, 0, 0, 0, 0}
 
 grid.update(m, quadL, quadR)
 
-br = bitrune.new("scratch/blocky6.uf2", "bitrune/shapes.bin", "bitrune/out.bin")
+br = bitrune.new("scratch/blocky6.uf2", "bitrune/shapes.bin", "bitrune/out.b64")
 
-function set_led(x, y, s)
-    local q = nil
-
-    y = y + 1
-
-    if (x >= 8) then
-        q = quadR
-        x = x - 8
-    else
-        q = quadL
-    end
-
-    if s == 1 then
-        q[y] = q[y] | 1 << x
-    else
-        q[y] = q[y] & ~(1 << x)
-    end
-end
 bitrune.terminal_setup(br)
 
 while (bitrune.running(br)) do
