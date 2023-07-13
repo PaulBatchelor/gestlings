@@ -958,3 +958,18 @@
 2023-07-13 16:16:35	17efee39-ac14-4ba6-8d77-91b6e0eb693e	$duration:>3875
 -	17efee39-ac14-4ba6-8d77-91b6e0eb693e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	17efee39-ac14-4ba6-8d77-91b6e0eb693e	#6534637c-7d98-4f25-9d68-8da21139695d
+2023-07-13 18:26:41	d13a0125-c5e1-402e-bb69-a493e2bc14a2	$duration:>7
+-	d13a0125-c5e1-402e-bb69-a493e2bc14a2	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d13a0125-c5e1-402e-bb69-a493e2bc14a2	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-13 18:27:21	76e78109-ceab-4c26-bdc9-b18a43d34766	>planning some things out for this.
+-	76e78109-ceab-4c26-bdc9-b18a43d34766	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	76e78109-ceab-4c26-bdc9-b18a43d34766	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-13 19:19:26	fe01c020-f0d3-4b84-9841-f2b42cc47366	$duration:>3156
+-	fe01c020-f0d3-4b84-9841-f2b42cc47366	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	fe01c020-f0d3-4b84-9841-f2b42cc47366	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-13 19:31:22	61be0ff7-5811-488f-812b-41cd27ff96dc	>current design roadblock is something I am calling the "symbol resolution issue". Gesture paths have 8-bit int values, but names for shapes should have something more meaningful than a number (most likely, it will be a symbol generated on-the-fly using the Bitrune interface). So, symbols should resolve to ID values. But, if maps get updated, does that mean all paths using that map should be updated as well?
+-	61be0ff7-5811-488f-812b-41cd27ff96dc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	61be0ff7-5811-488f-812b-41cd27ff96dc	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-13 19:31:24	50320cbe-3eb7-45d6-bff5-bd1f1fed4ddc	$duration:>160
+-	50320cbe-3eb7-45d6-bff5-bd1f1fed4ddc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	50320cbe-3eb7-45d6-bff5-bd1f1fed4ddc	#f4a31e9c-bfb5-48e3-a935-14811e142d77
