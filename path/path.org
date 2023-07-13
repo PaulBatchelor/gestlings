@@ -61,11 +61,17 @@ along with a table to place the words that get generated.
 
 #+NAME: path
 #+BEGIN_SRC lua
-function Path.path(tal, words, path)
+function Path.path(tal, words, path, lookup)
     for _, v in pairs(path)
     do
         if v.val ~= nil then
-            tal.val(words, v.val)
+            local pathval = v.val
+
+            if lookup ~= nil and type(pathval) == "string" then
+                pathval = lookup[pathval]
+            end
+
+            tal.val(words, pathval)
         end
 
         if v.dur ~= nil then

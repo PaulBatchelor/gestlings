@@ -973,3 +973,12 @@
 2023-07-13 19:31:24	50320cbe-3eb7-45d6-bff5-bd1f1fed4ddc	$duration:>160
 -	50320cbe-3eb7-45d6-bff5-bd1f1fed4ddc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	50320cbe-3eb7-45d6-bff5-bd1f1fed4ddc	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-13 22:08:05	b0738b02-178b-4d48-8c5e-2ab914a5e4c5	>thinking about it, the solution I'm liking the most for this is: make it possible for the gesture vertice values to be strings (symbols), and make it possible to resolve them using a look up table (lua table). msgpack is being used as the serialization format, so it shouldn't be too much of an adjustment. investigating the feasability of this approach now.
+-	b0738b02-178b-4d48-8c5e-2ab914a5e4c5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b0738b02-178b-4d48-8c5e-2ab914a5e4c5	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-13 22:24:05	3ae871d1-1507-43e5-abcd-dbadda88aca9	$duration:>954
+-	3ae871d1-1507-43e5-abcd-dbadda88aca9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3ae871d1-1507-43e5-abcd-dbadda88aca9	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-13 22:50:39	9c532910-a2f4-43cd-90c5-01c4d8dd7049	$duration:>483
+-	9c532910-a2f4-43cd-90c5-01c4d8dd7049	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9c532910-a2f4-43cd-90c5-01c4d8dd7049	#f4a31e9c-bfb5-48e3-a935-14811e142d77

@@ -53,6 +53,7 @@ check append_symbols
 check seq_sound
 check diagraf_intermediate
 check blipsqueak_hello
+check path_symbol_lookup
 
 if [ "$NERR" -gt 0 ]
 then
