@@ -1006,3 +1006,12 @@
 2023-07-14 22:03:18	3b6ab6a7-171a-40f9-ba5c-30a65ed64efa	$duration:>4719
 -	3b6ab6a7-171a-40f9-ba5c-30a65ed64efa	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	3b6ab6a7-171a-40f9-ba5c-30a65ed64efa	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-14 23:34:11	bd83ef51-7dc4-41d7-af3e-9509d2b941b1	>I am now at the point where I should start thinking about the actual synthesis portion. The morphing FM oscillator I made should provide some insights for what I've done in the past.
+-	bd83ef51-7dc4-41d7-af3e-9509d2b941b1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	bd83ef51-7dc4-41d7-af3e-9509d2b941b1	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-14 23:39:26	5eb02ba9-1962-4e17-bb75-7d814a80ddf9	>conceptually, the idea isn't too difficult. When the gesture is computed for a sample, it updates the state an A and B value, as well as a interpolation coefficient that shows how much of each to use. Values become tables, and the coefficient blends the two tables into another table. That other table is then read by an instance of tubular.
+-	5eb02ba9-1962-4e17-bb75-7d814a80ddf9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5eb02ba9-1962-4e17-bb75-7d814a80ddf9	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-14 23:39:53	8766f4a4-71af-4f88-937e-0fa3401a25a5	$duration:>804
+-	8766f4a4-71af-4f88-937e-0fa3401a25a5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8766f4a4-71af-4f88-937e-0fa3401a25a5	#f4a31e9c-bfb5-48e3-a935-14811e142d77
