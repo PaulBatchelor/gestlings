@@ -982,3 +982,21 @@
 2023-07-13 22:50:39	9c532910-a2f4-43cd-90c5-01c4d8dd7049	$duration:>483
 -	9c532910-a2f4-43cd-90c5-01c4d8dd7049	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	9c532910-a2f4-43cd-90c5-01c4d8dd7049	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-14 18:36:26	6c4fa7dc-f1f3-4bd3-93e3-e9c17f505b3d	>working on generated an initial version of the lookup table format, a map in msgpack that maps keys to arrays of 8 16-bit unsigned ints corresponding to the DRM shape.
+-	6c4fa7dc-f1f3-4bd3-93e3-e9c17f505b3d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	6c4fa7dc-f1f3-4bd3-93e3-e9c17f505b3d	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-14 18:38:43	cb0397e8-342b-4e01-95f6-70e5a6909a37	>the 'tubular' model already has two DRM shapes in the test. these will be used as the baseline. I'll be calling this thingy 'shapemorf'
+-	cb0397e8-342b-4e01-95f6-70e5a6909a37	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	cb0397e8-342b-4e01-95f6-70e5a6909a37	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-14 18:53:16	3bd22c9e-f16a-429b-97ac-909e4a1d62a2	>I'm realized I've made a commitment to use base64 AND msgpack in my assets, so now my components in C need to do this. a bit more technical overhead. maybe a little silly, but oh well.
+-	3bd22c9e-f16a-429b-97ac-909e4a1d62a2	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3bd22c9e-f16a-429b-97ac-909e4a1d62a2	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-14 20:00:56	ee5dd2df-4464-495d-8e6c-8fbe7d1a258f	>base64 support added, so now it's compatible with the gestling asset format. Now to think about loading it into a meaningful C data struct.
+-	ee5dd2df-4464-495d-8e6c-8fbe7d1a258f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ee5dd2df-4464-495d-8e6c-8fbe7d1a258f	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-14 20:04:42	5da8d709-e594-49b1-bcfe-910a7cc0ecda	>with the lookup table I added to !path yesterday, I think I can generate ID values for each entry on-the-fly. symbols resolve to sequential indices, which can be used for constant time shape lookup. I'll need a way to export the symbol table to a lua table when the gesture gets compiled to TAL.
+-	5da8d709-e594-49b1-bcfe-910a7cc0ecda	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5da8d709-e594-49b1-bcfe-910a7cc0ecda	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-14 20:12:22	be8973f1-5a54-48a2-9b9b-01e78fbd0a93	$duration:>5828
+-	be8973f1-5a54-48a2-9b9b-01e78fbd0a93	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	be8973f1-5a54-48a2-9b9b-01e78fbd0a93	#f4a31e9c-bfb5-48e3-a935-14811e142d77
