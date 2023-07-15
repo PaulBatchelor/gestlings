@@ -1024,3 +1024,21 @@
 2023-07-15 17:12:11	87076976-289b-48e5-8cd0-d04a2bfb1113	$duration:>1925
 -	87076976-289b-48e5-8cd0-d04a2bfb1113	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	87076976-289b-48e5-8cd0-d04a2bfb1113	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-15 19:14:18	d9a4f925-04c0-43d0-94b1-f9b0fd44f282	$duration:>7
+-	d9a4f925-04c0-43d0-94b1-f9b0fd44f282	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d9a4f925-04c0-43d0-94b1-f9b0fd44f282	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-15 19:29:12	dcf5b2ab-1ba4-44a4-aa2a-9f8017b5e578	$duration:>892
+-	dcf5b2ab-1ba4-44a4-aa2a-9f8017b5e578	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	dcf5b2ab-1ba4-44a4-aa2a-9f8017b5e578	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-15 20:42:52	48a8750e-f063-40a2-8c7d-0e72f86ae6b5	>I got this far only to realize that audio-rate shaping won't work with the approach I'm doing. updating a single table in another node will make it control rate since it's not storing the previous crossfades. Going to have to rethink some things.
+-	48a8750e-f063-40a2-8c7d-0e72f86ae6b5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	48a8750e-f063-40a2-8c7d-0e72f86ae6b5	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-15 20:43:05	ce3cacf4-8d97-4f4f-b97a-622f2c9319d6	$duration:>1665
+-	ce3cacf4-8d97-4f4f-b97a-622f2c9319d6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ce3cacf4-8d97-4f4f-b97a-622f2c9319d6	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-15 20:45:52	ea064b64-5903-47ff-b3b2-7b82334938e5	>this is super janky, but I'm storing the intermediate gesture results in a frame. I'm going to need to rework tubular to be able to take in this data and do the interpolation there.
+-	ea064b64-5903-47ff-b3b2-7b82334938e5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ea064b64-5903-47ff-b3b2-7b82334938e5	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-15 20:49:00	c31ae5ac-fa7a-42dd-a44e-4f3dbd7b8f75	$duration:>341
+-	c31ae5ac-fa7a-42dd-a44e-4f3dbd7b8f75	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c31ae5ac-fa7a-42dd-a44e-4f3dbd7b8f75	#f4a31e9c-bfb5-48e3-a935-14811e142d77
