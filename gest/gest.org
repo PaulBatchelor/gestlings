@@ -9,7 +9,10 @@ Gest = {}
 return Gest
 #+END_SRC
 * New
-Creates a new instance of Gest.
+Creates a new instance of Gest. Requires @!(ref "tal")!@,
+either passed in as a dictionary parameter, or inferred
+from a global variable.
+
 #+NAME: gest
 #+BEGIN_SRC lua
 function Gest:new(o)
