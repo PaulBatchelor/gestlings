@@ -85,7 +85,7 @@ To see what I'm currently working on, see: @!(ref "TODO")!@.
       db
       (string
         "SELECT "
-        "date(time) as day, "
+        "date(time, 'localtime') as day, "
         "strftime('%s', time) as timesecs, "
         "sum(substr(value, 12)) as duration "
         "from wikizet "
