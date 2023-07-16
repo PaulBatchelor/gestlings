@@ -23,6 +23,7 @@ while (bitrune.running(br)) do
         end
     end
 
+    -- TODO: getchar returns tables now, fix
     local c = bitrune.getchar()
 
     bitrune.process_input(br, c)

@@ -545,7 +545,7 @@ int bitrune_getchar(void)
     c = -1;
 
     if (ioctl(0, FIONREAD, &n) == 0 && n > 0) {
-          c = getchar();
+        c = getchar();
     }
 
     return c;
@@ -769,13 +769,20 @@ static int monome_press(lua_State *L)
     return 0;
 }
 
+#define BUFFER_MAX 64
 static int br_getchar(lua_State *L)
 {
-    int c;
+    int i;
 
-    c = bitrune_getchar();
-
-    lua_pushinteger(L, c);
+    lua_createtable(L, 1, 0);
+    for (i = 0; i < BUFFER_MAX; i++) {
+        int c;
+        c = bitrune_getchar();
+        if (c == -1) break;
+        lua_pushinteger(L, i + 1);
+        lua_pushinteger(L, c);
+        lua_settable(L, -3);
+    }
     return 1;
 }
 
