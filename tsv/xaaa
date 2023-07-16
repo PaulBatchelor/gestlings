@@ -734,7 +734,7 @@
 -	8d808eed-896a-44d4-a333-8153b77cebb8	#6534637c-7d98-4f25-9d68-8da21139695d
 2023-07-01 20:12:14	f4a31e9c-bfb5-48e3-a935-14811e142d77	>create gesture controlled table morpher that works with tubular
 -	f4a31e9c-bfb5-48e3-a935-14811e142d77	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-01 20:12:14	f4a31e9c-bfb5-48e3-a935-14811e142d77	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-16 01:20:29	f4a31e9c-bfb5-48e3-a935-14811e142d77	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-07-01 20:12:56	56295d2b-7873-4456-b5c2-8492c6506301	>I need a way for tubular to morph between shapes via gesture, we can generalize this to be a table morpher where all the tables are the same size.
 -	56295d2b-7873-4456-b5c2-8492c6506301	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	56295d2b-7873-4456-b5c2-8492c6506301	#f4a31e9c-bfb5-48e3-a935-14811e142d77
@@ -1042,3 +1042,12 @@
 2023-07-15 20:49:00	c31ae5ac-fa7a-42dd-a44e-4f3dbd7b8f75	$duration:>341
 -	c31ae5ac-fa7a-42dd-a44e-4f3dbd7b8f75	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	c31ae5ac-fa7a-42dd-a44e-4f3dbd7b8f75	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-15 23:40:42	af359b2c-ec21-43f6-be7f-71063000fb3f	>attempting to build in an interface for tract that preprocesses the DRM shape before applying it to the waveguide.
+-	af359b2c-ec21-43f6-be7f-71063000fb3f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	af359b2c-ec21-43f6-be7f-71063000fb3f	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-16 01:19:25	ae8c3be5-68a2-4fbb-8bce-197503e67399	>sounds are working. I think I am done with the initial implementation.
+-	ae8c3be5-68a2-4fbb-8bce-197503e67399	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ae8c3be5-68a2-4fbb-8bce-197503e67399	#f4a31e9c-bfb5-48e3-a935-14811e142d77
+2023-07-16 01:19:55	d2075132-2cc4-4e68-a5d9-175ea3ef668b	$duration:>6008
+-	d2075132-2cc4-4e68-a5d9-175ea3ef668b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d2075132-2cc4-4e68-a5d9-175ea3ef668b	#f4a31e9c-bfb5-48e3-a935-14811e142d77
