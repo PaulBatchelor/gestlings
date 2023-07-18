@@ -83,20 +83,61 @@ for i=0,15 do
     --print(row2str(i))
 end
 
-symbol = {}
-
 math.randomseed(os.time())
-table.insert(symbol, math.random(16) - 1)
-for i=1,3 do
-    local possible = kuf4[symbol[i]]
-    local next = 0
-    while next == 0 do
-        next = possible[math.random(#possible)]
+
+function generate_symbol()
+    -- 1 thru 15 avoids 0
+    local symbol = {}
+    table.insert(symbol, math.random(15))
+    for i=1,5 do
+        local possible = kuf4[symbol[i]]
+        local next = 0
+        while next == 0 do
+            next = possible[math.random(#possible)]
+        end
+        table.insert(symbol, next)
     end
-    table.insert(symbol, next)
+    return symbol
 end
 
-for _, row in pairs(symbol) do
-    print(row2str(row))
+nrows = 6
+ncols = 5
+border = 4
+lil ("bpnew bp " ..
+    (ncols * (48 + border*2)) + (ncols - 1) * 8  + 2*8 ..
+    " " ..
+    (nrows * (32 + border*2)) + (nrows - 1) * 8  + 2*8
+    )
+
+-- symbol = generate_symbol()
+
+function draw_symbol(symbol, xoff, yoff)
+    lil("bpset [grab bp] 0 " ..
+        8 + xoff * (48 + 8 + 2*border) .. " " ..
+        8 + yoff * (32 + 8 + 2*border) .. " " ..
+        48 + border*2 ..
+        " " ..
+        32+border*2)
+    lil("bpoutline [bpget [grab bp] 0] 1")
+
+    for y=1,4 do
+        local rowstr = ""
+        for x, row in pairs(symbol) do
+            local bit = row & (1 << (y - 1))
+
+            if bit > 0 then
+                lil(string.format("bprectf [bpget [grab bp] 0] %d %d 8 8 1",
+                (x - 1)*8 + border, (y - 1)*8 + border))
+            end
+        end
+    end
 end
+
+for row=1,nrows do
+    for col=1,ncols do
+        draw_symbol(generate_symbol(), col - 1, row - 1)
+    end
+end
+
+lil("bppbm [grab bp] proofsheet.pbm")
 -- print(row2str(xy2row(3, 1)))
