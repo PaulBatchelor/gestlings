@@ -1075,3 +1075,9 @@
 2023-07-17 00:55:23	ae9d689c-5e2a-486d-a244-e7341c591bd1	$duration:>3203
 -	ae9d689c-5e2a-486d-a244-e7341c591bd1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	ae9d689c-5e2a-486d-a244-e7341c591bd1	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-18 01:41:56	8b21358e-79fb-4648-9af5-4da7d7de501f	>it's a bit of an indulgence, but I can't resist making some procedurally generated bit-labels. 4-bits tall, and variable width. I want these to comply with kufic rules. It ends up being a FSM which shouldn't be too difficult to generate. If I can do this, it'll be easier to save shape states. Not having to think about naming shaves off some time and cognitive overhead.
+-	8b21358e-79fb-4648-9af5-4da7d7de501f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8b21358e-79fb-4648-9af5-4da7d7de501f	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-18 02:25:16	94c2d136-37ad-467f-a75c-b3650dcd586f	$duration:>2712
+-	94c2d136-37ad-467f-a75c-b3650dcd586f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	94c2d136-37ad-467f-a75c-b3650dcd586f	#44919d9c-b3f0-4f77-af42-2738fc209bcf
