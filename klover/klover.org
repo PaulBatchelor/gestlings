@@ -62,38 +62,55 @@ kuf2[3] = {0, 1, 2}
 * Operations
 Low level operations used to manipulate rows.
 
+** split4
+Splits a 4-bit row into 2 2-bit components x,y
 #+NAME: operations
 #+BEGIN_SRC lua
--- splits a 4-bit row into 2 2-bit components x,y
 function split4(row)
     local x = (row >> 2) & 3
     local y = row & 3
     return x, y
 end
+#+END_SRC
+** xy2row
+base 4 xy pair to row
 
--- base 4 xy pair to row
+#+NAME: operations
+#+BEGIN_SRC lua
 function xy2row(x, y)
     x = x & 3;
     y = y & 3;
     return x << 2 | y
 end
+#+END_SRC
+** inner2
+get inner 2-bit shape in a 4-bit row.
 
--- getter inner 2-bit shape in a 4-bit row
--- AKA bits 'bc' in row 'abcb'
+AKA bits 'bc' in row 'abcb'
+
+#+NAME: operations
+#+BEGIN_SRC lua
 function inner2(row)
     return (row >> 1) & 3
 end
+#+END_SRC
+** belongs
+check: does a value x belong to set 's'?
 
--- does a value x belong to set s?
+#+NAME: operations
+#+BEGIN_SRC lua
 function belongs(x, s)
     for _, v in pairs(s) do
         if x == v then return true end
     end
     return false
 end
+#+END_SRC
+** pstates
+Calculate possible states for a given 4-bit row.
 
--- calculate possible states for a given 4-bit row
-
+#+NAME: operations
+#+BEGIN_SRC lua
 function pstates(row)
     local ir = inner2(row)
     local x, y = split4(row)
@@ -111,8 +128,12 @@ function pstates(row)
 
     return s
 end
+#+END_SRC
+** row2str
+stringify a row, for (terminal) printing purposes
 
--- stringify a row, for printing purposes
+#+NAME: operations
+#+BEGIN_SRC lua
 function row2str(row)
     local str = ""
     for i=1,4 do
