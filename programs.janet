@@ -209,4 +209,11 @@
  :org "protogestling/mockup.org"
  :tangled @["protogestling/protogestling_mockup.lua"]
  }
+
+ "klover"
+ @{
+ :id 30
+ :org "klover/klover.org"
+ :tangled @["klover/klover.lua"]
+ }
 })

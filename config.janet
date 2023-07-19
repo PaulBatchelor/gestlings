@@ -51,4 +51,8 @@
     @[["res/protogestling.mp4"]
       ["protogestling/protogestling_mockup.lua"]
       blipsqueak-assets]
+
+    @[["res/klover_proofsheet.png"]
+      ["klover/proofsheet.lua"]
+      ["klover/klover.lua"]]
 ])
