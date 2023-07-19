@@ -5,6 +5,7 @@ asset = asset:new{
     msgpack = require("util/MessagePack"),
     base64 = require("util/base64")
 }
+local klover = require("klover/klover")
 
 function start_sound()
 lil([[
@@ -42,10 +43,10 @@ function add_keymap(keymap, key, fun)
 end
 
 function stash_symbol(ts)
-    print("stash!")
-    local name = "123" -- TODO: will be generated from Klover
+    local name = ts:symbol()
     local shape = {}
 
+    print("stash: " .. name)
     -- pop shape table from sndkit
     -- TODO: add selected table option because there will
     -- be morphing in the future
@@ -58,23 +59,24 @@ function stash_symbol(ts)
     end
 
     local datastr = asset:encode(shape)
-    print(datastr)
 
     local insert_stmt =
         assert(db:prepare(
         "INSERT INTO tubesculpt(name, data) " ..
         "VALUES(?1, ?2)"))
 
+    -- TODO: handle name collisions
     insert_stmt:bind_values(name, datastr)
+    ts.last_symbol_selected = name
     local rc = insert_stmt:step()
     if (rc ~= sqlite3.DONE) then
         print("SQLite3 error: " .. db:errmsg())
     end
     insert_stmt:reset()
+    ts.redraw = true
 end
 
 function load_symbol(ts)
-    print("load!")
     local name = "123" -- TODO: will be generated from Klover
     local shape = {}
 
@@ -116,6 +118,7 @@ function TubeSculpt:new(o)
     o.redraw = false
     o.keymap = {}
     o.db = sqlite3.open("stash.db")
+    o.klover_fsm = klover.generate_fsm()
 
     o.db:exec([[
 CREATE TABLE IF NOT EXISTS tubesculpt(
@@ -129,9 +132,23 @@ data TEXT)
     if o.regions == nil then
         error("please set regions")
     end
+    o.last_symbol_selected = nil
     setmetatable(o, self)
     self.__index = self
     return o
+end
+
+function TubeSculpt:symbol()
+    local sym = klover.generate_symbol(self.klover_fsm, 6)
+    local symstr = ""
+
+    for _,num in pairs(sym) do
+        symstr = symstr .. string.format("%x", num)
+    end
+
+    -- Note to self: lower bits on top. '1' draws a column
+    -- at the top
+    return symstr
 end
 
 function TubeSculpt:cleanup()
@@ -197,12 +214,13 @@ function TubeSculpt:increment(amt)
     new_sliderval = math.floor(v * 16) - 1
     if old_sliderval ~= new_sliderval then
         self.slidervals[selected] = new_sliderval
-        self.redraw = 1
+        self.redraw = true
     end
 end
 
 running = true
 
+math.randomseed(os.time())
 start_sound()
 lil("regget 3")
 regions = pop()
@@ -289,12 +307,36 @@ while (bitrune.running(br)) do
         if (ts.redraw) then
             ts.redraw = false
             ts:clear()
-            for pos, sv in pairs(ts.slidervals) do
-                for x= 0, sv do
-                    ts:set_led(x, pos - 1, 1)
+
+            if ts.last_symbol_selected ~= nil then
+                local symstr = ts.last_symbol_selected
+                ts.last_symbol_selected = nil
+
+                local xoff = 8 - (#symstr//2)
+                if xoff < 0 then xoff = 0 end
+
+                for i=1,#symstr do
+                    local col =
+                        string.char(string.byte(symstr, i))
+                    local col = tonumber(col, 16)
+
+                    for y=1,4 do
+                        local s = 0
+                        if (col & (1 << (y - 1))) > 0 then
+                            s = 1
+                        end
+                        ts:set_led(xoff + i - 1, 2 + y - 1, s)
+                    end
                 end
+            else
+                for pos, sv in pairs(ts.slidervals) do
+                    for x= 0, sv do
+                        ts:set_led(x, pos - 1, 1)
+                    end
+                end
+                ts:set_led(15, ts.selected_region, 1)
             end
-            ts:set_led(15, ts.selected_region, 1)
+
             grid.update(m, ts.quadL, ts.quadR)
         end
     end

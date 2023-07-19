@@ -164,6 +164,10 @@ function generate_kuf4()
     end
     return kuf4
 end
+
+function Klover.generate_fsm()
+    return generate_kuf4()
+end
 #+END_SRC
 * Generate a Symbol
 Function used to generate a symbol.
@@ -184,6 +188,10 @@ function generate_symbol(kuf4, len)
         table.insert(symbol, next)
     end
     return symbol
+end
+
+function Klover.generate_symbol(kuf4, len)
+    return generate_symbol(kuf4, len)
 end
 #+END_SRC
 * Demo: Proofsheet
