@@ -1,5 +1,10 @@
 local grid = monome_grid
 local pprint = require("util/pprint")
+local asset = require("asset/asset")
+asset = asset:new{
+    msgpack = require("util/MessagePack"),
+    base64 = require("util/base64")
+}
 
 function start_sound()
 lil([[
@@ -32,6 +37,75 @@ end
 
 TubeSculpt = {}
 
+function add_keymap(keymap, key, fun)
+    keymap[string.byte(key)] = fun
+end
+
+function stash_symbol(ts)
+    print("stash!")
+    local name = "123" -- TODO: will be generated from Klover
+    local shape = {}
+
+    -- pop shape table from sndkit
+    -- TODO: add selected table option because there will
+    -- be morphing in the future
+    lil("regget 3")
+    local tab = pop()
+    local db = ts.db
+
+    for i=1,8 do
+        shape[i] = valutil.tabget(tab, i - 1)
+    end
+
+    local datastr = asset:encode(shape)
+    print(datastr)
+
+    local insert_stmt =
+        assert(db:prepare(
+        "INSERT INTO tubesculpt(name, data) " ..
+        "VALUES(?1, ?2)"))
+
+    insert_stmt:bind_values(name, datastr)
+    local rc = insert_stmt:step()
+    if (rc ~= sqlite3.DONE) then
+        print("SQLite3 error: " .. db:errmsg())
+    end
+    insert_stmt:reset()
+end
+
+function load_symbol(ts)
+    print("load!")
+    local name = "123" -- TODO: will be generated from Klover
+    local shape = {}
+
+    -- pop shape table from sndkit
+    -- TODO: add selected table option because there will
+    -- be morphing in the future
+    lil("regget 3")
+    local tab = pop()
+    local db = ts.db
+
+    local select_stmt =
+        assert(db:prepare(
+        "SELECT data from tubesculpt " ..
+        "WHERE name is '" .. name .. "'"))
+
+    for row in select_stmt:nrows() do
+        shape = asset:decode(row.data)
+    end
+
+    for i=1,8 do
+        valutil.tabset(tab, i - 1, shape[i])
+        local v = shape[i]
+        new_sliderval = math.floor(v * 16) - 1
+        ts.scaledvals[i] = v
+        ts.slidervals[i] = new_sliderval
+    end
+
+    ts.redraw = true
+
+end
+
 function TubeSculpt:new(o)
     o = o or {}
     o.quadL = {0, 0, 0, 0, 0, 0, 0, 0}
@@ -40,12 +114,28 @@ function TubeSculpt:new(o)
     o.scaledvals = { 0, 0, 0, 0, 0, 0, 0, 0 }
     o.selected_region = 0
     o.redraw = false
+    o.keymap = {}
+    o.db = sqlite3.open("stash.db")
+
+    o.db:exec([[
+CREATE TABLE IF NOT EXISTS tubesculpt(
+id INTEGER PRIMARY KEY,
+name TEXT UNIQUE,
+data TEXT)
+    ]])
+
+    add_keymap(o.keymap, '2', stash_symbol)
+    add_keymap(o.keymap, '6', load_symbol)
     if o.regions == nil then
         error("please set regions")
     end
     setmetatable(o, self)
     self.__index = self
     return o
+end
+
+function TubeSculpt:cleanup()
+    self.db:close()
 end
 
 function TubeSculpt:set_led(x, y, s)
@@ -165,6 +255,8 @@ while (bitrune.running(br)) do
                 ts:increment(0.005)
             elseif c == string.byte('b') then
                 ts:increment(-0.005)
+            elseif ts.keymap[c] ~= nil then
+                ts.keymap[c](ts)
             end
         end
     end
@@ -211,6 +303,7 @@ while (bitrune.running(br)) do
 end
 
 print("bye")
+ts:cleanup()
 bitrune.terminal_reset(br)
 bitrune.del(br)
 grid.close(m)

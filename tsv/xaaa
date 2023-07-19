@@ -1095,3 +1095,12 @@
 2023-07-19 00:56:50	8c60b5cf-abc6-47fb-8ac2-27f83f0707be	$duration:>2431
 -	8c60b5cf-abc6-47fb-8ac2-27f83f0707be	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	8c60b5cf-abc6-47fb-8ac2-27f83f0707be	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-19 16:25:25	2a093e83-ae68-4910-9107-718de379069e	>finally getting around to basic save/load. although this is more of a "stash" behavior because it's less curated.
+-	2a093e83-ae68-4910-9107-718de379069e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	2a093e83-ae68-4910-9107-718de379069e	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-19 17:33:18	5ca56e51-11ad-49d3-a280-2993bceda278	>added bare-bones stash/load using sqlite3. now a name needs to be generated.
+-	5ca56e51-11ad-49d3-a280-2993bceda278	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5ca56e51-11ad-49d3-a280-2993bceda278	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-19 17:33:20	ab64c2ac-4a30-4656-9383-20eccb8f544e	$duration:>4123
+-	ab64c2ac-4a30-4656-9383-20eccb8f544e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ab64c2ac-4a30-4656-9383-20eccb8f544e	#44919d9c-b3f0-4f77-af42-2738fc209bcf
