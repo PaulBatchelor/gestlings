@@ -71,13 +71,25 @@ function stash_symbol(ts)
     local rc = insert_stmt:step()
     if (rc ~= sqlite3.DONE) then
         print("SQLite3 error: " .. db:errmsg())
+    else
+        table.insert(ts.shapes, name)
+        ts.redraw = true
     end
     insert_stmt:reset()
-    ts.redraw = true
 end
 
 function load_symbol(ts)
-    local name = "123" -- TODO: will be generated from Klover
+
+    if (#ts.shapes == 0) then
+        print("no shapes found.")
+        return
+    end
+
+    if (ts.shapepos > #ts.shapes) then
+        ts.shapepos = 1
+    end
+    local name = ts.shapes[ts.shapepos]
+    ts.shapepos = ts.shapepos + 1
     local shape = {}
 
     -- pop shape table from sndkit
@@ -104,6 +116,7 @@ function load_symbol(ts)
         ts.slidervals[i] = new_sliderval
     end
 
+    ts.last_symbol_selected = name
     ts.redraw = true
 
 end
@@ -133,6 +146,14 @@ data TEXT)
         error("please set regions")
     end
     o.last_symbol_selected = nil
+
+    o.shapes = {}
+    o.shapepos = 1
+
+    for row in o.db:nrows("SELECT name from tubesculpt") do
+        table.insert(o.shapes, row.name)
+    end
+
     setmetatable(o, self)
     self.__index = self
     return o
@@ -225,7 +246,6 @@ start_sound()
 lil("regget 3")
 regions = pop()
 local ts = TubeSculpt:new{regions=regions}
-
 
 grid.update(m, ts.quadL, ts.quadR)
 print("press (0,0) 3 times to quit")
