@@ -108,6 +108,25 @@ function load_prev_symbol(ts)
     load_symbol(ts)
 end
 
+function load_next_from_savelist(ts)
+    ts.savepos = ts.savepos + 1
+    if (ts.savepos > #ts.savelist) then
+        ts.savepos = 1
+    end
+    local name = ts.savelist[ts.savepos]
+    ts:load_symbol(name)
+end
+
+function load_prev_from_savelist(ts)
+    ts.savepos = ts.savepos - 1
+    if (ts.savepos <= 0) then
+        ts.savepos = #ts.savelist
+    end
+
+    local name = ts.savelist[ts.savepos]
+    ts:load_symbol(name)
+end
+
 function add_to_savelist(ts)
     if ts.last_symbol_selected == nil then return end
     -- use ID in case multiple lists are handled someday
@@ -215,6 +234,8 @@ list_id INTEGER)
     add_keymap(o.keymap, '4', load_prev_symbol)
     add_keymap(o.keymap, '3', add_to_savelist)
     add_keymap(o.keymap, '8', remove_from_savelist)
+    add_keymap(o.keymap, '9', load_next_from_savelist)
+    add_keymap(o.keymap, '7', load_prev_from_savelist)
     if o.regions == nil then
         error("please set regions")
     end
@@ -257,6 +278,7 @@ list_id INTEGER)
 
     o.savelist = savelist
     o.saveset = saveset
+    o.savepos = 0
 
     setmetatable(o, self)
     self.__index = self

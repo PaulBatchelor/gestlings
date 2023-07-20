@@ -1129,3 +1129,18 @@
 2023-07-20 02:13:19	0da952c3-4e82-446b-9884-09563d959d88	$duration:>2157
 -	0da952c3-4e82-446b-9884-09563d959d88	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	0da952c3-4e82-446b-9884-09563d959d88	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-20 20:15:50	43b01cf2-4770-44c6-bfff-25c650530640	>worked out an idea for an intermediate save-list structure that persists as a table in SQLite, that can then be exported to the shapemorf structure format. Implementing it now.
+-	43b01cf2-4770-44c6-bfff-25c650530640	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	43b01cf2-4770-44c6-bfff-25c650530640	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-20 20:17:26	c29960fd-9fa8-474b-ae90-fb426948c669	>keyshapes for ortho33 are something I'm thinking about. eventually, these symbols will want to used in an interactive session of bitrune. but, that kind of interaction experience is still being fleshed out.
+-	c29960fd-9fa8-474b-ae90-fb426948c669	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c29960fd-9fa8-474b-ae90-fb426948c669	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-20 22:17:33	b2b30888-e886-46a8-baeb-a99b208f6611	>savelist browsing now possible, and I have now exported a shapemorf file. it'll be interesting to see if it can actually be read by shapemorf.
+-	b2b30888-e886-46a8-baeb-a99b208f6611	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b2b30888-e886-46a8-baeb-a99b208f6611	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-20 22:18:08	90e2bebd-7e51-4edc-a7aa-aaea48fc6673	>now that I have an exported shapemorf file, I'll now want to see if it can be actually read by shapemorf.
+-	90e2bebd-7e51-4edc-a7aa-aaea48fc6673	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	90e2bebd-7e51-4edc-a7aa-aaea48fc6673	#ed4020ee-ea81-48bc-986a-340bc269a975
+2023-07-20 22:18:21	fa39d970-2b65-4875-8cee-3a4fcd961a04	$duration:>7451
+-	fa39d970-2b65-4875-8cee-3a4fcd961a04	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	fa39d970-2b65-4875-8cee-3a4fcd961a04	#44919d9c-b3f0-4f77-af42-2738fc209bcf
