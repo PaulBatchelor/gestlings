@@ -80,7 +80,6 @@ function stash_symbol(ts)
 end
 
 function load_symbol(ts)
-
     if (#ts.shapes == 0) then
         print("no shapes found.")
         return
@@ -91,35 +90,8 @@ function load_symbol(ts)
     end
     local name = ts.shapes[ts.shapepos]
     ts.shapepos = ts.shapepos + 1
-    local shape = {}
 
-    -- pop shape table from sndkit
-    -- TODO: add selected table option because there will
-    -- be morphing in the future
-    lil("regget 3")
-    local tab = pop()
-    local db = ts.db
-
-    local select_stmt =
-        assert(db:prepare(
-        "SELECT data from tubesculpt " ..
-        "WHERE name is '" .. name .. "'"))
-
-    for row in select_stmt:nrows() do
-        shape = asset:decode(row.data)
-    end
-
-    for i=1,8 do
-        valutil.tabset(tab, i - 1, shape[i])
-        local v = shape[i]
-        new_sliderval = math.floor(v * 16) - 1
-        ts.scaledvals[i] = v
-        ts.slidervals[i] = new_sliderval
-    end
-
-    ts.last_symbol_selected = name
-    ts.redraw = true
-    ts.draw_symbol = true
+    ts:load_symbol(name)
 end
 
 function load_prev_symbol(ts)
@@ -166,6 +138,11 @@ function add_to_savelist(ts)
     ts.draw_savelist_added = true
     ts.redraw = true
 
+    if ts.saveset[sym] == nil then
+        ts.saveset[sym] = true
+        table.insert(ts.savelist, sym)
+    end
+
 end
 
 function remove_from_savelist(ts)
@@ -198,6 +175,13 @@ function remove_from_savelist(ts)
     ts.draw_symbol = true
     ts.draw_savelist_removed = true
     ts.redraw = true
+
+    ts.saveset[sym] = nil
+    for id,val in pairs(ts.savelist) do
+        if val == sym then
+            table.remove(ts.savelist, id)
+        end
+    end
 end
 
 function TubeSculpt:new(o)
@@ -249,6 +233,31 @@ list_id INTEGER)
         table.insert(o.shapes, row.name)
     end
 
+    -- populate savelist and saveset
+    -- savelist contains table of shape symbol names
+    -- saveset is a structure that ensures the names
+    -- are unique
+    
+    local savelist = {}
+    local saveset = {}
+
+    local select_stmt =
+        assert(o.db:prepare(
+        "SELECT shape_id, tubesculpt.name as name from tubesaves " ..
+        "INNER JOIN tubesculpt on shape_id = tubesculpt.id " ..
+        "WHERE list_id == 1"))
+
+    for row in select_stmt:nrows() do
+        local shape_sym = row.name
+        if saveset[shape_sym] == nil then
+            saveset[shape_sym] = true
+            table.insert(savelist, shape_sym)
+        end
+    end
+
+    o.savelist = savelist
+    o.saveset = saveset
+
     setmetatable(o, self)
     self.__index = self
     return o
@@ -292,9 +301,6 @@ function TubeSculpt:set_led(x, y, s)
         q[y] = q[y] & ~(1 << x)
     end
 end
-
-local m = grid.open("/dev/ttyUSB0")
-
 
 function TubeSculpt:clear()
     for i =1,8 do
@@ -350,8 +356,71 @@ function TubeSculpt:symbol_to_id(sym)
     return id
 end
 
+function TubeSculpt:get_shape(sym)
+    local db = self.db
+    local shape = {}
+    local select_stmt =
+        assert(db:prepare(
+        "SELECT data from tubesculpt " ..
+        "WHERE name is '" .. sym .. "'"))
+
+    for row in select_stmt:nrows() do
+        shape = asset:decode(row.data)
+    end
+
+    return shape
+end
+
+function TubeSculpt:load_symbol(sym)
+    local shape = {}
+
+    -- pop shape table from sndkit
+    -- TODO: add selected table option because there will
+    -- be morphing in the future
+    lil("regget 3")
+    local tab = pop()
+    local db = self.db
+
+    shape = self.get_shape(self, sym)
+    -- local select_stmt =
+    --     assert(db:prepare(
+    --     "SELECT data from tubesculpt " ..
+    --     "WHERE name is '" .. sym .. "'"))
+
+    -- for row in select_stmt:nrows() do
+    --     shape = asset:decode(row.data)
+    -- end
+
+    for i=1,8 do
+        valutil.tabset(tab, i - 1, shape[i])
+        local v = shape[i]
+        new_sliderval = math.floor(v * 16) - 1
+        self.scaledvals[i] = v
+        self.slidervals[i] = new_sliderval
+    end
+
+    self.last_symbol_selected = sym
+    self.redraw = true
+    self.draw_symbol = true
+end
+
+function TubeSculpt:export_to_shapemorf(filename)
+    local shapemorf = {}
+
+    for _,sym in pairs(self.savelist) do
+        local shape = self.get_shape(self, sym)
+        for pos,_ in pairs(shape) do
+            shape[pos] = math.floor(shape[pos] * 65536)
+        end
+        shapemorf[sym] = shape
+    end
+
+    asset:save(shapemorf, filename)
+end
 
 function main()
+    local m = grid.open("/dev/ttyUSB0")
+
     running = true
 
     math.randomseed(os.time())
@@ -426,7 +495,9 @@ function main()
                     ts.redraw = true
                     goto loop_top
                 elseif syms[2] == 5 then
-                    print("eventually saving list to disk")
+                    local filename = "shapes.b64"
+                    ts:export_to_shapemorf(filename)
+                    print("wrote to " .. filename)
                 else
                     print(msg)
                 end
