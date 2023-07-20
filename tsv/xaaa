@@ -1119,3 +1119,13 @@
 2023-07-19 22:32:56	3f886420-3f7a-48df-8cef-4ef13b5c18a8	>initial load cycling functionality implemented. !klover symbols are associated with each shape saved to disk, and then displayed when reloaded.
 -	3f886420-3f7a-48df-8cef-4ef13b5c18a8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	3f886420-3f7a-48df-8cef-4ef13b5c18a8	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-20 01:35:15	ed4020ee-ea81-48bc-986a-340bc269a975	>demo with tubular using states made from tubesculpt
+-	ed4020ee-ea81-48bc-986a-340bc269a975	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-20 01:35:15	ed4020ee-ea81-48bc-986a-340bc269a975	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	ed4020ee-ea81-48bc-986a-340bc269a975	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-20 01:37:16	bbd717c6-453d-4c61-b007-68be13de1f61	>I need to come up with a good way to get the cached states over to the shapemorf format. Ideally, this should be something that could be done with tubesculpt. will think on this
+-	bbd717c6-453d-4c61-b007-68be13de1f61	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	bbd717c6-453d-4c61-b007-68be13de1f61	#44919d9c-b3f0-4f77-af42-2738fc209bcf
+2023-07-20 02:13:19	0da952c3-4e82-446b-9884-09563d959d88	$duration:>2157
+-	0da952c3-4e82-446b-9884-09563d959d88	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0da952c3-4e82-446b-9884-09563d959d88	#44919d9c-b3f0-4f77-af42-2738fc209bcf
