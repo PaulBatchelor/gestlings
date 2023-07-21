@@ -1121,7 +1121,7 @@
 -	3f886420-3f7a-48df-8cef-4ef13b5c18a8	#44919d9c-b3f0-4f77-af42-2738fc209bcf
 2023-07-20 01:35:15	ed4020ee-ea81-48bc-986a-340bc269a975	>demo with tubular using states made from tubesculpt
 -	ed4020ee-ea81-48bc-986a-340bc269a975	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-20 01:35:15	ed4020ee-ea81-48bc-986a-340bc269a975	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-21 16:49:05	ed4020ee-ea81-48bc-986a-340bc269a975	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	ed4020ee-ea81-48bc-986a-340bc269a975	#44919d9c-b3f0-4f77-af42-2738fc209bcf
 2023-07-20 01:37:16	bbd717c6-453d-4c61-b007-68be13de1f61	>I need to come up with a good way to get the cached states over to the shapemorf format. Ideally, this should be something that could be done with tubesculpt. will think on this
 -	bbd717c6-453d-4c61-b007-68be13de1f61	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1153,3 +1153,16 @@
 2023-07-21 01:05:44	3cfaa2c5-123e-4445-9024-755cfc433318	$duration:>4651
 -	3cfaa2c5-123e-4445-9024-755cfc433318	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	3cfaa2c5-123e-4445-9024-755cfc433318	#ed4020ee-ea81-48bc-986a-340bc269a975
+2023-07-21 15:08:50	d7530174-a8d3-42af-9b88-da92038b5281	>let's see if I can actually get some sounds today
+-	d7530174-a8d3-42af-9b88-da92038b5281	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d7530174-a8d3-42af-9b88-da92038b5281	#ed4020ee-ea81-48bc-986a-340bc269a975
+2023-07-21 16:31:28	62ca840b-883a-4948-947e-4e18f7560540	>sounds are working! I'm now making a score. this going to be worked into a gestku.
+-	62ca840b-883a-4948-947e-4e18f7560540	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	62ca840b-883a-4948-947e-4e18f7560540	#ed4020ee-ea81-48bc-986a-340bc269a975
+2023-07-21 16:47:40	682eea8f-56dc-47b5-9ae0-e556153d09ff	$duration:>5946
+-	682eea8f-56dc-47b5-9ae0-e556153d09ff	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	682eea8f-56dc-47b5-9ae0-e556153d09ff	#ed4020ee-ea81-48bc-986a-340bc269a975
+2023-07-21 16:48:40	e6920620-385c-4918-b7cb-8f5eebd134cc	>wrap tubesculpt/shapemorf demo into gestku framework
+-	e6920620-385c-4918-b7cb-8f5eebd134cc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-21 16:48:40	e6920620-385c-4918-b7cb-8f5eebd134cc	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	e6920620-385c-4918-b7cb-8f5eebd134cc	#44919d9c-b3f0-4f77-af42-2738fc209bcf

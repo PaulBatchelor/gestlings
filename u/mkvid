@@ -1,4 +1,4 @@
-GESTKU=$1
+ESTKU=$1
 NAME=$(basename $GESTKU)
 NAME=${NAME%.lua}
 
@@ -17,4 +17,5 @@ fi
 
 
 mnolth lua gestku/render.lua $NAME $DUR
+export AV_LOG_FORCE_NOCOLOR=1
 ffmpeg -y -loop 1 -i $NAME.pbm -i $NAME.wav -c:v libx264 -tune stillimage -c:a aac -b:a 256k -pix_fmt yuv420p -shortest $NAME.mp4
