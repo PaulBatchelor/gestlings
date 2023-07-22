@@ -54,6 +54,7 @@ check seq_sound
 check diagraf_intermediate
 check blipsqueak_hello
 check path_symbol_lookup
+check shapemorf_tubesculpt
 
 if [ "$NERR" -gt 0 ]
 then
