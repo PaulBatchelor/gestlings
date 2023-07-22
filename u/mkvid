@@ -1,4 +1,4 @@
-ESTKU=$1
+GESTKU=$1
 NAME=$(basename $GESTKU)
 NAME=${NAME%.lua}
 
