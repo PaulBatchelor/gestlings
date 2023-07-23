@@ -528,16 +528,16 @@
 -	79649bab-5bbf-4782-b0db-6fb06fffd744	#ee57514a-a83b-45e5-8058-0ce712106dd8
 2023-04-21 23:31:31	b2cafd9e-e98d-4160-8af9-9e35ce0ea5a9	>add more messages to message box proof-of-concept
 -	b2cafd9e-e98d-4160-8af9-9e35ce0ea5a9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-04-21 23:31:31	b2cafd9e-e98d-4160-8af9-9e35ce0ea5a9	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-23 02:06:38	b2cafd9e-e98d-4160-8af9-9e35ce0ea5a9	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-04-21 23:33:24	bee76c40-e260-4379-9191-468a6507511c	>use goblin mechanism and vocab to make phrase
 -	bee76c40-e260-4379-9191-468a6507511c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-04-21 23:33:24	bee76c40-e260-4379-9191-468a6507511c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-23 02:06:40	bee76c40-e260-4379-9191-468a6507511c	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-04-21 23:33:41	64da8143-6658-45b3-a924-e4aec47a2f28	>face animation: coordinate with with sound
 -	64da8143-6658-45b3-a924-e4aec47a2f28	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-04-21 23:33:41	64da8143-6658-45b3-a924-e4aec47a2f28	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-23 02:06:43	64da8143-6658-45b3-a924-e4aec47a2f28	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-04-21 23:33:50	6e10f91a-0304-4e1e-95d4-39431a3cc366	>protogestling creation
 -	6e10f91a-0304-4e1e-95d4-39431a3cc366	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-04-21 23:33:50	6e10f91a-0304-4e1e-95d4-39431a3cc366	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-23 02:06:47	6e10f91a-0304-4e1e-95d4-39431a3cc366	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	bee76c40-e260-4379-9191-468a6507511c	#6e10f91a-0304-4e1e-95d4-39431a3cc366
 -	64da8143-6658-45b3-a924-e4aec47a2f28	#6e10f91a-0304-4e1e-95d4-39431a3cc366
 -	b2cafd9e-e98d-4160-8af9-9e35ce0ea5a9	#6e10f91a-0304-4e1e-95d4-39431a3cc366
@@ -552,7 +552,7 @@
 -	e55ae00e-1089-4ae6-8661-9836b7178edb	#685b4fc4-4a23-411c-a392-51a494be8054
 2023-04-22 00:00:19	491971da-6e49-4ede-9459-9de6d88ea33d	>brainstorm: how to notate morphemes?
 -	491971da-6e49-4ede-9459-9de6d88ea33d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-04-22 00:00:19	491971da-6e49-4ede-9459-9de6d88ea33d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-23 02:05:54	491971da-6e49-4ede-9459-9de6d88ea33d	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-04-22 00:01:46	f375b35d-6abc-45d0-b9c7-ead96833bf53	>generate visualizations using node trees
 -	f375b35d-6abc-45d0-b9c7-ead96833bf53	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2023-04-22 00:01:46	f375b35d-6abc-45d0-b9c7-ead96833bf53	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
@@ -1174,7 +1174,7 @@
 -	088bfc6b-ec83-4d30-9662-3830d648651e	#e6920620-385c-4918-b7cb-8f5eebd134cc
 2023-07-23 01:33:31	dd7c0384-e2fa-45a5-9161-7206719db197	>initial planning/scoping for maps, lore, and dialogue
 -	dd7c0384-e2fa-45a5-9161-7206719db197	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-23 01:33:31	dd7c0384-e2fa-45a5-9161-7206719db197	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-23 02:08:57	dd7c0384-e2fa-45a5-9161-7206719db197	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-07-23 01:35:45	8db8ef55-754f-4aa0-9278-7aef21080c58	>this works. yesterday I got pulled into a horrible tangent. on my OSX computer (core development is on Alpine Linux), I updated to Ventura. The updates to the compiler broke all my md5 tests. Floating point operations changed, which is nuts. Recovering from that wrench.
 -	8db8ef55-754f-4aa0-9278-7aef21080c58	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	8db8ef55-754f-4aa0-9278-7aef21080c58	#e6920620-385c-4918-b7cb-8f5eebd134cc
@@ -1201,3 +1201,21 @@
 2023-07-23 02:01:06	97169f29-3c7d-4476-af9b-2875277ff467	$duration:>1649
 -	97169f29-3c7d-4476-af9b-2875277ff467	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	97169f29-3c7d-4476-af9b-2875277ff467	#dd7c0384-e2fa-45a5-9161-7206719db197
+2023-07-23 02:06:08	886b7aa7-5955-4f68-8cc7-feef485c5319	>see !protogestling
+-	886b7aa7-5955-4f68-8cc7-feef485c5319	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	886b7aa7-5955-4f68-8cc7-feef485c5319	#6e10f91a-0304-4e1e-95d4-39431a3cc366
+2023-07-23 02:08:09	824d748b-5132-42f3-98b8-47d860db4336	>it really comes down to: what are they saying? where do I put them?
+-	824d748b-5132-42f3-98b8-47d860db4336	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	824d748b-5132-42f3-98b8-47d860db4336	#dd7c0384-e2fa-45a5-9161-7206719db197
+2023-07-23 02:08:51	74d65354-883f-4954-a0ed-5b2ecbdb5773	$duration:>317
+-	74d65354-883f-4954-a0ed-5b2ecbdb5773	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	74d65354-883f-4954-a0ed-5b2ecbdb5773	#dd7c0384-e2fa-45a5-9161-7206719db197
+2023-07-23 02:15:45	1f3cd600-d867-407d-8a67-0fe02ab78725	>the initial protogestling works with a 200x320 canvas, which I may bump to 240x320. That leaves 30 characters per line using the 8px fixed width font. if there are margins, that's probably 28 actually. There are 4 lines currently. That comprises one message box, of which there can be several.
+-	1f3cd600-d867-407d-8a67-0fe02ab78725	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1f3cd600-d867-407d-8a67-0fe02ab78725	#4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec
+2023-07-23 02:16:33	8484af8c-9305-42d5-8895-be5270584857	>I've been thinking about an introduction. will try to draft something out.
+-	8484af8c-9305-42d5-8895-be5270584857	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8484af8c-9305-42d5-8895-be5270584857	#4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec
+2023-07-23 02:42:03	078e1360-0c18-41bf-9bbc-d1fd44b10223	$duration:>1958
+-	078e1360-0c18-41bf-9bbc-d1fd44b10223	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	078e1360-0c18-41bf-9bbc-d1fd44b10223	#4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec

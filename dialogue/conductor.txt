@@ -1,0 +1,96 @@
+@block
+@slow
+...
+... how about now?
+@normal
+does it work now?
+Okay good. You're awake.
+
+@normal
+@block
+First thing: hello, don't
+be afraid.
+Second thing: Wow, you look
+terrible.
+
+@block
+It looks like your mind has
+conjured up a train, which
+isn't far off from what is
+actually happening.
+
+@block
+You are dead. Sorry to break
+it to ya. When lifeforms
+like you die, well, they
+usually go somewhere else.
+
+@block
+Somehow you ended up here.
+Not sure how. I guess
+things get jumbled up
+sometimes.
+
+@block
+So, uh, you are, very,
+VERY far away from home.
+Lightyears away. Literally.
+
+@slow
+@block
+And... how to put this...
+
+@slow
+@block
+...you're not quite "you"
+anymore...
+
+@normal
+@block
+You're kind of on another
+plane of conciousness. A
+different form of energy.
+
+@block
+Don't be so sad.
+There really wasn't all that
+much to your reality
+anyways. Just sayin.
+
+@block
+I suppose there's not much
+going here, either...
+
+@block
+Well, I guess this is your
+stop. Cauldronia. Home
+of the Gestlings. I'm
+from here too actually!
+
+@block
+I've made some modifications
+to your wetware. You should
+be able to understand them
+and perceive their world.
+
+@block
+It's made from spare parts,
+so it's not a stable system.
+I'd probably keep
+it to light conversation.
+
+@block
+Actually you know what?
+Maybe just let them talk.
+They love to talk about
+themselves.
+
+@block
+Don't panic! This is only
+temporary. I'll sort this
+out at HQ. I'll be back
+soon. Just wander around.
+
+@block
+Okay then. On a schedule.
+See you soon. Bye!
