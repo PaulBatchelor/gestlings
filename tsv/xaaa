@@ -740,7 +740,7 @@
 -	56295d2b-7873-4456-b5c2-8492c6506301	#f4a31e9c-bfb5-48e3-a935-14811e142d77
 2023-07-01 20:14:32	44919d9c-b3f0-4f77-af42-2738fc209bcf	>create interactive interface for exploring sound states in tubular
 -	44919d9c-b3f0-4f77-af42-2738fc209bcf	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-01 20:14:32	44919d9c-b3f0-4f77-af42-2738fc209bcf	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-23 01:49:56	44919d9c-b3f0-4f77-af42-2738fc209bcf	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	6534637c-7d98-4f25-9d68-8da21139695d	#44919d9c-b3f0-4f77-af42-2738fc209bcf
 -	f4a31e9c-bfb5-48e3-a935-14811e142d77	#44919d9c-b3f0-4f77-af42-2738fc209bcf
 2023-07-01 20:17:12	c00f8751-9f71-4bc6-8337-e22c7dcd7d3a	$duration:>526
@@ -1164,7 +1164,7 @@
 -	682eea8f-56dc-47b5-9ae0-e556153d09ff	#ed4020ee-ea81-48bc-986a-340bc269a975
 2023-07-21 16:48:40	e6920620-385c-4918-b7cb-8f5eebd134cc	>wrap tubesculpt/shapemorf demo into gestku framework
 -	e6920620-385c-4918-b7cb-8f5eebd134cc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-21 16:48:40	e6920620-385c-4918-b7cb-8f5eebd134cc	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-23 01:35:57	e6920620-385c-4918-b7cb-8f5eebd134cc	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	e6920620-385c-4918-b7cb-8f5eebd134cc	#44919d9c-b3f0-4f77-af42-2738fc209bcf
 2023-07-22 00:50:26	d15b7bda-f549-47bd-8f3b-5005623c3f4c	>going to need to rework the gestling boilerplate code slightly for the drawing bits
 -	d15b7bda-f549-47bd-8f3b-5005623c3f4c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1172,3 +1172,34 @@
 2023-07-22 02:09:59	088bfc6b-ec83-4d30-9662-3830d648651e	$duration:>4821
 -	088bfc6b-ec83-4d30-9662-3830d648651e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	088bfc6b-ec83-4d30-9662-3830d648651e	#e6920620-385c-4918-b7cb-8f5eebd134cc
+2023-07-23 01:33:31	dd7c0384-e2fa-45a5-9161-7206719db197	>initial planning/scoping for maps, lore, and dialogue
+-	dd7c0384-e2fa-45a5-9161-7206719db197	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-23 01:33:31	dd7c0384-e2fa-45a5-9161-7206719db197	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-23 01:35:45	8db8ef55-754f-4aa0-9278-7aef21080c58	>this works. yesterday I got pulled into a horrible tangent. on my OSX computer (core development is on Alpine Linux), I updated to Ventura. The updates to the compiler broke all my md5 tests. Floating point operations changed, which is nuts. Recovering from that wrench.
+-	8db8ef55-754f-4aa0-9278-7aef21080c58	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8db8ef55-754f-4aa0-9278-7aef21080c58	#e6920620-385c-4918-b7cb-8f5eebd134cc
+2023-07-23 01:38:21	9f79bc81-bf7b-4a98-a639-87cf183d5a51	>now that I'm beginning to get the initial resemblance of tooling, I need to shift gears, focus on some bigger picture stuff. Things closer to how the Gestlings will be experience, which is via hypertext. Gestlings say stuff, so that's dialogue. Gestings are in a place, so thats geography and map design. Gestlings have culture, so that's lore/mythology, used to enrich the characters.
+-	9f79bc81-bf7b-4a98-a639-87cf183d5a51	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9f79bc81-bf7b-4a98-a639-87cf183d5a51	#dd7c0384-e2fa-45a5-9161-7206719db197
+2023-07-23 01:39:18	a51e09f5-1914-436f-89f3-ceeefacfaa63	>I'm not good at any of this (and drawing too, for that matter), so part of me wants to make sure my audience is subjected to this as little as possible. Unfortunately, it still needs to be "there". Sound can never exist in a vaccuum.
+-	a51e09f5-1914-436f-89f3-ceeefacfaa63	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a51e09f5-1914-436f-89f3-ceeefacfaa63	#dd7c0384-e2fa-45a5-9161-7206719db197
+2023-07-23 01:49:38	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	>create outline of maps of cauldronia
+-	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-23 01:49:38	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-23 01:50:45	b9112609-e5c9-4439-8928-610a78dcc20c	>outlining: maps, lore, dialogue
+-	b9112609-e5c9-4439-8928-610a78dcc20c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-23 01:50:45	b9112609-e5c9-4439-8928-610a78dcc20c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	b9112609-e5c9-4439-8928-610a78dcc20c	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
+2023-07-23 01:56:51	c8f8409f-51d7-4fba-b566-5163a25e9722	>by the end of this task, the boundaries of the Gestlings project should feel solid. while not everything needs to be fleshed out, there needs to be enough such that there can be a clear path for what is done and what needs to be done.
+-	c8f8409f-51d7-4fba-b566-5163a25e9722	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c8f8409f-51d7-4fba-b566-5163a25e9722	#b9112609-e5c9-4439-8928-610a78dcc20c
+2023-07-23 01:57:26	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	>draft out some initial dialogue
+-	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-23 01:57:26	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
+-	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	#b9112609-e5c9-4439-8928-610a78dcc20c
+-	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	#b9112609-e5c9-4439-8928-610a78dcc20c
+2023-07-23 02:01:06	97169f29-3c7d-4476-af9b-2875277ff467	$duration:>1649
+-	97169f29-3c7d-4476-af9b-2875277ff467	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	97169f29-3c7d-4476-af9b-2875277ff467	#dd7c0384-e2fa-45a5-9161-7206719db197
