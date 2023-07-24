@@ -1,0 +1,33 @@
+# The commander can be found
+# along the shores at the
+# bottom of the Gestletree
+
+@block
+It's been weeks since the
+Captain went out on a solo
+trek out at sea. A fools
+journey.
+
+@block
+It's that stupid myth. The
+Source. It's not out there.
+For years, we've tried
+searching for it.
+
+@block
+We were back at shore
+resupplying. Captain comes
+over and relieves the crew
+and myself of duty.
+
+@block
+Tells us that new facts
+have come to light, and that
+they need to go alone.
+And that was that.
+
+@block
+Fine by me. I grow weary of
+the sea. I am starting to
+worry though. Cap should
+have been back by now...

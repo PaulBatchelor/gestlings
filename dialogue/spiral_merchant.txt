@@ -1,0 +1,23 @@
+# someone you meet soon after you get off the train
+# They want to sell you a thing called a "Spiral"
+# Gestlings nearby tell you it's a tourist trap and
+# that spirals are junk
+
+@block
+Hey! You there!
+You look like you could use
+a spiral!
+
+@block
+You're looking at the
+number one Spiral Supplier
+in all of Gestleton!
+
+@block
+Spirals are ALL the rage
+these days. You don't want
+to miss out.
+
+@block
+So, how many can I put you
+down for?
