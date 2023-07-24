@@ -441,7 +441,8 @@ function TubeSculpt:export_to_shapemorf(filename)
 end
 
 function main()
-    local m = grid.open("/dev/ttyUSB0")
+    --local m = grid.open("/dev/ttyUSB0")
+    local m = grid.open("/dev/ttyACM0")
 
     running = true
 
