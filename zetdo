@@ -664,12 +664,43 @@ function stopwatch () {
 
 }
 
-function zetdo_init () {
-    weewiki zet mkgroup zetdo > /dev/null
-    mkgroup TODO
-    mkgroup DONE
-    mkgroup WIP
-    mkgroup WAIT
+function time2seconds() {
+    echo $1 | awk 'BEGIN{FS=":"} {if (NF==2) {print $1*60 + $2} else if (NF==3) {print $1*3600 + $2*60 + $3} else {print $1}}'
+}
+
+# clockentry: manually add a clock duration entry with
+# defined date (YYYY-MM-DD) and start time "HH:MM",
+# and duration (HH:MM:SS, or MM:SS)
+function clockentry () {
+    if [ "$#" -lt 4 ]
+    then
+        echo "Usage $0 UUID date start_time duration"
+        exit 1
+    fi
+
+    ITEM_UUID=$(weewiki zet resolve $1)
+
+    if [[ ! $? -eq 0 ]]
+    then
+        exit 1
+    fi
+
+    DATE=$2
+    DATE=$(date -d "$DATE" "+%Y-%m-%d")
+    START_TIME=$3
+    DURATION=$(time2seconds $4)
+
+    DUR_UUID=$(weewiki zet var create duration)
+    weewiki zet var set $DUR_UUID duration $DURATION
+    weewiki zet link $DUR_UUID @zetdo
+    weewiki zet link $DUR_UUID $ITEM_UUID
+
+    sqlite_cmd=$(cat <<EOM
+UPDATE wikizet SET time=datetime('$DATE $START_TIME', 'utc')
+WHERE UUID == '$DUR_UUID' AND value LIKE '\$duration:>%';
+EOM
+)
+    echo $sqlite_cmd | sqlite3 a.db
 }
 
 #########################
@@ -685,8 +716,11 @@ fi
 case $1 in
     "create")
         weewiki create
-        zetdo_init
-        create_list
+        weewiki zet mkgroup zetdo > /dev/null
+        mkgroup TODO
+        mkgroup DONE
+        mkgroup WIP
+        mkgroup WAIT
         ;;
     "create_list")
         create_list
@@ -937,6 +971,10 @@ case $1 in
             exit 1
         fi
         stopwatch $2
+        ;;
+    "clockentry")
+        shift
+        clockentry $*
         ;;
     *)
         echo "$0: could not find command '$1'"
