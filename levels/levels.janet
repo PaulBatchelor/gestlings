@@ -1,7 +1,7 @@
 (import levels/begin)
 
 (defn generate []
-  (levels/begin/generate))
+  (begin/generate))
 
 (defn clear []
- (levels/begin/clear))
+ (begin/clear))

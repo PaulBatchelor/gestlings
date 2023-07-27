@@ -2,5 +2,7 @@
 # needed in order to cull procedurally generated pages
 
 (import creation)
+(import levels/levels)
 
 (creation/uncreate)
+(levels/clear)
