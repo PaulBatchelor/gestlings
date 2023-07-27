@@ -1186,7 +1186,7 @@
 -	a51e09f5-1914-436f-89f3-ceeefacfaa63	#dd7c0384-e2fa-45a5-9161-7206719db197
 2023-07-23 01:49:38	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	>create outline of maps of cauldronia
 -	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-23 01:49:38	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-27 17:50:05	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-07-23 01:50:45	b9112609-e5c9-4439-8928-610a78dcc20c	>outlining: maps, lore, dialogue
 2023-07-23 01:50:45	b9112609-e5c9-4439-8928-610a78dcc20c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
 2023-07-23 01:56:51	c8f8409f-51d7-4fba-b566-5163a25e9722	>by the end of this task, the boundaries of the Gestlings project should feel solid. while not everything needs to be fleshed out, there needs to be enough such that there can be a clear path for what is done and what needs to be done.
@@ -1257,3 +1257,26 @@
 2023-07-26 14:26:00	f7bebceb-1306-4390-9ee7-f2bd724c499e	$duration:>1987
 -	f7bebceb-1306-4390-9ee7-f2bd724c499e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	f7bebceb-1306-4390-9ee7-f2bd724c499e	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
+2023-07-27 17:34:00	c9ce1a19-9cc7-47e8-ab8f-c6be231b5f97	>I've outlined a map of cauldronia in terms of linear storyline. You start a Gestleton at the top of the Gestletree, and eventually end up at the bottom of the ocean, where you enter the Hall of Was and meet the Gardner. This is a pretty good birds-eye view of the major areas, but no detail.
+-	c9ce1a19-9cc7-47e8-ab8f-c6be231b5f97	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c9ce1a19-9cc7-47e8-ab8f-c6be231b5f97	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
+2023-07-27 17:36:05	b845f732-845c-4b48-8f4d-cb2516d691b4	>what's emerged from this brainstorming exercise are various places in Cauldronia, which could be thought of as "levels". I think it would be a good idea to build some boilerplate pages for these with links to the next/prev levels.
+-	b845f732-845c-4b48-8f4d-cb2516d691b4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b845f732-845c-4b48-8f4d-cb2516d691b4	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
+2023-07-27 17:38:40	f3c4df2e-968c-47b0-81fe-10282c17d0cf	>create imagemap proof of concept
+-	f3c4df2e-968c-47b0-81fe-10282c17d0cf	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-27 17:38:40	f3c4df2e-968c-47b0-81fe-10282c17d0cf	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-27 17:40:53	f3c4df2e-968c-47b0-81fe-10282c17d0cf	$blurb:>I'm thinking about using oldschool HTML imagemaps as a way to make a point-and-click mechanic for the various levels in Gestlings. I'll need to see how well that works though, so this task aims to gauge the feasability of this.
+2023-07-27 17:44:13	aec15786-74dc-4cf3-9d94-800708e53e51	>create boilerplate pages for main levels
+-	aec15786-74dc-4cf3-9d94-800708e53e51	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-27 17:44:13	aec15786-74dc-4cf3-9d94-800708e53e51	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	aec15786-74dc-4cf3-9d94-800708e53e51	#b9112609-e5c9-4439-8928-610a78dcc20c
+2023-07-27 17:46:29	4bb5197a-2d78-4c80-8f1b-57f693d13760	$duration:>885
+-	4bb5197a-2d78-4c80-8f1b-57f693d13760	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4bb5197a-2d78-4c80-8f1b-57f693d13760	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
+2023-07-26 22:32:00	4674c501-38a5-4d90-b099-9fbaaf8ce33b	$duration:>3600
+-	4674c501-38a5-4d90-b099-9fbaaf8ce33b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4674c501-38a5-4d90-b099-9fbaaf8ce33b	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
+2023-07-27 17:51:05	b9ef98a2-cc5c-4ad3-aa9e-220839dd7bf5	>not sure how much more I can do at this point in time with dialogue. I feel like I need to outline the levels first before thinking about NPCs and dialogue. Will leave this open for a little while longer, then close.
+-	b9ef98a2-cc5c-4ad3-aa9e-220839dd7bf5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b9ef98a2-cc5c-4ad3-aa9e-220839dd7bf5	#4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec
