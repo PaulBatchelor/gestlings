@@ -441,8 +441,18 @@ function TubeSculpt:export_to_shapemorf(filename)
 end
 
 function main()
-    --local m = grid.open("/dev/ttyUSB0")
-    local m = grid.open("/dev/ttyACM0")
+    -- use the grid zero instead of 128
+    local zero_mode = true
+
+    local m = nil
+    local update = grid.update
+
+    if zero_mode == true then
+        m = grid.open("/dev/ttyACM0")
+        update = grid.update_zero
+    else
+        m = grid.open("/dev/ttyUSB0")
+    end
 
     running = true
 
@@ -452,7 +462,7 @@ function main()
     regions = pop()
     local ts = TubeSculpt:new{regions=regions}
 
-    grid.update(m, ts.quadL, ts.quadR)
+    update(m, ts.quadL, ts.quadR)
     print("press (0,0) 3 times to quit")
 
     press = 0
@@ -535,7 +545,7 @@ function main()
             if bitrune.please_draw(br) then
                 bitrune.draw(br)
                 local quadL, quadR = bitrune.quads(br)
-                grid.update(m, quadL, quadR)
+                update(m, quadL, quadR)
             end
         elseif mode == tubesculpt_mode then
             if (ts.redraw) then
@@ -595,7 +605,7 @@ function main()
                     ts:set_led(15, ts.selected_region, 1)
                 end
 
-                grid.update(m, ts.quadL, ts.quadR)
+                update(m, ts.quadL, ts.quadR)
             end
         end
 

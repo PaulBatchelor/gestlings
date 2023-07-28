@@ -1,14 +1,24 @@
 local grid = monome_grid
 
-m = grid.open("/dev/ttyUSB0")
+devpath="/dev/ttyUSB0"
+update = grid.update
 
+zero_mode = true
+
+
+if zero_mode == true then
+    devpath="/dev/ttyACM0"
+    update = grid.update_zero
+end
+
+m = grid.open(devpath)
 print("press (0,0) to quit")
 running = true
 
 quadL = {0, 0, 0, 0, 0, 0, 0, 0}
 quadR = {0, 0, 0, 0, 0, 0, 0, 0}
 
-grid.update(m, quadL, quadR)
+update(m, quadL, quadR)
 
 br = bitrune.new("scratch/blocky6.uf2", "bitrune/shapes.bin", "bitrune/out.b64")
 
@@ -24,9 +34,10 @@ while (bitrune.running(br)) do
     end
 
     -- TODO: getchar returns tables now, fix
-    local c = bitrune.getchar()
-
-    bitrune.process_input(br, c)
+    local chars = bitrune.getchar()
+    for _,c in pairs(chars) do
+        bitrune.process_input(br, c)
+    end
 
     if bitrune.message_available(br) then
         local msg = bitrune.message_pop(br)
@@ -40,7 +51,7 @@ while (bitrune.running(br)) do
     if bitrune.please_draw(br) then
         bitrune.draw(br)
         local quadL, quadR = bitrune.quads(br)
-        grid.update(m, quadL, quadR)
+        update(m, quadL, quadR)
     end
 
     grid.usleep(10)
