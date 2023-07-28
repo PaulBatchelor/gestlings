@@ -1188,13 +1188,13 @@
 -	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2023-07-27 17:50:05	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-07-23 01:50:45	b9112609-e5c9-4439-8928-610a78dcc20c	>outlining: maps, lore, dialogue
-2023-07-23 01:50:45	b9112609-e5c9-4439-8928-610a78dcc20c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-28 17:19:36	b9112609-e5c9-4439-8928-610a78dcc20c	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-07-23 01:56:51	c8f8409f-51d7-4fba-b566-5163a25e9722	>by the end of this task, the boundaries of the Gestlings project should feel solid. while not everything needs to be fleshed out, there needs to be enough such that there can be a clear path for what is done and what needs to be done.
 -	c8f8409f-51d7-4fba-b566-5163a25e9722	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	c8f8409f-51d7-4fba-b566-5163a25e9722	#b9112609-e5c9-4439-8928-610a78dcc20c
 2023-07-23 01:57:26	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	>draft out some initial dialogue
 -	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-23 01:57:26	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-28 17:19:14	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
 -	c908fbbb-bafc-4b89-b82f-e8c1b5803cb4	#b9112609-e5c9-4439-8928-610a78dcc20c
 -	4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec	#b9112609-e5c9-4439-8928-610a78dcc20c
@@ -1247,7 +1247,7 @@
 -	aaa9de38-68d0-45c2-8f09-bfdc3f90901d	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
 2023-07-24 23:12:05	bbe35ac3-27a2-475d-9bc5-9e504d2d242d	>port bitrune to grid zero
 -	bbe35ac3-27a2-475d-9bc5-9e504d2d242d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-24 23:12:05	bbe35ac3-27a2-475d-9bc5-9e504d2d242d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-28 17:09:05	bbe35ac3-27a2-475d-9bc5-9e504d2d242d	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-07-25 14:07:00	fbce38d8-3b19-4e08-9a5a-3875e6520c94	$duration:>1627
 -	fbce38d8-3b19-4e08-9a5a-3875e6520c94	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	fbce38d8-3b19-4e08-9a5a-3875e6520c94	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
@@ -1269,7 +1269,7 @@
 2023-07-27 17:40:53	f3c4df2e-968c-47b0-81fe-10282c17d0cf	$blurb:>I'm thinking about using oldschool HTML imagemaps as a way to make a point-and-click mechanic for the various levels in Gestlings. I'll need to see how well that works though, so this task aims to gauge the feasability of this.
 2023-07-27 17:44:13	aec15786-74dc-4cf3-9d94-800708e53e51	>create boilerplate pages for main levels
 -	aec15786-74dc-4cf3-9d94-800708e53e51	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-27 17:44:13	aec15786-74dc-4cf3-9d94-800708e53e51	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-28 17:19:24	aec15786-74dc-4cf3-9d94-800708e53e51	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	aec15786-74dc-4cf3-9d94-800708e53e51	#b9112609-e5c9-4439-8928-610a78dcc20c
 2023-07-27 17:46:29	4bb5197a-2d78-4c80-8f1b-57f693d13760	$duration:>885
 -	4bb5197a-2d78-4c80-8f1b-57f693d13760	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1296,3 +1296,12 @@
 2023-07-28 17:08:07	09c4b8a0-2e99-4ee0-b894-3d41abead8a3	$duration:>1499
 -	09c4b8a0-2e99-4ee0-b894-3d41abead8a3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	09c4b8a0-2e99-4ee0-b894-3d41abead8a3	#bbe35ac3-27a2-475d-9bc5-9e504d2d242d
+2023-07-28 17:13:44	b7694796-6922-47b9-9f60-e7a723f518a0	>the few bits of dialogue I've written out were helpful, but I think I need to hold off. NPC story driven dialogue is going to be important. Geography and levels are an important part of this story, so once that is in a stable spot, I can return to thinking about where to place gestlings, and what they'll have to say about it.
+-	b7694796-6922-47b9-9f60-e7a723f518a0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b7694796-6922-47b9-9f60-e7a723f518a0	#4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec
+2023-07-28 17:18:45	74720a24-644b-49c5-a06d-e4d6d86e8a96	>slipped in a few words for the Gardner, who I want to be the creator of the Gestling and the world they inhabit. A sort of demi-god with great power, who cares deeply for the creations they've made, and hopes they've done enough for them (wishes they could have done more).
+-	74720a24-644b-49c5-a06d-e4d6d86e8a96	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	74720a24-644b-49c5-a06d-e4d6d86e8a96	#4d9018f6-8821-49fd-a5ae-31c2e0e9c2ec
+2023-07-28 17:18:49	678c7ed6-e706-4730-b6e9-3ce0dac1716c	$duration:>596
+-	678c7ed6-e706-4730-b6e9-3ce0dac1716c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	678c7ed6-e706-4730-b6e9-3ce0dac1716c	#b9112609-e5c9-4439-8928-610a78dcc20c
