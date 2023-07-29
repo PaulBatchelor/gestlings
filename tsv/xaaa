@@ -1265,7 +1265,7 @@
 -	b845f732-845c-4b48-8f4d-cb2516d691b4	#c908fbbb-bafc-4b89-b82f-e8c1b5803cb4
 2023-07-27 17:38:40	f3c4df2e-968c-47b0-81fe-10282c17d0cf	>create imagemap proof of concept
 -	f3c4df2e-968c-47b0-81fe-10282c17d0cf	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-27 17:38:40	f3c4df2e-968c-47b0-81fe-10282c17d0cf	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-29 16:00:36	f3c4df2e-968c-47b0-81fe-10282c17d0cf	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-07-27 17:40:53	f3c4df2e-968c-47b0-81fe-10282c17d0cf	$blurb:>I'm thinking about using oldschool HTML imagemaps as a way to make a point-and-click mechanic for the various levels in Gestlings. I'll need to see how well that works though, so this task aims to gauge the feasability of this.
 2023-07-27 17:44:13	aec15786-74dc-4cf3-9d94-800708e53e51	>create boilerplate pages for main levels
 -	aec15786-74dc-4cf3-9d94-800708e53e51	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1323,3 +1323,43 @@
 2023-07-28 21:25:00	93a6e85e-c523-4f81-be90-51ac437f6383	$duration:>978
 -	93a6e85e-c523-4f81-be90-51ac437f6383	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	93a6e85e-c523-4f81-be90-51ac437f6383	#f3c4df2e-968c-47b0-81fe-10282c17d0cf
+2023-07-29 15:57:19	d36736f5-9b63-488e-a609-8d85eee02b9b	>explore fisheye lens filter technique for the depths
+-	d36736f5-9b63-488e-a609-8d85eee02b9b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-29 15:57:19	d36736f5-9b63-488e-a609-8d85eee02b9b	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-29 16:00:01	bfc4ce76-91e0-45ab-a72d-2a135732f238	>fortunately, I explored imagemaps last year with weewiki. there is sample code to poke at, and it's enough for our needs. the next step is then thinking about the structures on top of that like tilemaps and regions. Most of the time here has been spent scoping those structures out. I'm going to make a new task for that though.
+-	bfc4ce76-91e0-45ab-a72d-2a135732f238	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	bfc4ce76-91e0-45ab-a72d-2a135732f238	#f3c4df2e-968c-47b0-81fe-10282c17d0cf
+2023-07-29 16:00:28	deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a	>create map/regions -> HTML imagemap proof of concept
+-	deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-29 16:00:28	deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-29 16:03:12	f880a7c9-445c-4875-974d-388ccdf40707	$duration:>311
+-	f880a7c9-445c-4875-974d-388ccdf40707	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f880a7c9-445c-4875-974d-388ccdf40707	#f3c4df2e-968c-47b0-81fe-10282c17d0cf
+2023-07-29 16:06:43	93cd9afb-75da-4ada-9766-540a77236025	>part of this involves getting the sound/video engine (cantor/mnolth) to talk to the wiki engine (weewiki). I'm going to look into creating an intermediate format that cantor can write to, that weewiki (janet) can parse. I forget if I'm including JSON stuff with weewiki or not.
+-	93cd9afb-75da-4ada-9766-540a77236025	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	93cd9afb-75da-4ada-9766-540a77236025	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-29 16:11:00	c9eaa19f-fcac-4d7d-ab41-867955e21ec2	>I do not have JSON stuff included with weewiki janet. I don't have a JSON encoder for lua either here. I'm just gonna have to do both. I'm choosing JSON over msgpack here because I think it's a little bit more straight forward, and the data is more suitable for JSON.
+-	c9eaa19f-fcac-4d7d-ab41-867955e21ec2	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c9eaa19f-fcac-4d7d-ab41-867955e21ec2	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-29 16:16:34	33ee5748-f5c2-4a2e-b385-74dd68a19b88	>oh, looks like I already added the JSON utility to gestlings for lua
+-	33ee5748-f5c2-4a2e-b385-74dd68a19b88	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	33ee5748-f5c2-4a2e-b385-74dd68a19b88	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-29 16:17:17	d27fc083-c442-4c46-8469-16911e046c07	>there's a slow pure-janet implementation of a JSON parser that I could use in a pinch if I didn't want to touch weewiki. But, you know, if weewiki has btprnt bindings, it should have JSON stuff too.
+-	d27fc083-c442-4c46-8469-16911e046c07	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d27fc083-c442-4c46-8469-16911e046c07	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-29 16:23:44	a0edba5f-1f62-4f1a-86e7-064ee10a4358	>janet JSON bindings have been added to weewiki, have not tested it, but I assume it will work.
+-	a0edba5f-1f62-4f1a-86e7-064ee10a4358	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a0edba5f-1f62-4f1a-86e7-064ee10a4358	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-29 16:23:46	3776c7d1-693c-4445-bc22-1582ad508b3e	$duration:>1210
+-	3776c7d1-693c-4445-bc22-1582ad508b3e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3776c7d1-693c-4445-bc22-1582ad508b3e	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-29 16:28:09	42c91ad0-f3b8-4d7c-b0d5-63aa65f7939f	>I worked it out. There 4 main levels, not counting the depths, hall, and train. 6 gestlings per level is probably the size of what I'm aiming for. 24 gestlings at minimum, but let's say 30 because I like 30 more than 24. So, the goal is to make enough of an Avatar creator to produce 30 distinct-enough looking faces, but no more than that.
+-	42c91ad0-f3b8-4d7c-b0d5-63aa65f7939f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	42c91ad0-f3b8-4d7c-b0d5-63aa65f7939f	#2b7f2e41-3b05-4954-aac9-1d1a9397573e
+2023-07-29 16:28:26	3f943212-a572-4f77-bfbf-0f27ae93d6a7	>scope out background music for levels
+-	3f943212-a572-4f77-bfbf-0f27ae93d6a7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-29 16:28:26	3f943212-a572-4f77-bfbf-0f27ae93d6a7	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-07-29 16:29:26	3f943212-a572-4f77-bfbf-0f27ae93d6a7	$blurb:>It'd be nice to drop in a 1-3 minute track in some of the levels and rooms as a kind of soundtrack.
+2023-07-29 16:29:34	7c54f6f3-dcc1-42ba-b4ca-d7a7b773ff30	$duration:>330
+-	7c54f6f3-dcc1-42ba-b4ca-d7a7b773ff30	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	7c54f6f3-dcc1-42ba-b4ca-d7a7b773ff30	#e6c08ee3-3c92-405c-b1e4-b685448a6321

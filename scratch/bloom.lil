@@ -1,0 +1,91 @@
+# July 29th, 2023
+# Today I discovered what a "bloom" reverb is today
+# Two reverbs with identical settings, flip the phase
+# of one and sum. Change the decay amount of one of them.
+# I also figured out you can inject signals into one
+# reverb and not the other to get some interesting
+# effects too
+
+flipper [phasor [expr 1.0 / 15.0] 0]
+hold
+regset zz 1
+
+metro [scale [regget 1] 1 1.5]
+hold
+regset zz 0
+
+regget 0
+env zz 0.01 0.01 0.1
+
+genvals [tabnew 1] "0 5 10 14 15"
+regget 0
+param 0
+tseq zz zz zz
+smoother zz 0.005
+param 60
+add zz zz
+mtof zz
+blsaw zz
+valp1 zz 300
+mul zz zz
+mul zz [dblin -6]
+
+# lead drone
+param [expr 60 + 17]
+scale [regget 1] 5 6
+scale [regget 1] 0 0.1
+sine zz zz
+add zz zz
+jitseg -0.05 0.05 0.5 1 1
+add zz zz
+mtof zz
+blsaw zz
+valp1 zz 400
+mul zz [dblin -6]
+mul [regget 1] zz
+hold zz
+regset zz 2
+
+# bass drone
+param [expr 60 - 12]
+scale [regget 1] 5 6
+scale [regget 1] 0 0.2
+sine zz zz
+add zz zz
+jitseg -0.1 0.1 0.1 1 2
+add zz zz
+mtof zz
+blsaw zz
+valp1 zz 200
+mul zz [dblin -10]
+mul [scale [regget 1] 1 0] zz
+
+add zz zz
+
+dup
+dup
+bigverb zz zz 0.97 10000
+add zz zz
+
+dcblocker zz
+
+swap
+regget 2
+mul zz 0.1
+add zz zz
+dup
+bigverb zz zz [scale [regget 1] 0.95 0.98] [param 10000]
+add zz zz
+mul zz -1
+add zz zz
+dcblocker zz
+
+regget 2
+mul zz [dblin -10]
+add zz zz
+
+tenv [tick] 0.1 45 4
+mul zz zz
+dup
+wavouts zz zz bloom.wav
+computes 50
