@@ -469,7 +469,7 @@ function main()
 
     local br = bitrune.new("scratch/blocky6.uf2",
                            "bitrune/shapes.bin",
-                           "scratch/out.b64")
+                           "util/tubesculpt.b64")
 
     bitrune.terminal_setup(br)
 
