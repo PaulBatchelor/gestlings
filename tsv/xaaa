@@ -1363,3 +1363,19 @@
 2023-07-29 16:29:34	7c54f6f3-dcc1-42ba-b4ca-d7a7b773ff30	$duration:>330
 -	7c54f6f3-dcc1-42ba-b4ca-d7a7b773ff30	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	7c54f6f3-dcc1-42ba-b4ca-d7a7b773ff30	#e6c08ee3-3c92-405c-b1e4-b685448a6321
+2023-07-29 17:27:01	fd1e4dec-be04-4c4d-8ae3-bac7c51a5de7	>I need to make map tiles. I could just write these up in a text editor like I've done in the past and that'd be a quick and dirty way to do it, but I'm going to induldge a little bit and build a 16x16 tile editor that works with my new grid zero.
+-	fd1e4dec-be04-4c4d-8ae3-bac7c51a5de7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	fd1e4dec-be04-4c4d-8ae3-bac7c51a5de7	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-29 17:42:29	816a573f-136d-41bf-8f06-8087517baa68	$duration:>1013
+-	816a573f-136d-41bf-8f06-8087517baa68	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	816a573f-136d-41bf-8f06-8087517baa68	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-29 18:13:48	5ed390a8-fce3-4b12-96fb-b2cd9ee78f54	$duration:>9
+-	5ed390a8-fce3-4b12-96fb-b2cd9ee78f54	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5ed390a8-fce3-4b12-96fb-b2cd9ee78f54	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-29 18:14:13	f9fdf981-1e03-406f-beb5-40c39e6c6302	>create tile editor for grid zero
+-	f9fdf981-1e03-406f-beb5-40c39e6c6302	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-07-29 18:14:13	f9fdf981-1e03-406f-beb5-40c39e6c6302	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	f9fdf981-1e03-406f-beb5-40c39e6c6302	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-29 19:57:53	3167c9d6-fe70-4a76-8302-290e2e1cc4bb	$duration:>6192
+-	3167c9d6-fe70-4a76-8302-290e2e1cc4bb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3167c9d6-fe70-4a76-8302-290e2e1cc4bb	#f9fdf981-1e03-406f-beb5-40c39e6c6302
