@@ -99,7 +99,7 @@ data TEXT)
     for _=1,64 do
         local tile = {}
 
-        for i=1,16 do
+        for i=1,8 do
             tile[i] = 0
         end
         table.insert(o.tilemap, tile)
@@ -115,6 +115,14 @@ data TEXT)
     add_keymap(o.keymap, '2', nextrow)
     add_keymap(o.keymap, '8', prevrow)
 
+    -- add faded guides for 8x8 square
+    -- might change this if other quandrants
+    -- want to be used for other things
+    for i = 1,9 do
+        o.levelmap[16*8 + i] = 0x2
+        o.levelmap[16*(i - 1) + 9] = 0x2
+    end
+    self.name = "default"
     setmetatable(o, self)
     self.__index = self
     return o
@@ -165,9 +173,9 @@ end
 
 function TileMaker:draw()
     local tilepos = self.tilepos
-    for i=1,256 do
-        local x = ((i - 1) % 16)
-        local y = ((i - 1)// 16)
+    for i=1,64 do
+        local x = ((i - 1) % 8)
+        local y = ((i - 1)// 8)
         local row = self.tilemap[tilepos][y + 1]
 
         local val = ((row & (1<<x)) >> x) * 0xFF
