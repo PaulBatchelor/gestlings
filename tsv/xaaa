@@ -1408,3 +1408,9 @@
 2023-07-31 20:00:49	8724caf1-1ddc-40e9-96d5-d5f940743335	$duration:>1070
 -	8724caf1-1ddc-40e9-96d5-d5f940743335	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	8724caf1-1ddc-40e9-96d5-d5f940743335	#4e26921e-7ee8-4dbf-8df0-5832415d32cd
+2023-07-31 20:19:06	53701932-d6a8-427a-9aaa-90b2329cd0aa	>might want to anticipate having a tile being drawn on more than once. having a masking bit might be a good idea. These can be visualized with varibright, and maybe a toggle to go between mask mode and color mode
+-	53701932-d6a8-427a-9aaa-90b2329cd0aa	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	53701932-d6a8-427a-9aaa-90b2329cd0aa	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-07-31 20:26:20	238f572d-9940-4b8d-8ff9-dae4e2c60a73	$duration:>808
+-	238f572d-9940-4b8d-8ff9-dae4e2c60a73	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	238f572d-9940-4b8d-8ff9-dae4e2c60a73	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a

@@ -118,9 +118,10 @@ data TEXT)
     -- add faded guides for 8x8 square
     -- might change this if other quandrants
     -- want to be used for other things
+    local guide_led_level = 0x1
     for i = 1,9 do
-        o.levelmap[16*8 + i] = 0x2
-        o.levelmap[16*(i - 1) + 9] = 0x2
+        o.levelmap[16*8 + i] = guide_led_level
+        o.levelmap[16*(i - 1) + 9] = guide_led_level
     end
     self.name = "default"
     setmetatable(o, self)
@@ -178,7 +179,12 @@ function TileMaker:draw()
         local y = ((i - 1)// 8)
         local row = self.tilemap[tilepos][y + 1]
 
-        local val = ((row & (1<<x)) >> x) * 0xFF
+        local val = ((row & (1<<x)) >> x)
+        if val > 0 then
+            val = 0xFF
+        else
+            val = 0x0
+        end
         self.levelmap[(y*16)+(x + 1)] = val
     end
 end
