@@ -216,4 +216,11 @@
  :org "klover/klover.org"
  :tangled @["klover/klover.lua"]
  }
+
+ "descript"
+ @{
+ :id 31
+ :org "descript/descript.org"
+ :tangled @["descript/descript.lua"]
+ }
 })
