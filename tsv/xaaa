@@ -1400,3 +1400,11 @@
 2023-07-31 18:48:34	d20bc6b7-eda1-44bb-8d3c-8c1cea5f26ae	$duration:>8679
 -	d20bc6b7-eda1-44bb-8d3c-8c1cea5f26ae	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	d20bc6b7-eda1-44bb-8d3c-8c1cea5f26ae	#4e26921e-7ee8-4dbf-8df0-5832415d32cd
+2023-07-31 19:44:06	a4ce7300-faae-4944-9c2a-c9659d43cefc	>this seems to be in a good enough place. input files get turned into blocks of lines, with the first line being the header (lines starting with '@'). It's not the most elegant implementation, but it should be enough of a starting point.
+-	a4ce7300-faae-4944-9c2a-c9659d43cefc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a4ce7300-faae-4944-9c2a-c9659d43cefc	#4e26921e-7ee8-4dbf-8df0-5832415d32cd
+2023-07-31 19:50:09	82fdf14c-b744-4a18-9e98-66492679a752	>the core data format for gestlings will be called !descript. Eventually, an entire video file for a gestling will be defined in this file, rather than in bits and pieces of lua code like with the !protogestling_mockup
+-	82fdf14c-b744-4a18-9e98-66492679a752	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2023-07-31 20:00:49	8724caf1-1ddc-40e9-96d5-d5f940743335	$duration:>1070
+-	8724caf1-1ddc-40e9-96d5-d5f940743335	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8724caf1-1ddc-40e9-96d5-d5f940743335	#4e26921e-7ee8-4dbf-8df0-5832415d32cd

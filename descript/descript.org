@@ -5,7 +5,7 @@ Descript is the name the high-level markup language
 used to build up Gestlings.
 
 Descript is very dialogue-driven. A typical Descript
-document constists of chunks of text, called blocks,
+document consists of chunks of text, called blocks,
 interleaved with instructions which correspond to
 various actions.
 
@@ -15,6 +15,42 @@ Descript = {}
 <<parser>>
 return Descript
 #+END_SRC
+* Sample Descript Document
+Consider this document below:
+
+#+BEGIN_SRC txt
+@hello world
+this is a text block
+spanning many lines
+@block
+here is another block
+
+with some empty spaces
+
+@and here
+# is a comment
+the previous line is a comment
+
+@single_command
+@another_single_command
+@block
+here is another block
+#+END_SRC
+
+While it doesn't actually do anything related to Gestling,
+it does outline a structure that could eventually become
+a Gestling. The same way HTML is a kind of XML, or a WAV
+file is just a bunch of RIFF chunks.
+
+Like the RIFF, describe breaks lines of text up into chunks.
+A chunk starts with a line beginning with '@', which is
+known as the header. Lines following that are in the chunk
+until the next header is defined. Here the chunk headers
+are 'hello world', 'block', 'and here', 'single_command',
+'another_single_command', and 'block'.
+
+Comments are lines that start with '#'. Lines that
+are empty are ignored.
 * Parser
 Parsing in Descript is done one line at a time.
 
