@@ -1388,3 +1388,15 @@
 2023-07-30 02:29:33	10bb751b-9935-463b-8a69-f37fdc4895ac	$duration:>1006
 -	10bb751b-9935-463b-8a69-f37fdc4895ac	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	10bb751b-9935-463b-8a69-f37fdc4895ac	#f9fdf981-1e03-406f-beb5-40c39e6c6302
+2023-07-31 16:27:11	75821a4b-27a1-4be5-af92-c73a98d3a02f	>calling this thing 'descript'. I can't think of anything better.
+-	75821a4b-27a1-4be5-af92-c73a98d3a02f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	75821a4b-27a1-4be5-af92-c73a98d3a02f	#4e26921e-7ee8-4dbf-8df0-5832415d32cd
+2023-07-31 16:29:06	3cbeb151-7240-45a0-b281-8f5c4d34ddec	>I don't need a formal 'spec'. there's no time for one. have a structure that works for the domain and is extendable is probably going to be better.
+-	3cbeb151-7240-45a0-b281-8f5c4d34ddec	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3cbeb151-7240-45a0-b281-8f5c4d34ddec	#4e26921e-7ee8-4dbf-8df0-5832415d32cd
+2023-07-31 16:30:38	df1b6e97-009c-4995-a6cd-39bf845abecc	>I should be able to parse the dialogue I've written into working data very soon. From there, it'll be a matter of passing parts of that data to different places to be handled by the various components I'll implement.
+-	df1b6e97-009c-4995-a6cd-39bf845abecc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	df1b6e97-009c-4995-a6cd-39bf845abecc	#4e26921e-7ee8-4dbf-8df0-5832415d32cd
+2023-07-31 18:48:34	d20bc6b7-eda1-44bb-8d3c-8c1cea5f26ae	$duration:>8679
+-	d20bc6b7-eda1-44bb-8d3c-8c1cea5f26ae	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d20bc6b7-eda1-44bb-8d3c-8c1cea5f26ae	#4e26921e-7ee8-4dbf-8df0-5832415d32cd

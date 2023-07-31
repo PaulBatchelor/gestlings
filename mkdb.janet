@@ -42,6 +42,7 @@ Tasks for Gestlings. Updated automatically using [[/wiki/zetdo][zetdo]].
 
 @!(zet/zetdo-agenda)!@`)
 (ww-add-page "klover" `@!(wikipage "klover")!@`)
+(ww-add-page "descript" `@!(wikipage "descript")!@`)
 
 # linked pages
 

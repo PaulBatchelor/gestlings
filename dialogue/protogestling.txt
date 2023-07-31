@@ -1,0 +1,11 @@
+@comment
+trying to make a dialogue version of the protogestling
+perhaps rebuild it using this new dialogue system?
+
+@anatomy protogestling
+@physiology blipsqueak
+@block
+Why Hello there!
+I am a Proto-Gestling.
+Pleased to meet you.
+Welcome to Cauldronia!
