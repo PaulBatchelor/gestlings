@@ -223,4 +223,11 @@
  :org "descript/descript.org"
  :tangled @["descript/descript.lua"]
  }
+
+ "gestleton_mapgen"
+ @{
+ :id 32
+ :org "levels/gestleton/gestleton_mapgen.org"
+ :tangled @["levels/gestleton/mapgen.lua"]
+ }
 })

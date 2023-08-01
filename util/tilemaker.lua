@@ -234,7 +234,9 @@ function main()
     local tm = TileMaker:new{}
     name = arg[1]
     tm:load(name)
-    tm.name = name or nil
+    if name ~= nil then
+        tm.name = name
+    end
 
     local br = bitrune.new("scratch/blocky6.uf2",
                            "bitrune/shapes.bin",

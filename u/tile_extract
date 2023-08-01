@@ -1,0 +1,16 @@
+if [ "$#" -lt 1 ]
+then
+    echo "Usage: $0 tile_name"
+    exit 1
+fi
+
+function extract_tileset() {
+    TILE_NAME=$1
+sqlite3 stash.db <<EOM
+SELECT data from tilemaker
+WHERE name IS '$TILE_NAME'
+LIMIT 1;
+EOM
+}
+
+extract_tileset $1 | fold -w 40

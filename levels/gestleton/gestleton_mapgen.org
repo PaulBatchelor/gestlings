@@ -1,0 +1,27 @@
+#+TITLE: Gestleton Map Generator
+Generates map of Gestleton.
+@!(tocgen "gestleton_mapgen")!@
+* Tangled File
+#+NAME: gestleton_mapgen.lua
+#+BEGIN_SRC :tangle levels/gestleton/mapgen.lua
+local GMapGen = {}
+<<gestleton_mapgen>>
+return GMapGen
+#+END_SRC
+* New
+#+NAME: gestleton_mapgen
+#+BEGIN_SRC lua
+function GMapGen:new(o)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+#+END_SRC
+* Draw
+#+NAME: gestleton_mapgen
+#+BEGIN_SRC lua
+function GMapGen:draw()
+    print("TODO: draw")
+end
+#+END_SRC
