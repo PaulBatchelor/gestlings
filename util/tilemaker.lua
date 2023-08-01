@@ -75,6 +75,14 @@ function prevrow(ts)
     ts.please_draw = true
 end
 
+function maskdraw_toggle(ts)
+    if ts.maskdraw == false then
+        ts.maskdraw = true
+    else
+        ts.maskdraw = false
+    end
+end
+
 function TileMaker:new(o)
     o = o or {}
     o.db = sqlite3.open("stash.db")
@@ -114,6 +122,9 @@ data TEXT)
     add_keymap(o.keymap, '4', prevtile)
     add_keymap(o.keymap, '2', nextrow)
     add_keymap(o.keymap, '8', prevrow)
+    add_keymap(o.keymap, '7', maskdraw_toggle)
+
+    o.maskdraw = false
 
     -- add faded guides for 8x8 square
     -- might change this if other quandrants
@@ -123,7 +134,9 @@ data TEXT)
         o.levelmap[16*8 + i] = guide_led_level
         o.levelmap[16*(i - 1) + 9] = guide_led_level
     end
-    self.name = "default"
+
+    o.name = "default"
+    o.tilemap[1][1] = 0x2 | (1 << 2)
     setmetatable(o, self)
     self.__index = self
     return o
@@ -153,12 +166,18 @@ end
 function TileMaker:press(x, y)
     local row = self.tilemap[self.tilepos][y + 1]
 
-    local s = row & (1 << x)
+    local mask = (1 << (2*x)) | (1 << (2*x + 1))
+    local s = row & mask
 
     if s > 0 then
-        row = row & ~(1 << x)
+        row = row & ~(mask)
     else
-        row = row | (1 << x)
+        bits = 0x1
+        if (self.maskdraw == true) then
+            bits = 0x2
+        end
+        row = row & ~(mask)
+        row = row | (mask & (bits << (2*x)))
     end
     self.tilemap[self.tilepos][y + 1] = row
     -- pos = y * 16 + (x + 1)
@@ -179,9 +198,14 @@ function TileMaker:draw()
         local y = ((i - 1)// 8)
         local row = self.tilemap[tilepos][y + 1]
 
-        local val = ((row & (1<<x)) >> x)
+        local mask = (1 << (2*x)) | (1 << (2*x + 1))
+        local val = ((row & mask) >> 2*x) & 0x3
         if val > 0 then
-            val = 0xFF
+            if (val == 1) then
+                val = 0xFF
+            elseif (val == 2) then
+                val = 0x4
+            end
         else
             val = 0x0
         end
