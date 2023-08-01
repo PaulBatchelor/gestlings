@@ -32,6 +32,24 @@ function Asset:new(o)
     return o
 end
 #+END_SRC
+* Instantiate
+The =instantiate= function
+is a helper function that shaves off a few steps and
+turns this process into a one-liner.
+
+Asset is instantiated by first loading this module, laoding
+the base64/msgpack components, then creating a single
+instance with the =new= method.
+
+#+NAME: asset
+#+BEGIN_SRC lua
+function Asset.instantiate()
+    return Asset:new {
+        msgpack=dofile("util/MessagePack.lua"),
+        base64=dofile("util/base64.lua")
+    }
+end
+#+END_SRC
 * Save: Save an asset to a file
 #+NAME: asset
 #+BEGIN_SRC lua
