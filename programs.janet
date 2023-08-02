@@ -228,6 +228,9 @@
  @{
  :id 32
  :org "levels/gestleton/gestleton_mapgen.org"
- :tangled @["levels/gestleton/mapgen.lua"]
+ :tangled @[
+    "levels/gestleton/mapgen.lua" 
+    "levels/gestleton/render.lua"
+  ]
  }
 })

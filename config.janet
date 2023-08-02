@@ -55,4 +55,8 @@
     @[["res/klover_proofsheet.png"]
       ["klover/proofsheet.lua"]
       ["klover/klover.lua"]]
+
+    @[["res/gestleton.png"]
+      ["levels/gestleton/render.lua"]
+      ["levels/gestleton/mapgen.lua"]]
 ])

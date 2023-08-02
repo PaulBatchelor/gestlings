@@ -87,7 +87,7 @@ end
 #+END_SRC
 * Render File
 #+NAME: levels/gestling/render.lua
-#+BEGIN_SRC lua :tangle levels/gestling/render.lua
+#+BEGIN_SRC lua :tangle levels/gestleton/render.lua
 gmapgen = require("levels/gestleton/mapgen")
 asset = require("asset/asset")
 asset = asset.instantiate()
@@ -111,6 +111,6 @@ reg = pop()
 
 map = gmapgen:new{asset=asset}
 
-lil("bpverify [grab bp] 552aa1a26dd08755e71bc59421b008cc")
-lilt{"bppng", "[grab bp]", "test.png"}
+map:draw(reg)
+lilt{"bppng", "[grab bp]", "res/gestleton.png"}
 #+END_SRC
