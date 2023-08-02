@@ -45,20 +45,21 @@
       name
       "]]"))))
 
-(defn img [path &opt alt srcset]
-  (print
-   (string
-    "<img src=\""
-    path "\""
-    (if-not (nil? alt) (string " alt=\"" alt "\""))
-    (if-not (nil? srcset)
-      (string "srcset=\"" srcset "\""))
-    ">")))
 
 (defn respath [path]
     (def root 
         (if (ww-server?) "" "/gestlings"))
     (string root path))
+
+(defn img [path &opt alt srcset]
+  (print
+   (string
+    "<img src=\""
+    (respath path) "\""
+    (if-not (nil? alt) (string " alt=\"" alt "\""))
+    (if-not (nil? srcset)
+      (string "srcset=\"" srcset "\""))
+    ">")))
 
 (defn img-link [path link &opt alt]
   (print
