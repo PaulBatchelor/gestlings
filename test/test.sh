@@ -56,6 +56,7 @@ check blipsqueak_hello
 check path_symbol_lookup
 check shapemorf_tubesculpt
 check descript_parser
+check test_gestleton_map
 
 if [ "$NERR" -gt 0 ]
 then
