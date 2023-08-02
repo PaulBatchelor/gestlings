@@ -143,3 +143,34 @@
     " type=\"video/mp4\">"))
   (if-not (nil? fallback) (img (respath fallback) alt))
   (print "</video>"))
+
+(defn imagemap [name portalfile image]
+  (def file (file/open portalfile :r))
+  (def data (json/decode (file/read file :all)))
+  (defn gen-area [area]
+    (string 
+      "<area shape=\"rect\" "
+      "href=\"" (pglink (area "page")) "\" "
+      "coords=\""
+      (string/join
+        [(string (area "x"))
+         (string (area "y"))
+         (string (+ (area "x") (area "w")))
+         (string (+ (area "y") (area "h")))
+         ] ",")
+      "\" "
+      "alt=\"" (area "description") "\" "
+      ">")
+    )
+
+  (print (string "<map name=\"" name "\">"))
+  (each area data (print (gen-area area)))
+  (print "</map>")
+
+  (print
+    (string
+      "<img src=\"" (respath image) "\" "
+      "usemap=\"#" name "\""
+      ">"
+      ))
+  (file/close file))

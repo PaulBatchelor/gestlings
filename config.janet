@@ -56,7 +56,7 @@
       ["klover/proofsheet.lua"]
       ["klover/klover.lua"]]
 
-    @[["res/gestleton.png"]
+    @[["res/gestleton.png" "levels/gestleton/portals.json"]
       ["levels/gestleton/render.lua"]
       ["levels/gestleton/mapgen.lua"]]
 ])

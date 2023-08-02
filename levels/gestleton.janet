@@ -1,8 +1,11 @@
 (defn generate-gestleton-page []
     (string
         "#+TITLE: Gestleton\n"
-        "@!(ref \"upper_rings\")!@.\n"
-        "@!(img \"/res/gestleton.png\")!@\n"))
+        "@!(imagemap"
+        `"gestleton_map"`
+        `"levels/gestleton/portals.json"`
+        `"/res/gestleton.png")!@`
+    ))
 
 (defn generate []
   (ww-open "a.db")

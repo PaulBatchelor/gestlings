@@ -85,12 +85,37 @@ function draw(reg, tilemap, zoom)
     draw_box(reg, tilemap, 4, 4, ncols - 8 - 2, nrows - 8 - 2, zoom)
 end
 #+END_SRC
+* Portals
+Portals, AKA the clickable areas in the map that jump
+to other pages.
+
+#+NAME: gestleton_mapgen
+#+BEGIN_SRC lua
+function GMapGen:portals()
+    nrows = 32
+    ncols = 22
+    scale = self.zoom * 8
+    portals  = {
+        {
+            x = (ncols//2 - 4 - 1)*scale,
+            y = (nrows//2 - 6 - 1)*scale,
+            w = 5*scale,
+            h = 5*scale,
+            description = "just a small box.",
+            page = "upper_rings"
+        }
+    }
+
+    return portals
+end
+#+END_SRC
 * Render File
 #+NAME: levels/gestling/render.lua
 #+BEGIN_SRC lua :tangle levels/gestleton/render.lua
 gmapgen = require("levels/gestleton/mapgen")
 asset = require("asset/asset")
 asset = asset.instantiate()
+json = require("util/json")
 
 function lilt(tab)
     lil(table.concat(tab, " "))
@@ -113,4 +138,10 @@ map = gmapgen:new{asset=asset}
 
 map:draw(reg)
 lilt{"bppng", "[grab bp]", "res/gestleton.png"}
+
+portals = map:portals()
+
+portalfile = io.open("levels/gestleton/portals.json", "w")
+portalfile:write(json.encode(portals))
+portalfile:close()
 #+END_SRC
