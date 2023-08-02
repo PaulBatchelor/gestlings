@@ -1447,3 +1447,15 @@
 2023-08-02 02:34:00	3243353b-52fb-415d-98e9-8fcacdb6bdfe	$duration:>3900
 -	3243353b-52fb-415d-98e9-8fcacdb6bdfe	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	3243353b-52fb-415d-98e9-8fcacdb6bdfe	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
+2023-08-02 17:09:25	7017c66f-b0fc-416f-afe6-31dcea2a5d3b	>mouth design proof of concept
+-	7017c66f-b0fc-416f-afe6-31dcea2a5d3b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-02 17:09:25	7017c66f-b0fc-416f-afe6-31dcea2a5d3b	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-02 17:40:56	e1b5307e-1e61-4b2e-afbd-12f6c766876e	>an idea I've been wanting to try for mouth movement is to use the 2d SDF for a polygon, and then round it.
+-	e1b5307e-1e61-4b2e-afbd-12f6c766876e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e1b5307e-1e61-4b2e-afbd-12f6c766876e	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-02 17:42:21	e270d1bf-377c-4027-9399-c1ab334b4726	>I'll need to add the polygon SDF to mnolth, then maybe bring some experiments over here to the gestlings repo
+-	e270d1bf-377c-4027-9399-c1ab334b4726	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e270d1bf-377c-4027-9399-c1ab334b4726	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-02 19:12:34	2f7357e6-61a1-4abb-8865-9c4c28473f31	$duration:>5625
+-	2f7357e6-61a1-4abb-8865-9c4c28473f31	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	2f7357e6-61a1-4abb-8865-9c4c28473f31	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
