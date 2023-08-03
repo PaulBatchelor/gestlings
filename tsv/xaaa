@@ -1459,3 +1459,18 @@
 2023-08-02 19:12:34	2f7357e6-61a1-4abb-8865-9c4c28473f31	$duration:>5625
 -	2f7357e6-61a1-4abb-8865-9c4c28473f31	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	2f7357e6-61a1-4abb-8865-9c4c28473f31	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-03 02:54:52	d15213ad-dc5c-40db-8731-ade009dbe07f	$duration:>1664
+-	d15213ad-dc5c-40db-8731-ade009dbe07f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d15213ad-dc5c-40db-8731-ade009dbe07f	#e6c08ee3-3c92-405c-b1e4-b685448a6321
+2023-08-03 02:56:40	b0fab942-fa7f-4340-b44d-d3bb2d85b387	>did some brainstorming around this, trying to iron how to best control this. I have this rough notion of using SDFs to draw things for this, but that could use some experiments. in glaslukk
+-	b0fab942-fa7f-4340-b44d-d3bb2d85b387	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b0fab942-fa7f-4340-b44d-d3bb2d85b387	#e6c08ee3-3c92-405c-b1e4-b685448a6321
+2023-08-03 02:58:52	cd67742b-8e9d-4586-9a5e-3f11b60375ae	>polygon + rounding had some interesting results. the quadrilateral case could probably get a surprising amount of usage.
+-	cd67742b-8e9d-4586-9a5e-3f11b60375ae	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	cd67742b-8e9d-4586-9a5e-3f11b60375ae	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-03 02:59:40	5cdb55e2-4dbd-4023-9119-e31434c52f72	>there's apparently a way to do deformations. I wonder how difficult it'd be to deform a circle to make the 'bean' shape as seen in adventure time
+-	5cdb55e2-4dbd-4023-9119-e31434c52f72	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5cdb55e2-4dbd-4023-9119-e31434c52f72	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-03 03:15:08	9afbc613-dc2a-4b3e-a004-f3b673818de6	$duration:>1201
+-	9afbc613-dc2a-4b3e-a004-f3b673818de6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9afbc613-dc2a-4b3e-a004-f3b673818de6	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
