@@ -1484,3 +1484,9 @@
 2023-08-03 15:54:10	fcf9e8e5-ce5f-41fa-88ce-2fb039191b80	$duration:>4589
 -	fcf9e8e5-ce5f-41fa-88ce-2fb039191b80	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	fcf9e8e5-ce5f-41fa-88ce-2fb039191b80	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-03 19:37:39	d162a949-48d8-4a9a-9cbe-7570ab4233db	$duration:>4442
+-	d162a949-48d8-4a9a-9cbe-7570ab4233db	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d162a949-48d8-4a9a-9cbe-7570ab4233db	#06dc830f-e7a9-46a6-82db-aa53c1ca2f6f
+2023-08-03 19:38:34	2527a04c-1a39-48e6-a11b-7fdc602d44cb	>I've got enough of a VM implemented in sdf2d that I think I can start moving it to mnolth, then cantor, in order to start prototyping mouths in C inside gestlings.
+-	2527a04c-1a39-48e6-a11b-7fdc602d44cb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	2527a04c-1a39-48e6-a11b-7fdc602d44cb	#06dc830f-e7a9-46a6-82db-aa53c1ca2f6f
