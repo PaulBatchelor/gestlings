@@ -1474,3 +1474,13 @@
 2023-08-03 03:15:08	9afbc613-dc2a-4b3e-a004-f3b673818de6	$duration:>1201
 -	9afbc613-dc2a-4b3e-a004-f3b673818de6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	9afbc613-dc2a-4b3e-a004-f3b673818de6	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-03 14:35:59	06dc830f-e7a9-46a6-82db-aa53c1ca2f6f	>initial sdf VM
+-	06dc830f-e7a9-46a6-82db-aa53c1ca2f6f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-03 14:35:59	06dc830f-e7a9-46a6-82db-aa53c1ca2f6f	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	06dc830f-e7a9-46a6-82db-aa53c1ca2f6f	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-03 14:37:35	c4ef7a5d-bd50-41ad-abff-39b36b792666	>playing with the SDF library I made, it's making more and more sense to build a little VM abstraction around it. Working on that now.
+-	c4ef7a5d-bd50-41ad-abff-39b36b792666	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c4ef7a5d-bd50-41ad-abff-39b36b792666	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-03 15:54:10	fcf9e8e5-ce5f-41fa-88ce-2fb039191b80	$duration:>4589
+-	fcf9e8e5-ce5f-41fa-88ce-2fb039191b80	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	fcf9e8e5-ce5f-41fa-88ce-2fb039191b80	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
