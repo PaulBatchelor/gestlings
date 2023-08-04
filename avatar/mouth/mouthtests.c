@@ -36,7 +36,6 @@ typedef struct {
 typedef struct thread_userdata thread_userdata;
 
 typedef struct {
-    struct vec3 *buf;
     image_data *data;
     int off;
     void (*draw)(struct vec3 *, struct vec2, thread_userdata *);
@@ -106,8 +105,7 @@ void *draw_thread(void *arg)
     return NULL;
 }
 
-void draw_with_stride(struct vec3 *buf,
-                      struct vec2 res,
+void draw_with_stride(struct vec2 res,
                       struct vec4 region,
                       void (*drawfunc)(struct vec3 *, struct vec2, thread_userdata *),
                       void *ud,
@@ -125,7 +123,6 @@ void draw_with_stride(struct vec3 *buf,
     data.bpreg = bpreg;
 
     for (t = 0; t < US_MAXTHREADS; t++) {
-        td[t].buf = buf;
         td[t].data = &data;
         td[t].off = t;
         td[t].draw = drawfunc;
@@ -139,14 +136,13 @@ void draw_with_stride(struct vec3 *buf,
     }
 }
 
-void draw(struct vec3 *buf,
-          struct vec2 res,
+void draw(struct vec2 res,
           struct vec4 region,
           void (*drawfunc)(struct vec3 *, struct vec2, thread_userdata *),
           void *ud,
           btprnt_region *reg)
 {
-    draw_with_stride(buf, res, region, drawfunc, ud, res.x, reg);
+    draw_with_stride(res, region, drawfunc, ud, res.x, reg);
 }
 
 struct vec3 rgb2color(int r, int g, int b)
@@ -169,7 +165,7 @@ static void d_fill(struct vec3 *fragColor,
 
 static void fill(struct canvas *ctx, struct vec3 clr)
 {
-    draw(NULL, ctx->res,
+    draw(ctx->res,
          svec4(0, 0, ctx->res.x, ctx->res.y),
          d_fill, &clr, ctx->reg);
 }
@@ -244,7 +240,7 @@ void polygon(struct canvas *ctx,
            float w, float h,
            user_params *p)
 {
-    draw(NULL, ctx->res, svec4(x, y, w, h), d_polygon, p, ctx->reg);
+    draw(ctx->res, svec4(x, y, w, h), d_polygon, p, ctx->reg);
 }
 
 int main(int argc, char *argv[])
