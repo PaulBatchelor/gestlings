@@ -118,7 +118,9 @@ void draw_with_stride(struct vec2 res,
 
     data.iResolution = res;
     data.ud = ud;
-    data.region = svec4(bpreg->x, bpreg->y, bpreg->w, bpreg->h);
+    /* data.region = svec4(bpreg->x, bpreg->y, bpreg->w, bpreg->h); */
+    /* I don't think btprnt offsets are needed, that's only for btprnt canvas */
+    data.region = svec4(0, 0, bpreg->w, bpreg->h);
     data.bpreg = bpreg;
 
     for (t = 0; t < US_MAXTHREADS; t++) {
@@ -258,8 +260,8 @@ int main(int argc, char *argv[])
     clrpos = 0;
 
     btprnt_region_init(btprnt_canvas_get(bp),
-                       &reg, 0, 0,
-                       512, 512);
+                       &reg, 128, 128,
+                       256, 256);
     sz = width / 1;
 
     res = svec2(width, height);
