@@ -38,7 +38,6 @@ typedef struct {
     image_data *data;
     int off;
     void (*draw)(float *, struct vec2, thread_userdata *);
-    int stride;
     sdfvm vm;
 } thread_data;
 
@@ -96,7 +95,6 @@ void *draw_thread(void *arg)
 void draw_with_stride(struct vec2 res,
                       void (*drawfunc)(float *, struct vec2, thread_userdata *),
                       void *ud,
-                      int stride,
                       btprnt_region *bpreg)
 {
     thread_data td[US_MAXTHREADS];
@@ -114,7 +112,6 @@ void draw_with_stride(struct vec2 res,
         td[t].data = &data;
         td[t].off = t;
         td[t].draw = drawfunc;
-        td[t].stride = stride;
         sdfvm_init(&td[t].vm);
         pthread_create(&thread[t], NULL, draw_thread, &td[t]);
     }
@@ -129,7 +126,7 @@ void draw(struct vec2 res,
           void *ud,
           btprnt_region *reg)
 {
-    draw_with_stride(res, drawfunc, ud, res.x, reg);
+    draw_with_stride(res, drawfunc, ud, reg);
 }
 
 struct vec3 rgb2color(int r, int g, int b)
