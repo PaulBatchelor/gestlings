@@ -18,7 +18,7 @@
 typedef struct {
     struct vec2 iResolution;
     void *ud;
-    struct vec4 *region;
+    struct vec4 region;
     btprnt_region *bpreg;
 } image_data;
 
@@ -69,7 +69,7 @@ void *draw_thread(void *arg)
     w = data->iResolution.x;
     h = data->iResolution.y;
     stride = td->stride;
-    reg = data->region;
+    reg = &data->region;
 
     bpreg = data->bpreg;
 
@@ -106,7 +106,6 @@ void *draw_thread(void *arg)
 }
 
 void draw_with_stride(struct vec2 res,
-                      struct vec4 region,
                       void (*drawfunc)(struct vec3 *, struct vec2, thread_userdata *),
                       void *ud,
                       int stride,
@@ -119,7 +118,7 @@ void draw_with_stride(struct vec2 res,
 
     data.iResolution = res;
     data.ud = ud;
-    data.region = &region;
+    data.region = svec4(bpreg->x, bpreg->y, bpreg->w, bpreg->h);
     data.bpreg = bpreg;
 
     for (t = 0; t < US_MAXTHREADS; t++) {
@@ -137,12 +136,11 @@ void draw_with_stride(struct vec2 res,
 }
 
 void draw(struct vec2 res,
-          struct vec4 region,
           void (*drawfunc)(struct vec3 *, struct vec2, thread_userdata *),
           void *ud,
           btprnt_region *reg)
 {
-    draw_with_stride(res, region, drawfunc, ud, res.x, reg);
+    draw_with_stride(res, drawfunc, ud, res.x, reg);
 }
 
 struct vec3 rgb2color(int r, int g, int b)
@@ -165,9 +163,7 @@ static void d_fill(struct vec3 *fragColor,
 
 static void fill(struct canvas *ctx, struct vec3 clr)
 {
-    draw(ctx->res,
-         svec4(0, 0, ctx->res.x, ctx->res.y),
-         d_fill, &clr, ctx->reg);
+    draw(ctx->res, d_fill, &clr, ctx->reg);
 }
 
 static void draw_color(sdfvm *vm,
@@ -225,7 +221,7 @@ static void d_polygon(struct vec3 *fragColor,
     id = thud->data;
     vm = &thud->th->vm;
 
-    res = svec2(id->region->z, id->region->w);
+    res = svec2(id->region.z, id->region.w);
     sdfvm_push_vec2(vm, svec2(st.x, st.y));
     sdfvm_push_vec2(vm, res);
     sdfvm_normalize(vm);
@@ -240,7 +236,7 @@ void polygon(struct canvas *ctx,
            float w, float h,
            user_params *p)
 {
-    draw(ctx->res, svec4(x, y, w, h), d_polygon, p, ctx->reg);
+    draw(ctx->res, d_polygon, p, ctx->reg);
 }
 
 int main(int argc, char *argv[])
