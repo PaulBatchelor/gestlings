@@ -38,7 +38,7 @@ typedef struct thread_userdata thread_userdata;
 typedef struct {
     image_data *data;
     int off;
-    void (*draw)(struct vec3 *, struct vec2, thread_userdata *);
+    void (*draw)(float *, struct vec2, thread_userdata *);
     int stride;
     sdfvm vm;
 } thread_data;
@@ -88,16 +88,16 @@ void *draw_thread(void *arg)
     for (y = ystart; y < yend; y+=nthreads) {
         for (x = xstart; x < xend; x++) {
             int pos;
-            struct vec3 c;
+            float c;
             int bit;
             pos = y*stride + x;
 
             if (pos > maxpos || pos < 0) continue;
-            c = svec3_one();
+            c = 1.0;
             td->draw(&c, svec2(x - reg->x, y - reg->y), &thud);
 
             /* flipped because in btprnt 1 is black, 0 white */
-            bit = c.x < 0.5 ? 1 : 0;
+            bit = c < 0.5 ? 1 : 0;
             btprnt_region_draw(bpreg, x, y, bit);
         }
     }
@@ -106,7 +106,7 @@ void *draw_thread(void *arg)
 }
 
 void draw_with_stride(struct vec2 res,
-                      void (*drawfunc)(struct vec3 *, struct vec2, thread_userdata *),
+                      void (*drawfunc)(float *, struct vec2, thread_userdata *),
                       void *ud,
                       int stride,
                       btprnt_region *bpreg)
@@ -138,7 +138,7 @@ void draw_with_stride(struct vec2 res,
 }
 
 void draw(struct vec2 res,
-          void (*drawfunc)(struct vec3 *, struct vec2, thread_userdata *),
+          void (*drawfunc)(float *, struct vec2, thread_userdata *),
           void *ud,
           btprnt_region *reg)
 {
@@ -151,7 +151,7 @@ struct vec3 rgb2color(int r, int g, int b)
     return svec3(r * scale, g * scale, b * scale);
 }
 
-static void d_fill(struct vec3 *fragColor,
+static void d_fill(float *fragColor,
                    struct vec2 fragCoord,
                    thread_userdata *thud)
 {
@@ -160,7 +160,7 @@ static void d_fill(struct vec3 *fragColor,
     id = thud->data;
 
     col = id->ud;
-    *fragColor = *col;
+    *fragColor = col->x;
 }
 
 static void fill(struct canvas *ctx, struct vec3 clr)
@@ -170,11 +170,11 @@ static void fill(struct canvas *ctx, struct vec3 clr)
 
 static void draw_color(sdfvm *vm,
                        struct vec2 p,
-                       struct vec3 *fragColor)
+                       float *fragColor)
 {
     struct vec2 points[4];
     int i;
-    struct vec3 col;
+    float col;
 
     points[0] = svec2(-0.5, 0.5);
     points[1] = svec2(-0.1, -0.5);
@@ -197,21 +197,18 @@ static void draw_color(sdfvm *vm,
     sdfvm_push_scalar(vm, 0.1);
     sdfvm_lerp(vm);
 
-    sdfvm_push_scalar(vm, -1.0);
-    sdfvm_mul(vm);
-
     sdfvm_gtz(vm);
 
-    sdfvm_push_vec3(vm, *fragColor);
-    sdfvm_push_vec3(vm, svec3_zero());
-    sdfvm_lerp3(vm);
+    sdfvm_push_scalar(vm, *fragColor);
+    sdfvm_push_scalar(vm, 0.0);
+    sdfvm_lerp(vm);
 
-    sdfvm_pop_vec3(vm, &col);
+    sdfvm_pop_scalar(vm, &col);
 
     *fragColor = col;
 }
 
-static void d_polygon(struct vec3 *fragColor,
+static void d_polygon(float *fragColor,
                       struct vec2 st,
                       thread_userdata *thud)
 {
