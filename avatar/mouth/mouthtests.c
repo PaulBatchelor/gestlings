@@ -21,10 +21,6 @@ typedef struct {
     btprnt_region *bpreg;
 } image_data;
 
-struct canvas {
-    btprnt_region *reg;
-};
-
 typedef struct {
     sdfvm vm;
 } user_params;
@@ -144,9 +140,9 @@ static void d_fill(float *fragColor,
     *fragColor = col->x;
 }
 
-static void fill(struct canvas *ctx, struct vec3 clr)
+static void fill(btprnt_region *reg, struct vec3 clr)
 {
-    draw(d_fill, &clr, ctx->reg);
+    draw(d_fill, &clr, reg);
 }
 
 static void draw_color(sdfvm *vm,
@@ -211,42 +207,26 @@ static void d_polygon(float *fragColor,
     draw_color(vm, p, fragColor);
 }
 
-void polygon(struct canvas *ctx,
-           float x, float y,
-           float w, float h,
-           user_params *p)
+void polygon(btprnt_region *reg, user_params *p)
 {
-    draw(d_polygon, p, ctx->reg);
+    draw(d_polygon, p, reg);
 }
 
 int main(int argc, char *argv[])
 {
-    int width, height;
-    struct canvas ctx;
-    int sz;
-    int clrpos;
     user_params params;
     btprnt *bp;
     btprnt_region reg;
 
     bp = btprnt_new(512, 512);
 
-    width = 512;
-    height = 512;
-    clrpos = 0;
-
     btprnt_region_init(btprnt_canvas_get(bp),
                        &reg, 128, 128,
                        256, 256);
-    sz = width / 1;
-
-    ctx.reg = &reg;
-
     sdfvm_init(&params.vm);
 
-    fill(&ctx, svec3(1., 1.0, 1.0));
-    polygon(&ctx, 0, 0, sz, sz, &params);
-    clrpos = (clrpos + 1) % 5;
+    fill(&reg, svec3(1., 1.0, 1.0));
+    polygon(&reg, &params);
 
     btprnt_pbm(bp, "out.pbm");
 
