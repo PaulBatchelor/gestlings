@@ -141,9 +141,9 @@ static void fill(btprnt_region *reg, float clr)
     draw(d_fill, &clr, reg);
 }
 
-static void draw_color(sdfvm *vm,
-                       struct vec2 p,
-                       float *fragColor)
+static void mouth1_program(sdfvm *vm,
+                           struct vec2 p,
+                           float *fragColor)
 {
     struct vec2 points[4];
     int i;
@@ -181,9 +181,9 @@ static void draw_color(sdfvm *vm,
     *fragColor = col;
 }
 
-static void d_polygon(float *fragColor,
-                      struct vec2 st,
-                      thread_userdata *thud)
+static void d_mouth1(float *fragColor,
+                     struct vec2 st,
+                     thread_userdata *thud)
 {
     struct vec2 p;
     image_data *id;
@@ -200,27 +200,98 @@ static void d_polygon(float *fragColor,
     sdfvm_pop_vec2(vm, &p);
     p.y = p.y*-1;
 
-    draw_color(vm, p, fragColor);
+    mouth1_program(vm, p, fragColor);
 }
 
-void polygon(btprnt_region *reg)
+void mouth1(btprnt_region *reg)
 {
-    draw(d_polygon, NULL, reg);
+    draw(d_mouth1, NULL, reg);
+}
+
+static void mouth2_program(sdfvm *vm,
+                           struct vec2 p,
+                           float *fragColor)
+{
+    struct vec2 points[4];
+    int i;
+    float col;
+
+    points[0] = svec2(-0.1, 0.5);
+    points[1] = svec2(-0.5, -0.5);
+    points[2] = svec2(0.5, -0.5);
+    points[3] = svec2(0.1, 0.5);
+
+    sdfvm_push_vec2(vm, p);
+
+    for (i = 0; i < 4; i++) {
+        sdfvm_push_vec2(vm, points[i]);
+    }
+
+    sdfvm_poly4(vm);
+    sdfvm_push_scalar(vm, 0.1);
+    sdfvm_roundness(vm);
+
+    sdfvm_push_vec2(vm, p);
+    sdfvm_push_scalar(vm, 0.7);
+    sdfvm_circle(vm);
+    sdfvm_push_scalar(vm, 0.1);
+    sdfvm_lerp(vm);
+
+    sdfvm_gtz(vm);
+
+    sdfvm_push_scalar(vm, *fragColor);
+    sdfvm_push_scalar(vm, 0.0);
+    sdfvm_lerp(vm);
+
+    sdfvm_pop_scalar(vm, &col);
+
+    *fragColor = col;
+}
+
+static void d_mouth2(float *fragColor,
+                     struct vec2 st,
+                     thread_userdata *thud)
+{
+    struct vec2 p;
+    image_data *id;
+    struct vec2 res;
+    sdfvm *vm;
+
+    id = thud->data;
+    vm = &thud->th->vm;
+
+    res = svec2(id->region.z, id->region.w);
+    sdfvm_push_vec2(vm, svec2(st.x, st.y));
+    sdfvm_push_vec2(vm, res);
+    sdfvm_normalize(vm);
+    sdfvm_pop_vec2(vm, &p);
+    p.y = p.y*-1;
+
+    mouth2_program(vm, p, fragColor);
+}
+
+void mouth2(btprnt_region *reg)
+{
+    draw(d_mouth2, NULL, reg);
 }
 
 int main(int argc, char *argv[])
 {
     btprnt *bp;
+    btprnt_region rmain;
     btprnt_region reg;
 
     bp = btprnt_new(512, 512);
 
     btprnt_region_init(btprnt_canvas_get(bp),
-                       &reg, 128, 128,
-                       256, 256);
+                       &rmain, 0, 0,
+                       512, 512);
 
-    fill(&reg, 1.0);
-    polygon(&reg);
+    fill(&rmain, 1.0);
+    btprnt_layout_grid(&rmain, 4, 4, 0, 0, &reg);
+    mouth1(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 0, &reg);
+    mouth2(&reg);
 
     btprnt_pbm(bp, "out.pbm");
 
