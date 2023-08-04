@@ -22,7 +22,6 @@ typedef struct {
 } image_data;
 
 struct canvas {
-    struct vec2 res;
     btprnt_region *reg;
 };
 
@@ -92,8 +91,7 @@ void *draw_thread(void *arg)
     return NULL;
 }
 
-void draw_with_stride(struct vec2 res,
-                      void (*drawfunc)(float *, struct vec2, thread_userdata *),
+void draw_with_stride(void (*drawfunc)(float *, struct vec2, thread_userdata *),
                       void *ud,
                       btprnt_region *bpreg)
 {
@@ -121,12 +119,11 @@ void draw_with_stride(struct vec2 res,
     }
 }
 
-void draw(struct vec2 res,
-          void (*drawfunc)(float *, struct vec2, thread_userdata *),
+void draw(void (*drawfunc)(float *, struct vec2, thread_userdata *),
           void *ud,
           btprnt_region *reg)
 {
-    draw_with_stride(res, drawfunc, ud, reg);
+    draw_with_stride(drawfunc, ud, reg);
 }
 
 struct vec3 rgb2color(int r, int g, int b)
@@ -149,7 +146,7 @@ static void d_fill(float *fragColor,
 
 static void fill(struct canvas *ctx, struct vec3 clr)
 {
-    draw(ctx->res, d_fill, &clr, ctx->reg);
+    draw(d_fill, &clr, ctx->reg);
 }
 
 static void draw_color(sdfvm *vm,
@@ -219,13 +216,12 @@ void polygon(struct canvas *ctx,
            float w, float h,
            user_params *p)
 {
-    draw(ctx->res, d_polygon, p, ctx->reg);
+    draw(d_polygon, p, ctx->reg);
 }
 
 int main(int argc, char *argv[])
 {
     int width, height;
-    struct vec2 res;
     struct canvas ctx;
     int sz;
     int clrpos;
@@ -244,9 +240,6 @@ int main(int argc, char *argv[])
                        256, 256);
     sz = width / 1;
 
-    res = svec2(width, height);
-
-    ctx.res = res;
     ctx.reg = &reg;
 
     sdfvm_init(&params.vm);
