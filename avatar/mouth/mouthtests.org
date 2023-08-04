@@ -1,3 +1,23 @@
+#+TITLE: Mouth Tests
+* Overview
+This is a prototype for a parametrically controlled mouth
+shape.
+
+The mouth shape is created using SDFs. It is composed
+of a round quadrilateral with points and a circle
+blendeded together. Points, rounded edge amount, blend,
+and circle radius are all parametric.
+
+A lot of new things had to be built for this, including
+the "sdfvm" stuff to make it easier to prototype with
+SDFs. There also wasn't any good way to get the SDFs
+rendered into a btprnt region, so code for that exists
+here as well.
+
+@!(img "/res/mouthtests.png")!@
+* Code
+#+NAME: mouthtests.c
+#+BEGIN_SRC c :tangle avatar/mouth/mouthtests.c
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,6 +56,13 @@ struct thread_userdata {
     thread_data *th;
     image_data *data;
 };
+
+typedef struct {
+    struct vec2 points[4];
+    float circleness;
+    float roundedge;
+    float circrad;
+} mouthshape;
 
 void *draw_thread(void *arg)
 {
@@ -140,13 +167,6 @@ static void fill(btprnt_region *reg, float clr)
 {
     draw(d_fill, &clr, reg);
 }
-
-typedef struct {
-    struct vec2 points[4];
-    float circleness;
-    float roundedge;
-    float circrad;
-} mouthshape;
 
 static void mouth1_program(sdfvm *vm,
                            struct vec2 p,
@@ -546,3 +566,4 @@ int main(int argc, char *argv[])
     btprnt_del(&bp);
     return 0;
 }
+#+END_SRC

@@ -1492,7 +1492,7 @@
 -	2527a04c-1a39-48e6-a11b-7fdc602d44cb	#06dc830f-e7a9-46a6-82db-aa53c1ca2f6f
 2023-08-03 19:50:55	9a934013-9390-4d48-8e03-22bf3739e663	>create sdfvm to btprnt region writer
 -	9a934013-9390-4d48-8e03-22bf3739e663	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-03 19:50:55	9a934013-9390-4d48-8e03-22bf3739e663	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-04 18:51:36	9a934013-9390-4d48-8e03-22bf3739e663	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	9a934013-9390-4d48-8e03-22bf3739e663	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
 2023-08-03 19:52:50	19656b32-434d-4bed-bd59-fd918ad140e6	>this should involve reworking the vmdemo example to write to a btprnt region instead of to a buffer. instead of outputing a vec3, just do a scalar and truncate (>0.5 is 1, <0.5 is 0).
 -	19656b32-434d-4bed-bd59-fd918ad140e6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1506,3 +1506,19 @@
 2023-08-04 16:46:14	0fb9f778-7832-41c2-95a3-f1211d8a8791	$duration:>2612
 -	0fb9f778-7832-41c2-95a3-f1211d8a8791	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	0fb9f778-7832-41c2-95a3-f1211d8a8791	#9a934013-9390-4d48-8e03-22bf3739e663
+2023-08-04 18:11:18	c6d5ca80-ec45-4cd2-aba5-f3ce34c18604	>getting close to something workable. I'm thinking I'm just going to get it good enough so that it's convenient to make a chart of various mouth test shapes. If I like how it's being used, I'll port it to mnolth or something.
+-	c6d5ca80-ec45-4cd2-aba5-f3ce34c18604	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c6d5ca80-ec45-4cd2-aba5-f3ce34c18604	#9a934013-9390-4d48-8e03-22bf3739e663
+2023-08-04 18:51:22	7b436ab0-ec74-43fb-88b5-006b2e70333d	>It's now at a place where I can start coding up an initial mouth with some tests
+-	7b436ab0-ec74-43fb-88b5-006b2e70333d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	7b436ab0-ec74-43fb-88b5-006b2e70333d	#9a934013-9390-4d48-8e03-22bf3739e663
+2023-08-04 18:51:23	4a5ee8e5-bd8d-4188-b7c4-6e0e7398ff68	$duration:>2481
+-	4a5ee8e5-bd8d-4188-b7c4-6e0e7398ff68	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4a5ee8e5-bd8d-4188-b7c4-6e0e7398ff68	#9a934013-9390-4d48-8e03-22bf3739e663
+2023-08-04 18:51:55	88b93432-9072-409a-b633-cba352a61f84	>create mouth test sheet
+-	88b93432-9072-409a-b633-cba352a61f84	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-04 18:51:55	88b93432-9072-409a-b633-cba352a61f84	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	88b93432-9072-409a-b633-cba352a61f84	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-04 19:51:47	06db312b-cb72-40d0-a51b-1390aa13b7e4	$duration:>3566
+-	06db312b-cb72-40d0-a51b-1390aa13b7e4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	06db312b-cb72-40d0-a51b-1390aa13b7e4	#88b93432-9072-409a-b633-cba352a61f84
