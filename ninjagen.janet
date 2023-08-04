@@ -109,7 +109,9 @@
     "avatar/mouth/mouthtests"
     @["avatar/mouth/mouthtests"])
 
+# encapsulate this into a function
 (print
  (string
-   "build res/mouthtest.png: asset\n"
-   "\tcommand = ./avatar/mouth/mouthtests $in"))
+    "build res/mouthtests.png: asset avatar/mouth/mouthtests\n"
+    "    command = ./avatar/mouth/mouthtests\n"
+    "    description = asset res/mouthtests.png"))
