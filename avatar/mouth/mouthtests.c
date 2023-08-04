@@ -21,10 +21,6 @@ typedef struct {
     btprnt_region *bpreg;
 } image_data;
 
-typedef struct {
-    sdfvm vm;
-} user_params;
-
 #define US_MAXTHREADS 8
 
 typedef struct thread_userdata thread_userdata;
@@ -133,14 +129,14 @@ static void d_fill(float *fragColor,
                    thread_userdata *thud)
 {
     image_data *id;
-    struct vec3 *col;
+    float *col;
     id = thud->data;
 
     col = id->ud;
-    *fragColor = col->x;
+    *fragColor = *col;
 }
 
-static void fill(btprnt_region *reg, struct vec3 clr)
+static void fill(btprnt_region *reg, float clr)
 {
     draw(d_fill, &clr, reg);
 }
@@ -207,14 +203,13 @@ static void d_polygon(float *fragColor,
     draw_color(vm, p, fragColor);
 }
 
-void polygon(btprnt_region *reg, user_params *p)
+void polygon(btprnt_region *reg)
 {
-    draw(d_polygon, p, reg);
+    draw(d_polygon, NULL, reg);
 }
 
 int main(int argc, char *argv[])
 {
-    user_params params;
     btprnt *bp;
     btprnt_region reg;
 
@@ -223,10 +218,9 @@ int main(int argc, char *argv[])
     btprnt_region_init(btprnt_canvas_get(bp),
                        &reg, 128, 128,
                        256, 256);
-    sdfvm_init(&params.vm);
 
-    fill(&reg, svec3(1., 1.0, 1.0));
-    polygon(&reg, &params);
+    fill(&reg, 1.0);
+    polygon(&reg);
 
     btprnt_pbm(bp, "out.pbm");
 
