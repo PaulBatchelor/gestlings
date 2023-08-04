@@ -1,7 +1,10 @@
 #+TITLE: Mouth Tests
+@!(img "/res/mouthtests.png")!@
 * Overview
 This is a prototype for a parametrically controlled mouth
-shape.
+shape. This program experiments with a few configurations.
+In theory, one could interpolate between all of these
+mouth shapes.
 
 The mouth shape is created using SDFs. It is composed
 of a round quadrilateral with points and a circle
@@ -13,8 +16,6 @@ the "sdfvm" stuff to make it easier to prototype with
 SDFs. There also wasn't any good way to get the SDFs
 rendered into a btprnt region, so code for that exists
 here as well.
-
-@!(img "/res/mouthtests.png")!@
 * Code
 #+NAME: mouthtests.c
 #+BEGIN_SRC c :tangle avatar/mouth/mouthtests.c
@@ -51,6 +52,8 @@ typedef struct {
     void (*draw)(float *, struct vec2, thread_userdata *);
     sdfvm vm;
 } thread_data;
+
+void btprnt_png(btprnt *bp, const char *filename);
 
 struct thread_userdata {
     thread_data *th;
@@ -510,7 +513,11 @@ int main(int argc, char *argv[])
 {
     btprnt *bp;
     btprnt_region rmain;
-    btprnt_region reg;
+    /* NOTE delibrately changed from 'reg' because
+     * & + reg is an HTML escape code (&reg) and there's
+     * no time to fix it in weewiki.
+     */
+    btprnt_region rg;
     int i;
 
     bp = btprnt_new(512, 512);
@@ -520,48 +527,48 @@ int main(int argc, char *argv[])
                        512, 512);
 
     fill(&rmain, 1.0);
-    btprnt_layout_grid(&rmain, 4, 4, 0, 0, &reg);
-    mouth1(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 1, 0, &reg);
-    mouth2(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 2, 0, &reg);
-    mouth1b(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 3, 0, &reg);
-    mouth2b(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 0, 0, &rg);
+    mouth1(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 0, &rg);
+    mouth2(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 0, &rg);
+    mouth1b(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 0, &rg);
+    mouth2b(&rg);
 
-    btprnt_layout_grid(&rmain, 4, 4, 0, 1, &reg);
-    mouth3(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 1, 1, &reg);
-    mouth3b(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 2, 1, &reg);
-    mouth4(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 3, 1, &reg);
-    mouth4b(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 0, 1, &rg);
+    mouth3(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 1, &rg);
+    mouth3b(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 1, &rg);
+    mouth4(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 1, &rg);
+    mouth4b(&rg);
 
-    btprnt_layout_grid(&rmain, 4, 4, 0, 2, &reg);
-    mouth5(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 1, 2, &reg);
-    mouth1c(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 2, 2, &reg);
-    mouth2c(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 3, 2, &reg);
-    mouth6(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 0, 2, &rg);
+    mouth5(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 2, &rg);
+    mouth1c(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 2, &rg);
+    mouth2c(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 2, &rg);
+    mouth6(&rg);
 
-    btprnt_layout_grid(&rmain, 4, 4, 0, 3, &reg);
-    mouth7(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 1, 3, &reg);
-    mouth7b(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 2, 3, &reg);
-    mouth2d(&reg);
-    btprnt_layout_grid(&rmain, 4, 4, 3, 3, &reg);
-    mouth1d(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 0, 3, &rg);
+    mouth7(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 3, &rg);
+    mouth7b(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 3, &rg);
+    mouth2d(&rg);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 3, &rg);
+    mouth1d(&rg);
 
     for (i = 0; i < 4; i++) {
         btprnt_draw_hline(&rmain, 0, (i + 1)*128, 512, 1);
         btprnt_draw_vline(&rmain, (i + 1)*128, 0, 512, 1);
     }
 
-    btprnt_pbm(bp, "out.pbm");
+    btprnt_png(bp, "res/mouthtests.png");
 
     btprnt_del(&bp);
     return 0;

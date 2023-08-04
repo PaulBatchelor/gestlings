@@ -58,6 +58,17 @@
       (string/join
         (map (fn [x] (string x ".o")) obj) " "))))
 
+(defn build-program [program obj]
+  (each o obj
+    (print
+      (string/format
+        "build %s.o: cc %s.c" o o)))
+  (print
+    (string
+      "build " program ": link "
+      (string/join
+        (map (fn [x] (string x ".o")) obj) " "))))
+
 (each a args
   (if (= a "monome") (set use-monome true)))
 
@@ -93,3 +104,12 @@
   (if (= (length a) 2)
       (asset (a 0) (a 1))
       (asset (a 0) (a 1) (a 2))))
+
+(build-program
+    "avatar/mouth/mouthtests"
+    @["avatar/mouth/mouthtests"])
+
+(print
+ (string
+   "build res/mouthtest.png: asset\n"
+   "\tcommand = ./avatar/mouth/mouthtests $in"))

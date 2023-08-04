@@ -233,4 +233,12 @@
     "levels/gestleton/render.lua"
   ]
  }
+
+ "mouthtests"
+ @{
+ :id 33
+ :org "avatar/mouth/mouthtests.org"
+ :tangled @["avatar/mouth/mouthtests.c"]
+ :cprogram true
+ }
 })
