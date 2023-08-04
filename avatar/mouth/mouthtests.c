@@ -176,21 +176,18 @@ static void write_ppm(struct vec3 *buf,
     unsigned char *ibuf;
 
     fp = fopen(filename, "w");
-    fprintf(fp, "P6\n%d %d\n%d\n", (int)res.x, (int)res.y, 255);
+    fprintf(fp, "P5\n%d %d\n%d\n", (int)res.x, (int)res.y, 255);
 
-    ibuf = malloc(3 * res.y * res.x * sizeof(unsigned char));
+    ibuf = malloc(res.y * res.x * sizeof(unsigned char));
     for (y = 0; y < res.y; y++) {
         for (x = 0; x < res.x; x++) {
             int pos;
             pos = y * res.x + x;
-
-            ibuf[3*pos] = mkcolor(buf[pos].x);
-            ibuf[3*pos + 1] = mkcolor(buf[pos].y);
-            ibuf[3*pos + 2] = mkcolor(buf[pos].z);
+            ibuf[pos] = mkcolor(buf[pos].x);
         }
     }
 
-    fwrite(ibuf, 3 * res.y * res.x * sizeof(unsigned char), 1, fp);
+    fwrite(ibuf, res.y * res.x * sizeof(unsigned char), 1, fp);
     free(ibuf);
     fclose(fp);
 }
@@ -332,7 +329,7 @@ int main(int argc, char *argv[])
     polygon(&ctx, 0, 0, sz, sz, &params);
     clrpos = (clrpos + 1) % 5;
 
-    write_ppm(buf, res, "mouthtests.ppm");
+    write_ppm(buf, res, "mouthtests.pgm");
 
     free(buf);
     return 0;
