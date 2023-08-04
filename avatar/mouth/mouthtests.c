@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+#include "btprnt/btprnt.h"
+
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
@@ -17,11 +19,13 @@ typedef struct {
     struct vec2 iResolution;
     void *ud;
     struct vec4 *region;
+    btprnt_region *bpreg;
 } image_data;
 
 struct canvas {
     struct vec3 *buf;
     struct vec2 res;
+    btprnt_region *reg;
 };
 
 typedef struct {
@@ -60,6 +64,7 @@ void *draw_thread(void *arg)
     int maxpos;
     struct vec4 *reg;
     thread_userdata thud;
+    btprnt_region *bpreg;
 
     td = arg;
     data = td->data;
@@ -69,6 +74,8 @@ void *draw_thread(void *arg)
     h = data->iResolution.y;
     stride = td->stride;
     reg = data->region;
+
+    bpreg = data->bpreg;
 
     ystart = td->off + reg->y;
     xstart = reg->x;
@@ -86,11 +93,16 @@ void *draw_thread(void *arg)
         for (x = xstart; x < xend; x++) {
             int pos;
             struct vec3 *c;
+            int bit;
             pos = y*stride + x;
 
             if (pos > maxpos || pos < 0) continue;
             c = &buf[pos];
             td->draw(c, svec2(x - reg->x, y - reg->y), &thud);
+
+            /* flipped because in btprnt 1 is black, 0 white */
+            bit = c->x < 0.5 ? 1 : 0;
+            btprnt_region_draw(bpreg, x, y, bit);
         }
     }
 
@@ -102,7 +114,8 @@ void draw_with_stride(struct vec3 *buf,
                       struct vec4 region,
                       void (*drawfunc)(struct vec3 *, struct vec2, thread_userdata *),
                       void *ud,
-                      int stride)
+                      int stride,
+                      btprnt_region *bpreg)
 {
     thread_data td[US_MAXTHREADS];
     pthread_t thread[US_MAXTHREADS];
@@ -112,6 +125,7 @@ void draw_with_stride(struct vec3 *buf,
     data.iResolution = res;
     data.ud = ud;
     data.region = &region;
+    data.bpreg = bpreg;
 
     for (t = 0; t < US_MAXTHREADS; t++) {
         td[t].buf = buf;
@@ -132,9 +146,10 @@ void draw(struct vec3 *buf,
           struct vec2 res,
           struct vec4 region,
           void (*drawfunc)(struct vec3 *, struct vec2, thread_userdata *),
-          void *ud)
+          void *ud,
+          btprnt_region *reg)
 {
-    draw_with_stride(buf, res, region, drawfunc, ud, res.x);
+    draw_with_stride(buf, res, region, drawfunc, ud, res.x, reg);
 }
 
 struct vec3 rgb2color(int r, int g, int b)
@@ -162,9 +177,9 @@ static void d_fill(struct vec3 *fragColor,
 
 static void fill(struct canvas *ctx, struct vec3 clr)
 {
-    draw(ctx->buf, ctx->res, 
-         svec4(0, 0, ctx->res.x, ctx->res.y), 
-         d_fill, &clr);
+    draw(ctx->buf, ctx->res,
+         svec4(0, 0, ctx->res.x, ctx->res.y),
+         d_fill, &clr, ctx->reg);
 }
 
 static void write_ppm(struct vec3 *buf,
@@ -289,7 +304,7 @@ void polygon(struct canvas *ctx,
            float w, float h,
            user_params *p)
 {
-    draw(ctx->buf, ctx->res, svec4(x, y, w, h), d_polygon, p);
+    draw(ctx->buf, ctx->res, svec4(x, y, w, h), d_polygon, p, ctx->reg);
 }
 
 int main(int argc, char *argv[])
@@ -301,19 +316,18 @@ int main(int argc, char *argv[])
     int sz;
     int clrpos;
     user_params params;
+    btprnt *bp;
+    btprnt_region reg;
 
-    /* rainbow colors:
-     * Red: 255, 179, 186
-     * Orange: 255, 223, 186
-     * Yellow: 255, 255, 186
-     * Green: 186, 255, 201
-     * Blue: 186, 225, 255
-     */
+    bp = btprnt_new(512, 512);
 
     width = 512;
     height = 512;
     clrpos = 0;
 
+    btprnt_region_init(btprnt_canvas_get(bp),
+                       &reg, 0, 0,
+                       512, 512);
     sz = width / 1;
 
     res = svec2(width, height);
@@ -322,6 +336,7 @@ int main(int argc, char *argv[])
 
     ctx.res = res;
     ctx.buf = buf;
+    ctx.reg = &reg;
 
     sdfvm_init(&params.vm);
 
@@ -331,6 +346,9 @@ int main(int argc, char *argv[])
 
     write_ppm(buf, res, "mouthtests.pgm");
 
+    btprnt_pbm(bp, "out.pbm");
+
     free(buf);
+    btprnt_del(&bp);
     return 0;
 }
