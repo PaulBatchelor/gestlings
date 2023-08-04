@@ -141,19 +141,23 @@ static void fill(btprnt_region *reg, float clr)
     draw(d_fill, &clr, reg);
 }
 
+typedef struct {
+    struct vec2 points[4];
+    float circleness;
+    float roundedge;
+    float circrad;
+} mouthshape;
+
 static void mouth1_program(sdfvm *vm,
                            struct vec2 p,
+                           mouthshape *m,
                            float *fragColor)
 {
-    struct vec2 points[4];
+    struct vec2 *points;
     int i;
     float col;
 
-    points[0] = svec2(-0.5, 0.5);
-    points[1] = svec2(-0.1, -0.5);
-    points[2] = svec2(0.1, -0.5);
-    points[3] = svec2(0.5, 0.5);
-
+    points = m->points;
     sdfvm_push_vec2(vm, p);
 
     for (i = 0; i < 4; i++) {
@@ -161,13 +165,13 @@ static void mouth1_program(sdfvm *vm,
     }
 
     sdfvm_poly4(vm);
-    sdfvm_push_scalar(vm, 0.1);
+    sdfvm_push_scalar(vm, m->roundedge);
     sdfvm_roundness(vm);
 
     sdfvm_push_vec2(vm, p);
-    sdfvm_push_scalar(vm, 0.7);
+    sdfvm_push_scalar(vm, m->circrad);
     sdfvm_circle(vm);
-    sdfvm_push_scalar(vm, 0.1);
+    sdfvm_push_scalar(vm, m->circleness);
     sdfvm_lerp(vm);
 
     sdfvm_gtz(vm);
@@ -189,9 +193,12 @@ static void d_mouth1(float *fragColor,
     image_data *id;
     struct vec2 res;
     sdfvm *vm;
+    mouthshape *m;
 
     id = thud->data;
     vm = &thud->th->vm;
+
+    m = id->ud;
 
     res = svec2(id->region.z, id->region.w);
     sdfvm_push_vec2(vm, svec2(st.x, st.y));
@@ -200,79 +207,283 @@ static void d_mouth1(float *fragColor,
     sdfvm_pop_vec2(vm, &p);
     p.y = p.y*-1;
 
-    mouth1_program(vm, p, fragColor);
+    mouth1_program(vm, p, m, fragColor);
 }
 
 void mouth1(btprnt_region *reg)
 {
-    draw(d_mouth1, NULL, reg);
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.1;
+    m.roundedge = 0.1;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.5, 0.5);
+    points[1] = svec2(-0.1, -0.5);
+    points[2] = svec2(0.1, -0.5);
+    points[3] = svec2(0.5, 0.5);
+
+    draw(d_mouth1, &m, reg);
 }
 
-static void mouth2_program(sdfvm *vm,
-                           struct vec2 p,
-                           float *fragColor)
+void mouth2(btprnt_region *reg)
 {
-    struct vec2 points[4];
-    int i;
-    float col;
+    mouthshape m;
+    struct vec2 *points;
 
+    m.circleness = 0.1;
+    m.roundedge = 0.1;
+    m.circrad = 0.7;
+    points = m.points;
     points[0] = svec2(-0.1, 0.5);
     points[1] = svec2(-0.5, -0.5);
     points[2] = svec2(0.5, -0.5);
     points[3] = svec2(0.1, 0.5);
 
-    sdfvm_push_vec2(vm, p);
-
-    for (i = 0; i < 4; i++) {
-        sdfvm_push_vec2(vm, points[i]);
-    }
-
-    sdfvm_poly4(vm);
-    sdfvm_push_scalar(vm, 0.1);
-    sdfvm_roundness(vm);
-
-    sdfvm_push_vec2(vm, p);
-    sdfvm_push_scalar(vm, 0.7);
-    sdfvm_circle(vm);
-    sdfvm_push_scalar(vm, 0.1);
-    sdfvm_lerp(vm);
-
-    sdfvm_gtz(vm);
-
-    sdfvm_push_scalar(vm, *fragColor);
-    sdfvm_push_scalar(vm, 0.0);
-    sdfvm_lerp(vm);
-
-    sdfvm_pop_scalar(vm, &col);
-
-    *fragColor = col;
+    draw(d_mouth1, &m, reg);
 }
 
-static void d_mouth2(float *fragColor,
-                     struct vec2 st,
-                     thread_userdata *thud)
+void mouth1b(btprnt_region *reg)
 {
-    struct vec2 p;
-    image_data *id;
-    struct vec2 res;
-    sdfvm *vm;
+    mouthshape m;
+    struct vec2 *points;
 
-    id = thud->data;
-    vm = &thud->th->vm;
+    m.circleness = 0.8;
+    m.roundedge = 0.1;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.5, 0.5);
+    points[1] = svec2(-0.1, -0.5);
+    points[2] = svec2(0.1, -0.5);
+    points[3] = svec2(0.5, 0.5);
 
-    res = svec2(id->region.z, id->region.w);
-    sdfvm_push_vec2(vm, svec2(st.x, st.y));
-    sdfvm_push_vec2(vm, res);
-    sdfvm_normalize(vm);
-    sdfvm_pop_vec2(vm, &p);
-    p.y = p.y*-1;
-
-    mouth2_program(vm, p, fragColor);
+    draw(d_mouth1, &m, reg);
 }
 
-void mouth2(btprnt_region *reg)
+void mouth2b(btprnt_region *reg)
 {
-    draw(d_mouth2, NULL, reg);
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.8;
+    m.roundedge = 0.1;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.1, 0.5);
+    points[1] = svec2(-0.5, -0.5);
+    points[2] = svec2(0.5, -0.5);
+    points[3] = svec2(0.1, 0.5);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth3(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.0;
+    m.roundedge = 0.08;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.5, 0.02);
+    points[1] = svec2(-0.5, -0.02);
+    points[2] = svec2(0.5, -0.02);
+    points[3] = svec2(0.5, 0.02);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth3b(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.1;
+    m.roundedge = 0.08;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.5, 0.02);
+    points[1] = svec2(-0.5, -0.02);
+    points[2] = svec2(0.5, -0.02);
+    points[3] = svec2(0.5, 0.02);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth4(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.0;
+    m.roundedge = 0.08;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.2, 0.6);
+    points[1] = svec2(-0.02, -0.6);
+    points[2] = svec2(0.02, -0.6);
+    points[3] = svec2(0.2, 0.6);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth4b(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.3;
+    m.roundedge = 0.08;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.2, 0.6);
+    points[1] = svec2(-0.02, -0.6);
+    points[2] = svec2(0.02, -0.6);
+    points[3] = svec2(0.2, 0.6);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth5(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.9;
+    m.roundedge = 0.08;
+    m.circrad = 0.3;
+    points = m.points;
+    points[0] = svec2(-0.5, 0.5);
+    points[1] = svec2(-0.1, -0.5);
+    points[2] = svec2(0.1, -0.5);
+    points[3] = svec2(0.5, 0.5);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth1c(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.0;
+    m.roundedge = 0.0;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.5, 0.5);
+    points[1] = svec2(-0.1, -0.5);
+    points[2] = svec2(0.1, -0.5);
+    points[3] = svec2(0.5, 0.5);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth2c(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.0;
+    m.roundedge = 0.0;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.1, 0.5);
+    points[1] = svec2(-0.5, -0.5);
+    points[2] = svec2(0.5, -0.5);
+    points[3] = svec2(0.1, 0.5);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth6(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.3;
+    m.roundedge = 0.01;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.7, 0.7);
+    points[1] = svec2(-0.4, -0.4);
+    points[2] = svec2(0.4, -0.5);
+    points[3] = svec2(0.5, 0.5);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth7(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+    float shearx;
+
+    shearx = 0.2;
+    m.circleness = 0.1;
+    m.roundedge = 0.05;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.3 + shearx, 0.5);
+    points[1] = svec2(-0.3 - shearx, -0.5);
+    points[2] = svec2(0.3 - shearx, -0.5);
+    points[3] = svec2(0.3 + shearx, 0.5);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth7b(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+    float shearx;
+
+    shearx = 0.5;
+    m.circleness = 0.0;
+    m.roundedge = 0.1;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.3 - shearx, 0.5);
+    points[1] = svec2(-0.3 + shearx, -0.5);
+    points[2] = svec2(0.3 + shearx, -0.5);
+    points[3] = svec2(0.3 - shearx, 0.5);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth2d(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.1;
+    m.roundedge = 0.1;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.1, 0.5);
+    points[1] = svec2(-0.8, 0.3);
+    points[2] = svec2(0.8, 0.3);
+    points[3] = svec2(0.1, 0.5);
+
+    draw(d_mouth1, &m, reg);
+}
+
+void mouth1d(btprnt_region *reg)
+{
+    mouthshape m;
+    struct vec2 *points;
+
+    m.circleness = 0.1;
+    m.roundedge = 0.1;
+    m.circrad = 0.7;
+    points = m.points;
+    points[0] = svec2(-0.8, 0.5);
+    points[1] = svec2(-0.1, 0.3);
+    points[2] = svec2(0.1, 0.3);
+    points[3] = svec2(0.8, 0.5);
+
+    draw(d_mouth1, &m, reg);
 }
 
 int main(int argc, char *argv[])
@@ -280,6 +491,7 @@ int main(int argc, char *argv[])
     btprnt *bp;
     btprnt_region rmain;
     btprnt_region reg;
+    int i;
 
     bp = btprnt_new(512, 512);
 
@@ -292,6 +504,42 @@ int main(int argc, char *argv[])
     mouth1(&reg);
     btprnt_layout_grid(&rmain, 4, 4, 1, 0, &reg);
     mouth2(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 0, &reg);
+    mouth1b(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 0, &reg);
+    mouth2b(&reg);
+
+    btprnt_layout_grid(&rmain, 4, 4, 0, 1, &reg);
+    mouth3(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 1, &reg);
+    mouth3b(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 1, &reg);
+    mouth4(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 1, &reg);
+    mouth4b(&reg);
+
+    btprnt_layout_grid(&rmain, 4, 4, 0, 2, &reg);
+    mouth5(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 2, &reg);
+    mouth1c(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 2, &reg);
+    mouth2c(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 2, &reg);
+    mouth6(&reg);
+
+    btprnt_layout_grid(&rmain, 4, 4, 0, 3, &reg);
+    mouth7(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 3, &reg);
+    mouth7b(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 3, &reg);
+    mouth2d(&reg);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 3, &reg);
+    mouth1d(&reg);
+
+    for (i = 0; i < 4; i++) {
+        btprnt_draw_hline(&rmain, 0, (i + 1)*128, 512, 1);
+        btprnt_draw_vline(&rmain, (i + 1)*128, 0, 512, 1);
+    }
 
     btprnt_pbm(bp, "out.pbm");
 
