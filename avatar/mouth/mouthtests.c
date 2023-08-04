@@ -16,7 +16,6 @@
 #include "sdf2d/sdfvm.h"
 
 typedef struct {
-    struct vec2 iResolution;
     void *ud;
     struct vec4 region;
     btprnt_region *bpreg;
@@ -53,12 +52,9 @@ void *draw_thread(void *arg)
     thread_data *td;
     image_data *data;
     int x, y;
-    int w, h;
-    int stride;
     int nthreads;
     int xstart, ystart;
     int xend, yend;
-    int maxpos;
     struct vec4 *reg;
     thread_userdata thud;
     btprnt_region *bpreg;
@@ -66,9 +62,6 @@ void *draw_thread(void *arg)
     td = arg;
     data = td->data;
 
-    w = data->iResolution.x;
-    h = data->iResolution.y;
-    stride = td->stride;
     reg = &data->region;
 
     bpreg = data->bpreg;
@@ -81,18 +74,13 @@ void *draw_thread(void *arg)
     /* This is hard-coded for now */
     nthreads = US_MAXTHREADS;
 
-    maxpos = w * h;
-
     thud.th = td;
     thud.data = data;
     for (y = ystart; y < yend; y+=nthreads) {
         for (x = xstart; x < xend; x++) {
-            int pos;
             float c;
             int bit;
-            pos = y*stride + x;
 
-            if (pos > maxpos || pos < 0) continue;
             c = 1.0;
             td->draw(&c, svec2(x - reg->x, y - reg->y), &thud);
 
@@ -116,7 +104,6 @@ void draw_with_stride(struct vec2 res,
     int t;
     image_data data;
 
-    data.iResolution = res;
     data.ud = ud;
     /* data.region = svec4(bpreg->x, bpreg->y, bpreg->w, bpreg->h); */
     /* I don't think btprnt offsets are needed, that's only for btprnt canvas */
@@ -240,7 +227,6 @@ void polygon(struct canvas *ctx,
 
 int main(int argc, char *argv[])
 {
-    struct vec3 *buf;
     int width, height;
     struct vec2 res;
     struct canvas ctx;
@@ -263,8 +249,6 @@ int main(int argc, char *argv[])
 
     res = svec2(width, height);
 
-    buf = malloc(width * height * sizeof(struct vec3));
-
     ctx.res = res;
     ctx.reg = &reg;
 
@@ -276,7 +260,6 @@ int main(int argc, char *argv[])
 
     btprnt_pbm(bp, "out.pbm");
 
-    free(buf);
     btprnt_del(&bp);
     return 0;
 }
