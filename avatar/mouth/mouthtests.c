@@ -23,7 +23,6 @@ typedef struct {
 } image_data;
 
 struct canvas {
-    struct vec3 *buf;
     struct vec2 res;
     btprnt_region *reg;
 };
@@ -57,7 +56,6 @@ void *draw_thread(void *arg)
     int x, y;
     int w, h;
     int stride;
-    struct vec3 *buf;
     int nthreads;
     int xstart, ystart;
     int xend, yend;
@@ -68,7 +66,6 @@ void *draw_thread(void *arg)
 
     td = arg;
     data = td->data;
-    buf = td->buf;
 
     w = data->iResolution.x;
     h = data->iResolution.y;
@@ -92,16 +89,16 @@ void *draw_thread(void *arg)
     for (y = ystart; y < yend; y+=nthreads) {
         for (x = xstart; x < xend; x++) {
             int pos;
-            struct vec3 *c;
+            struct vec3 c;
             int bit;
             pos = y*stride + x;
 
             if (pos > maxpos || pos < 0) continue;
-            c = &buf[pos];
-            td->draw(c, svec2(x - reg->x, y - reg->y), &thud);
+            c = svec3_one();
+            td->draw(&c, svec2(x - reg->x, y - reg->y), &thud);
 
             /* flipped because in btprnt 1 is black, 0 white */
-            bit = c->x < 0.5 ? 1 : 0;
+            bit = c.x < 0.5 ? 1 : 0;
             btprnt_region_draw(bpreg, x, y, bit);
         }
     }
@@ -158,11 +155,6 @@ struct vec3 rgb2color(int r, int g, int b)
     return svec3(r * scale, g * scale, b * scale);
 }
 
-static int mkcolor(float x)
-{
-    return floor(x * 255);
-}
-
 static void d_fill(struct vec3 *fragColor,
                    struct vec2 fragCoord,
                    thread_userdata *thud)
@@ -177,63 +169,9 @@ static void d_fill(struct vec3 *fragColor,
 
 static void fill(struct canvas *ctx, struct vec3 clr)
 {
-    draw(ctx->buf, ctx->res,
+    draw(NULL, ctx->res,
          svec4(0, 0, ctx->res.x, ctx->res.y),
          d_fill, &clr, ctx->reg);
-}
-
-static void write_ppm(struct vec3 *buf,
-                      struct vec2 res,
-                      const char *filename)
-{
-    int x, y;
-    FILE *fp;
-    unsigned char *ibuf;
-
-    fp = fopen(filename, "w");
-    fprintf(fp, "P5\n%d %d\n%d\n", (int)res.x, (int)res.y, 255);
-
-    ibuf = malloc(res.y * res.x * sizeof(unsigned char));
-    for (y = 0; y < res.y; y++) {
-        for (x = 0; x < res.x; x++) {
-            int pos;
-            pos = y * res.x + x;
-            ibuf[pos] = mkcolor(buf[pos].x);
-        }
-    }
-
-    fwrite(ibuf, res.y * res.x * sizeof(unsigned char), 1, fp);
-    free(ibuf);
-    fclose(fp);
-}
-
-void draw_gridlines(struct canvas *ctx)
-{
-    int x, y;
-    int w, h;
-    int size;
-
-    w = ctx->res.x;
-    h = ctx->res.y;
-
-    size = w / 4;
-
-    for (y = 0; y < h; y += size) {
-        for (x = 0; x < w; x++) {
-            int pos;
-            pos = y*w + x;
-            ctx->buf[pos] = svec3_zero();
-        }
-    }
-
-    for (x = 0; x < w; x += size) {
-        for (y = 0; y < h; y++) {
-            int pos;
-            pos = y*w + x;
-            ctx->buf[pos] = svec3_zero();
-        }
-    }
-
 }
 
 static void draw_color(sdfvm *vm,
@@ -250,9 +188,11 @@ static void draw_color(sdfvm *vm,
     points[3] = svec2(0.5, 0.5);
 
     sdfvm_push_vec2(vm, p);
+
     for (i = 0; i < 4; i++) {
         sdfvm_push_vec2(vm, points[i]);
     }
+
     sdfvm_poly4(vm);
     sdfvm_push_scalar(vm, 0.1);
     sdfvm_roundness(vm);
@@ -304,7 +244,7 @@ void polygon(struct canvas *ctx,
            float w, float h,
            user_params *p)
 {
-    draw(ctx->buf, ctx->res, svec4(x, y, w, h), d_polygon, p, ctx->reg);
+    draw(NULL, ctx->res, svec4(x, y, w, h), d_polygon, p, ctx->reg);
 }
 
 int main(int argc, char *argv[])
@@ -335,7 +275,6 @@ int main(int argc, char *argv[])
     buf = malloc(width * height * sizeof(struct vec3));
 
     ctx.res = res;
-    ctx.buf = buf;
     ctx.reg = &reg;
 
     sdfvm_init(&params.vm);
@@ -343,8 +282,6 @@ int main(int argc, char *argv[])
     fill(&ctx, svec3(1., 1.0, 1.0));
     polygon(&ctx, 0, 0, sz, sz, &params);
     clrpos = (clrpos + 1) % 5;
-
-    write_ppm(buf, res, "mouthtests.pgm");
 
     btprnt_pbm(bp, "out.pbm");
 
