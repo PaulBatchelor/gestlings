@@ -1307,7 +1307,7 @@
 -	678c7ed6-e706-4730-b6e9-3ce0dac1716c	#b9112609-e5c9-4439-8928-610a78dcc20c
 2023-07-29 01:57:49	e6c08ee3-3c92-405c-b1e4-b685448a6321	>scope out avatar component
 -	e6c08ee3-3c92-405c-b1e4-b685448a6321	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-07-29 01:57:49	e6c08ee3-3c92-405c-b1e4-b685448a6321	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 03:09:17	e6c08ee3-3c92-405c-b1e4-b685448a6321	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-07-29 01:58:51	2b7f2e41-3b05-4954-aac9-1d1a9397573e	>at the of writing, this is the major component with the most unknowns. There's not a lot of time, so I need to make sure this is all feasible.
 -	2b7f2e41-3b05-4954-aac9-1d1a9397573e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	2b7f2e41-3b05-4954-aac9-1d1a9397573e	#e6c08ee3-3c92-405c-b1e4-b685448a6321
@@ -1449,7 +1449,7 @@
 -	3243353b-52fb-415d-98e9-8fcacdb6bdfe	#deaeb3b2-11ce-490a-9ddc-cdfa0fb5d72a
 2023-08-02 17:09:25	7017c66f-b0fc-416f-afe6-31dcea2a5d3b	>mouth design proof of concept
 -	7017c66f-b0fc-416f-afe6-31dcea2a5d3b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-02 17:09:25	7017c66f-b0fc-416f-afe6-31dcea2a5d3b	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:45:04	7017c66f-b0fc-416f-afe6-31dcea2a5d3b	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-02 17:40:56	e1b5307e-1e61-4b2e-afbd-12f6c766876e	>an idea I've been wanting to try for mouth movement is to use the 2d SDF for a polygon, and then round it.
 -	e1b5307e-1e61-4b2e-afbd-12f6c766876e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	e1b5307e-1e61-4b2e-afbd-12f6c766876e	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
@@ -1517,7 +1517,7 @@
 -	4a5ee8e5-bd8d-4188-b7c4-6e0e7398ff68	#9a934013-9390-4d48-8e03-22bf3739e663
 2023-08-04 18:51:55	88b93432-9072-409a-b633-cba352a61f84	>create mouth test sheet
 -	88b93432-9072-409a-b633-cba352a61f84	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-04 18:51:55	88b93432-9072-409a-b633-cba352a61f84	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:34:21	88b93432-9072-409a-b633-cba352a61f84	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	88b93432-9072-409a-b633-cba352a61f84	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
 2023-08-04 19:51:47	06db312b-cb72-40d0-a51b-1390aa13b7e4	$duration:>3566
 -	06db312b-cb72-40d0-a51b-1390aa13b7e4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1525,3 +1525,96 @@
 2023-08-04 20:00:00	7acd95d4-0526-49d0-adcc-3aca827127d8	$duration:>900
 -	7acd95d4-0526-49d0-adcc-3aca827127d8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	7acd95d4-0526-49d0-adcc-3aca827127d8	#88b93432-9072-409a-b633-cba352a61f84
+2023-08-05 02:38:19	34d3a9ef-7666-4ff1-9e02-08284b542ae4	>next up: animating the mouth. to get ready for this, it's going to need to be easier to program sdfvm programs in lua, without needing to introduce a bunch of C bindings. Getting a mini bytecode system in place is what I had in mind. A bytecode buffer could populated in Lua using the mnolth buffer interface I wrote, and then sent to sdfvm to be parsed. A register system could be used to efficiently interact with the program.
+-	34d3a9ef-7666-4ff1-9e02-08284b542ae4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	34d3a9ef-7666-4ff1-9e02-08284b542ae4	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-05 02:38:32	e37a2977-4155-408e-9e6d-dc340824ba42	>mouth animation proof of concept
+-	e37a2977-4155-408e-9e6d-dc340824ba42	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 02:38:32	e37a2977-4155-408e-9e6d-dc340824ba42	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:39:05	e37a2977-4155-408e-9e6d-dc340824ba42	$blurb:>results: an animation (no sound) of a mouth, interpolating between at least 2 shapes.
+2023-08-05 02:40:30	1d7742a2-91b8-41e0-9f5a-f890e20c8ba1	>this will nicely set the stage for when I start making other Gestling parts, as the animation done here will be very similar to what is required for those. The mouth animation will evolve to be controlled via gesture instead of through lua code.
+-	1d7742a2-91b8-41e0-9f5a-f890e20c8ba1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1d7742a2-91b8-41e0-9f5a-f890e20c8ba1	#e37a2977-4155-408e-9e6d-dc340824ba42
+2023-08-05 02:40:44	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	>mouth animation with gesture proof of concept
+-	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 02:40:44	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:42:00	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	$blurb:>have an animation that is controlled using gesture. there should be sound for this too.
+2023-08-05 02:43:07	1f4e2c28-300c-45cb-b023-68676f002cd9	>currently thinking there are at least two gestures for mouth control: one that signals open/close, and another for shape.
+-	1f4e2c28-300c-45cb-b023-68676f002cd9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1f4e2c28-300c-45cb-b023-68676f002cd9	#dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288
+2023-08-05 02:43:48	eb645aae-8ae1-4f2b-b030-176822ca8b84	>scoping gesture control to only be functional, mapping sounds to mouth shapes. anything that's related to facial expressions should be relegated somewhere else.
+-	eb645aae-8ae1-4f2b-b030-176822ca8b84	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	eb645aae-8ae1-4f2b-b030-176822ca8b84	#dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288
+2023-08-05 02:44:44	191c01af-b9c7-42c4-8079-bca308bc133c	>a thought on facial expressions: happy/sad faces (curve up/down) can be weights applied to an existing shape. interpolating between the weights smoothly goes between them.
+-	191c01af-b9c7-42c4-8079-bca308bc133c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	191c01af-b9c7-42c4-8079-bca308bc133c	#dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288
+2023-08-05 02:45:59	9e2c585f-d34b-43cf-bc6e-62478b839dff	$duration:>722
+-	9e2c585f-d34b-43cf-bc6e-62478b839dff	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9e2c585f-d34b-43cf-bc6e-62478b839dff	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
+2023-08-05 02:46:35	c6676a27-d931-4d69-b3ef-82c67e55c1df	>work out initial eye designs
+-	c6676a27-d931-4d69-b3ef-82c67e55c1df	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 02:46:35	c6676a27-d931-4d69-b3ef-82c67e55c1df	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:48:10	a13896d6-582e-4839-821d-ad7d2bcbb221	>depending on how far along the drawing pipeline is, include animation? I'm mainly thinking about ways eyes with an iris can look around at things. perhaps this includes eyes getting larger/smaller/thinner/wider too
+-	a13896d6-582e-4839-821d-ad7d2bcbb221	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a13896d6-582e-4839-821d-ad7d2bcbb221	#c6676a27-d931-4d69-b3ef-82c67e55c1df
+2023-08-05 02:49:03	ba6ecac3-0392-4fbc-b4b4-afd9a9cca206	>avatar drawing pipeline
+-	ba6ecac3-0392-4fbc-b4b4-afd9a9cca206	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 02:49:03	ba6ecac3-0392-4fbc-b4b4-afd9a9cca206	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	c6676a27-d931-4d69-b3ef-82c67e55c1df	#ba6ecac3-0392-4fbc-b4b4-afd9a9cca206
+2023-08-05 02:50:11	e3517d0d-1c2f-4f0c-9883-fdd208b27875	>work out initial body designs
+-	e3517d0d-1c2f-4f0c-9883-fdd208b27875	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 02:50:11	e3517d0d-1c2f-4f0c-9883-fdd208b27875	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:51:44	e3517d0d-1c2f-4f0c-9883-fdd208b27875	$blurb:>gestlings don't really have 'bodies', in the same way kirby and jigglypuff don't really have bodies. it's really more of a floating head in my mind. no time for limbs. but body is a little less ambiguous than something like 'head'
+-	e3517d0d-1c2f-4f0c-9883-fdd208b27875	#ba6ecac3-0392-4fbc-b4b4-afd9a9cca206
+2023-08-05 02:52:32	e85270e7-5835-42a6-96ed-d24401f3b936	>avatar integration with descript
+-	e85270e7-5835-42a6-96ed-d24401f3b936	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 02:52:32	e85270e7-5835-42a6-96ed-d24401f3b936	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:53:39	e85270e7-5835-42a6-96ed-d24401f3b936	$blurb:>descript should have actions that the avatar should be able to read and turn into facial 'poses' and 'states'. eventually this will end up in a scheduler.
+2023-08-05 02:53:55	8c0ab137-569b-4556-81f2-a0552cae87ca	>scope out scheduler with descript
+-	8c0ab137-569b-4556-81f2-a0552cae87ca	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 02:53:55	8c0ab137-569b-4556-81f2-a0552cae87ca	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:55:01	ea0bec5a-9273-482e-94dd-ac26dddcabcd	>eyes, body, mouth, and sound
+-	ea0bec5a-9273-482e-94dd-ac26dddcabcd	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 02:55:01	ea0bec5a-9273-482e-94dd-ac26dddcabcd	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:56:26	ea0bec5a-9273-482e-94dd-ac26dddcabcd	$blurb:>a placeholder sound should be visualized with a gestling. eyes, mouth, and body should be animated. states should be parsed from a descript file.
+-	ea0bec5a-9273-482e-94dd-ac26dddcabcd	#ba6ecac3-0392-4fbc-b4b4-afd9a9cca206
+2023-08-05 02:56:59	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	>scope out phrasebank
+-	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 02:56:59	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:57:55	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	$blurb:>a 'phrase' is a morpheme sequence with a name, that can be launched alongside a message in a message box.
+2023-08-05 02:58:14	aefc6948-3a75-4354-a9d8-c56dbc47ffff	>the first gestling
+-	aefc6948-3a75-4354-a9d8-c56dbc47ffff	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 02:58:14	aefc6948-3a75-4354-a9d8-c56dbc47ffff	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 02:59:32	aefc6948-3a75-4354-a9d8-c56dbc47ffff	$blurb:>the first official gestling is going to be a full end-to-end video rendering from a descript file. no extra lua code glue. just descript -> video. if we can get here, we have a working gestling creation pipeline.
+2023-08-05 03:00:01	ad50a349-9732-4312-8281-f687fe1c2165	>mouth animation
+-	ad50a349-9732-4312-8281-f687fe1c2165	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 03:00:01	ad50a349-9732-4312-8281-f687fe1c2165	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	e37a2977-4155-408e-9e6d-dc340824ba42	#ad50a349-9732-4312-8281-f687fe1c2165
+-	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	#ad50a349-9732-4312-8281-f687fe1c2165
+2023-08-05 03:01:27	40bf6164-e4a5-4631-8e7d-ead907e5ad5c	>dialogue component
+-	40bf6164-e4a5-4631-8e7d-ead907e5ad5c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 03:01:27	40bf6164-e4a5-4631-8e7d-ead907e5ad5c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 03:01:46	40bf6164-e4a5-4631-8e7d-ead907e5ad5c	$blurb:>high-level task for making the dialogue and message box
+2023-08-05 03:01:58	f2d3c23c-8208-464f-ac88-6254cf0ee215	>speech component
+-	f2d3c23c-8208-464f-ac88-6254cf0ee215	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 03:01:58	f2d3c23c-8208-464f-ac88-6254cf0ee215	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 03:02:38	7e15714c-3a51-4eff-aceb-6cd2c304bf9c	>high leveltask for the speech component, aka the sounds the gestlings make
+-	7e15714c-3a51-4eff-aceb-6cd2c304bf9c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	7e15714c-3a51-4eff-aceb-6cd2c304bf9c	#f2d3c23c-8208-464f-ac88-6254cf0ee215
+2023-08-05 03:03:03	4bdffa88-3838-4962-beb5-c7e8f6ff83e9	>avatar component
+-	4bdffa88-3838-4962-beb5-c7e8f6ff83e9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 03:03:03	4bdffa88-3838-4962-beb5-c7e8f6ff83e9	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 03:03:44	431ff51e-0f9d-4b83-ad62-47efd735e89b	>make TOC for HTMLized agenda
+-	431ff51e-0f9d-4b83-ad62-47efd735e89b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 03:03:44	431ff51e-0f9d-4b83-ad62-47efd735e89b	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	ad50a349-9732-4312-8281-f687fe1c2165	#4bdffa88-3838-4962-beb5-c7e8f6ff83e9
+-	ba6ecac3-0392-4fbc-b4b4-afd9a9cca206	#4bdffa88-3838-4962-beb5-c7e8f6ff83e9
+2023-08-05 03:07:32	da7db2bc-b482-4460-945e-62f7b177086d	>create way to print task tree for specific task
+-	da7db2bc-b482-4460-945e-62f7b177086d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 03:07:32	da7db2bc-b482-4460-945e-62f7b177086d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 03:09:09	02d03d83-bae2-4670-a4f5-6f4b7c14dd26	>massive amount of scoping, including for the avatar component. being able to see progress for tasks is going to be important, so I want to make some meta-pages that just print the tasks for the big components: avatar, dialogue, and speech.
+-	02d03d83-bae2-4670-a4f5-6f4b7c14dd26	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	02d03d83-bae2-4670-a4f5-6f4b7c14dd26	#e6c08ee3-3c92-405c-b1e4-b685448a6321
+2023-08-05 03:11:00	c2158659-e8ab-42ef-9bb2-0e0942d29f5e	$duration:>1497
+-	c2158659-e8ab-42ef-9bb2-0e0942d29f5e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c2158659-e8ab-42ef-9bb2-0e0942d29f5e	#e6c08ee3-3c92-405c-b1e4-b685448a6321
