@@ -1618,3 +1618,26 @@
 2023-08-05 03:11:00	c2158659-e8ab-42ef-9bb2-0e0942d29f5e	$duration:>1497
 -	c2158659-e8ab-42ef-9bb2-0e0942d29f5e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	c2158659-e8ab-42ef-9bb2-0e0942d29f5e	#e6c08ee3-3c92-405c-b1e4-b685448a6321
+2023-08-05 19:06:55	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	>create mouth shape with lua code
+-	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-05 19:06:56	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-05 19:07:18	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	$blurb:>easier said than done, because there is no tooling yet to get this stuff working in Lua.
+-	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	#ad50a349-9732-4312-8281-f687fe1c2165
+2023-08-05 19:07:44	7b8ae105-7a1f-49da-978a-78668bfbfd18	$duration:>151
+-	7b8ae105-7a1f-49da-978a-78668bfbfd18	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	7b8ae105-7a1f-49da-978a-78668bfbfd18	#e37a2977-4155-408e-9e6d-dc340824ba42
+2023-08-05 19:09:18	8860819b-becb-4992-82cd-13e918258346	>the workflow proposed is this: lua generates bytecode, bytecode is written to sndkit buffer, buffer is parsed by sdfvm as a read-only program.
+-	8860819b-becb-4992-82cd-13e918258346	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8860819b-becb-4992-82cd-13e918258346	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
+2023-08-05 19:09:49	9af42590-0307-45b6-86b4-564f323459f3	>I'm also going to need registers, and the ability for lua to set those registers.
+-	9af42590-0307-45b6-86b4-564f323459f3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9af42590-0307-45b6-86b4-564f323459f3	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
+2023-08-05 20:45:20	6a5044b7-ab8b-40d9-b8e9-bc3d2b641246	>initial bytecode generator done. If I generate a pre-generated lookup table for the bytecode symbols, and invent a convenient way to convert lua floats to binary float32 values, I should be in a good place for the the bytecode.
+-	6a5044b7-ab8b-40d9-b8e9-bc3d2b641246	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	6a5044b7-ab8b-40d9-b8e9-bc3d2b641246	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
+2023-08-05 20:48:39	e5cf2245-e8a2-4267-b713-123f5ebc6fbc	>going to rework the mouthtests program yesterday to use the bytecode version of the program instead of the raw calls. that way, it'll be in a better position to port to lua
+-	e5cf2245-e8a2-4267-b713-123f5ebc6fbc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e5cf2245-e8a2-4267-b713-123f5ebc6fbc	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
+2023-08-05 20:53:43	79dba13e-20eb-4bcc-b201-6476706ba3f6	$duration:>6360
+-	79dba13e-20eb-4bcc-b201-6476706ba3f6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	79dba13e-20eb-4bcc-b201-6476706ba3f6	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
