@@ -1661,7 +1661,7 @@
 -	d2096866-205c-45c0-aa89-f0795c691ca4	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
 2023-08-06 04:13:10	829230f9-64e0-4d69-b6b1-2b6af20ac19f	>create samu recipe for generating sdfvm_lookup_table
 -	829230f9-64e0-4d69-b6b1-2b6af20ac19f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-06 19:08:39	829230f9-64e0-4d69-b6b1-2b6af20ac19f	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
+2023-08-06 22:51:36	829230f9-64e0-4d69-b6b1-2b6af20ac19f	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-06 04:13:47	829230f9-64e0-4d69-b6b1-2b6af20ac19f	$blurb:>see avatar/sdfvm_lookup_table.c used to generate sdfvm_lookup_table.json.
 2023-08-06 04:34:41	61a14179-3bee-4878-8bfe-2b650f2cc709	$duration:>3739
 -	61a14179-3bee-4878-8bfe-2b650f2cc709	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1685,3 +1685,6 @@
 2023-08-06 20:06:14	bf3cb845-1a02-4006-aea6-88d97f71d643	$duration:>851
 -	bf3cb845-1a02-4006-aea6-88d97f71d643	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	bf3cb845-1a02-4006-aea6-88d97f71d643	#d8eedcf4-45c4-4ddd-b591-aca001820b61
+2023-08-06 23:08:16	bab0afad-94be-471d-81e4-e3612cdbff7e	$duration:>964
+-	bab0afad-94be-471d-81e4-e3612cdbff7e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	bab0afad-94be-471d-81e4-e3612cdbff7e	#d8eedcf4-45c4-4ddd-b591-aca001820b61
