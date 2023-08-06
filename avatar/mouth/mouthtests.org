@@ -445,212 +445,344 @@ void mouth2b(btprnt_region *reg,
     draw(d_mouth1, &mp, reg);
 }
 
-void mouth3(btprnt_region *reg)
+void mouth3(btprnt_region *reg,
+            sdfvm_stacklet *registers,
+            int nregisters,
+            uint8_t *program,
+            size_t sz)
 {
-    mouthshape m;
+    mouthshape *m;
+    mouth_params mp;
     struct vec2 *points;
 
-    m.circleness = 0.0;
-    m.roundedge = 0.08;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.0;
+    m->roundedge = 0.08;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.5, 0.02);
     points[1] = svec2(-0.5, -0.02);
     points[2] = svec2(0.5, -0.02);
     points[3] = svec2(0.5, 0.02);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth3b(btprnt_region *reg)
+void mouth3b(btprnt_region *reg,
+            sdfvm_stacklet *registers,
+            int nregisters,
+            uint8_t *program,
+            size_t sz)
 {
-    mouthshape m;
+    mouthshape *m;
+    mouth_params mp;
     struct vec2 *points;
 
-    m.circleness = 0.1;
-    m.roundedge = 0.08;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.1;
+    m->roundedge = 0.08;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.5, 0.02);
     points[1] = svec2(-0.5, -0.02);
     points[2] = svec2(0.5, -0.02);
     points[3] = svec2(0.5, 0.02);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth4(btprnt_region *reg)
+void mouth4(btprnt_region *reg,
+            sdfvm_stacklet *registers,
+            int nregisters,
+            uint8_t *program,
+            size_t sz)
 {
-    mouthshape m;
+    mouthshape *m;
+    mouth_params mp;
     struct vec2 *points;
 
-    m.circleness = 0.0;
-    m.roundedge = 0.08;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.0;
+    m->roundedge = 0.08;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.2, 0.6);
     points[1] = svec2(-0.02, -0.6);
     points[2] = svec2(0.02, -0.6);
     points[3] = svec2(0.2, 0.6);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth4b(btprnt_region *reg)
+void mouth4b(btprnt_region *reg,
+             sdfvm_stacklet *registers,
+             int nregisters,
+             uint8_t *program,
+             size_t sz)
 {
-    mouthshape m;
+    mouthshape *m;
+    mouth_params mp;
     struct vec2 *points;
 
-    m.circleness = 0.3;
-    m.roundedge = 0.08;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.3;
+    m->roundedge = 0.08;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.2, 0.6);
     points[1] = svec2(-0.02, -0.6);
     points[2] = svec2(0.02, -0.6);
     points[3] = svec2(0.2, 0.6);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth5(btprnt_region *reg)
+void mouth5(btprnt_region *reg,
+            sdfvm_stacklet *registers,
+            int nregisters,
+            uint8_t *program,
+            size_t sz)
 {
-    mouthshape m;
+    mouthshape *m;
+    mouth_params mp;
     struct vec2 *points;
 
-    m.circleness = 0.9;
-    m.roundedge = 0.08;
-    m.circrad = 0.3;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.9;
+    m->roundedge = 0.08;
+    m->circrad = 0.3;
+    points = m->points;
     points[0] = svec2(-0.5, 0.5);
     points[1] = svec2(-0.1, -0.5);
     points[2] = svec2(0.1, -0.5);
     points[3] = svec2(0.5, 0.5);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth1c(btprnt_region *reg)
+void mouth1c(btprnt_region *reg,
+             sdfvm_stacklet *registers,
+             int nregisters,
+             uint8_t *program,
+             size_t sz)
 {
-    mouthshape m;
+    mouth_params mp;
+    mouthshape *m;
     struct vec2 *points;
 
-    m.circleness = 0.0;
-    m.roundedge = 0.0;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.0;
+    m->roundedge = 0.0;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.5, 0.5);
     points[1] = svec2(-0.1, -0.5);
     points[2] = svec2(0.1, -0.5);
     points[3] = svec2(0.5, 0.5);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth2c(btprnt_region *reg)
+void mouth2c(btprnt_region *reg,
+             sdfvm_stacklet *registers,
+             int nregisters,
+             uint8_t *program,
+             size_t sz)
 {
-    mouthshape m;
+    mouth_params mp;
+    mouthshape *m;
     struct vec2 *points;
 
-    m.circleness = 0.0;
-    m.roundedge = 0.0;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.0;
+    m->roundedge = 0.0;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.1, 0.5);
     points[1] = svec2(-0.5, -0.5);
     points[2] = svec2(0.5, -0.5);
     points[3] = svec2(0.1, 0.5);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth6(btprnt_region *reg)
+void mouth6(btprnt_region *reg,
+            sdfvm_stacklet *registers,
+            int nregisters,
+            uint8_t *program,
+            size_t sz)
 {
-    mouthshape m;
+    mouth_params mp;
+    mouthshape *m;
     struct vec2 *points;
 
-    m.circleness = 0.3;
-    m.roundedge = 0.01;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.3;
+    m->roundedge = 0.01;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.7, 0.7);
     points[1] = svec2(-0.4, -0.4);
     points[2] = svec2(0.4, -0.5);
     points[3] = svec2(0.5, 0.5);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth7(btprnt_region *reg)
+void mouth7(btprnt_region *reg,
+            sdfvm_stacklet *registers,
+            int nregisters,
+            uint8_t *program,
+            size_t sz)
 {
-    mouthshape m;
+    mouth_params mp;
+    mouthshape *m;
     struct vec2 *points;
     float shearx;
 
     shearx = 0.2;
-    m.circleness = 0.1;
-    m.roundedge = 0.05;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.1;
+    m->roundedge = 0.05;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.3 + shearx, 0.5);
     points[1] = svec2(-0.3 - shearx, -0.5);
     points[2] = svec2(0.3 - shearx, -0.5);
     points[3] = svec2(0.3 + shearx, 0.5);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth7b(btprnt_region *reg)
+void mouth7b(btprnt_region *reg,
+             sdfvm_stacklet *registers,
+             int nregisters,
+             uint8_t *program,
+             size_t sz)
 {
-    mouthshape m;
+    mouth_params mp;
+    mouthshape *m;
     struct vec2 *points;
     float shearx;
 
     shearx = 0.5;
-    m.circleness = 0.0;
-    m.roundedge = 0.1;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.0;
+    m->roundedge = 0.1;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.3 - shearx, 0.5);
     points[1] = svec2(-0.3 + shearx, -0.5);
     points[2] = svec2(0.3 + shearx, -0.5);
     points[3] = svec2(0.3 - shearx, 0.5);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth2d(btprnt_region *reg)
+void mouth2d(btprnt_region *reg,
+             sdfvm_stacklet *registers,
+             int nregisters,
+             uint8_t *program,
+             size_t sz)
 {
-    mouthshape m;
+    mouth_params mp;
+    mouthshape *m;
     struct vec2 *points;
 
-    m.circleness = 0.1;
-    m.roundedge = 0.1;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.1;
+    m->roundedge = 0.1;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.1, 0.5);
     points[1] = svec2(-0.8, 0.3);
     points[2] = svec2(0.8, 0.3);
     points[3] = svec2(0.1, 0.5);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
-void mouth1d(btprnt_region *reg)
+void mouth1d(btprnt_region *reg,
+             sdfvm_stacklet *registers,
+             int nregisters,
+             uint8_t *program,
+             size_t sz)
 {
-    mouthshape m;
+    mouth_params mp;
+    mouthshape *m;
     struct vec2 *points;
 
-    m.circleness = 0.1;
-    m.roundedge = 0.1;
-    m.circrad = 0.7;
-    points = m.points;
+    m = &mp.m;
+    m->circleness = 0.1;
+    m->roundedge = 0.1;
+    m->circrad = 0.7;
+    points = m->points;
     points[0] = svec2(-0.8, 0.5);
     points[1] = svec2(-0.1, 0.3);
     points[2] = svec2(0.1, 0.3);
     points[3] = svec2(0.8, 0.5);
 
-    draw(d_mouth1, &m, reg);
+    update_registers(registers, m);
+    mp.registers = registers;
+    mp.nregisters = nregisters;
+    mp.program = program;
+    mp.sz = sz;
+    draw(d_mouth1, &mp, reg);
 }
 
 int main(int argc, char *argv[])
@@ -685,35 +817,33 @@ int main(int argc, char *argv[])
     mouth1b(&rg, registers, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 3, 0, &rg);
     mouth2b(&rg, registers, 16, program, sz);
-#if 0
 
     btprnt_layout_grid(&rmain, 4, 4, 0, 1, &rg);
-    mouth3(&rg);
+    mouth3(&rg, registers, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 1, 1, &rg);
-    mouth3b(&rg);
+    mouth3b(&rg, registers, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 2, 1, &rg);
-    mouth4(&rg);
+    mouth4(&rg, registers, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 3, 1, &rg);
-    mouth4b(&rg);
+    mouth4b(&rg, registers, 16, program, sz);
 
     btprnt_layout_grid(&rmain, 4, 4, 0, 2, &rg);
-    mouth5(&rg);
+    mouth5(&rg, registers, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 1, 2, &rg);
-    mouth1c(&rg);
+    mouth1c(&rg, registers, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 2, 2, &rg);
-    mouth2c(&rg);
+    mouth2c(&rg, registers, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 3, 2, &rg);
-    mouth6(&rg);
+    mouth6(&rg, registers, 16, program, sz);
 
     btprnt_layout_grid(&rmain, 4, 4, 0, 3, &rg);
-    mouth7(&rg);
+    mouth7(&rg, registers, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 1, 3, &rg);
-    mouth7b(&rg);
+    mouth7b(&rg, registers, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 2, 3, &rg);
-    mouth2d(&rg);
+    mouth2d(&rg, registers, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 3, 3, &rg);
-    mouth1d(&rg);
-#endif
+    mouth1d(&rg, registers, 16, program, sz);
 
     for (i = 0; i < 4; i++) {
         btprnt_draw_hline(&rmain, 0, (i + 1)*128, 512, 1);
