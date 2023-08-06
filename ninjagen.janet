@@ -109,9 +109,19 @@
     "avatar/mouth/mouthtests"
     @["avatar/mouth/mouthtests"])
 
-# encapsulate this into a function
+(build-program
+    "avatar/sdfvm_lookup_table"
+    @["avatar/sdfvm_lookup_table"])
+
+# TODO encapsulate these into functions
 (print
  (string
     "build res/mouthtests.png: asset avatar/mouth/mouthtests\n"
     "    command = ./avatar/mouth/mouthtests\n"
     "    description = asset res/mouthtests.png"))
+
+(print
+ (string
+    "build avatar/sdfvm_lookup_table.json: asset avatar/sdfvm_lookup_table\n"
+    "    command = ./avatar/sdfvm_lookup_table\n"
+    "    description = asset avatar/sdfvm_lookup_table.json"))
