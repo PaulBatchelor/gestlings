@@ -1653,3 +1653,23 @@
 2023-08-06 02:24:30	3a3dde13-6494-4419-b88e-89196b0b6671	$duration:>2956
 -	3a3dde13-6494-4419-b88e-89196b0b6671	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	3a3dde13-6494-4419-b88e-89196b0b6671	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
+2023-08-06 03:32:20	009ed27f-4bd4-4577-9f62-800eed79a2ee	$duration:>28
+-	009ed27f-4bd4-4577-9f62-800eed79a2ee	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	009ed27f-4bd4-4577-9f62-800eed79a2ee	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
+2023-08-06 03:33:11	d2096866-205c-45c0-aa89-f0795c691ca4	>the mouthtest program for the first mouth has been reworked to use the program. now I just need to rework the code for the 15 other ones in the demo. doable, but tedious.
+-	d2096866-205c-45c0-aa89-f0795c691ca4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d2096866-205c-45c0-aa89-f0795c691ca4	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
+2023-08-06 04:13:10	829230f9-64e0-4d69-b6b1-2b6af20ac19f	>create samu recipe for generating sdfvm_lookup_table
+-	829230f9-64e0-4d69-b6b1-2b6af20ac19f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-06 04:13:10	829230f9-64e0-4d69-b6b1-2b6af20ac19f	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-06 04:13:47	829230f9-64e0-4d69-b6b1-2b6af20ac19f	$blurb:>see avatar/sdfvm_lookup_table.c used to generate sdfvm_lookup_table.json.
+2023-08-06 04:34:41	61a14179-3bee-4878-8bfe-2b650f2cc709	$duration:>3739
+-	61a14179-3bee-4878-8bfe-2b650f2cc709	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	61a14179-3bee-4878-8bfe-2b650f2cc709	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
+2023-08-06 04:36:49	c8f5618e-216d-4a18-a22a-d5b771244011	>got everything up to a lua script outlining how it could work if it was fully implemented. What's missing is a thing called "bpsdf", this is the btprnt function that draws an SDF program onto a btprnt region.
+-	c8f5618e-216d-4a18-a22a-d5b771244011	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c8f5618e-216d-4a18-a22a-d5b771244011	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
+2023-08-06 04:36:55	d8eedcf4-45c4-4ddd-b591-aca001820b61	>implement bpsdf
+-	d8eedcf4-45c4-4ddd-b591-aca001820b61	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-06 04:36:55	d8eedcf4-45c4-4ddd-b591-aca001820b61	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	d8eedcf4-45c4-4ddd-b591-aca001820b61	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
