@@ -120,6 +120,12 @@ int main(int argc, char *argv[])
 }
 #+END_SRC
 * Structs
+Various structs used in various layers of
+the drawing pipeline.
+
+Some of these might seem a little redundant, as it
+grew out from another program. Might be worth consolidating.
+
 #+NAME: structs
 #+BEGIN_SRC c
 typedef struct {
@@ -130,6 +136,8 @@ typedef struct {
 
 typedef struct thread_userdata thread_userdata;
 
+/* an instance is passed to each pthread */
+/* note that each thread gets their own instance of SDFVM */
 typedef struct {
     image_data *data;
     int off;
@@ -137,11 +145,13 @@ typedef struct {
     sdfvm vm;
 } thread_data;
 
+/* different from thread_data, this gets passed to the draw callback */
 struct thread_userdata {
     thread_data *th;
     image_data *data;
 };
 
+/* parameters for the shape */
 typedef struct {
     struct vec2 points[4];
     float circleness;
@@ -149,6 +159,7 @@ typedef struct {
     float circrad;
 } mouthshape;
 
+/* data passed off to the draw routine */
 typedef struct {
     mouthshape m;
     sdfvm_stacklet *registers;
@@ -158,6 +169,11 @@ typedef struct {
 } mouth_params;
 #+END_SRC
 * Drawing Threadpool
+This drawing routine has been designed to be multithreaded.
+This works by making a threadpool and dividing up the region
+to be shared amongst the threads. Splitting is done on
+row at a time.
+
 #+NAME: drawing_threadpool
 #+BEGIN_SRC c
 void *draw_thread(void *arg)
@@ -242,7 +258,25 @@ void draw(void (*drawfunc)(float *, struct vec2, thread_userdata *),
 }
 #+END_SRC
 * SDFVM bytecode generator
-The 
+The SDF shape is generated using SDFVM, a small stack-based
+virtual machine that makes calls to underlying SDF functions.
+A corresponding bytecode generator is associated with it,
+and it gets generated here.
+
+Originally, this program called the SDF C functions directly.
+Making a small VM was logical next step. SDFs seem to lend
+themselves well to the composability of stack based systems.
+The bytecode generator was added next in the hopes that it'd
+make writing programs in Lua easier without sacrificing
+too much performance (the idea being that calling Lua
+routines in a multi-threaded environment like this one
+just wouldn't work).
+
+The bytecode generator uses serialize floating point
+values into 4-byte values (assumed to be little endian,
+since those are the only systems I work with). This is
+what the =add_float= function does.
+
 #+NAME: bytecode_generator
 #+BEGIN_SRC c
 static int add_float(uint8_t *prog, size_t *ppos, size_t maxsz, float val)
@@ -317,6 +351,16 @@ void generate_program(uint8_t *prog, size_t *sz, size_t maxsz)
 }
 #+END_SRC
 * Mouthshape parameter mapping to SDFVM registers
+The mouthtest program was made before the VM and bytecode
+interpreter existed, so work had to be done to translate
+the mouthshape parameters into SDFVM without needing
+to regenerate the program every time. A read-only register
+system was what I came up with.
+
+This program takes a struct containing all the mouth parameters,
+and then maps them to corresponding registers so they can
+be read from the SDFVM program.
+
 #+NAME: map_to_registers
 #+BEGIN_SRC c
 void update_registers(sdfvm_stacklet *r, mouthshape *m)
@@ -351,6 +395,11 @@ void update_registers(sdfvm_stacklet *r, mouthshape *m)
 }
 #+END_SRC
 * Mouth Drawing Routines
+These are the actual mouth shapes. It's a theme and
+variations. There is a prototypical core mouth program that
+draws the compound SDF shape, and there are a handful of
+parameters that can supplied to this shape. Each mouth shape
+has a slightly different parameter configuration.
 ** Core Mouth Program
 #+NAME: core_mouth_program
 #+BEGIN_SRC c
