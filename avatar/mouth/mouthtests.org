@@ -1,5 +1,6 @@
 #+TITLE: Mouth Tests
 @!(img "/res/mouthtests.png")!@
+@!(tocgen "mouthtests")!@
 * Overview
 This is a prototype for a parametrically controlled mouth
 shape. This program experiments with a few configurations.
@@ -16,7 +17,7 @@ the "sdfvm" stuff to make it easier to prototype with
 SDFs. There also wasn't any good way to get the SDFs
 rendered into a btprnt region, so code for that exists
 here as well.
-* Code
+* Tangled Code
 #+NAME: mouthtests.c
 #+BEGIN_SRC c :tangle avatar/mouth/mouthtests.c
 #include <math.h>
@@ -36,13 +37,96 @@ here as well.
 #define SDF2D_SDFVM_PRIV
 #include "sdf2d/sdfvm.h"
 
+#define US_MAXTHREADS 8
+
+void btprnt_png(btprnt *bp, const char *filename);
+
+<<structs>>
+<<drawing_threadpool>>
+<<bytecode_generator>>
+<<map_to_registers>>
+<<core_mouth_program>>
+<<mouthfuncs>>
+
+int main(int argc, char *argv[])
+{
+    btprnt *bp;
+    btprnt_region rmain;
+    /* NOTE delibrately changed from 'reg' because
+     * & + reg is an HTML escape code (&reg) and there's
+     * no time to fix it in weewiki.
+     */
+    btprnt_region rg;
+    int i;
+    sdfvm_stacklet registers[16];
+    uint8_t *program;
+    size_t sz;
+
+    bp = btprnt_new(512, 512);
+    program = calloc(1, 128);
+
+    sz = 0;
+    generate_program(program, &sz, 128);
+    btprnt_region_init(btprnt_canvas_get(bp),
+                       &rmain, 0, 0,
+                       512, 512);
+
+    btprnt_layout_grid(&rmain, 4, 4, 0, 0, &rg);
+    mouth1(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 0, &rg);
+    mouth2(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 0, &rg);
+    mouth1b(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 0, &rg);
+    mouth2b(&rg, registers, 16, program, sz);
+
+    btprnt_layout_grid(&rmain, 4, 4, 0, 1, &rg);
+    mouth3(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 1, &rg);
+    mouth3b(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 1, &rg);
+    mouth4(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 1, &rg);
+    mouth4b(&rg, registers, 16, program, sz);
+
+    btprnt_layout_grid(&rmain, 4, 4, 0, 2, &rg);
+    mouth5(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 2, &rg);
+    mouth1c(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 2, &rg);
+    mouth2c(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 2, &rg);
+    mouth6(&rg, registers, 16, program, sz);
+
+    btprnt_layout_grid(&rmain, 4, 4, 0, 3, &rg);
+    mouth7(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 1, 3, &rg);
+    mouth7b(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 2, 3, &rg);
+    mouth2d(&rg, registers, 16, program, sz);
+    btprnt_layout_grid(&rmain, 4, 4, 3, 3, &rg);
+    mouth1d(&rg, registers, 16, program, sz);
+
+    for (i = 0; i < 4; i++) {
+        btprnt_draw_hline(&rmain, 0, (i + 1)*128, 512, 1);
+        btprnt_draw_vline(&rmain, (i + 1)*128, 0, 512, 1);
+    }
+
+    btprnt_png(bp, "res/mouthtests.png");
+
+    btprnt_del(&bp);
+    free(program);
+    return 0;
+}
+#+END_SRC
+* Structs
+#+NAME: structs
+#+BEGIN_SRC c
 typedef struct {
     void *ud;
     struct vec4 region;
     btprnt_region *bpreg;
 } image_data;
-
-#define US_MAXTHREADS 8
 
 typedef struct thread_userdata thread_userdata;
 
@@ -52,8 +136,6 @@ typedef struct {
     void (*draw)(float *, struct vec2, thread_userdata *);
     sdfvm vm;
 } thread_data;
-
-void btprnt_png(btprnt *bp, const char *filename);
 
 struct thread_userdata {
     thread_data *th;
@@ -74,7 +156,10 @@ typedef struct {
     const uint8_t *program;
     size_t sz;
 } mouth_params;
-
+#+END_SRC
+* Drawing Threadpool
+#+NAME: drawing_threadpool
+#+BEGIN_SRC c
 void *draw_thread(void *arg)
 {
     thread_data *td;
@@ -155,30 +240,11 @@ void draw(void (*drawfunc)(float *, struct vec2, thread_userdata *),
 {
     draw_with_stride(drawfunc, ud, reg);
 }
-
-struct vec3 rgb2color(int r, int g, int b)
-{
-    float scale = 1.0 / 255;
-    return svec3(r * scale, g * scale, b * scale);
-}
-
-static void d_fill(float *fragColor,
-                   struct vec2 fragCoord,
-                   thread_userdata *thud)
-{
-    image_data *id;
-    float *col;
-    id = thud->data;
-
-    col = id->ud;
-    *fragColor = *col;
-}
-
-static void fill(btprnt_region *reg, float clr)
-{
-    draw(d_fill, &clr, reg);
-}
-
+#+END_SRC
+* SDFVM bytecode generator
+The 
+#+NAME: bytecode_generator
+#+BEGIN_SRC c
 static int add_float(uint8_t *prog, size_t *ppos, size_t maxsz, float val)
 {
     uint8_t fdata[4];
@@ -249,7 +315,10 @@ void generate_program(uint8_t *prog, size_t *sz, size_t maxsz)
 
     *sz = pos;
 }
-
+#+END_SRC
+* Mouthshape parameter mapping to SDFVM registers
+#+NAME: map_to_registers
+#+BEGIN_SRC c
 void update_registers(sdfvm_stacklet *r, mouthshape *m)
 {
     int i;
@@ -280,7 +349,11 @@ void update_registers(sdfvm_stacklet *r, mouthshape *m)
     r[6].type = SDFVM_SCALAR;
     r[6].data.s = m->circrad;
 }
-
+#+END_SRC
+* Mouth Drawing Routines
+** Core Mouth Program
+#+NAME: core_mouth_program
+#+BEGIN_SRC c
 static void mouth1_program(sdfvm *vm,
                            struct vec2 p,
                            mouthshape *m,
@@ -332,7 +405,10 @@ static void d_mouth1(float *fragColor,
         mp->program, mp->sz,
         mp->registers, 16);
 }
-
+#+END_SRC
+** mouth1
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth1(btprnt_region *reg,
             sdfvm_stacklet *registers,
             int nregisters,
@@ -360,7 +436,10 @@ void mouth1(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
-
+#+END_SRC
+** mouth2
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth2(btprnt_region *reg,
             sdfvm_stacklet *registers,
             int nregisters,
@@ -388,7 +467,10 @@ void mouth2(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
-
+#+END_SRC
+** mouth1b
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth1b(btprnt_region *reg,
              sdfvm_stacklet *registers,
              int nregisters,
@@ -416,7 +498,11 @@ void mouth1b(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
+#+END_SRC
 
+** mouth2b
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth2b(btprnt_region *reg,
              sdfvm_stacklet *registers,
              int nregisters,
@@ -444,7 +530,10 @@ void mouth2b(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
-
+#+END_SRC
+** mouth3
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth3(btprnt_region *reg,
             sdfvm_stacklet *registers,
             int nregisters,
@@ -473,6 +562,10 @@ void mouth3(btprnt_region *reg,
     draw(d_mouth1, &mp, reg);
 }
 
+#+END_SRC
+** mouth3b
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth3b(btprnt_region *reg,
             sdfvm_stacklet *registers,
             int nregisters,
@@ -500,7 +593,10 @@ void mouth3b(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
-
+#+END_SRC
+** mouth4
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth4(btprnt_region *reg,
             sdfvm_stacklet *registers,
             int nregisters,
@@ -528,7 +624,10 @@ void mouth4(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
-
+#+END_SRC
+** mouth4b
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth4b(btprnt_region *reg,
              sdfvm_stacklet *registers,
              int nregisters,
@@ -556,7 +655,10 @@ void mouth4b(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
-
+#+END_SRC
+** mouth5
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth5(btprnt_region *reg,
             sdfvm_stacklet *registers,
             int nregisters,
@@ -584,7 +686,10 @@ void mouth5(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
-
+#+END_SRC
+** mouth1c
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth1c(btprnt_region *reg,
              sdfvm_stacklet *registers,
              int nregisters,
@@ -613,6 +718,10 @@ void mouth1c(btprnt_region *reg,
     draw(d_mouth1, &mp, reg);
 }
 
+#+END_SRC
+** mouth2c
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth2c(btprnt_region *reg,
              sdfvm_stacklet *registers,
              int nregisters,
@@ -640,7 +749,10 @@ void mouth2c(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
-
+#+END_SRC
+** mouth6
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth6(btprnt_region *reg,
             sdfvm_stacklet *registers,
             int nregisters,
@@ -669,6 +781,10 @@ void mouth6(btprnt_region *reg,
     draw(d_mouth1, &mp, reg);
 }
 
+#+END_SRC
+** mouth7
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth7(btprnt_region *reg,
             sdfvm_stacklet *registers,
             int nregisters,
@@ -698,7 +814,10 @@ void mouth7(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
-
+#+END_SRC
+** mouth7b
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth7b(btprnt_region *reg,
              sdfvm_stacklet *registers,
              int nregisters,
@@ -728,7 +847,10 @@ void mouth7b(btprnt_region *reg,
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
 }
-
+#+END_SRC
+** mouth2d
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth2d(btprnt_region *reg,
              sdfvm_stacklet *registers,
              int nregisters,
@@ -757,6 +879,10 @@ void mouth2d(btprnt_region *reg,
     draw(d_mouth1, &mp, reg);
 }
 
+#+END_SRC
+** mouth1d
+#+NAME: mouthfuncs
+#+BEGIN_SRC c
 void mouth1d(btprnt_region *reg,
              sdfvm_stacklet *registers,
              int nregisters,
@@ -783,77 +909,5 @@ void mouth1d(btprnt_region *reg,
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
-}
-
-int main(int argc, char *argv[])
-{
-    btprnt *bp;
-    btprnt_region rmain;
-    /* NOTE delibrately changed from 'reg' because
-     * & + reg is an HTML escape code (&reg) and there's
-     * no time to fix it in weewiki.
-     */
-    btprnt_region rg;
-    int i;
-    sdfvm_stacklet registers[16];
-    uint8_t *program;
-    size_t sz;
-
-    bp = btprnt_new(512, 512);
-    program = calloc(1, 128);
-
-    sz = 0;
-    generate_program(program, &sz, 128);
-    btprnt_region_init(btprnt_canvas_get(bp),
-                       &rmain, 0, 0,
-                       512, 512);
-
-    fill(&rmain, 1.0);
-    btprnt_layout_grid(&rmain, 4, 4, 0, 0, &rg);
-    mouth1(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 1, 0, &rg);
-    mouth2(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 2, 0, &rg);
-    mouth1b(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 3, 0, &rg);
-    mouth2b(&rg, registers, 16, program, sz);
-
-    btprnt_layout_grid(&rmain, 4, 4, 0, 1, &rg);
-    mouth3(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 1, 1, &rg);
-    mouth3b(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 2, 1, &rg);
-    mouth4(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 3, 1, &rg);
-    mouth4b(&rg, registers, 16, program, sz);
-
-    btprnt_layout_grid(&rmain, 4, 4, 0, 2, &rg);
-    mouth5(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 1, 2, &rg);
-    mouth1c(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 2, 2, &rg);
-    mouth2c(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 3, 2, &rg);
-    mouth6(&rg, registers, 16, program, sz);
-
-    btprnt_layout_grid(&rmain, 4, 4, 0, 3, &rg);
-    mouth7(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 1, 3, &rg);
-    mouth7b(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 2, 3, &rg);
-    mouth2d(&rg, registers, 16, program, sz);
-    btprnt_layout_grid(&rmain, 4, 4, 3, 3, &rg);
-    mouth1d(&rg, registers, 16, program, sz);
-
-    for (i = 0; i < 4; i++) {
-        btprnt_draw_hline(&rmain, 0, (i + 1)*128, 512, 1);
-        btprnt_draw_vline(&rmain, (i + 1)*128, 0, 512, 1);
-    }
-
-    btprnt_png(bp, "res/mouthtests.png");
-
-    btprnt_del(&bp);
-    free(program);
-    return 0;
 }
 #+END_SRC
