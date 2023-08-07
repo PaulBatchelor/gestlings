@@ -241,4 +241,11 @@
  :tangled @["avatar/mouth/mouthtests.c"]
  :cprogram true
  }
+
+ "sdfvm_mouth"
+ @{
+ :id 34
+ :org "avatar/mouth/sdfvm_mouth.org"
+ :tangled @["avatar/mouth/sdfvm_mouth.lua"]
+ }
 })

@@ -44,6 +44,7 @@ Tasks for Gestlings. Updated automatically using [[/wiki/zetdo][zetdo]].
 (ww-add-page "klover" `@!(wikipage "klover")!@`)
 (ww-add-page "descript" `@!(wikipage "descript")!@`)
 (ww-add-page "mouthtests" `@!(wikipage "mouthtests")!@`)
+(ww-add-page "sdfvm_mouth" `@!(wikipage "sdfvm_mouth")!@`)
 
 # linked pages
 

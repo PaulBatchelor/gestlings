@@ -59,4 +59,8 @@
     @[["res/gestleton.png" "levels/gestleton/portals.json"]
       ["levels/gestleton/render.lua"]
       ["levels/gestleton/mapgen.lua"]]
+
+    @[["res/sdfvm_mouth.png"]
+      ["avatar/mouth/sdfvm_mouth.lua"]
+      []]
 ])
