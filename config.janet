@@ -62,5 +62,5 @@
 
     @[["res/sdfvm_mouth.png"]
       ["avatar/mouth/sdfvm_mouth.lua"]
-      []]
+      ["avatar/sdfvm_lookup_table.json"]]
 ])

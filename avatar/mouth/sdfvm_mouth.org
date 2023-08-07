@@ -32,8 +32,8 @@ vm = pop()
 
 
 function generate_program(syms, program)
-    mnobuf.append(program, syms.point)
-    
+   mnobuf.append(program, syms.point)
+
    for i=1,4 do
        mnobuf.append(program, syms.scalar)
        mnobuf.append_float(program, i - 1)
