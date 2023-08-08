@@ -1620,7 +1620,7 @@
 -	c2158659-e8ab-42ef-9bb2-0e0942d29f5e	#e6c08ee3-3c92-405c-b1e4-b685448a6321
 2023-08-05 19:06:55	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	>create mouth shape with lua code
 -	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-05 19:06:56	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-08 15:20:00	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-05 19:07:18	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	$blurb:>easier said than done, because there is no tooling yet to get this stuff working in Lua.
 -	e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc	#ad50a349-9732-4312-8281-f687fe1c2165
 2023-08-05 19:07:44	7b8ae105-7a1f-49da-978a-78668bfbfd18	$duration:>151
@@ -1671,7 +1671,7 @@
 -	c8f5618e-216d-4a18-a22a-d5b771244011	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
 2023-08-06 04:36:55	d8eedcf4-45c4-4ddd-b591-aca001820b61	>implement bpsdf
 -	d8eedcf4-45c4-4ddd-b591-aca001820b61	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-06 04:36:55	d8eedcf4-45c4-4ddd-b591-aca001820b61	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-08 15:19:51	d8eedcf4-45c4-4ddd-b591-aca001820b61	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	d8eedcf4-45c4-4ddd-b591-aca001820b61	#e2f9df7f-cef5-4b37-9592-a2d2a8e7edcc
 2023-08-06 19:08:30	338965b9-d8d0-4aaf-99b8-28b23b5a894a	$duration:>298
 -	338965b9-d8d0-4aaf-99b8-28b23b5a894a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1711,3 +1711,12 @@
 -	6586c1fb-f66e-43a6-8688-040819b1359c	#d8eedcf4-45c4-4ddd-b591-aca001820b61
 2023-08-07 20:46:08	299387b4-728f-4c9a-83e7-c1c7c6db20f2	>a significant milestile for gestlings graphics: !sdfvm_mouth. There is now something resembling a stack-based shader language for efficiently working with SDFs in Lua.
 -	299387b4-728f-4c9a-83e7-c1c7c6db20f2	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2023-08-08 15:22:53	ccbc9214-680b-4b40-8059-21a1824d569d	$duration:>196
+-	ccbc9214-680b-4b40-8059-21a1824d569d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ccbc9214-680b-4b40-8059-21a1824d569d	#ad50a349-9732-4312-8281-f687fe1c2165
+2023-08-08 16:44:39	e250d8a0-5a6e-4df7-b2b0-8f2ae3c96f43	$duration:>4903
+-	e250d8a0-5a6e-4df7-b2b0-8f2ae3c96f43	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e250d8a0-5a6e-4df7-b2b0-8f2ae3c96f43	#e37a2977-4155-408e-9e6d-dc340824ba42
+2023-08-08 16:45:06	e262adf4-3f35-452f-8764-1251b4a03882	>it works!
+-	e262adf4-3f35-452f-8764-1251b4a03882	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e262adf4-3f35-452f-8764-1251b4a03882	#e37a2977-4155-408e-9e6d-dc340824ba42
