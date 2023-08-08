@@ -248,4 +248,11 @@
  :org "avatar/mouth/sdfvm_mouth.org"
  :tangled @["avatar/mouth/sdfvm_mouth.lua"]
  }
+
+ "mouthanim"
+ @{
+ :id 35
+ :org "avatar/mouth/mouthanim.org"
+ :tangled @["avatar/mouth/mouthanim.lua"]
+ }
 })
