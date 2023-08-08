@@ -1530,7 +1530,7 @@
 -	34d3a9ef-7666-4ff1-9e02-08284b542ae4	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
 2023-08-05 02:38:32	e37a2977-4155-408e-9e6d-dc340824ba42	>mouth animation proof of concept
 -	e37a2977-4155-408e-9e6d-dc340824ba42	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-05 02:38:32	e37a2977-4155-408e-9e6d-dc340824ba42	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-08 18:36:45	e37a2977-4155-408e-9e6d-dc340824ba42	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-05 02:39:05	e37a2977-4155-408e-9e6d-dc340824ba42	$blurb:>results: an animation (no sound) of a mouth, interpolating between at least 2 shapes.
 2023-08-05 02:40:30	1d7742a2-91b8-41e0-9f5a-f890e20c8ba1	>this will nicely set the stage for when I start making other Gestling parts, as the animation done here will be very similar to what is required for those. The mouth animation will evolve to be controlled via gesture instead of through lua code.
 -	1d7742a2-91b8-41e0-9f5a-f890e20c8ba1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1728,3 +1728,14 @@
 -	84b9b822-9105-4db6-9fdc-d54513cab147	#e37a2977-4155-408e-9e6d-dc340824ba42
 2023-08-08 17:18:02	86788620-82e5-4b9a-b654-e2219569476c	>morphing mouths. things are beginning to look like they talk. !mouthanim
 -	86788620-82e5-4b9a-b654-e2219569476c	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2023-08-08 18:37:19	817277a3-b7db-49d3-8f7d-6f7c9b16c57a	>create time breakdown for every task logged
+-	817277a3-b7db-49d3-8f7d-6f7c9b16c57a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-08 19:31:49	817277a3-b7db-49d3-8f7d-6f7c9b16c57a	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
+2023-08-08 18:38:47	f721590e-268d-43ae-9045-9c806dbcb4bc	>I don't really I have time to do this, but I'm indulging myself. There's already a !progress page with daily time spent, but I think it'd be interesting to see it broken down by task name.
+-	f721590e-268d-43ae-9045-9c806dbcb4bc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f721590e-268d-43ae-9045-9c806dbcb4bc	#817277a3-b7db-49d3-8f7d-6f7c9b16c57a
+2023-08-08 19:31:29	125de2f9-6486-428a-945b-2382250c6889	>in my ongoing efforts to better manage and observe time, I've created !tasks, which breaks down the logged hours into the tasks they've been associated with
+-	125de2f9-6486-428a-945b-2382250c6889	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2023-08-08 19:31:36	e8a31d28-08fd-4655-9c41-fd75566807a7	$duration:>3238
+-	e8a31d28-08fd-4655-9c41-fd75566807a7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	e8a31d28-08fd-4655-9c41-fd75566807a7	#817277a3-b7db-49d3-8f7d-6f7c9b16c57a

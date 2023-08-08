@@ -60,6 +60,7 @@ Tasks for Gestlings. Updated automatically using [[/wiki/zetdo][zetdo]].
 (ww-add-link "goblin_snoring" "goblins/snoring.org")
 (ww-add-link "goblin_grumpy" "goblins/grumpy.org")
 (ww-add-link "progress" "progress.org")
+(ww-add-link "tasks" "tasks.org")
 
 # sync and close
 
