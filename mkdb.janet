@@ -46,6 +46,7 @@ Tasks for Gestlings. Updated automatically using [[/wiki/zetdo][zetdo]].
 (ww-add-page "mouthtests" `@!(wikipage "mouthtests")!@`)
 (ww-add-page "sdfvm_mouth" `@!(wikipage "sdfvm_mouth")!@`)
 (ww-add-page "mouthanim" `@!(wikipage "mouthanim")!@`)
+(ww-add-page "mouthsounds" `@!(wikipage "mouthsounds")!@`)
 
 # linked pages
 

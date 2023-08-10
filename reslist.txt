@@ -1,0 +1,7 @@
+res/goblins
+res/klover_proofsheet.png
+res/gestleton.png
+res/mouthtests.png
+res/sdfvm_mouth.png
+res/mouthanim.mp4
+res/mouthsounds.mp4
