@@ -1739,3 +1739,24 @@
 2023-08-08 19:31:36	e8a31d28-08fd-4655-9c41-fd75566807a7	$duration:>3238
 -	e8a31d28-08fd-4655-9c41-fd75566807a7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	e8a31d28-08fd-4655-9c41-fd75566807a7	#817277a3-b7db-49d3-8f7d-6f7c9b16c57a
+2023-08-09 15:11:39	d78d6385-085c-4e51-a9d5-8b48e86f8d7a	>gesture from a gestvm node needs to be retrieved from lua. specifically, the cur/next values, and the interpolation amount. luckily, the logic for extracting the gestvm data into lua is already worked out with =gestvmlast=. However, there is no way in Lua to extract data from it. I'll need to build a lua interface for that.
+-	d78d6385-085c-4e51-a9d5-8b48e86f8d7a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d78d6385-085c-4e51-a9d5-8b48e86f8d7a	#dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288
+2023-08-09 15:24:14	93ffa832-4db1-4787-8be9-1f81a507fd22	>tacked on gestvm_last_values inside of memops. it's going to be a little bit before I can test to see if it actually works. I need to build the sound example. I'm going to use the mantra sound patch I made a few weeks ago as a starting point.
+-	93ffa832-4db1-4787-8be9-1f81a507fd22	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	93ffa832-4db1-4787-8be9-1f81a507fd22	#dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288
+2023-08-09 15:32:33	a3326edf-6e1e-4eb3-accb-bb7827a322c2	>shoot. where did I put this patch?
+-	a3326edf-6e1e-4eb3-accb-bb7827a322c2	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a3326edf-6e1e-4eb3-accb-bb7827a322c2	#dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288
+2023-08-09 15:35:07	3387ccea-5ec6-4853-ac89-fdf0449a6427	>ah, there it is. tubesculpt_shapemorf.lua.
+-	3387ccea-5ec6-4853-ac89-fdf0449a6427	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3387ccea-5ec6-4853-ac89-fdf0449a6427	#dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288
+2023-08-09 16:11:00	7a77de4a-7a69-4858-ba62-5b99a128f592	>having a bit of fun with the sound
+-	7a77de4a-7a69-4858-ba62-5b99a128f592	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	7a77de4a-7a69-4858-ba62-5b99a128f592	#dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288
+2023-08-09 16:15:22	5570671e-fd3e-4258-a8a9-a69cb076f7f0	$duration:>4310
+-	5570671e-fd3e-4258-a8a9-a69cb076f7f0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5570671e-fd3e-4258-a8a9-a69cb076f7f0	#dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288
+2023-08-10 00:53:08	6607faa5-3020-47e3-80f3-95de6a3aaf69	$duration:>3930
+-	6607faa5-3020-47e3-80f3-95de6a3aaf69	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	6607faa5-3020-47e3-80f3-95de6a3aaf69	#dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288
