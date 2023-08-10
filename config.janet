@@ -66,4 +66,7 @@
     @[["res/mouthanim.mp4"]
       ["avatar/mouth/mouthanim.lua"]
       ["avatar/sdfvm_lookup_table.json"]]
+    @[["res/mouthsounds.mp4"]
+      ["avatar/mouth/mouthsounds.lua"]
+      ["avatar/sdfvm_lookup_table.json"]]
 ])

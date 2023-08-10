@@ -1,3 +1,14 @@
+#+TITLE: Mouth Sounds
+Mouth sounds, shapes, and symbols.
+@!(video "/res/mouthsounds.mp4")!@
+
+A culmination of @!(ref "mouthtests")!@,
+@!(ref "sdfvm_mouth")!@, and @!(ref "mouthanim")!@. For
+sounds, some existing shapes for =tubular= were used (see
+=scratch/tubesculpt_shapemorf.lua=).
+
+#+NAME: mouthsounds.lua
+#+BEGIN_SRC lua :tangle avatar/mouth/mouthsounds.lua
 gest = require("gest/gest")
 pprint = require("util/pprint")
 tal = require("tal/tal")
@@ -471,19 +482,6 @@ function mouth_interp(m1, m2, pos)
 
     return newmouth
 end
-function gliss(a)
-    if (a < 0.5) then
-        a = 0
-    else
-        a = a - 0.5
-        if (a < 0) then a  = 0 end
-        a = a / 0.5
-        a = a * a * a
-    end
-
-    return a
-end
-
 
 function draw_shape(shp, square_size, xoff, yoff)
     for c=1,#shp do
@@ -514,7 +512,7 @@ function frame(fs)
     local m1 = mouths[current_mouth]
     local m2 = mouths[next_mouth]
     --local m2 = mouths[current_mouth]
-    local ms = mouth_interp(m1, m2, gliss(pos))
+    local ms = mouth_interp(m1, m2, pos)
     apply_mouth_shape(vm, ms)
     lil("bpfill [bpget [grab bp] 0] 0")
     lil("bpfill [bpget [grab bp] 1] 0")
@@ -558,3 +556,4 @@ gfxmp4 tmp/mouthsounds.h264 tmp/mouthsounds.mp4
 ]])
 --os.execute("ffmpeg -y -i tmp/mouthsounds.mp4 -pix_fmt yuv420p res/mouthsounds.mp4")
 os.execute("ffmpeg -y -i tmp/mouthsounds.mp4 -i tmp/mouthsounds.wav -pix_fmt yuv420p -acodec aac res/mouthsounds.mp4")
+#+END_SRC

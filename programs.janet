@@ -255,4 +255,11 @@
  :org "avatar/mouth/mouthanim.org"
  :tangled @["avatar/mouth/mouthanim.lua"]
  }
+
+ "mouthsounds"
+ @{
+ :id 36
+ :org "avatar/mouth/mouthsounds.org"
+ :tangled @["avatar/mouth/mouthsounds.lua"]
+ }
 })
