@@ -15,6 +15,75 @@ tal = require("tal/tal")
 path = require("path/path")
 json = require("util/json")
 
+<<tract_shapes>>
+<<sounds>>
+
+lil("bpnew bp 256 512")
+lil("gfxnew gfx 256 512")
+lil("bpset [grab bp] 0 0 0 256 256")
+lil("bpset [grab bp] 1 0 256 256 256")
+lil("bufnew buf 256")
+lil("grab buf")
+program = pop()
+lil("sdfvmnew vm")
+lil("grab vm")
+vm = pop()
+
+lil("grab gfx")
+lil("dup")
+lil("gfxopen tmp/mouthsounds.h264")
+
+lil("gfxclrset 1 1.0 1.0 1.0")
+lil("gfxclrset 0 0.0 0.0 0.0")
+lil("drop")
+
+<<mouth_shapes>>
+<<draw_symbols>>
+
+function frame(fs)
+    framenum = fs.framenum
+    if (framenum % 60 == 0) then
+        print(framenum)
+    end
+    lil("compute 15")
+    local current_mouth, next_mouth, pos = gestvm_last_values(fs.gvm)
+    local m1 = mouths[current_mouth]
+    local m2 = mouths[next_mouth]
+    local ms = mouth_interp(m1, m2, pos)
+    apply_mouth_shape(vm, ms)
+    lil("bpfill [bpget [grab bp] 0] 0")
+    lil("bpfill [bpget [grab bp] 1] 0")
+    lil("grab gfx")
+    lil("gfxfill 1")
+    draw_and_animate_symbols(current_mouth, next_mouth, pos)
+    lil("bpsdf [bpget [grab bp] 0] [grab vm] [grab buf]")
+    lil("dup")
+    lil("bptr [grab bp] 0 0 256 256 0 0 0")
+    lil("dup")
+    lil("bptr [grab bp] 0 256 256 256 0 256 0")
+    lil("dup; gfxtransfer; gfxappend")
+end
+frame_state = {
+    pos = 0,
+    framenum = 0,
+    next_mouth = 2,
+    current_mouth = 1,
+    gvm = indice_gesture_node
+}
+for i = 1, 60*45 do
+    frame_state.framenum = i
+    frame(frame_state)
+end
+lil([[
+grab gfx
+gfxclose
+gfxmp4 tmp/mouthsounds.h264 tmp/mouthsounds.mp4
+]])
+os.execute("ffmpeg -y -i tmp/mouthsounds.mp4 -i tmp/mouthsounds.wav -pix_fmt yuv420p -acodec aac res/mouthsounds.mp4")
+#+END_SRC
+* Tract Shapes
+#+NAME: tract_shapes
+#+BEGIN_SRC lua
 lil("shapemorfnew lut shapes/tubesculpt_testshapes.b64")
 lil("grab lut")
 lut = pop()
@@ -91,7 +160,10 @@ tal.jump(words, "vowindices")
 g = gest:new{tal = tal}
 g:create()
 g:compile(words)
-
+#+END_SRC
+* Sounds
+#+NAME: sounds
+#+BEGIN_SRC lua
 signal_setup = {
     "blkset 49",
     "tubularnew 20.0 -1",
@@ -174,34 +246,10 @@ compile_lil_lines(indice_gesture)
 lil("gestvmlast " .. g:get())
 indice_gesture_node = pop()
 compile_lil_lines(program)
-
--- for _, line in pairs(program) do
---     lil(line)
--- end
-
-
-fp = io.open("avatar/sdfvm_lookup_table.json")
-syms = json.decode(fp:read("*all"))
-fp:close()
-
-lil("bpnew bp 256 512")
-lil("gfxnew gfx 256 512")
-lil("bpset [grab bp] 0 0 0 256 256")
-lil("bpset [grab bp] 1 0 256 256 256")
-lil("bufnew buf 256")
-lil("grab buf")
-program = pop()
-lil("sdfvmnew vm")
-lil("grab vm")
-vm = pop()
-
-lil("grab gfx")
-lil("dup")
-lil("gfxopen tmp/mouthsounds.h264")
-
-lil("gfxclrset 1 1.0 1.0 1.0")
-lil("gfxclrset 0 0.0 0.0 0.0")
-lil("drop")
+#+END_SRC
+* Mouth Shapes
+#+NAME: mouth_shapes
+#+BEGIN_SRC lua
 function generate_program(syms, program)
    mnobuf.append(program, syms.point)
 
@@ -236,6 +284,10 @@ function generate_program(syms, program)
    mnobuf.append(program, syms.lerp);
    mnobuf.append(program, syms.gtz);
 end
+fp = io.open("avatar/sdfvm_lookup_table.json")
+syms = json.decode(fp:read("*all"))
+fp:close()
+
 generate_program(syms, program)
 mouth1 = {
     circleness = 0.1,
@@ -433,11 +485,6 @@ mouth1d = {
 
 
 mouths = {
-    -- mouth1, mouth2, mouth1b, mouth2b,
-    -- mouth3, mouth3b, mouth4, mouth4b,
-    -- mouth5, mouth1c, mouth2c, mouth6,
-    -- mouth7, mouth7b, mouth2d, mouth1d
-     
      mouth1, mouth4b, mouth7, mouth1c,
      mouth5, mouth1d, mouth4, mouth4b,
      mouth5, mouth1c, mouth2c, mouth6,
@@ -482,7 +529,10 @@ function mouth_interp(m1, m2, pos)
 
     return newmouth
 end
-
+#+END_SRC
+* Symbols
+#+NAME: draw_symbols
+#+BEGIN_SRC lua
 function draw_shape(shp, square_size, xoff, yoff)
     for c=1,#shp do
         col=string.byte(shp, c)
@@ -501,24 +551,7 @@ function draw_shape(shp, square_size, xoff, yoff)
     end
 end
 
-function frame(fs)
-    framenum = fs.framenum
-    if (framenum % 60 == 0) then
-        print(framenum)
-    end
-    lil("compute 15")
-    local current_mouth, next_mouth, pos = gestvm_last_values(fs.gvm)
-    -- print(current_mouth, next_mouth, pos)
-    local m1 = mouths[current_mouth]
-    local m2 = mouths[next_mouth]
-    --local m2 = mouths[current_mouth]
-    local ms = mouth_interp(m1, m2, pos)
-    apply_mouth_shape(vm, ms)
-    lil("bpfill [bpget [grab bp] 0] 0")
-    lil("bpfill [bpget [grab bp] 1] 0")
-    lil("grab gfx")
-    lil("gfxfill 1")
-
+function draw_and_animate_symbols(current_mouth, next_mouth, pos)
     centerx = (256 // 2) - ((6*16) // 2)
     centery = (256 // 2) - ((4*16) // 2)
     centery_off1 = centery + math.floor((256//2)*pos)
@@ -529,31 +562,5 @@ function frame(fs)
         centerx, centery_off1)
     draw_shape(shapes[next_mouth], squaresz,
         centerx2, centery2)
-
-
-    lil("bpsdf [bpget [grab bp] 0] [grab vm] [grab buf]")
-    lil("dup")
-    lil("bptr [grab bp] 0 0 256 256 0 0 0")
-    lil("dup")
-    lil("bptr [grab bp] 0 256 256 256 0 256 0")
-    lil("dup; gfxtransfer; gfxappend")
 end
-frame_state = {
-    pos = 0,
-    framenum = 0,
-    next_mouth = 2,
-    current_mouth = 1,
-    gvm = indice_gesture_node
-}
-for i = 1, 60*45 do
-    frame_state.framenum = i
-    frame(frame_state)
-end
-lil([[
-grab gfx
-gfxclose
-gfxmp4 tmp/mouthsounds.h264 tmp/mouthsounds.mp4
-]])
---os.execute("ffmpeg -y -i tmp/mouthsounds.mp4 -pix_fmt yuv420p res/mouthsounds.mp4")
-os.execute("ffmpeg -y -i tmp/mouthsounds.mp4 -i tmp/mouthsounds.wav -pix_fmt yuv420p -acodec aac res/mouthsounds.mp4")
 #+END_SRC
