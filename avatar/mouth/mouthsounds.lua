@@ -173,9 +173,10 @@ fp = io.open("avatar/sdfvm_lookup_table.json")
 syms = json.decode(fp:read("*all"))
 fp:close()
 
-lil("bpnew bp 256 256")
-lil("gfxnew gfx 256 256")
+lil("bpnew bp 256 512")
+lil("gfxnew gfx 256 512")
 lil("bpset [grab bp] 0 0 0 256 256")
+lil("bpset [grab bp] 1 0 256 256 256")
 lil("bufnew buf 256")
 lil("grab buf")
 program = pop()
@@ -482,6 +483,26 @@ function gliss(a)
 
     return a
 end
+
+
+function draw_shape(shp, square_size, xoff, yoff)
+    for c=1,#shp do
+        col=string.byte(shp, c)
+        col=tonumber(string.char(col), 16)
+        for row=1,4 do
+            local s = col & (1 << (row -1))
+            if (s > 0) then
+                lil(table.concat({
+                    "bprectf",
+                    "[bpget [grab bp] 1]",
+                    (c - 1)*square_size+xoff, (row - 1)*square_size+yoff,
+                    square_size, square_size, 1
+                }, " "))
+            end
+        end
+    end
+end
+
 function frame(fs)
     framenum = fs.framenum
     if (framenum % 60 == 0) then
@@ -496,11 +517,27 @@ function frame(fs)
     local ms = mouth_interp(m1, m2, gliss(pos))
     apply_mouth_shape(vm, ms)
     lil("bpfill [bpget [grab bp] 0] 0")
+    lil("bpfill [bpget [grab bp] 1] 0")
     lil("grab gfx")
     lil("gfxfill 1")
+
+    centerx = (256 // 2) - ((6*16) // 2)
+    centery = (256 // 2) - ((4*16) // 2)
+    centery_off1 = centery + math.floor((256//2)*pos)
+    squaresz = math.floor(16*pos)
+    centerx2 = (256 // 2) - ((6*squaresz) // 2)
+    centery2 = (256 // 2) - ((4*squaresz) // 2)
+    draw_shape(shapes[current_mouth], 16,
+        centerx, centery_off1)
+    draw_shape(shapes[next_mouth], squaresz,
+        centerx2, centery2)
+
+
     lil("bpsdf [bpget [grab bp] 0] [grab vm] [grab buf]")
     lil("dup")
     lil("bptr [grab bp] 0 0 256 256 0 0 0")
+    lil("dup")
+    lil("bptr [grab bp] 0 256 256 256 0 256 0")
     lil("dup; gfxtransfer; gfxappend")
 end
 frame_state = {
@@ -510,19 +547,9 @@ frame_state = {
     current_mouth = 1,
     gvm = indice_gesture_node
 }
-for i = 1, 60*30 do
+for i = 1, 60*45 do
     frame_state.framenum = i
     frame(frame_state)
-    -- frame_state.pos = frame_state.pos + (1/60)*2
-    -- if frame_state.pos > 1 then
-    --     frame_state.pos = frame_state.pos - 1
-    --     frame_state.current_mouth = frame_state.next_mouth
-    --     frame_state.next_mouth = (frame_state.next_mouth + 1)
-    --     if frame_state.next_mouth > #mouths then
-    --         frame_state.next_mouth = 1
-    --     end
-    --     print(frame_state.next_mouth, frame_state.current_mouth)
-    -- end
 end
 lil([[
 grab gfx
