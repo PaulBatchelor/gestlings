@@ -137,6 +137,14 @@ program = {
     "drop", "dcblocker zz", "mul zz [dblin [scale [regget 2] -16 -13]]",
     "add zz zz",
     "mul zz [dblin -2]",
+
+    -- delay by some frames for latency compensation
+    -- this is tuned by ear/eye, but I'm sure there's
+    -- an actual value
+    table.concat({
+        "vardelay", "zz", 0, 4.0/60.0, 1.0
+    }, " "),
+
     "dup",
     "wavouts zz zz tmp/mouthsounds.wav",
     "unhold [regget 2]",
@@ -314,9 +322,9 @@ mouth4b = {
 }
 
 mouth5 = {
-    circleness = 1.0,
+    circleness = 0.9,
     roundedge = 0.08,
-    circrad = 0.2,
+    circrad = 0.4,
     points = {
         {-0.5, 0.5},
         {-0.1, -0.5},
@@ -413,10 +421,15 @@ mouth1d = {
 
 
 mouths = {
-    mouth1, mouth2, mouth1b, mouth2b,
-    mouth3, mouth3b, mouth4, mouth4b,
-    mouth5, mouth1c, mouth2c, mouth6,
-    mouth7, mouth7b, mouth2d, mouth1d
+    -- mouth1, mouth2, mouth1b, mouth2b,
+    -- mouth3, mouth3b, mouth4, mouth4b,
+    -- mouth5, mouth1c, mouth2c, mouth6,
+    -- mouth7, mouth7b, mouth2d, mouth1d
+     
+     mouth1, mouth4b, mouth7, mouth1c,
+     mouth5, mouth1d, mouth4, mouth4b,
+     mouth5, mouth1c, mouth2c, mouth6,
+     mouth7, mouth7b, mouth2d, mouth1d
 }
 
 function apply_mouth_shape(vm, mouth)
@@ -479,6 +492,7 @@ function frame(fs)
     -- print(current_mouth, next_mouth, pos)
     local m1 = mouths[current_mouth]
     local m2 = mouths[next_mouth]
+    --local m2 = mouths[current_mouth]
     local ms = mouth_interp(m1, m2, gliss(pos))
     apply_mouth_shape(vm, ms)
     lil("bpfill [bpget [grab bp] 0] 0")
@@ -496,7 +510,7 @@ frame_state = {
     current_mouth = 1,
     gvm = indice_gesture_node
 }
-for i = 1, 600  do
+for i = 1, 60*30 do
     frame_state.framenum = i
     frame(frame_state)
     -- frame_state.pos = frame_state.pos + (1/60)*2
@@ -515,4 +529,5 @@ grab gfx
 gfxclose
 gfxmp4 tmp/mouthsounds.h264 tmp/mouthsounds.mp4
 ]])
-os.execute("ffmpeg -y -i tmp/mouthanim.mp4 -pix_fmt yuv420p res/mouthanim.mp4")
+--os.execute("ffmpeg -y -i tmp/mouthsounds.mp4 -pix_fmt yuv420p res/mouthsounds.mp4")
+os.execute("ffmpeg -y -i tmp/mouthsounds.mp4 -i tmp/mouthsounds.wav -pix_fmt yuv420p -acodec aac res/mouthsounds.mp4")
