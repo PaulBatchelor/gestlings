@@ -44,7 +44,7 @@ void btprnt_png(btprnt *bp, const char *filename);
 <<structs>>
 <<drawing_threadpool>>
 <<bytecode_generator>>
-<<map_to_registers>>
+<<map_to_uniforms>>
 <<core_mouth_program>>
 <<mouthfuncs>>
 
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
      */
     btprnt_region rg;
     int i;
-    sdfvm_stacklet registers[16];
+    sdfvm_stacklet uniforms[16];
     uint8_t *program;
     size_t sz;
 
@@ -72,40 +72,40 @@ int main(int argc, char *argv[])
                        512, 512);
 
     btprnt_layout_grid(&rmain, 4, 4, 0, 0, &rg);
-    mouth1(&rg, registers, 16, program, sz);
+    mouth1(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 1, 0, &rg);
-    mouth2(&rg, registers, 16, program, sz);
+    mouth2(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 2, 0, &rg);
-    mouth1b(&rg, registers, 16, program, sz);
+    mouth1b(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 3, 0, &rg);
-    mouth2b(&rg, registers, 16, program, sz);
+    mouth2b(&rg, uniforms, 16, program, sz);
 
     btprnt_layout_grid(&rmain, 4, 4, 0, 1, &rg);
-    mouth3(&rg, registers, 16, program, sz);
+    mouth3(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 1, 1, &rg);
-    mouth3b(&rg, registers, 16, program, sz);
+    mouth3b(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 2, 1, &rg);
-    mouth4(&rg, registers, 16, program, sz);
+    mouth4(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 3, 1, &rg);
-    mouth4b(&rg, registers, 16, program, sz);
+    mouth4b(&rg, uniforms, 16, program, sz);
 
     btprnt_layout_grid(&rmain, 4, 4, 0, 2, &rg);
-    mouth5(&rg, registers, 16, program, sz);
+    mouth5(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 1, 2, &rg);
-    mouth1c(&rg, registers, 16, program, sz);
+    mouth1c(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 2, 2, &rg);
-    mouth2c(&rg, registers, 16, program, sz);
+    mouth2c(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 3, 2, &rg);
-    mouth6(&rg, registers, 16, program, sz);
+    mouth6(&rg, uniforms, 16, program, sz);
 
     btprnt_layout_grid(&rmain, 4, 4, 0, 3, &rg);
-    mouth7(&rg, registers, 16, program, sz);
+    mouth7(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 1, 3, &rg);
-    mouth7b(&rg, registers, 16, program, sz);
+    mouth7b(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 2, 3, &rg);
-    mouth2d(&rg, registers, 16, program, sz);
+    mouth2d(&rg, uniforms, 16, program, sz);
     btprnt_layout_grid(&rmain, 4, 4, 3, 3, &rg);
-    mouth1d(&rg, registers, 16, program, sz);
+    mouth1d(&rg, uniforms, 16, program, sz);
 
     for (i = 0; i < 4; i++) {
         btprnt_draw_hline(&rmain, 0, (i + 1)*128, 512, 1);
@@ -162,8 +162,8 @@ typedef struct {
 /* data passed off to the draw routine */
 typedef struct {
     mouthshape m;
-    sdfvm_stacklet *registers;
-    int nregisters;
+    sdfvm_stacklet *uniforms;
+    int nuniforms;
     const uint8_t *program;
     size_t sz;
 } mouth_params;
@@ -310,14 +310,14 @@ void generate_program(uint8_t *prog, size_t *sz, size_t maxsz)
     for (i = 0; i < 4; i++) {
         prog[pos++] = SDF_OP_SCALAR;
         add_float(prog, &pos, maxsz, i);
-        prog[pos++] = SDF_OP_REGISTER;
+        prog[pos++] = SDF_OP_UNIFORM;
     }
     prog[pos++] = SDF_OP_POLY4;
 
     /* r5: rounded edge amount */
     prog[pos++] = SDF_OP_SCALAR;
     add_float(prog, &pos, maxsz, 5);
-    prog[pos++] = SDF_OP_REGISTER;
+    prog[pos++] = SDF_OP_UNIFORM;
 
     prog[pos++] = SDF_OP_ROUNDNESS;
     prog[pos++] = SDF_OP_POINT;
@@ -325,14 +325,14 @@ void generate_program(uint8_t *prog, size_t *sz, size_t maxsz)
     /* r6: circle radius */
     prog[pos++] = SDF_OP_SCALAR;
     add_float(prog, &pos, maxsz, 6);
-    prog[pos++] = SDF_OP_REGISTER;
+    prog[pos++] = SDF_OP_UNIFORM;
 
     prog[pos++] = SDF_OP_CIRCLE;
 
     /* r4: circleness amount */
     prog[pos++] = SDF_OP_SCALAR;
     add_float(prog, &pos, maxsz, 4);
-    prog[pos++] = SDF_OP_REGISTER;
+    prog[pos++] = SDF_OP_UNIFORM;
 
     prog[pos++] = SDF_OP_LERP;
     prog[pos++] = SDF_OP_SCALAR;
@@ -350,25 +350,25 @@ void generate_program(uint8_t *prog, size_t *sz, size_t maxsz)
     *sz = pos;
 }
 #+END_SRC
-* Mouthshape parameter mapping to SDFVM registers
+* Mouthshape parameter mapping to SDFVM uniforms
 The mouthtest program was made before the VM and bytecode
 interpreter existed, so work had to be done to translate
 the mouthshape parameters into SDFVM without needing
-to regenerate the program every time. A read-only register
+to regenerate the program every time. A read-only uniform
 system was what I came up with.
 
 This program takes a struct containing all the mouth parameters,
-and then maps them to corresponding registers so they can
+and then maps them to corresponding uniforms so they can
 be read from the SDFVM program.
 
-#+NAME: map_to_registers
+#+NAME: map_to_uniforms
 #+BEGIN_SRC c
-void update_registers(sdfvm_stacklet *r, mouthshape *m)
+void update_uniforms(sdfvm_stacklet *r, mouthshape *m)
 {
     int i;
     struct vec2 *points;
 
-    /* initialize registers */
+    /* initialize uniforms */
     for (i = 0; i < 16; i++) {
         r[i].type = SDFVM_SCALAR;
         r[i].data.s = 0.0;
@@ -381,15 +381,15 @@ void update_registers(sdfvm_stacklet *r, mouthshape *m)
         r[i].data.v2 = points[i];
     }
 
-    /* register 4: "circleness" */
+    /* uniform 4: "circleness" */
     r[4].type = SDFVM_SCALAR;
     r[4].data.s = m->circleness;
 
-    /* register 5: "roundedge" */
+    /* uniform 5: "roundedge" */
     r[5].type = SDFVM_SCALAR;
     r[5].data.s = m->roundedge;
 
-    /* register 6: "circrad" */
+    /* uniform 6: "circrad" */
     r[6].type = SDFVM_SCALAR;
     r[6].data.s = m->circrad;
 }
@@ -409,8 +409,8 @@ static void mouth1_program(sdfvm *vm,
                            float *fragColor,
                            const uint8_t *program,
                            size_t sz,
-                           sdfvm_stacklet *registers,
-                           int nregisters)
+                           sdfvm_stacklet *uniforms,
+                           int nuniforms)
 {
     float col;
     struct vec3 gray;
@@ -418,7 +418,7 @@ static void mouth1_program(sdfvm *vm,
     gray = svec3(*fragColor, *fragColor, *fragColor);
     sdfvm_point_set(vm, p);
     sdfvm_color_set(vm, gray);
-    sdfvm_registers(vm, registers, nregisters);
+    sdfvm_uniforms(vm, uniforms, nuniforms);
     sdfvm_execute(vm, program, sz);
     sdfvm_pop_vec3(vm, &gray);
 
@@ -452,15 +452,15 @@ static void d_mouth1(float *fragColor,
 
     mouth1_program(vm, p, m, fragColor,
         mp->program, mp->sz,
-        mp->registers, 16);
+        mp->uniforms, 16);
 }
 #+END_SRC
 ** mouth1
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth1(btprnt_region *reg,
-            sdfvm_stacklet *registers,
-            int nregisters,
+            sdfvm_stacklet *uniforms,
+            int nuniforms,
             uint8_t *program,
             size_t sz)
 {
@@ -478,9 +478,9 @@ void mouth1(btprnt_region *reg,
     points[2] = svec2(0.1, -0.5);
     points[3] = svec2(0.5, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -490,8 +490,8 @@ void mouth1(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth2(btprnt_region *reg,
-            sdfvm_stacklet *registers,
-            int nregisters,
+            sdfvm_stacklet *uniforms,
+            int nuniforms,
             uint8_t *program,
             size_t sz)
 {
@@ -509,9 +509,9 @@ void mouth2(btprnt_region *reg,
     points[2] = svec2(0.5, -0.5);
     points[3] = svec2(0.1, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -521,8 +521,8 @@ void mouth2(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth1b(btprnt_region *reg,
-             sdfvm_stacklet *registers,
-             int nregisters,
+             sdfvm_stacklet *uniforms,
+             int nuniforms,
              uint8_t *program,
              size_t sz)
 {
@@ -540,9 +540,9 @@ void mouth1b(btprnt_region *reg,
     points[2] = svec2(0.1, -0.5);
     points[3] = svec2(0.5, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -553,8 +553,8 @@ void mouth1b(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth2b(btprnt_region *reg,
-             sdfvm_stacklet *registers,
-             int nregisters,
+             sdfvm_stacklet *uniforms,
+             int nuniforms,
              uint8_t *program,
              size_t sz)
 {
@@ -572,9 +572,9 @@ void mouth2b(btprnt_region *reg,
     points[2] = svec2(0.5, -0.5);
     points[3] = svec2(0.1, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -584,8 +584,8 @@ void mouth2b(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth3(btprnt_region *reg,
-            sdfvm_stacklet *registers,
-            int nregisters,
+            sdfvm_stacklet *uniforms,
+            int nuniforms,
             uint8_t *program,
             size_t sz)
 {
@@ -603,9 +603,9 @@ void mouth3(btprnt_region *reg,
     points[2] = svec2(0.5, -0.02);
     points[3] = svec2(0.5, 0.02);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -616,8 +616,8 @@ void mouth3(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth3b(btprnt_region *reg,
-            sdfvm_stacklet *registers,
-            int nregisters,
+            sdfvm_stacklet *uniforms,
+            int nuniforms,
             uint8_t *program,
             size_t sz)
 {
@@ -635,9 +635,9 @@ void mouth3b(btprnt_region *reg,
     points[2] = svec2(0.5, -0.02);
     points[3] = svec2(0.5, 0.02);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -647,8 +647,8 @@ void mouth3b(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth4(btprnt_region *reg,
-            sdfvm_stacklet *registers,
-            int nregisters,
+            sdfvm_stacklet *uniforms,
+            int nuniforms,
             uint8_t *program,
             size_t sz)
 {
@@ -666,9 +666,9 @@ void mouth4(btprnt_region *reg,
     points[2] = svec2(0.02, -0.6);
     points[3] = svec2(0.2, 0.6);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -678,8 +678,8 @@ void mouth4(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth4b(btprnt_region *reg,
-             sdfvm_stacklet *registers,
-             int nregisters,
+             sdfvm_stacklet *uniforms,
+             int nuniforms,
              uint8_t *program,
              size_t sz)
 {
@@ -697,9 +697,9 @@ void mouth4b(btprnt_region *reg,
     points[2] = svec2(0.02, -0.6);
     points[3] = svec2(0.2, 0.6);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -709,8 +709,8 @@ void mouth4b(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth5(btprnt_region *reg,
-            sdfvm_stacklet *registers,
-            int nregisters,
+            sdfvm_stacklet *uniforms,
+            int nuniforms,
             uint8_t *program,
             size_t sz)
 {
@@ -728,9 +728,9 @@ void mouth5(btprnt_region *reg,
     points[2] = svec2(0.1, -0.5);
     points[3] = svec2(0.5, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -740,8 +740,8 @@ void mouth5(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth1c(btprnt_region *reg,
-             sdfvm_stacklet *registers,
-             int nregisters,
+             sdfvm_stacklet *uniforms,
+             int nuniforms,
              uint8_t *program,
              size_t sz)
 {
@@ -759,9 +759,9 @@ void mouth1c(btprnt_region *reg,
     points[2] = svec2(0.1, -0.5);
     points[3] = svec2(0.5, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -772,8 +772,8 @@ void mouth1c(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth2c(btprnt_region *reg,
-             sdfvm_stacklet *registers,
-             int nregisters,
+             sdfvm_stacklet *uniforms,
+             int nuniforms,
              uint8_t *program,
              size_t sz)
 {
@@ -791,9 +791,9 @@ void mouth2c(btprnt_region *reg,
     points[2] = svec2(0.5, -0.5);
     points[3] = svec2(0.1, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -803,8 +803,8 @@ void mouth2c(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth6(btprnt_region *reg,
-            sdfvm_stacklet *registers,
-            int nregisters,
+            sdfvm_stacklet *uniforms,
+            int nuniforms,
             uint8_t *program,
             size_t sz)
 {
@@ -822,9 +822,9 @@ void mouth6(btprnt_region *reg,
     points[2] = svec2(0.4, -0.5);
     points[3] = svec2(0.5, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -835,8 +835,8 @@ void mouth6(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth7(btprnt_region *reg,
-            sdfvm_stacklet *registers,
-            int nregisters,
+            sdfvm_stacklet *uniforms,
+            int nuniforms,
             uint8_t *program,
             size_t sz)
 {
@@ -856,9 +856,9 @@ void mouth7(btprnt_region *reg,
     points[2] = svec2(0.3 - shearx, -0.5);
     points[3] = svec2(0.3 + shearx, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -868,8 +868,8 @@ void mouth7(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth7b(btprnt_region *reg,
-             sdfvm_stacklet *registers,
-             int nregisters,
+             sdfvm_stacklet *uniforms,
+             int nuniforms,
              uint8_t *program,
              size_t sz)
 {
@@ -889,9 +889,9 @@ void mouth7b(btprnt_region *reg,
     points[2] = svec2(0.3 + shearx, -0.5);
     points[3] = svec2(0.3 - shearx, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -901,8 +901,8 @@ void mouth7b(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth2d(btprnt_region *reg,
-             sdfvm_stacklet *registers,
-             int nregisters,
+             sdfvm_stacklet *uniforms,
+             int nuniforms,
              uint8_t *program,
              size_t sz)
 {
@@ -920,9 +920,9 @@ void mouth2d(btprnt_region *reg,
     points[2] = svec2(0.8, 0.3);
     points[3] = svec2(0.1, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
@@ -933,8 +933,8 @@ void mouth2d(btprnt_region *reg,
 #+NAME: mouthfuncs
 #+BEGIN_SRC c
 void mouth1d(btprnt_region *reg,
-             sdfvm_stacklet *registers,
-             int nregisters,
+             sdfvm_stacklet *uniforms,
+             int nuniforms,
              uint8_t *program,
              size_t sz)
 {
@@ -952,9 +952,9 @@ void mouth1d(btprnt_region *reg,
     points[2] = svec2(0.1, 0.3);
     points[3] = svec2(0.8, 0.5);
 
-    update_registers(registers, m);
-    mp.registers = registers;
-    mp.nregisters = nregisters;
+    update_uniforms(uniforms, m);
+    mp.uniforms = uniforms;
+    mp.nuniforms = nuniforms;
     mp.program = program;
     mp.sz = sz;
     draw(d_mouth1, &mp, reg);
