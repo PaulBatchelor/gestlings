@@ -1774,3 +1774,26 @@
 2023-08-10 20:01:35	5dfec495-aaf4-4330-bab1-8793dd1ecd72	$duration:>4069
 -	5dfec495-aaf4-4330-bab1-8793dd1ecd72	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	5dfec495-aaf4-4330-bab1-8793dd1ecd72	#ad50a349-9732-4312-8281-f687fe1c2165
+2023-08-11 00:05:10	10f396b5-ca3a-4991-b3a5-ac00dcb3afb6	>create sdfvm language
+-	10f396b5-ca3a-4991-b3a5-ac00dcb3afb6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-11 00:05:10	10f396b5-ca3a-4991-b3a5-ac00dcb3afb6	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-10 23:33:00	c480d41e-309f-4073-940a-4588178d50de	$duration:>606
+-	c480d41e-309f-4073-940a-4588178d50de	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	c480d41e-309f-4073-940a-4588178d50de	#10f396b5-ca3a-4991-b3a5-ac00dcb3afb6
+-	10f396b5-ca3a-4991-b3a5-ac00dcb3afb6	#4bdffa88-3838-4962-beb5-c7e8f6ff83e9
+2023-08-10 20:40:00	b9023605-7f33-4b88-8dba-38e477297b05	$duration:>900
+-	b9023605-7f33-4b88-8dba-38e477297b05	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b9023605-7f33-4b88-8dba-38e477297b05	#c6676a27-d931-4d69-b3ef-82c67e55c1df
+2023-08-11 00:14:14	10f396b5-ca3a-4991-b3a5-ac00dcb3afb6	$blurb:>create a utility that will parse text files, load them into an sdfvm program, and then use that to generate a PNG file. helpful for prototyping components a little more quickly.
+2023-08-11 00:15:45	0805062f-55fd-4697-959d-ce5f1745c624	$duration:>481
+-	0805062f-55fd-4697-959d-ce5f1745c624	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0805062f-55fd-4697-959d-ce5f1745c624	#4bdffa88-3838-4962-beb5-c7e8f6ff83e9
+2023-08-11 00:49:27	9247937a-ccb8-4236-84da-772bf5858e7e	>taking a different angle. instead of parsing entire files, I'm working on a solution that designed to embed well in lua code. This actually makes the parser simpler because I don't have to handle things like comments, just tokenize white space.
+-	9247937a-ccb8-4236-84da-772bf5858e7e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9247937a-ccb8-4236-84da-772bf5858e7e	#10f396b5-ca3a-4991-b3a5-ac00dcb3afb6
+2023-08-11 00:50:03	9e33f36f-32c1-4326-a814-35c8759fee43	$duration:>2051
+-	9e33f36f-32c1-4326-a814-35c8759fee43	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9e33f36f-32c1-4326-a814-35c8759fee43	#10f396b5-ca3a-4991-b3a5-ac00dcb3afb6
+2023-08-11 00:51:31	d222aeb1-a957-4bf8-bf3b-26abcb71b8b8	>created a proof-of-concept in =scratch/sdfvm_lang.lua"
+-	d222aeb1-a957-4bf8-bf3b-26abcb71b8b8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d222aeb1-a957-4bf8-bf3b-26abcb71b8b8	#10f396b5-ca3a-4991-b3a5-ac00dcb3afb6
