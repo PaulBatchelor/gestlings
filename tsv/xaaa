@@ -1537,7 +1537,7 @@
 -	1d7742a2-91b8-41e0-9f5a-f890e20c8ba1	#e37a2977-4155-408e-9e6d-dc340824ba42
 2023-08-05 02:40:44	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	>mouth animation with gesture proof of concept
 -	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-05 02:40:44	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-11 00:03:49	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-05 02:42:00	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	$blurb:>have an animation that is controlled using gesture. there should be sound for this too.
 2023-08-05 02:43:07	1f4e2c28-300c-45cb-b023-68676f002cd9	>currently thinking there are at least two gestures for mouth control: one that signals open/close, and another for shape.
 -	1f4e2c28-300c-45cb-b023-68676f002cd9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1588,7 +1588,7 @@
 2023-08-05 02:59:32	aefc6948-3a75-4354-a9d8-c56dbc47ffff	$blurb:>the first official gestling is going to be a full end-to-end video rendering from a descript file. no extra lua code glue. just descript -> video. if we can get here, we have a working gestling creation pipeline.
 2023-08-05 03:00:01	ad50a349-9732-4312-8281-f687fe1c2165	>mouth animation
 -	ad50a349-9732-4312-8281-f687fe1c2165	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-05 03:00:01	ad50a349-9732-4312-8281-f687fe1c2165	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-11 00:03:54	ad50a349-9732-4312-8281-f687fe1c2165	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	e37a2977-4155-408e-9e6d-dc340824ba42	#ad50a349-9732-4312-8281-f687fe1c2165
 -	dbe9ea14-53f8-46fb-b3dd-c8f5c0adf288	#ad50a349-9732-4312-8281-f687fe1c2165
 2023-08-05 03:01:27	40bf6164-e4a5-4631-8e7d-ead907e5ad5c	>dialogue component
