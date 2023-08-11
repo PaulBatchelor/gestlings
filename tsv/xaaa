@@ -1776,7 +1776,7 @@
 -	5dfec495-aaf4-4330-bab1-8793dd1ecd72	#ad50a349-9732-4312-8281-f687fe1c2165
 2023-08-11 00:05:10	10f396b5-ca3a-4991-b3a5-ac00dcb3afb6	>create sdfvm language
 -	10f396b5-ca3a-4991-b3a5-ac00dcb3afb6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-11 00:05:10	10f396b5-ca3a-4991-b3a5-ac00dcb3afb6	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-11 15:15:45	10f396b5-ca3a-4991-b3a5-ac00dcb3afb6	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-10 23:33:00	c480d41e-309f-4073-940a-4588178d50de	$duration:>606
 -	c480d41e-309f-4073-940a-4588178d50de	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	c480d41e-309f-4073-940a-4588178d50de	#10f396b5-ca3a-4991-b3a5-ac00dcb3afb6
@@ -1797,3 +1797,21 @@
 2023-08-11 00:51:31	d222aeb1-a957-4bf8-bf3b-26abcb71b8b8	>created a proof-of-concept in =scratch/sdfvm_lang.lua"
 -	d222aeb1-a957-4bf8-bf3b-26abcb71b8b8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	d222aeb1-a957-4bf8-bf3b-26abcb71b8b8	#10f396b5-ca3a-4991-b3a5-ac00dcb3afb6
+2023-08-11 15:17:44	62efaf9e-8a92-4f96-90a1-f0b608bfc283	>eyes should be able to be drawn on a body. I'd like this to be possible with two sdfvm calls, which means transparency.
+-	62efaf9e-8a92-4f96-90a1-f0b608bfc283	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	62efaf9e-8a92-4f96-90a1-f0b608bfc283	#10f396b5-ca3a-4991-b3a5-ac00dcb3afb6
+2023-08-11 15:19:12	28e63a54-4f01-4181-b3e2-fe78baf9824f	>I'm going to see if I can build your typical cartoon eye with SDFs via sdfvm: an outline of a circle, with a dot (small circle) in the center.
+-	28e63a54-4f01-4181-b3e2-fe78baf9824f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	28e63a54-4f01-4181-b3e2-fe78baf9824f	#10f396b5-ca3a-4991-b3a5-ac00dcb3afb6
+2023-08-11 16:17:06	76c13394-de02-43e4-86f9-d3fb78f05fde	>just spent my time adding some new ops to sdf2d. should be enough to make an eyeball.
+-	76c13394-de02-43e4-86f9-d3fb78f05fde	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	76c13394-de02-43e4-86f9-d3fb78f05fde	#10f396b5-ca3a-4991-b3a5-ac00dcb3afb6
+2023-08-11 16:34:45	6a2ca975-bd3a-4964-9a97-3e574da2dbfe	>I got an eyeball on top of a 'face', and now I need to erase a line. going to see if a subtract operation can do that.
+-	6a2ca975-bd3a-4964-9a97-3e574da2dbfe	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	6a2ca975-bd3a-4964-9a97-3e574da2dbfe	#10f396b5-ca3a-4991-b3a5-ac00dcb3afb6
+2023-08-11 17:05:40	824a5e40-e038-4691-9aa5-9ef6627f636e	>I keep laughing at this bug-eyed gestling pressed up against the glass. worth the time.
+-	824a5e40-e038-4691-9aa5-9ef6627f636e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	824a5e40-e038-4691-9aa5-9ef6627f636e	#c6676a27-d931-4d69-b3ef-82c67e55c1df
+2023-08-11 17:05:43	bb4205b5-6b1f-492a-8456-037e6a9bd50a	$duration:>6591
+-	bb4205b5-6b1f-492a-8456-037e6a9bd50a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	bb4205b5-6b1f-492a-8456-037e6a9bd50a	#c6676a27-d931-4d69-b3ef-82c67e55c1df
