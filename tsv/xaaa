@@ -1815,3 +1815,12 @@
 2023-08-11 17:05:43	bb4205b5-6b1f-492a-8456-037e6a9bd50a	$duration:>6591
 -	bb4205b5-6b1f-492a-8456-037e6a9bd50a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	bb4205b5-6b1f-492a-8456-037e6a9bd50a	#c6676a27-d931-4d69-b3ef-82c67e55c1df
+2023-08-11 19:40:25	b8909f5a-912a-4c3d-a42a-5c2cc23abf54	>it's looking like the most foolproof way to render eyes on faces is to everything in one SDF, and use the subtract operator to remove stuff underneath the eyes. I've renamed what I'm calling "registers" to "uniforms" in sdf2d. I'll be adding actual registers to make it easier for shader programs to store masking data for eyes and mouths.
+-	b8909f5a-912a-4c3d-a42a-5c2cc23abf54	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b8909f5a-912a-4c3d-a42a-5c2cc23abf54	#c6676a27-d931-4d69-b3ef-82c67e55c1df
+2023-08-11 19:49:08	b66b14d4-f197-4dbd-9b18-ce08861e9916	$duration:>2544
+-	b66b14d4-f197-4dbd-9b18-ce08861e9916	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b66b14d4-f197-4dbd-9b18-ce08861e9916	#c6676a27-d931-4d69-b3ef-82c67e55c1df
+2023-08-11 20:11:43	49128e32-09df-4c9f-8cd1-4e21e7859d87	$duration:>1110
+-	49128e32-09df-4c9f-8cd1-4e21e7859d87	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	49128e32-09df-4c9f-8cd1-4e21e7859d87	#c6676a27-d931-4d69-b3ef-82c67e55c1df
