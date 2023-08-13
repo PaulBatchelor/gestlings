@@ -132,7 +132,9 @@ function create_paths(notes)
 
         table.insert(p_pitch, vtx{notenum, dur, note_behavior})
         table.insert(p_gate, vtx{gateval, dur, step})
-        last_pitch = nt[1]
+        if nt[1] > 0 then
+            last_pitch = nt[1]
+        end
     end
 
     return p_pitch, p_gate
@@ -165,6 +167,7 @@ function create_voice_data(chan)
     voice_data.gate = p_gate
     voice_data.pitch_label = pitch_label
     voice_data.gate_label = gate_label
+    voice_data.id = chan
     return voice_data
 end
 
@@ -192,11 +195,17 @@ function compile_voice_sequence(words, voice)
     tal.jump(words, gate_label)
 end
 
-vocal_data = voices[1]
---for _, voc in pairs(voices) do
---    compile_voice_sequence(words, voc)
---end
-compile_voice_sequence(words, vocal_data)
+-- vocal_data = voices[2]
+
+-- pprint(vocal_data.pitch)
+
+for _, voc in pairs(voices) do
+    compile_voice_sequence(words, voc)
+end
+-- compile_voice_sequence(words, vocal_data)
+
+-- pprint(words)
+--
 
 G = gest:new()
 G:create()
@@ -210,19 +219,34 @@ cnd = sig:new()
 cnd:hold()
 
 function gesture(sr, gst, name, cnd)
-
     sr.node(gst:node()){
         name = name,
         conductor = core.liln(cnd:getstr())
     }
 end
 
+cutoffs = {
+    3000, 3000, 2300, 2000
+}
+
+levels = {
+    -6, -8, -8, -9
+}
+
+vibs = {
+    {6.5, 0.2}, {6.4, 0.1}, {6.3, 0.05}, {6.3, 0.05}
+}
+
 function synthesize_voice(voice_data)
     local pitch_label = voice_data.pitch_label
     local gate_label = voice_data.gate_label
     gesture(sigrunes, G, pitch_label, cnd)
 
+    local vid = voice_data.id
+
     lilts {
+        {"sine", vibs[vid][1], vibs[vid][2]},
+        {"add", "zz", "zz"},
         {"mtof", "zz"},
         {"blsaw", "zz"},
     }
@@ -230,26 +254,29 @@ function synthesize_voice(voice_data)
     gesture(sigrunes, G, gate_label, cnd)
 
     lilts {
-        {"envar", "zz", 0.01, 0.1},
+        {"envar", "zz", 0.05, 0.2},
         {"mul", "zz", "zz"}
     }
 
     lilts {
-        {"mul", "zz", "[dblin -6]"},
-        {"butlp", "zz", "800"}
+        {"mul", "zz", "[dblin " .. levels[vid] .."]"},
+        {"butlp", "zz", cutoffs[vid]}
     }
 end
 
--- for idx, voc in pairs(voices) do
---     synthesize_voice(voc)
---     if idx > 1 then
---         lil("add zz zz")
---     end
--- end
-synthesize_voice(vocal_data)
-
+for idx, voc in pairs(voices) do
+    synthesize_voice(voc)
+    if idx > 1 then
+        lil("add zz zz")
+    end
+end
+-- synthesize_voice(vocal_data)
+lil("mul zz [dblin -4]")
 cnd:unhold()
 lilts {
     {"wavout", "zz", "test.wav"},
     {"computes", 40}
 }
+
+::quit::
+return nil
