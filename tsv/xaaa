@@ -1843,3 +1843,19 @@
 -	d71650dd-13c1-49a8-986e-9f854096c657	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	d71650dd-13c1-49a8-986e-9f854096c657	#ba6ecac3-0392-4fbc-b4b4-afd9a9cca206
 -	42aefe81-3b91-402f-a8ad-92b84fbb89fb	#57309992-21a0-44ab-9e54-a353b3aa29f8
+2023-08-13 15:56:05	0105854a-a84b-4a08-bbb4-6e8bd0eb8771	>yesterday I sequenced the 4-part harmony arrangmement in FT2. I'm going to revisit my recent work with XMT getting msgpack working with it. My hope is to be able to go from XM->msgpack->lua->tal->gestvm
+-	0105854a-a84b-4a08-bbb4-6e8bd0eb8771	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0105854a-a84b-4a08-bbb4-6e8bd0eb8771	#42aefe81-3b91-402f-a8ad-92b84fbb89fb
+2023-08-13 16:00:07	9cfd7a1d-46aa-4e7b-95b2-9932d41f9114	>create XM to gesture conversion proof-of-concept
+-	9cfd7a1d-46aa-4e7b-95b2-9932d41f9114	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-13 16:00:07	9cfd7a1d-46aa-4e7b-95b2-9932d41f9114	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	9cfd7a1d-46aa-4e7b-95b2-9932d41f9114	#42aefe81-3b91-402f-a8ad-92b84fbb89fb
+2023-08-13 16:00:34	f473d57e-40f3-4e43-8975-f77b85f0c7cb	$duration:>363
+-	f473d57e-40f3-4e43-8975-f77b85f0c7cb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f473d57e-40f3-4e43-8975-f77b85f0c7cb	#42aefe81-3b91-402f-a8ad-92b84fbb89fb
+2023-08-13 16:01:36	5dced230-0bdc-46c6-a73d-474956dd8170	>going to see where and how far I got with my XM to msgpack converter. I think it works, but it might need to turned into CLI still. I'd like to include it with mnolth.
+-	5dced230-0bdc-46c6-a73d-474956dd8170	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5dced230-0bdc-46c6-a73d-474956dd8170	#9cfd7a1d-46aa-4e7b-95b2-9932d41f9114
+2023-08-13 17:07:06	a35c9fca-8d0a-4478-ac8d-738d9bdec98a	$duration:>3988
+-	a35c9fca-8d0a-4478-ac8d-738d9bdec98a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a35c9fca-8d0a-4478-ac8d-738d9bdec98a	#9cfd7a1d-46aa-4e7b-95b2-9932d41f9114
