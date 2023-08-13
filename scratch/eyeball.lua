@@ -55,7 +55,6 @@ function generate_program(syms, bytebuf)
     end
 end
 
-
 generate_program(syms, program)
 
 lil("bpsdf [bpget [grab bp] 0] [grab vm] [grab buf]")
