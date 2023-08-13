@@ -287,8 +287,8 @@ function synthesize_voice(voice_data, gst, cnd)
     cnd:get()
     lilts {
         {"param", 1.0},
-        {"jitseg", 0.97, 1.03, 1, 3, 1},
-        {"jitseg", 0, 0.5, 0.5, 1, 1},
+        {"jitseg", 0.98, 1.02, 1, 3, 1},
+        {"jitseg", 0, 0.3, 0.5, 1, 1},
         {"crossfade", "zz", "zz", "zz"},
         {"rephasor", "zz", "zz"}
     }
