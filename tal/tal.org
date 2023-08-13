@@ -69,6 +69,13 @@ function tal.val(words, val)
     table.insert(words, "BRK")
 end
 #+END_SRC
+** halt
+#+NAME: cmds
+#+BEGIN_SRC lua
+function tal.halt(words)
+    table.insert(words, "BRK")
+end
+#+END_SRC
 ** dur
 Sets the rate multiplier of the rephasor, expressed
 as a fractional value.

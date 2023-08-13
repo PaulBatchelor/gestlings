@@ -165,8 +165,15 @@ function Sig:get(eval)
     if eval == nil then
         eval = lil
     end
+
     -- eval(string.format("regget %d", self.reg))
-    eval({"regget", self.reg})
+    local s = {"regget", self.reg}
+
+    if eval == lil and type(s) ~= "string" then
+        s = table.concat(s, " ")
+    end
+
+    eval(s)
 end
 #+END_SRC
 * Getstr
