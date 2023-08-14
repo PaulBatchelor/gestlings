@@ -1868,3 +1868,19 @@
 2023-08-13 21:41:20	7805cb90-47b9-4d4f-9767-d61933473c37	>got carried away again with the sound a bit, but all 4 voices work with placeholder saws now. I need to swap it out with a tubular instrument, and I think that's a good chunk of the music for this.
 -	7805cb90-47b9-4d4f-9767-d61933473c37	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	7805cb90-47b9-4d4f-9767-d61933473c37	#9cfd7a1d-46aa-4e7b-95b2-9932d41f9114
+2023-08-14 19:27:22	15423a9e-3c73-494c-ada8-c8e0af532c5b	>make it go 'ya'
+-	15423a9e-3c73-494c-ada8-c8e0af532c5b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-14 19:27:22	15423a9e-3c73-494c-ada8-c8e0af532c5b	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	15423a9e-3c73-494c-ada8-c8e0af532c5b	#42aefe81-3b91-402f-a8ad-92b84fbb89fb
+2023-08-14 19:30:02	4f4a7791-e8c8-4d75-ad30-172f47df02d9	>the singers will be able to say one sound: 'ya'. The difficulty with 'ya' is that the 'ah' part is the start of the note, the the 'yi' part. I'm going to attempt to get this timing right via a gesture. The placeholder sound uses a subtractive synthesizer with envelope cutoff. Replacing that envelope with a gesture should yield the correct control signal I'm after. I think.
+-	4f4a7791-e8c8-4d75-ad30-172f47df02d9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4f4a7791-e8c8-4d75-ad30-172f47df02d9	#15423a9e-3c73-494c-ada8-c8e0af532c5b
+2023-08-14 20:16:45	91ef526e-a914-4ac5-a391-99ad5e6bb989	>I'm calling this a 'ya'-nvelope generator
+-	91ef526e-a914-4ac5-a391-99ad5e6bb989	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	91ef526e-a914-4ac5-a391-99ad5e6bb989	#15423a9e-3c73-494c-ada8-c8e0af532c5b
+2023-08-14 20:17:41	648d33e9-f544-4d66-a83e-1f568663fc57	>the time has come to sculpt out the 'yah' shape. I'm going to use tubesculpt to find good 'ee' and 'ah' states for a small tract
+-	648d33e9-f544-4d66-a83e-1f568663fc57	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	648d33e9-f544-4d66-a83e-1f568663fc57	#15423a9e-3c73-494c-ada8-c8e0af532c5b
+2023-08-14 22:20:42	9b958108-f0e0-44f8-8c92-37afc5c3d1cb	$duration:>10378
+-	9b958108-f0e0-44f8-8c92-37afc5c3d1cb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9b958108-f0e0-44f8-8c92-37afc5c3d1cb	#15423a9e-3c73-494c-ada8-c8e0af532c5b
