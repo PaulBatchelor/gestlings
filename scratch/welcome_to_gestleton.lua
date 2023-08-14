@@ -16,25 +16,22 @@ fp:close()
 module_data = msgpack.unpack(mpbytes)
 
 
-lil("shapemorfnew lut scratch/yahshapes.b64")
+lil("shapemorfnew lut scratch/yahshapes2.b64")
 -- lil("shapemorfnew lut shapes/tubesculpt_testshapes.b64")
 lil("grab lut")
 lut = pop()
 lookup = shapemorf.generate_lookup(lut)
 
 
-shapes = {
-    "2b1d8a",
-    "4e8a8e",
-    "83ae8a",
-    "172828",
-    "54f27d",
-    "8abe8d",
-}
-
 -- might be the other way around
-shape_close = "d46393"
-shape_open = "5d75c6"
+
+-- yahshapes 1
+-- shape_close = "d46393"
+-- shape_open = "5d75c6"
+
+-- yahshapes 2
+shape_close = "639be4"
+shape_open = "d8d9f5"
 
 for k,v in pairs(lookup) do
     print(k, v)
@@ -123,9 +120,9 @@ function extract_notes(cells, chan)
                 -- change the key, if we want to
                 nt = nt + transpose
 
-                -- if chan == 4 then
-                --     nt = nt - 12
-                -- end
+                if chan == 4 or chan == 3 then
+                    nt = nt - 12
+                end
             end
             if last_note ~= nil then
                 table.insert(notes, {last_note, notedur})
@@ -325,23 +322,35 @@ cutoffs = {
 }
 
 levels = {
-    -3, -3, -3, -3
+    -4, -3, -3, 0
 }
 
 vibs = {
-    {6.5, 0.2}, {6.4, 0.2}, {6.3, 0.1}, {6.3, 0.1}
+    {6.5, 0.5}, {6.4, 0.3}, {6.3, 0.7}, {6.3, 0.1}
 }
 
 tract_sizes = {
-    8, 9, 13, 17
+    8, 12, 17, 20
 }
 
 tract_effort = {
-    0.6, 0.6, 0.6, 0.6
+    0.4, 0.3, 0.6, 0.8
+}
+
+breathiness = {
+    {0.1, 0.1}, {0.2, 0.2}, {0.05, 0.05}, {0.05, 0.05}
 }
 
 oversample = {
-    2, 2, 2, 2
+    4, 4, 3, 3
+}
+
+highpass = {
+    500, 300, 100, 30
+}
+
+lowpass = {
+    3000, 4000, 4000, 5000
 }
 
 function synthesize_voice(voice_data, gst, cnd)
@@ -384,21 +393,22 @@ function synthesize_voice(voice_data, gst, cnd)
 
     gesture(sigrunes, gst, pitch_label, local_cnd)
 
-
     lilts {
         {"sine", vibs[vid][1], vibs[vid][2]},
         {"add", "zz", "zz"},
         {"mtof", "zz"},
         {"param", tract_effort[vid]},
-        {"param", 0.1},
-        {"param", 0.0},
+        {"param", breathiness[vid][1]},
+        {"param", breathiness[vid][2]},
         {"glot", "zz", "zz", "zz", "zz"}
         -- {"blsaw", "zz"},
     }
 
     lilts {
         {"tubular", "zz", "zz"},
-        {"regclr", 4}
+        {"butlp", "zz", lowpass[vid]},
+        {"buthp", "zz", highpass[vid]},
+        {"regclr", 4},
     }
 
     gesture(sigrunes, gst, gate_label, local_cnd)
@@ -439,11 +449,20 @@ for idx, voc in pairs(voices) do
 end
 -- synthesize_voice(vocal_data)
 lil("dcblocker zz")
-lil("mul zz [dblin -10]")
+lil("mul zz [dblin -7]")
 cnd:unhold()
+
+lil("dup")
+lil("vardelay zz 0.0 0.1 0.5")
+lil("dup")
+lil("bigverb zz zz 0.85 7000")
+lil("drop")
+lil("dcblocker zz")
+lil("mul zz [dblin -13]")
+lil("add zz zz")
 lilts {
     {"wavout", "zz", "test.wav"},
-    {"computes", 10}
+    {"computes", 50}
 }
 
 ::quit::
