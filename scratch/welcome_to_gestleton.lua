@@ -124,6 +124,8 @@ function create_paths(notes)
     local p_retrig = {}
     vtx = path.vertex
     gm = gest.behavior.gliss_medium
+    -- there is no gliss_small yet
+    gs = gest.behavior.gliss_medium
     step = gest.behavior.step
     g50 = gest.behavior.gate_50
     last_pitch = 0
@@ -134,6 +136,7 @@ function create_paths(notes)
         local dur = {4, nt[2]}
         local note_behavior = gm
         local retrig_behavior = g50
+        local yahstate = 0
 
         if notenum < 0 then
             notenum = last_pitch
@@ -146,6 +149,18 @@ function create_paths(notes)
                 p_pitch[idx - 1].bhvr = step
             end
 
+            -- also keep the 'ya'-nvelope open
+            --
+            if idx > 1 then
+                -- retrig has 3 segments
+                local ridx = 3*(idx - 1)
+                p_retrig[ridx].bhvr = step
+                p_retrig[ridx].val = 1
+
+                -- keep this rest segment open too
+                yahstate = 1
+            end
+
             -- also make this current note a step
             -- a cut in a note probably means you don't want to
             -- gliss to the next note
@@ -155,7 +170,18 @@ function create_paths(notes)
 
         table.insert(p_pitch, vtx{notenum, dur, note_behavior})
         table.insert(p_gate, vtx{gateval, dur, step})
-        table.insert(p_retrig, vtx{1, dur, retrig_behavior})
+
+        -- the 'ya' envelope shape:
+        -- take the note and split it two parts
+        -- first part: 'ah' (open), gliss
+        -- second part: 'yi' (closed), gliss
+
+        retrig_dur1 = {dur[1]*4, dur[2]*3}
+        retrig_dur1[1] = retrig_dur1[1] * 2
+        retrig_dur2 = {dur[1]*4, dur[2]*1}
+        table.insert(p_retrig, vtx{1, retrig_dur1, step})
+        table.insert(p_retrig, vtx{1, retrig_dur1, gs})
+        table.insert(p_retrig, vtx{yahstate, retrig_dur2, gs})
         if nt[1] > 0 then
             last_pitch = nt[1]
         end
@@ -235,7 +261,7 @@ function compile_voice_sequence(words, voice)
 
     -- retrig program
     tal.label(words, retrig_label)
-    tal.interpolate(words, 0)
+    -- tal.interpolate(words, 0)
     path.path(tal, words, p_retrig)
     -- tal.jump(words, retrig_label)
     -- tal.halt(words)
@@ -321,10 +347,11 @@ function synthesize_voice(voice_data, gst, cnd)
 
     gesture(sigrunes, gst, retrig_label, local_cnd)
 
+    lil("dup; mul zz 0.5; wavout zz retrig.wav")
     lilts {
-        {"gtick", "zz"},
-        {"env", "zz", 0.01, 0.01, 0.1},
-        {"scale", "zz", cutoffs[vid]*0.5, cutoffs[vid]*1.0},
+        -- {"gtick", "zz"},
+        -- {"env", "zz", 0.01, 0.01, 0.1},
+        {"scale", "zz", cutoffs[vid]*0.05, cutoffs[vid]*1.0},
         {"butlp", "zz", "zz"}
     }
 
@@ -344,7 +371,7 @@ lil("mul zz [dblin -5]")
 cnd:unhold()
 lilts {
     {"wavout", "zz", "test.wav"},
-    {"computes", 60}
+    {"computes", 55}
 }
 
 ::quit::
