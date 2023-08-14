@@ -15,6 +15,31 @@ mpbytes = fp:read("*all")
 fp:close()
 module_data = msgpack.unpack(mpbytes)
 
+
+lil("shapemorfnew lut scratch/yahshapes.b64")
+-- lil("shapemorfnew lut shapes/tubesculpt_testshapes.b64")
+lil("grab lut")
+lut = pop()
+lookup = shapemorf.generate_lookup(lut)
+
+
+shapes = {
+    "2b1d8a",
+    "4e8a8e",
+    "83ae8a",
+    "172828",
+    "54f27d",
+    "8abe8d",
+}
+
+-- might be the other way around
+shape_close = "d46393"
+shape_open = "5d75c6"
+
+for k,v in pairs(lookup) do
+    print(k, v)
+end
+
 -- for k,v in pairs(module_data.header.ptable) do
 --     print(k)
 -- end
@@ -129,6 +154,7 @@ function create_paths(notes)
     step = gest.behavior.step
     g50 = gest.behavior.gate_50
     last_pitch = 0
+    local shp = {shape_close, shape_open}
 
     for idx,nt in pairs(notes) do
         local notenum = nt[1]
@@ -155,7 +181,8 @@ function create_paths(notes)
                 -- retrig has 3 segments
                 local ridx = 3*(idx - 1)
                 p_retrig[ridx].bhvr = step
-                p_retrig[ridx].val = 1
+                -- p_retrig[ridx].val = 1 --shp[1]
+                p_retrig[ridx].val = shp[1 + 1] -- open
 
                 -- keep this rest segment open too
                 yahstate = 1
@@ -179,9 +206,10 @@ function create_paths(notes)
         retrig_dur1 = {dur[1]*4, dur[2]*3}
         retrig_dur1[1] = retrig_dur1[1] * 2
         retrig_dur2 = {dur[1]*4, dur[2]*1}
-        table.insert(p_retrig, vtx{1, retrig_dur1, step})
-        table.insert(p_retrig, vtx{1, retrig_dur1, gs})
-        table.insert(p_retrig, vtx{yahstate, retrig_dur2, gs})
+
+        table.insert(p_retrig, vtx{shp[1 + 1], retrig_dur1, step})
+        table.insert(p_retrig, vtx{shp[1 + 1], retrig_dur1, gs})
+        table.insert(p_retrig, vtx{shp[yahstate + 1], retrig_dur2, gs})
         if nt[1] > 0 then
             last_pitch = nt[1]
         end
@@ -262,7 +290,7 @@ function compile_voice_sequence(words, voice)
     -- retrig program
     tal.label(words, retrig_label)
     -- tal.interpolate(words, 0)
-    path.path(tal, words, p_retrig)
+    path.path(tal, words, p_retrig, lookup)
     -- tal.jump(words, retrig_label)
     -- tal.halt(words)
     tal.jump(words, "hold")
@@ -297,11 +325,23 @@ cutoffs = {
 }
 
 levels = {
-    -5, -8, -7, -9
+    -3, -3, -3, -3
 }
 
 vibs = {
     {6.5, 0.2}, {6.4, 0.2}, {6.3, 0.1}, {6.3, 0.1}
+}
+
+tract_sizes = {
+    8, 9, 13, 17
+}
+
+tract_effort = {
+    0.6, 0.6, 0.6, 0.6
+}
+
+oversample = {
+    2, 2, 2, 2
 }
 
 function synthesize_voice(voice_data, gst, cnd)
@@ -310,6 +350,7 @@ function synthesize_voice(voice_data, gst, cnd)
     local retrig_label = voice_data.retrig_label
     local local_cnd = cnd
 
+    local vid = voice_data.id
     cnd:get()
     lilts {
         {"param", 1.0},
@@ -323,15 +364,41 @@ function synthesize_voice(voice_data, gst, cnd)
     jitcnd:hold()
     local_cnd = jitcnd
 
+    lilts {
+        {"tubularnew", tract_sizes[vid], oversample[vid]},
+        {"regset", "zz", 4},
+        {"regmrk", 4},
+    }
+
+    lilts {
+        {"shapemorf",
+            gst:get(),
+            "[grab lut]",
+            "[regget 4]",
+            "[" .. gst:gmemsymstr(retrig_label) .. "]",
+            "[" .. table.concat(local_cnd:getstr(), " ") .. "]"
+        },
+    }
+
+    lilt {"regget", 4}
+
     gesture(sigrunes, gst, pitch_label, local_cnd)
 
-    local vid = voice_data.id
 
     lilts {
         {"sine", vibs[vid][1], vibs[vid][2]},
         {"add", "zz", "zz"},
         {"mtof", "zz"},
-        {"blsaw", "zz"},
+        {"param", tract_effort[vid]},
+        {"param", 0.1},
+        {"param", 0.0},
+        {"glot", "zz", "zz", "zz", "zz"}
+        -- {"blsaw", "zz"},
+    }
+
+    lilts {
+        {"tubular", "zz", "zz"},
+        {"regclr", 4}
     }
 
     gesture(sigrunes, gst, gate_label, local_cnd)
@@ -341,19 +408,23 @@ function synthesize_voice(voice_data, gst, cnd)
         {"mul", "zz", "zz"}
     }
 
+
     lilts {
         {"mul", "zz", "[dblin " .. levels[vid] .."]"},
     }
 
-    gesture(sigrunes, gst, retrig_label, local_cnd)
+    -- gesture(sigrunes, gst, retrig_label, local_cnd)
 
-    lil("dup; mul zz 0.5; wavout zz retrig.wav")
-    lilts {
-        -- {"gtick", "zz"},
-        -- {"env", "zz", 0.01, 0.01, 0.1},
-        {"scale", "zz", cutoffs[vid]*0.05, cutoffs[vid]*1.0},
-        {"butlp", "zz", "zz"}
-    }
+    -- -- lil("dup; mul zz 0.5; wavout zz retrig.wav")
+    -- lilts {
+    --     -- {"gtick", "zz"},
+    --     -- {"env", "zz", 0.01, 0.01, 0.1},
+    --     {"scale", "zz", cutoffs[vid]*0.05, cutoffs[vid]*1.0},
+    --     {"butlp", "zz", "zz"}
+    -- }
+    --
+    --
+
 
     if (local_cnd ~= cnd) then
         local_cnd:unhold()
@@ -367,11 +438,12 @@ for idx, voc in pairs(voices) do
     end
 end
 -- synthesize_voice(vocal_data)
-lil("mul zz [dblin -5]")
+lil("dcblocker zz")
+lil("mul zz [dblin -10]")
 cnd:unhold()
 lilts {
     {"wavout", "zz", "test.wav"},
-    {"computes", 55}
+    {"computes", 10}
 }
 
 ::quit::

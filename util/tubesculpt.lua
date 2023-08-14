@@ -12,7 +12,8 @@ lil([[
 hsnew hs
 rtnew [grab hs] rt
 
-tubularnew 17.0 -1
+# tubularnew 17.0 -1
+tubularnew 8.0 -1
 regset zz 4
 
 genvals [tabnew 1] "0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5"
@@ -25,7 +26,8 @@ tractdrm [regget 0] [regget 3]
 tubulardiams [regget 4] [regget 0]
 
 regget 4
-glot [mtof 46] [param 0.7] [param 0.03] [param 0.001]
+#glot [mtof 46] [param 0.7] [param 0.03] [param 0.001]
+glot [mtof 67] [param 0.7] [param 0.03] [param 0.001]
 tubular zz zz zz
 mul zz [dblin -5]
 butlp zz 4000
@@ -333,10 +335,13 @@ end
 
 function TubeSculpt:press(x, y)
     self.redraw = true
+    -- grid zero mode
+    y = y - 8
     if x == 15 then
         self.selected_region = y
         return
     end
+
 
     local slider = y + 1
     local val = x
