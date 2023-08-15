@@ -1848,7 +1848,7 @@
 -	0105854a-a84b-4a08-bbb4-6e8bd0eb8771	#42aefe81-3b91-402f-a8ad-92b84fbb89fb
 2023-08-13 16:00:07	9cfd7a1d-46aa-4e7b-95b2-9932d41f9114	>create XM to gesture conversion proof-of-concept
 -	9cfd7a1d-46aa-4e7b-95b2-9932d41f9114	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-13 16:00:07	9cfd7a1d-46aa-4e7b-95b2-9932d41f9114	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-15 14:31:01	9cfd7a1d-46aa-4e7b-95b2-9932d41f9114	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	9cfd7a1d-46aa-4e7b-95b2-9932d41f9114	#42aefe81-3b91-402f-a8ad-92b84fbb89fb
 2023-08-13 16:00:34	f473d57e-40f3-4e43-8975-f77b85f0c7cb	$duration:>363
 -	f473d57e-40f3-4e43-8975-f77b85f0c7cb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1870,7 +1870,7 @@
 -	7805cb90-47b9-4d4f-9767-d61933473c37	#9cfd7a1d-46aa-4e7b-95b2-9932d41f9114
 2023-08-14 19:27:22	15423a9e-3c73-494c-ada8-c8e0af532c5b	>make it go 'ya'
 -	15423a9e-3c73-494c-ada8-c8e0af532c5b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-14 19:27:22	15423a9e-3c73-494c-ada8-c8e0af532c5b	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-15 14:30:57	15423a9e-3c73-494c-ada8-c8e0af532c5b	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	15423a9e-3c73-494c-ada8-c8e0af532c5b	#42aefe81-3b91-402f-a8ad-92b84fbb89fb
 2023-08-14 19:30:02	4f4a7791-e8c8-4d75-ad30-172f47df02d9	>the singers will be able to say one sound: 'ya'. The difficulty with 'ya' is that the 'ah' part is the start of the note, the the 'yi' part. I'm going to attempt to get this timing right via a gesture. The placeholder sound uses a subtractive synthesizer with envelope cutoff. Replacing that envelope with a gesture should yield the correct control signal I'm after. I think.
 -	4f4a7791-e8c8-4d75-ad30-172f47df02d9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1884,3 +1884,13 @@
 2023-08-14 22:20:42	9b958108-f0e0-44f8-8c92-37afc5c3d1cb	$duration:>10378
 -	9b958108-f0e0-44f8-8c92-37afc5c3d1cb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	9b958108-f0e0-44f8-8c92-37afc5c3d1cb	#15423a9e-3c73-494c-ada8-c8e0af532c5b
+2023-08-15 14:31:09	de887ea6-902c-4a63-a21a-322349b22472	>ritual music
+-	de887ea6-902c-4a63-a21a-322349b22472	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-15 14:31:09	de887ea6-902c-4a63-a21a-322349b22472	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+-	de887ea6-902c-4a63-a21a-322349b22472	#42aefe81-3b91-402f-a8ad-92b84fbb89fb
+2023-08-15 15:57:57	12c8ce53-df58-4fbf-93b1-0772abef4793	$duration:>5155
+-	12c8ce53-df58-4fbf-93b1-0772abef4793	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	12c8ce53-df58-4fbf-93b1-0772abef4793	#de887ea6-902c-4a63-a21a-322349b22472
+2023-08-15 15:58:04	ad6cd7bb-d5dd-4051-b5f5-091e7b4dc7f0	>got some initial sounds going in scratch/ritual_music.lua. It's pretty much what I want the vibe to be. But, now I want to sequence the bells and chant.
+-	ad6cd7bb-d5dd-4051-b5f5-091e7b4dc7f0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ad6cd7bb-d5dd-4051-b5f5-091e7b4dc7f0	#de887ea6-902c-4a63-a21a-322349b22472
