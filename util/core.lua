@@ -222,4 +222,14 @@ function Core.analyze_patch(patch)
     return {setters = setter, getters = getter}
 end
 
+function Core.lilt(tab)
+    lil(table.concat(tab, " "))
+end
+
+function Core.lilts(lines)
+    for _, line in pairs(lines) do
+        Core.lilt(line)
+    end
+end
+
 return Core
