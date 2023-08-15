@@ -46,18 +46,44 @@ function generate_chant()
 
     chant_pitch = {
         vt{12+2, {1, 3}, gm},
-
         vt{12+2, {1, 8}, lin},
-
         vt{12+3, {1, 3}, gm},
+        vt{12, {1, 3}, gm},
 
+        vt{12+2, {1, 3}, gm},
+        vt{12+2, {1, 8}, lin},
+        vt{12+3, {1, 3}, gm},
         vt{12, {1, 3}, gm},
 
         vt{12, {1, 2}, lin},
         vt{12, {1, 2}, lin},
-
         vt{12 - 3, {1, 4}, lin},
         vt{12 - 3, {1, 3}, gm},
+
+        vt{12+2, {1, 3}, gm},
+        vt{12+2, {1, 8}, lin},
+        vt{12+3, {1, 3}, gm},
+        vt{12, {1, 3}, gm},
+
+        vt{12, {1, 2}, lin},
+        vt{12, {1, 2}, lin},
+        vt{12 - 3, {1, 4}, lin},
+        vt{12 - 3, {1, 3}, gm},
+
+        vt{12+2, {1, 3}, gm},
+        vt{12+2, {1, 8}, lin},
+        vt{12+3, {1, 3}, gm},
+        vt{12, {1, 3}, gm},
+
+        vt{12, {1, 2}, lin},
+        vt{12, {1, 2}, lin},
+        vt{12 - 3, {1, 4}, lin},
+        vt{12 - 3, {1, 3}, gm},
+
+
+        vt{12, {1, 8}, lin},
+        vt{12-4, {1, 5}, gl},
+        vt{12+24+12, {1, 4}, step},
     }
     return test_path, chant_pitch
 end
@@ -65,17 +91,54 @@ end
 test_path, chang_pitch = generate_chant()
 
 bell_strike = {
+    vt{1, {1, 14}, step},
+
+    vt{1, {1, 14}, g50},
+    vt{1, {1, 14}, g50},
+    vt{1, {1, 14}, g50},
+    vt{1, {1, 14}, g50},
     vt{1, {1, 14}, g50},
 }
 
+hum_level = {
+    vt{0, {1, 14}, lin},
+    vt{1, {1, 14}, step},
+}
+
 vox_gate = {
+    vt{0, {1, 14}, step},
+
     vt{0, {1, 3}, step},
     vt{1, {1, 8}, step},
     vt{0, {1, 3}, step},
+
+    vt{0, {1, 3}, step},
+    vt{1, {1, 8}, step},
+    vt{0, {1, 3}, step},
+
+    vt{0, {1, 3}, step},
+    vt{1, {1, 8}, step},
+    vt{0, {1, 3}, step},
+
+    vt{0, {1, 3}, step},
+    vt{1, {1, 8}, step},
+    vt{0, {1, 3}, step},
+
+    vt{0, {1, 3}, step},
+    vt{1, {1, 8}, step},
+    vt{0, {1, 3}, step},
+
+    vt{0, {1, 3}, step},
+    vt{1, {1, 8}, step},
+    vt{0, {1, 3}, step},
+
+    vt{1, {1, 16}, step},
+    vt{0, {1, 1}, step},
 }
 
 breakdown = {
-    vt{0, {1, 14*6}, lin},
+    vt{0, {1, 14}, step},
+    vt{0, {1, 14*5}, lin},
     vt{1, {1, 14}, step},
 }
 
@@ -104,7 +167,7 @@ function chant(gst, cnd)
     gesture(sigrunes, gst, "chantpitch", cnd)
 
     lilts {
-        {"param", 30 + 7 - 12},
+        {"param", 33 + 7 - 12},
         {"add", zz, zz},
         {"jitseg", 0.3, -0.3, 0.5, 2, 1},
         {"add", zz, zz},
@@ -129,11 +192,23 @@ end
 
 function static()
     lilts {
-        {"chaosnoise", 1.8, 100, 0.1},
+        {"chaosnoise", "[rline 1.1 1.8 1]", 120, 0.9},
         {"buthp", zz, 100},
         {"highshelf", zz, 4000, 8, 0.5},
         {"mul", zz, "[dblin 3]"},
     }
+end
+
+function hum(gst, cnd)
+    lilts {
+        {"blsquare", 60},
+        {"sine", 5, 1},
+        {"biscale", zz, 100, 600},
+        {"butlp", zz, zz},
+        {"mul", zz, "[dblin -15]"},
+    }
+    gesture(sigrunes, gst, "humlevel", cnd)
+    lil("mul zz zz")
 end
 
 function gesture(sr, gst, name, cnd)
@@ -200,7 +275,7 @@ function reverb(gst, cnd)
     brk:get()
     lilts {
         {"expmap", zz, 8},
-        {"scale", zz, 1, 50},
+        {"scale", zz, 1, 60},
         {"softclip", zz, zz},
         {"dup"},
         {"bigverb", zz, zz, 0.97, 10000},
@@ -238,20 +313,28 @@ tal.jump(words, "vowshapes")
 tal.label(words, "bell")
 tal.interpolate(words, 0)
 path.path(tal, words, bell_strike)
-tal.jump(words, "bell")
+tal.halt(words)
+--tal.jump(words, "bell")
 
 tal.label(words, "voxgate")
 path.path(tal, words, vox_gate)
-tal.jump(words, "voxgate")
+tal.halt(words)
+-- tal.jump(words, "voxgate")
 
 tal.label(words, "chantpitch")
 path.path(tal, words, chant_pitch)
-tal.jump(words, "chantpitch")
+tal.halt(words)
+--tal.jump(words, "chantpitch")
 
 tal.label(words, "breakdown")
 path.path(tal, words, breakdown)
 tal.halt(words)
 
+tal.label(words, "humlevel")
+path.path(tal, words, hum_level)
+tal.halt(words)
+
+print(#words)
 g = gest:new{tal = tal}
 g:create()
 g:compile(words)
@@ -269,10 +352,13 @@ lil("add zz zz")
 chant(g, cnd)
 lil("add zz zz")
 reverb(g, cnd)
+hum(g, cnd)
+lil("add zz zz")
+lil("limit zz -0.99 0.99")
 
 cnd:unhold()
 
 lilts {
     {"wavout", "zz", "test.wav"},
-    {"computes", 80}
+    {"computes", 38 + 6.8}
 }
