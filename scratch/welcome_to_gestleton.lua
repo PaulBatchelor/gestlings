@@ -6,6 +6,7 @@ tal = require("tal/tal")
 sigrunes = require("sigrunes/sigrunes")
 sig = require("sig/sig")
 core = require("util/core")
+ritualmusic = require("scratch/ritual_music")
 
 -- make sure to generate msgpack data beforehand from XM
 -- file with:
@@ -14,7 +15,6 @@ fp = io.open("scratch/welcome_to_gestleton.bin", "r")
 mpbytes = fp:read("*all")
 fp:close()
 module_data = msgpack.unpack(mpbytes)
-
 
 lil("shapemorfnew lut scratch/yahshapes2.b64")
 -- lil("shapemorfnew lut shapes/tubesculpt_testshapes.b64")
@@ -84,18 +84,22 @@ function extract_cells(patterns)
     local ptable = module_data.header.ptable
 
     -- for _, pat in pairs(patterns) do
+    
     for i=1,songlen do
         local pat = patterns[ptable[i] + 1]
-        -- local patdata = patterns[1].data
-        local patdata = pat.data
-        local pos = 1
-        local currow = {}
-        while (pos <= #patdata) do
-            cell, pos = getcell(patdata, pos)
-            table.insert(currow, cell)
-            if (#currow == nchans) then
-                table.insert(cells, currow)
-                currow = {}
+
+        if pat ~= nil then
+            -- local patdata = patterns[1].data
+            local patdata = pat.data
+            local pos = 1
+            local currow = {}
+            while (pos <= #patdata) do
+                cell, pos = getcell(patdata, pos)
+                table.insert(currow, cell)
+                if (#currow == nchans) then
+                    table.insert(cells, currow)
+                    currow = {}
+                end
             end
         end
     end
@@ -298,6 +302,9 @@ for _, voc in pairs(voices) do
 end
 
 -- pprint(words)
+rmdata = {}
+ritualmusic.generate_gesture_paths(rmdata)
+ritualmusic.generate_tal(path, tal, rmdata, words)
 
 G = gest:new()
 G:create()
@@ -447,22 +454,75 @@ for idx, voc in pairs(voices) do
         lil("add zz zz")
     end
 end
--- synthesize_voice(vocal_data)
 lil("dcblocker zz")
 lil("mul zz [dblin -7]")
-cnd:unhold()
+
+
+ritualmusic.bell(G, cnd)
+lil("add zz zz")
+ritualmusic.chant(G, cnd)
+lil("add zz zz")
+
+noiseamt = sig:new()
+gesture(sigrunes, G, "static", cnd)
+noiseamt:hold()
+
+ritualmusic.static(G, cnd)
+noiseamt:get()
+lil("mul zz zz")
+lil("add zz zz")
 
 lil("dup")
 lil("vardelay zz 0.0 0.1 0.5")
+
+gesture(sigrunes, G, "breakdown", cnd)
+brk = sig:new()
+brk:hold()
+brk:get()
+core.lilts {
+    {"expmap", zz, 8},
+    {"scale", zz, 1, 60},
+    {"softclip", zz, zz},
+}    
+brk:unhold()
 lil("dup")
-lil("bigverb zz zz 0.85 7000")
+gesture(sigrunes, G, "reverb", cnd)
+revamt = sig:new()
+revamt:hold()
+
+lil("param 0.85")
+lil("param 0.97")
+revamt:get()
+lil("crossfade zz zz zz")
+
+lil("param 7000")
+lil("param 10000")
+revamt:get()
+lil("crossfade zz zz zz")
+lil("bigverb zz zz zz zz")
 lil("drop")
 lil("dcblocker zz")
-lil("mul zz [dblin -13]")
+
+lil("param -13")
+lil("param -10")
+revamt:get()
+lil("crossfade zz zz zz")
+revamt:unhold()
+lil("dblin zz")
+lil("mul zz zz")
+
+ritualmusic.hum(G, cnd)
+noiseamt:get()
+lil("mul zz zz")
 lil("add zz zz")
+noiseamt:unhold()
+
+lil("add zz zz")
+
+cnd:unhold()
 lilts {
     {"wavout", "zz", "test.wav"},
-    {"computes", 50}
+    {"computes", 101.3}
 }
 
 ::quit::

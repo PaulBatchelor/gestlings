@@ -1,11 +1,11 @@
-core = require("util/core")
-gest = require("gest/gest")
-pprint = require("util/pprint")
-tal = require("tal/tal")
-path = require("path/path")
-sig = require("sig/sig")
-sigrunes = require("sigrunes/sigrunes")
-
+-- core = require("util/core")
+-- gest = require("gest/gest")
+-- pprint = require("util/pprint")
+-- tal = require("tal/tal")
+-- path = require("path/path")
+-- sig = require("sig/sig")
+-- sigrunes = require("sigrunes/sigrunes")
+-- 
 lilts = core.lilts
 zz = "zz"
 
@@ -19,11 +19,12 @@ end
 function ritualmusic.generate_gesture_paths(data)
     -- local test_path, chant_pitch = generate_chant()
 
-    lil("shapemorfnew lut shapes/tubesculpt_testshapes.b64")
-    lil("grab lut")
-    lut = pop()
-    lookup = shapemorf.generate_lookup(lut)
+    lil("shapemorfnew lutrm shapes/tubesculpt_testshapes.b64")
+    lil("grab lutrm")
+    local lut = pop()
+    local lookup = shapemorf.generate_lookup(lut)
 
+    data.lookup = lookup
     local vt = path.vertex
     local gm = gest.behavior.gliss_medium
     local step = gest.behavior.step
@@ -42,18 +43,60 @@ function ritualmusic.generate_gesture_paths(data)
     }
 
     data.test_path = {
-        vt{shapes[1], {1, 3}, gm},
+        -- 32 + 4 bars rest
+        vt{shapes[1], {1, 32}, step},
+        vt{shapes[1], {1, 32}, step},
+        vt{shapes[1], {1, 32}, step},
+        vt{shapes[1], {1, 32}, step},
+        vt{shapes[1], {1, 16}, gm},
 
+        vt{shapes[1], {1, 3}, gm},
         vt{shapes[2], {1, 2}, gm},
         vt{shapes[3], {1, 2}, gm},
-
         vt{shapes[6], {1, 4}, lin},
-
-
         vt{shapes[4], {1, 3}, gm},
+
+        vt{shapes[1], {1, 3}, gm},
+        vt{shapes[2], {1, 2}, gm},
+        vt{shapes[3], {1, 2}, gm},
+        vt{shapes[6], {1, 4}, lin},
+        vt{shapes[4], {1, 3}, gm},
+
+        vt{shapes[1], {1, 3}, gm},
+        vt{shapes[2], {1, 2}, gm},
+        vt{shapes[3], {1, 2}, gm},
+        vt{shapes[6], {1, 4}, lin},
+        vt{shapes[4], {1, 3}, gm},
+
+        vt{shapes[1], {1, 3}, gm},
+        vt{shapes[2], {1, 2}, gm},
+        vt{shapes[3], {1, 2}, gm},
+        vt{shapes[6], {1, 4}, lin},
+        vt{shapes[4], {1, 3}, gm},
+
+        vt{shapes[1], {1, 3}, gm},
+        vt{shapes[2], {1, 2}, gm},
+        vt{shapes[3], {1, 2}, gm},
+        vt{shapes[6], {1, 4}, lin},
+        vt{shapes[4], {1, 3}, gm},
+
+        vt{shapes[1], {1, 3}, gm},
+        vt{shapes[2], {1, 2}, gm},
+        vt{shapes[3], {1, 2}, gm},
+        vt{shapes[6], {1, 4}, lin},
+        vt{shapes[4], {1, 3}, gm},
+
+        vt{shapes[1], {1, 3}, gm},
     }
 
     data.chant_pitch = {
+        -- 32 + 4 bars rest
+        vt{12, {1, 32}, step},
+        vt{12, {1, 32}, step},
+        vt{12, {1, 32}, step},
+        vt{12, {1, 32}, step},
+        vt{12, {1, 16}, gm},
+
         vt{12+2, {1, 3}, gm},
         vt{12+2, {1, 8}, lin},
         vt{12+3, {1, 3}, gm},
@@ -96,6 +139,14 @@ function ritualmusic.generate_gesture_paths(data)
     }
 
     data.bell_strike = {
+
+        -- 32 + 4 bars rest
+        vt{1, {1, 32}, step},
+        vt{1, {1, 32}, step},
+        vt{1, {1, 32}, step},
+        vt{1, {1, 32}, step},
+        vt{1, {1, 16}, step},
+
         vt{1, {1, 14}, step},
 
         vt{1, {1, 14}, g50},
@@ -105,11 +156,25 @@ function ritualmusic.generate_gesture_paths(data)
         vt{1, {1, 14}, g50},
     }
     data.hum_level = {
+        -- 32 + 4 bars rest
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 16}, step},
+
         vt{0, {1, 14}, lin},
         vt{1, {1, 14}, step},
     }
 
     data.vox_gate = {
+        -- 32 + 4 bars rest
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 16}, step},
+
         vt{0, {1, 14}, step},
 
         vt{0, {1, 3}, step},
@@ -141,8 +206,39 @@ function ritualmusic.generate_gesture_paths(data)
     }
 
     data.breakdown = {
+        -- 32 + 4 bars rest
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 16}, step},
+
         vt{0, {1, 14}, step},
         vt{0, {1, 14*5}, lin},
+        vt{1, {1, 14}, step},
+    }
+
+    data.reverb = {
+        -- 32 + 4 bars rest
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32 - 8}, gm},
+        vt{1, {1, 8}, step},
+        vt{1, {1, 16}, step},
+
+        vt{1, {1, 14}, step},
+    }
+
+    data.static = {
+        -- 32 + 4 bars rest
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 32}, step},
+        vt{0, {1, 16}, step},
+
+        vt{1, {1, 8}, step},
         vt{1, {1, 14}, step},
     }
 end
@@ -155,12 +251,11 @@ function chant(gst, cnd)
         {"regset", zz, r_tubular},
 
         {
-            -- gvm, lut, tubular, program , conductor
             "shapemorf",
-            g:get(),
-            "[grab lut]",
+            gst:get(),
+            "[grab lutrm]",
             "[regget " .. r_tubular .. "]",
-            "[" .. g:gmemsymstr("vowshapes") .. "]",
+            "[" .. gst:gmemsymstr("vowshapes") .. "]",
             "[" .. table.concat(cnd:getstr(), " ") .. "]"
         },
     }
@@ -197,10 +292,10 @@ end
 
 function static()
     lilts {
-        {"chaosnoise", "[rline 1.1 1.8 1]", 120, 0.9},
+        {"chaosnoise", "[rline 0.9 1.8 1]", 120, 0.9},
         {"buthp", zz, 100},
         {"highshelf", zz, 4000, 8, 0.5},
-        {"mul", zz, "[dblin 3]"},
+        {"mul", zz, "[dblin -1]"},
     }
 end
 
@@ -310,32 +405,63 @@ end
 
 function ritualmusic.generate_tal(path, tal, data, words)
     tal.label(words, "vowshapes")
-    path.path(tal, words, data.test_path, lookup)
+    path.path(tal, words, data.test_path, data.lookup)
     tal.jump(words, "vowshapes")
 
     tal.label(words, "bell")
     tal.interpolate(words, 0)
     path.path(tal, words, data.bell_strike)
-    tal.halt(words)
+    --tal.halt(words)
     --tal.jump(words, "bell")
+    tal.jump(words, "hold")
 
     tal.label(words, "voxgate")
     path.path(tal, words, data.vox_gate)
-    tal.halt(words)
+    --tal.halt(words)
     -- tal.jump(words, "voxgate")
+    tal.jump(words, "hold")
 
     tal.label(words, "chantpitch")
     path.path(tal, words, data.chant_pitch)
-    tal.halt(words)
+    --tal.halt(words)
     --tal.jump(words, "chantpitch")
+    tal.jump(words, "hold")
 
     tal.label(words, "breakdown")
     path.path(tal, words, data.breakdown)
-    tal.halt(words)
+    --tal.halt(words)
+    tal.jump(words, "hold")
 
     tal.label(words, "humlevel")
     path.path(tal, words, data.hum_level)
-    tal.halt(words)
+    --tal.halt(words)
+    tal.jump(words, "hold")
+
+    tal.label(words, "reverb")
+    path.path(tal, words, data.reverb)
+    --tal.halt(words)
+    tal.jump(words, "hold")
+
+    tal.label(words, "static")
+    path.path(tal, words, data.static)
+    --tal.halt(words)
+    tal.jump(words, "hold")
+end
+
+function ritualmusic.bell(gst, cnd)
+    bell(gst, cnd)
+end
+
+function ritualmusic.chant(gst, cnd)
+    chant(gst, cnd)
+end
+
+function ritualmusic.static(gst, cnd)
+    static(gst, cnd)
+end
+
+function ritualmusic.hum(gst, cnd)
+    hum(gst, cnd)
 end
 
 function render()
