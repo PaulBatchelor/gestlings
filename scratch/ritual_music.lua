@@ -236,7 +236,7 @@ function ritualmusic.generate_gesture_paths(data)
         vt{0, {1, 32}, step},
         vt{0, {1, 32}, step},
         vt{0, {1, 32}, step},
-        vt{0, {1, 16}, step},
+        vt{0, {1, 16}, lin},
 
         vt{1, {1, 8}, step},
         vt{1, {1, 14}, step},

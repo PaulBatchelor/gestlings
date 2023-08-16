@@ -84,7 +84,6 @@ function extract_cells(patterns)
     local ptable = module_data.header.ptable
 
     -- for _, pat in pairs(patterns) do
-    
     for i=1,songlen do
         local pat = patterns[ptable[i] + 1]
 
