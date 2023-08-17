@@ -216,7 +216,6 @@ end
 function mkdiamond(vm, id)
     local scale = 0.6
     return mksinger(vm, "diamond", id) {
-
         {
             "point",
             "vec2", 1.0*scale, -0.2*scale, "add2",
@@ -261,11 +260,52 @@ function mkdiamond(vm, id)
     }
 end
 
-trixie = mktrixie(vm, 3)
+function mkbubbles(vm, id)
+    local scale = 0.6
+    return mksinger(vm, "bubbles", id) {
+        {
+            "point",
+            "vec2", 0.0, 0.4*scale, "add2",
+            "vec2",
+            1.2*scale, 0.7*scale,
+            "ellipse"
+        },
+        {
+            "point",
+            "vec2", 0.0, -0.5*scale, "add2",
+            "scalar", 0.5*scale,
+            "circle",
+        },
+        {
+            "scalar", 0.8*scale,
+            "union_smooth"
+        },
+        {"scalar", 0.02*scale, "onion", "gtz"},
 
+        {
+            "point",
+            "vec2", 0.0*scale, -0.33*scale, "add2",
+            "scalar", 0.5*scale, "circle"
+        },
+        {"scalar", 0.02*scale, "onion"},
+        {
+            "point",
+            "vec2", 0.0*scale, -0.33*scale, "add2",
+            "scalar", 0.3*scale, "circle",
+            "add"
+        },
+        "gtz",
+        "add",
+
+    }
+end
+
+trixie = mktrixie(vm, 3)
 diamond = mkdiamond(vm, 0)
+bubbles = mkbubbles(vm, 1)
 
 draw(vm, trixie)
 draw(vm, diamond)
+draw(vm, bubbles)
 
 lil("bppng [grab bp] scratch/squad.png")
