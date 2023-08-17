@@ -296,16 +296,41 @@ function mkbubbles(vm, id)
         },
         "gtz",
         "add",
+    }
+end
 
+function mkcarl(vm, id)
+    local scale = 0.6
+    return mksinger(vm, "carl", id) {
+        {
+            "point",
+            "vec2",
+            0.4*scale, 1.5*scale,
+            "ellipse"
+        },
+        {"scalar", 0.02*scale, "onion", "gtz"},
+
+        {
+            "point",
+            "vec2", 0.15*scale, -0.2*scale, "add2",
+            "scalar", 0.08*scale, "circle",
+            "gtz add",
+            "point",
+            "vec2", -0.15*scale, -0.2*scale, "add2",
+            "scalar", 0.08*scale, "circle",
+            "gtz add"
+        },
     }
 end
 
 trixie = mktrixie(vm, 3)
 diamond = mkdiamond(vm, 0)
 bubbles = mkbubbles(vm, 1)
+carl = mkcarl(vm, 2)
 
 draw(vm, trixie)
 draw(vm, diamond)
 draw(vm, bubbles)
+draw(vm, carl)
 
 lil("bppng [grab bp] scratch/squad.png")
