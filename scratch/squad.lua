@@ -320,6 +320,22 @@ function mkcarl(vm, id)
             "scalar", 0.08*scale, "circle",
             "gtz add"
         },
+
+        -- "point vec2 0 0.5 add2",
+        -- {"scalar", 0, "uniform"},
+        -- {"scalar", 1, "uniform"},
+        -- {"scalar", 2, "uniform"},
+        -- {"scalar", 3, "uniform"},
+        -- "poly4",
+        -- -- r5: rounded edge amount
+        -- "scalar 5 uniform roundness",
+        -- -- r6: rounded edge amount
+        -- "point vec2 0 0.5 add2",
+        -- "scalar 6 uniform circle",
+        -- -- r4: circleness amount
+        -- "scalar 4 uniform lerp gtz",
+
+        -- "add"
     }
 end
 
