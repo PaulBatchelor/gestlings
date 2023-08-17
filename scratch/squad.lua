@@ -133,7 +133,8 @@ trixie = mksinger(vm, "trixie", 3) {
 
     "add",
 
-    "point scalar 0.75 circle scalar 0.02 onion",
+    --"point scalar 0.75 circle scalar 0.02 onion",
+    "point vec2 0.75 0.6 ellipse scalar 0.02 onion",
     "scalar 0 regget scalar 1 regget",
     "add",
     "swap subtract",
@@ -153,6 +154,8 @@ trixie = mksinger(vm, "trixie", 3) {
     "scalar 4 uniform lerp gtz",
 
     "add"
+
+    -- "point vec2 0.75 0.6 ellipse gtz",
 }
 
 draw(vm, trixie)
