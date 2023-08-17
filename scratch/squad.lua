@@ -95,7 +95,8 @@ function setup()
 end
 
 function draw(vm, singer)
-    apply_mouth_shape(vm, mouth1)
+    local mouth = singer.open
+    apply_mouth_shape(vm, mouth)
     lilt {
         "bpsdf",
         string.format("[bpget [grab bp] %d]", singer.id),
@@ -137,8 +138,36 @@ lil("sdfvmnew vm")
 lil("grab vm")
 vm = pop()
 
+function mkmouth(scale, mouth_xscale, mouth_yscale, offset)
+    local offx = offset[1]
+    local offy = offset[2]
+    local m = {
+        "point", "vec2", offx*scale, offy*scale, "add2",
+        "scalar", 0, "uniform",
+        "vec2", scale*mouth_xscale, scale*mouth_yscale, "mul2",
+        "scalar", 1, "uniform",
+        "vec2", scale*mouth_xscale, scale*mouth_yscale, "mul2",
+        "scalar", 2, "uniform",
+        "vec2", scale*mouth_xscale, scale*mouth_yscale, "mul2",
+        "scalar", 3, "uniform",
+        "vec2", scale*mouth_xscale, scale*mouth_yscale, "mul2",
+        "poly4",
+
+        "scalar", 5, "uniform", "roundness",
+        -- r6: rounded edge amount
+        "point", "vec2", offx*scale, offy*scale, "add2",
+        "scalar", 6, "uniform", "circle",
+        -- r4: circleness amount
+        "scalar", 4, "uniform", "lerp", "gtz",
+    }
+
+    return m
+end
+
 function mktrixie(vm, id)
     local scale = 0.6
+    local mouth_yscale = 0.8
+    local mouth_xscale = 0.8
     return mksinger(vm, "trixie", id) {
         {
             "point",
@@ -182,19 +211,9 @@ function mktrixie(vm, id)
         "swap subtract",
         "add",
 
-        -- "point vec2 0 0.5 add2",
-        -- "scalar 0 uniform scalar 1 uniform",
-        -- "scalar 2 uniform scalar 3 uniform",
-        -- "poly4",
-        -- -- r5: rounded edge amount
-        -- "scalar 5 uniform roundness",
-        -- -- r6: rounded edge amount
-        -- "point vec2 0 0.5 add2",
-        -- "scalar 6 uniform circle",
-        -- -- r4: circleness amount
-        -- "scalar 4 uniform lerp gtz",
+        mkmouth(scale, mouth_xscale, mouth_yscale, {0, 0.55}),
 
-        -- "add"
+        "add",
         -- "point vec2 0.75 0.6 ellipse gtz",
         "gtz",
     }
@@ -257,6 +276,7 @@ function mkdiamond(vm, id)
         --{"point", "vec2", 0.0, -0.5*scale, "add2", "scalar", 0.5*scale, "circle"},
         -- {"scalar", 0.01*scale, "union_smooth"},
         {"scalar", 0.02*scale, "onion", "gtz", "add"},
+        mkmouth(scale, 3.5, 0.9, {0, 0.7}), "add"
     }
 end
 
@@ -296,6 +316,7 @@ function mkbubbles(vm, id)
         },
         "gtz",
         "add",
+        mkmouth(scale, 0.8, 0.3, {0, 0.7}), "add"
     }
 end
 
@@ -321,28 +342,20 @@ function mkcarl(vm, id)
             "gtz add"
         },
 
-        -- "point vec2 0 0.5 add2",
-        -- {"scalar", 0, "uniform"},
-        -- {"scalar", 1, "uniform"},
-        -- {"scalar", 2, "uniform"},
-        -- {"scalar", 3, "uniform"},
-        -- "poly4",
-        -- -- r5: rounded edge amount
-        -- "scalar 5 uniform roundness",
-        -- -- r6: rounded edge amount
-        -- "point vec2 0 0.5 add2",
-        -- "scalar 6 uniform circle",
-        -- -- r4: circleness amount
-        -- "scalar 4 uniform lerp gtz",
+        mkmouth(scale, 1.8, 0.8, {0, 0.7}),
 
-        -- "add"
+        "add",
     }
 end
 
 trixie = mktrixie(vm, 3)
+trixie.open = mouth1
 diamond = mkdiamond(vm, 0)
+diamond.open = mouth1
 bubbles = mkbubbles(vm, 1)
+bubbles.open = mouth1
 carl = mkcarl(vm, 2)
+carl.open = mouth1
 
 draw(vm, trixie)
 draw(vm, diamond)
