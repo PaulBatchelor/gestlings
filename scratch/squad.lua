@@ -401,14 +401,14 @@ diamond.close = {
     }
 }
 diamond.rest = {
-    circleness = 0.1,
-    roundedge = 0.1,
+    circleness = 0.05,
+    roundedge = 0.01,
     circrad = 0.7,
     points = {
-        {-0.4, 0.5},
-        {-0.1, 0.5},
-        {0.1, 0.5},
-        {0.4, 0.5},
+        {-0.8, 0.1},
+        {-0.8, 0.1},
+        {0.8, 0.1},
+        {0.8, 0.1},
     }
 }
 
