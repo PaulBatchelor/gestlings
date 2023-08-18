@@ -398,6 +398,9 @@ function synthesize_voice(voice_data, gst, cnd)
         },
     }
 
+    lil("gestvmlast " .. gst:get())
+    voice_data.shape_gesture = pop()
+
     lilt {"regget", 4}
 
     gesture(sigrunes, gst, pitch_label, local_cnd)
@@ -421,6 +424,8 @@ function synthesize_voice(voice_data, gst, cnd)
     }
 
     gesture(sigrunes, gst, gate_label, local_cnd)
+    lil("gestvmlast " .. gst:get())
+    voice_data.gate_gesture = pop()
 
     lilts {
         {"envar", "zz", 0.05, 0.2},
@@ -485,7 +490,7 @@ core.lilts {
     {"expmap", zz, 8},
     {"scale", zz, 1, 60},
     {"softclip", zz, zz},
-}    
+}
 brk:unhold()
 lil("dup")
 gesture(sigrunes, G, "reverb", cnd)
@@ -522,6 +527,14 @@ noiseamt:unhold()
 lil("add zz zz")
 
 cnd:unhold()
+
+-- delay by some frames for latency compensation
+-- this is tuned by ear/eye, but I'm sure there's
+-- an actual value
+lilts {
+    {"vardelay", "zz", 0, 4.0/60.0, 1.0}
+}
+
 lilts {
     {"wavout", "zz", "tmp/welcome_to_gestleton.wav"},
     -- {"computes", 101.3}
@@ -535,8 +548,10 @@ function frame(data, framenum)
     end
     lil("compute 15")
 
+
     lil("grab gfx")
     lil("gfxfill 1")
+    -- local current_mouth, next_mouth, pos = gestvm_last_values(fs.gvm)
     squad.draw(s)
     lil("dup")
     lil("bptr [grab bp] 0 0 640 480 0 0 0")
@@ -544,11 +559,25 @@ function frame(data, framenum)
     lil("gfxtransfer; gfxappend")
 end
 
-local nframes = 60*10
+local nframes = math.floor(60*101.3)
 
 framedata = {
     the_squad = squad.new()
 }
+
+function bind_gesture_to_squad(sqd, voices)
+    sqd.diamond.shape_gesture = voices[1].shape_gesture
+    sqd.diamond.gate_gesture = voices[1].gate_gesture
+
+    sqd.bubbles.shape_gesture = voices[2].shape_gesture
+    sqd.bubbles.gate_gesture = voices[2].gate_gesture
+
+    sqd.carl.shape_gesture = voices[3].shape_gesture
+    sqd.carl.gate_gesture = voices[3].gate_gesture
+
+    sqd.trixie.shape_gesture = voices[4].shape_gesture
+    sqd.trixie.gate_gesture = voices[4].gate_gesture
+end
 
 lil("grab gfx; dup")
 lil("gfxopen tmp/welcome_to_gestleton.h264")
@@ -558,6 +587,8 @@ lil("drop")
 -- squad.draw(framedata.the_squad)
 -- lil("bppng [grab bp] scratch/squad.png")
 -- goto quit
+
+bind_gesture_to_squad(framedata.the_squad, voices)
 for i = 1, nframes do
     frame(framedata, i)
 end

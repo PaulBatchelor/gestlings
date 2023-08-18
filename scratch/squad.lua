@@ -120,10 +120,46 @@ function mouth_interp(m1, m2, pos)
     return newmouth
 end
 
+function lerp(curval, target, speed)
+    speed = speed or 0.2
+    curval = curval + ((target - curval) * speed)
+    return curval
+end
+
 function draw(vm, singer)
-    local shapepos = 1
-    local restamt = 1.0
-    local mouth = mouth_interp(singer.open, singer.close, shapepos)
+
+    local mouth = singer.open
+    if singer.shape_gesture ~= nil then
+        local cur, nxt, pos = gestvm_last_values(singer.shape_gesture)
+        local m1 = nil
+        local m2 = nil
+
+        -- TODO: use lookup table to get open/close values
+        if cur == 1 then
+            m1 = singer.close
+        else
+            m1 = singer.open
+        end
+
+        if nxt == 1 then
+            m2 = singer.close
+        else
+            m2 = singer.open
+        end
+
+        mouth = mouth_interp(m1, m2, pos)
+    end
+
+    local restamt = 0
+    if singer.gate_gesture ~= nil then
+        local cur, nxt, pos = gestvm_last_values(singer.gate_gesture)
+        local gate = pos*nxt + (1 -pos)*cur
+        restamt = 1 - gate
+
+        restamt = lerp(singer.restamt or 1, restamt, 0.5)
+        singer.restamt = restamt
+    end
+
     mouth = mouth_interp(mouth, singer.rest, restamt)
     apply_mouth_shape(vm, mouth)
     lilt {
@@ -529,6 +565,7 @@ end
 
 function squad.draw(o)
     local vm = o.vm
+
     draw(vm, o.trixie)
     draw(vm, o.diamond)
     draw(vm, o.bubbles)
