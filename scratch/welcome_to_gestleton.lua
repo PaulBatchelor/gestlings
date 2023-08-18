@@ -307,6 +307,7 @@ rmdata = {}
 ritualmusic.generate_gesture_paths(rmdata)
 ritualmusic.generate_tal(path, tal, rmdata, words)
 
+lil("blkset 49")
 G = gest:new()
 G:create()
 G:compile(words)
@@ -522,13 +523,50 @@ lil("add zz zz")
 
 cnd:unhold()
 lilts {
-    {"wavout", "zz", "test.wav"},
-    {"computes", 101.3}
+    {"wavout", "zz", "tmp/welcome_to_gestleton.wav"},
+    -- {"computes", 101.3}
 }
 
-local s = squad.new()
-squad.draw(s)
-lil("bppng [grab bp] scratch/squad.png")
+
+function frame(data, framenum)
+    local s = data.the_squad
+    if (framenum % 60 == 0) then
+        print(framenum)
+    end
+    lil("compute 15")
+
+    lil("grab gfx")
+    lil("gfxfill 1")
+    squad.draw(s)
+    lil("dup")
+    lil("bptr [grab bp] 0 0 640 480 0 0 0")
+    lil("dup")
+    lil("gfxtransfer; gfxappend")
+end
+
+local nframes = 60*10
+
+framedata = {
+    the_squad = squad.new()
+}
+
+lil("grab gfx; dup")
+lil("gfxopen tmp/welcome_to_gestleton.h264")
+lil("gfxclrset 1 1.0 1.0 1.0")
+lil("gfxclrset 0 0.0 0.0 0.0")
+lil("drop")
+-- squad.draw(framedata.the_squad)
+-- lil("bppng [grab bp] scratch/squad.png")
+-- goto quit
+for i = 1, nframes do
+    frame(framedata, i)
+end
+lil([[
+grab gfx
+gfxclose
+gfxmp4 tmp/welcome_to_gestleton.h264 tmp/welcome_to_gestleton.mp4
+]])
+os.execute("ffmpeg -y -i tmp/welcome_to_gestleton.mp4 -i tmp/welcome_to_gestleton.wav -pix_fmt yuv420p -acodec aac res/welcome_to_gestleton.mp4")
 
 ::quit::
 return nil

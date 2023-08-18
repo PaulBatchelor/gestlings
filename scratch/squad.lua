@@ -58,6 +58,7 @@ end
 
 function setup()
     lil("bpnew bp 640 480")
+    lil("gfxnew gfx 640 480")
     gestling_width = 640 / 2
     gestling_height = 480 / 2
 
