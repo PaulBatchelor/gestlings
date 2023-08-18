@@ -7,6 +7,8 @@ sigrunes = require("sigrunes/sigrunes")
 sig = require("sig/sig")
 core = require("util/core")
 ritualmusic = require("scratch/ritual_music")
+json = require("util/json")
+squad = require("scratch/squad")
 
 -- make sure to generate msgpack data beforehand from XM
 -- file with:
@@ -523,6 +525,10 @@ lilts {
     {"wavout", "zz", "test.wav"},
     {"computes", 101.3}
 }
+
+local s = squad.new()
+squad.draw(s)
+lil("bppng [grab bp] scratch/squad.png")
 
 ::quit::
 return nil

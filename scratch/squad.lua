@@ -1,16 +1,13 @@
 -- the Squad. aka sketching out the lil fellas who will
 -- eventually be singing in the trailer
 
-json = require("util/json")
-pprint = require("util/pprint")
-core = require("util/core")
+-- json = require("util/json")
+-- pprint = require("util/pprint")
+-- core = require("util/core")
 
-fp = io.open("avatar/sdfvm_lookup_table.json")
-syms = json.decode(fp:read("*all"))
-fp:close()
-
--- pprint(syms)
 lilt = core.lilt
+
+squad = {}
 
 function tokenize(s)
     local sep = lpeg.S(" \t\n")
@@ -19,8 +16,7 @@ function tokenize(s)
     return lpeg.match(p, s)
 end
 
-function generate_bytecode(script, bytebuf)
-
+function generate_bytecode(syms, script, bytebuf)
     input_script = {}
 
     for _,line in pairs(script) do
@@ -137,7 +133,7 @@ function draw(vm, singer)
     }
 end
 
-function mksinger(vm, name, id, bufsize)
+function mksinger(vm, syms, name, id, bufsize)
     local singer = {
     }
 
@@ -149,15 +145,10 @@ function mksinger(vm, name, id, bufsize)
     singer.id = id
 
     return function(program)
-        generate_bytecode(program, singer.bytebuf)
+        generate_bytecode(syms, program, singer.bytebuf)
         return singer
     end
 end
-
-setup()
-lil("sdfvmnew vm")
-lil("grab vm")
-vm = pop()
 
 function mkmouth(scale, mouth_xscale, mouth_yscale, offset)
     local offx = offset[1]
@@ -190,10 +181,10 @@ function mkmouth(scale, mouth_xscale, mouth_yscale, offset)
     return m
 end
 
-function mktrixie(vm, id)
+function mktrixie(vm, syms, id)
     local scale = 0.6
 
-    return mksinger(vm, "trixie", id, 512) {
+    return mksinger(vm, syms, "trixie", id, 512) {
         {
             "point",
             "vec2", 0.45*scale, -0.33*scale, "add2",
@@ -257,9 +248,9 @@ function poly4(points, scale)
     return shape
 end
 
-function mkdiamond(vm, id)
+function mkdiamond(vm, syms, id)
     local scale = 0.6
-    return mksinger(vm, "diamond", id) {
+    return mksinger(vm, syms, "diamond", id) {
         {
             "point",
             "vec2", 1.0*scale, -0.2*scale, "add2",
@@ -305,9 +296,9 @@ function mkdiamond(vm, id)
     }
 end
 
-function mkbubbles(vm, id)
+function mkbubbles(vm, syms, id)
     local scale = 0.6
-    return mksinger(vm, "bubbles", id) {
+    return mksinger(vm, syms, "bubbles", id) {
         {
             "point",
             "vec2", 0.0, 0.4*scale, "add2",
@@ -345,9 +336,9 @@ function mkbubbles(vm, id)
     }
 end
 
-function mkcarl(vm, id)
+function mkcarl(vm, syms, id)
     local scale = 0.6
-    return mksinger(vm, "carl", id) {
+    return mksinger(vm, syms, "carl", id) {
         {
             "point",
             "vec2",
@@ -373,150 +364,179 @@ function mkcarl(vm, id)
     }
 end
 
+function squad.new()
+    local o = {}
+    fp = io.open("avatar/sdfvm_lookup_table.json")
+    syms = json.decode(fp:read("*all"))
+    fp:close()
 
-trixie = mktrixie(vm, 3)
-trixie.open = {
-    circleness = 0.7,
-    roundedge = 0.1,
-    circrad = 0.35,
-    points = {
-        {-0.4, 0.4},
-        {-0.05, -0.4},
-        {0.05, -0.4},
-        {0.4, 0.4},
-    }
-}
-trixie.close = {
-    circleness = 0.7,
-    roundedge = 0.1,
-    circrad = 0.1,
-    points = {
-        {-0.4, 0.4},
-        {-0.05, -0.4},
-        {0.05, -0.4},
-        {0.4, 0.4},
-    }
-}
-trixie.rest = {
-    circleness = 0.1,
-    roundedge = 0.03,
-    circrad = 0.1,
-    points = {
-        {-0.8, 0.1},
-        {-0.8, -0.1},
-        {0.8, -0.1},
-        {0.8, 0.1},
-    }
-}
+    o.syms = syms
 
-diamond = mkdiamond(vm, 0)
-diamond.open = {
-    circleness = 0.1,
-    roundedge = 0.1,
-    circrad = 0.7,
-    points = {
-        {-0.5, 0.5},
-        {-0.1, -0.5},
-        {0.1, -0.5},
-        {0.5, 0.5},
-    }
-}
-diamond.close = {
-    circleness = 0.1,
-    roundedge = 0.1,
-    circrad = 0.7,
-    points = {
-        {-0.4, 0.5},
-        {-0.1, 0.5},
-        {0.1, 0.5},
-        {0.4, 0.5},
-    }
-}
-diamond.rest = {
-    circleness = 0.05,
-    roundedge = 0.01,
-    circrad = 0.7,
-    points = {
-        {-0.8, 0.1},
-        {-0.8, 0.1},
-        {0.8, 0.1},
-        {0.8, 0.1},
-    }
-}
+    setup()
+    lil("sdfvmnew vm")
+    lil("grab vm")
+    vm = pop()
 
-bubbles = mkbubbles(vm, 1)
-bubbles.open = {
-    circleness = 0.1,
-    roundedge = 0.1,
-    circrad = 0.7,
-    points = {
-        {-0.5, 0.5},
-        {-0.1, -0.5},
-        {0.1, -0.5},
-        {0.5, 0.5},
-    }
-}
-bubbles.close = {
-    circleness = 0.1,
-    roundedge = 0.1,
-    circrad = 0.7,
-    points = {
-        {-1.5, 0.5},
-        {-0.1, 0.5},
-        {0.1, 0.5},
-        {1.5, 0.5},
-    }
-}
-bubbles.rest = {
-    circleness = 0.01,
-    roundedge = 0.05,
-    circrad = 0.7,
-    points = {
-        {-1.5, 0.2},
-        {-0.1, 0.2},
-        {0.1, 0.2},
-        {1.5, 0.2},
-    }
-}
+    o.vm = vm
 
-carl = mkcarl(vm, 2)
-carl.open = {
-    circleness = 0.05,
-    roundedge = 0.01,
-    circrad = 0.7,
-    points = {
-        {-0.5, 0.5},
-        {-0.1, -0.5},
-        {0.1, -0.5},
-        {0.5, 0.5},
+    trixie = mktrixie(vm, syms, 3)
+    trixie.open = {
+        circleness = 0.7,
+        roundedge = 0.1,
+        circrad = 0.35,
+        points = {
+            {-0.4, 0.4},
+            {-0.05, -0.4},
+            {0.05, -0.4},
+            {0.4, 0.4},
+        }
     }
-}
-carl.close = {
-    circleness = 0.05,
-    roundedge = 0.01,
-    circrad = 0.7,
-    points = {
-        {-0.8, 0.5},
-        {-0.1, 0.3},
-        {0.1, 0.3},
-        {0.8, 0.5},
+    trixie.close = {
+        circleness = 0.7,
+        roundedge = 0.1,
+        circrad = 0.1,
+        points = {
+            {-0.4, 0.4},
+            {-0.05, -0.4},
+            {0.05, -0.4},
+            {0.4, 0.4},
+        }
     }
-}
-carl.rest = {
-    circleness = 0.05,
-    roundedge = 0.01,
-    circrad = 0.7,
-    points = {
-        {-0.2, 0.1},
-        {-0.2, 0.1},
-        {0.2, 0.1},
-        {0.2, 0.1},
+    trixie.rest = {
+        circleness = 0.1,
+        roundedge = 0.03,
+        circrad = 0.1,
+        points = {
+            {-0.8, 0.1},
+            {-0.8, -0.1},
+            {0.8, -0.1},
+            {0.8, 0.1},
+        }
     }
-}
+    o.trixie = trixie
 
-draw(vm, trixie)
-draw(vm, diamond)
-draw(vm, bubbles)
-draw(vm, carl)
+    diamond = mkdiamond(vm, syms, 0)
+    diamond.open = {
+        circleness = 0.1,
+        roundedge = 0.1,
+        circrad = 0.7,
+        points = {
+            {-0.5, 0.5},
+            {-0.1, -0.5},
+            {0.1, -0.5},
+            {0.5, 0.5},
+        }
+    }
+    diamond.close = {
+        circleness = 0.1,
+        roundedge = 0.1,
+        circrad = 0.7,
+        points = {
+            {-0.4, 0.5},
+            {-0.1, 0.5},
+            {0.1, 0.5},
+            {0.4, 0.5},
+        }
+    }
+    diamond.rest = {
+        circleness = 0.05,
+        roundedge = 0.01,
+        circrad = 0.7,
+        points = {
+            {-0.8, 0.1},
+            {-0.8, 0.1},
+            {0.8, 0.1},
+            {0.8, 0.1},
+        }
+    }
+    o.diamond = diamond
 
-lil("bppng [grab bp] scratch/squad.png")
+    bubbles = mkbubbles(vm, syms, 1)
+    bubbles.open = {
+        circleness = 0.1,
+        roundedge = 0.1,
+        circrad = 0.7,
+        points = {
+            {-0.5, 0.5},
+            {-0.1, -0.5},
+            {0.1, -0.5},
+            {0.5, 0.5},
+        }
+    }
+    bubbles.close = {
+        circleness = 0.1,
+        roundedge = 0.1,
+        circrad = 0.7,
+        points = {
+            {-1.5, 0.5},
+            {-0.1, 0.5},
+            {0.1, 0.5},
+            {1.5, 0.5},
+        }
+    }
+    bubbles.rest = {
+        circleness = 0.01,
+        roundedge = 0.05,
+        circrad = 0.7,
+        points = {
+            {-1.5, 0.2},
+            {-0.1, 0.2},
+            {0.1, 0.2},
+            {1.5, 0.2},
+        }
+    }
+    o.bubbles = bubbles
+
+    carl = mkcarl(vm, syms, 2)
+    carl.open = {
+        circleness = 0.05,
+        roundedge = 0.01,
+        circrad = 0.7,
+        points = {
+            {-0.5, 0.5},
+            {-0.1, -0.5},
+            {0.1, -0.5},
+            {0.5, 0.5},
+        }
+    }
+    carl.close = {
+        circleness = 0.05,
+        roundedge = 0.01,
+        circrad = 0.7,
+        points = {
+            {-0.8, 0.5},
+            {-0.1, 0.3},
+            {0.1, 0.3},
+            {0.8, 0.5},
+        }
+    }
+    carl.rest = {
+        circleness = 0.05,
+        roundedge = 0.01,
+        circrad = 0.7,
+        points = {
+            {-0.2, 0.1},
+            {-0.2, 0.1},
+            {0.2, 0.1},
+            {0.2, 0.1},
+        }
+    }
+    o.carl = carl
+    return o
+end
+
+
+function squad.draw(o)
+    local vm = o.vm
+    draw(vm, o.trixie)
+    draw(vm, o.diamond)
+    draw(vm, o.bubbles)
+    draw(vm, o.carl)
+end
+
+-- o = squad.new()
+-- squad.draw(o)
+-- 
+-- lil("bppng [grab bp] scratch/squad.png")
+
+return squad
