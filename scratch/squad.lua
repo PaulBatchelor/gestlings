@@ -94,8 +94,40 @@ function setup()
     }
 end
 
+function mouth_interp(m1, m2, pos)
+    local newmouth = {}
+
+    newmouth.circleness =
+        pos*m2.circleness +
+        (1 - pos)*m1.circleness
+
+    newmouth.roundedge =
+        pos*m2.roundedge +
+        (1 - pos)*m1.roundedge
+
+    newmouth.circrad =
+        pos*m2.circrad +
+        (1 - pos)*m1.circrad
+
+    newmouth.points = {}
+    for i=1,4 do
+        newmouth.points[i] = {}
+        newmouth.points[i][1] =
+            pos*m2.points[i][1] +
+            (1 - pos)*m1.points[i][1]
+        newmouth.points[i][2] =
+            pos*m2.points[i][2] +
+            (1 - pos)*m1.points[i][2]
+    end
+
+    return newmouth
+end
+
 function draw(vm, singer)
-    local mouth = singer.rest
+    local shapepos = 1
+    local restamt = 1.0
+    local mouth = mouth_interp(singer.open, singer.close, shapepos)
+    mouth = mouth_interp(mouth, singer.rest, restamt)
     apply_mouth_shape(vm, mouth)
     lilt {
         "bpsdf",
