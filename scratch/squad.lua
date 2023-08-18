@@ -436,14 +436,14 @@ bubbles.close = {
     }
 }
 bubbles.rest = {
-    circleness = 0.1,
-    roundedge = 0.1,
+    circleness = 0.01,
+    roundedge = 0.05,
     circrad = 0.7,
     points = {
-        {-1.5, 0.5},
-        {-0.1, 0.5},
-        {0.1, 0.5},
-        {1.5, 0.5},
+        {-1.5, 0.2},
+        {-0.1, 0.2},
+        {0.1, 0.2},
+        {1.5, 0.2},
     }
 }
 
