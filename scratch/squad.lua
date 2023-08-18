@@ -121,18 +121,6 @@ function mksinger(vm, name, id)
     end
 end
 
-mouth1 = {
-    circleness = 0.1,
-    roundedge = 0.1,
-    circrad = 0.7,
-    points = {
-        {-0.5, 0.5},
-        {-0.1, -0.5},
-        {0.1, -0.5},
-        {0.5, 0.5},
-    }
-}
-
 setup()
 lil("sdfvmnew vm")
 lil("grab vm")
@@ -166,8 +154,6 @@ end
 
 function mktrixie(vm, id)
     local scale = 0.6
-    local mouth_yscale = 0.8
-    local mouth_xscale = 0.8
     return mksinger(vm, "trixie", id) {
         {
             "point",
@@ -211,7 +197,7 @@ function mktrixie(vm, id)
         "swap subtract",
         "add",
 
-        mkmouth(scale, mouth_xscale, mouth_yscale, {0, 0.55}),
+        mkmouth(scale, 0.8, 0.05, {0, 0.4}),
 
         "add",
         -- "point vec2 0.75 0.6 ellipse gtz",
@@ -348,14 +334,57 @@ function mkcarl(vm, id)
     }
 end
 
+
 trixie = mktrixie(vm, 3)
-trixie.open = mouth1
+trixie.open = {
+    circleness = 0.7,
+    roundedge = 0.1,
+    circrad = 0.4,
+    points = {
+        {-0.4, 0.4},
+        {-0.05, -0.4},
+        {0.05, -0.4},
+        {0.4, 0.4},
+    }
+}
+
 diamond = mkdiamond(vm, 0)
-diamond.open = mouth1
+diamond.open = {
+    circleness = 0.1,
+    roundedge = 0.1,
+    circrad = 0.7,
+    points = {
+        {-0.5, 0.5},
+        {-0.1, -0.5},
+        {0.1, -0.5},
+        {0.5, 0.5},
+    }
+}
+
 bubbles = mkbubbles(vm, 1)
-bubbles.open = mouth1
+bubbles.open = {
+    circleness = 0.1,
+    roundedge = 0.1,
+    circrad = 0.7,
+    points = {
+        {-0.5, 0.5},
+        {-0.1, -0.5},
+        {0.1, -0.5},
+        {0.5, 0.5},
+    }
+}
 carl = mkcarl(vm, 2)
-carl.open = mouth1
+carl.open = {
+    circleness = 0.05,
+    roundedge = 0.01,
+    circrad = 0.7,
+    points = {
+        {-0.5, 0.5},
+        {-0.1, -0.5},
+        {0.1, -0.5},
+        {0.5, 0.5},
+    }
+}
 
 draw(vm, trixie)
 draw(vm, diamond)
