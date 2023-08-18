@@ -312,12 +312,20 @@ G = gest:new()
 G:create()
 G:compile(words)
 
+lil("valnew conductor")
 lilts {
     {"phasor", (153 / 60), 0},
 }
 
 cnd = sig:new()
 cnd:hold()
+
+lil("grab conductor")
+cnd:get()
+
+-- technically, this should be delayed like the audio
+-- but it doesn't seem to matter too much
+lil("valset zz zz")
 
 function gesture(sr, gst, name, cnd)
     sr.node(gst:node()){
@@ -540,6 +548,18 @@ lilts {
     -- {"computes", 101.3}
 }
 
+event_start = (8+8+8+8+4)*4 + 14*2
+events = {
+    {"invert", event_start},
+
+    {"invert", event_start + 14*1},
+    {"invert", event_start + 14*2},
+
+    {"invert", event_start + 14*3},
+    {"invert", event_start + 14*4},
+
+    -- {"invert", event_start + 14*5},
+}
 
 function frame(data, framenum)
     local s = data.the_squad
@@ -548,6 +568,31 @@ function frame(data, framenum)
     end
     lil("compute 15")
 
+    local cnd = valutil.get("conductor")
+
+    if cnd < data.conductor then
+
+        while (data.eventpos <= #data.events) do
+            local evt = data.events[data.eventpos]
+            if evt[2] <= data.beat then
+                data.eventpos = data.eventpos + 1
+
+                if evt[1] == "invert" then
+                    if data.invert == true then
+                        data.invert = false
+                    else
+                        data.invert = true
+                    end
+                end
+            else
+                break
+            end
+        end
+        print("beat " .. data.beat)
+        data.beat = data.beat + 1.0
+    end
+
+    data.conductor = cnd
 
     lil("grab gfx")
     lil("gfxfill 1")
@@ -564,12 +609,16 @@ function frame(data, framenum)
     lil("gfxtransfer; gfxappend")
 end
 
--- local nframes = math.floor(60*101.3)
-local nframes = math.floor(60*2)
+local nframes = math.floor(60*101.3)
+--local nframes = math.floor(60*10)
 
 framedata = {
     the_squad = squad.new(),
-    invert = true
+    invert = false,
+    conductor = 999,
+    beat = 0,
+    eventpos = 1,
+    events = events,
 }
 
 function bind_gesture_to_squad(sqd, voices)
