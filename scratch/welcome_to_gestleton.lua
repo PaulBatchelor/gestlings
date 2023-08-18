@@ -553,17 +553,23 @@ function frame(data, framenum)
     lil("gfxfill 1")
     -- local current_mouth, next_mouth, pos = gestvm_last_values(fs.gvm)
     squad.draw(s)
+
+    if data.invert == true then
+        squad.invert(s)
+    end
+
     lil("dup")
     lil("bptr [grab bp] 0 0 640 480 0 0 0")
     lil("dup")
     lil("gfxtransfer; gfxappend")
 end
 
---local nframes = math.floor(60*101.3)
-local nframes = math.floor(60*30)
+-- local nframes = math.floor(60*101.3)
+local nframes = math.floor(60*2)
 
 framedata = {
-    the_squad = squad.new()
+    the_squad = squad.new(),
+    invert = true
 }
 
 function bind_gesture_to_squad(sqd, voices)

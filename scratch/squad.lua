@@ -598,10 +598,21 @@ end
 function squad.draw(o)
     local vm = o.vm
 
+    lilt {
+       "bpfill", "[bpget [grab bp] 4]", 0
+    }
     draw(vm, o.trixie, o.dims)
     draw(vm, o.diamond, o.dims)
     draw(vm, o.bubbles, o.dims)
     draw(vm, o.carl, o.dims)
+end
+
+function squad.invert(o)
+    lilt {
+        "bpinvert",
+        "[bpget [grab bp] 4]",
+        0, 0, 640, 480
+    }
 end
 
 -- o = squad.new()
