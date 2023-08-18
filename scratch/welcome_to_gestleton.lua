@@ -559,7 +559,8 @@ function frame(data, framenum)
     lil("gfxtransfer; gfxappend")
 end
 
-local nframes = math.floor(60*101.3)
+--local nframes = math.floor(60*101.3)
+local nframes = math.floor(60*30)
 
 framedata = {
     the_squad = squad.new()

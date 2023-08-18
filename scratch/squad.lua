@@ -89,6 +89,8 @@ function setup()
         "[grab bp]", 4,
         0, 0, 640, 480
     }
+
+    return dims
 end
 
 function mouth_interp(m1, m2, pos)
@@ -126,8 +128,7 @@ function lerp(curval, target, speed)
     return curval
 end
 
-function draw(vm, singer)
-
+function draw(vm, singer, dims)
     local mouth = singer.open
     if singer.shape_gesture ~= nil then
         local cur, nxt, pos = gestvm_last_values(singer.shape_gesture)
@@ -162,6 +163,22 @@ function draw(vm, singer)
 
     mouth = mouth_interp(mouth, singer.rest, restamt)
     apply_mouth_shape(vm, mouth)
+
+    if singer.lfo ~= nil and dims ~= nil then
+        local lfo = singer.lfo
+        local phs = lfo.last
+        yoff = math.sin(phs)*lfo.amp
+        phs = phs + (2*math.pi / 60)*lfo.rate
+        lfo.last = phs % (2*math.pi)
+        local id = singer.id + 1
+        lilt {
+            "bpset",
+            "[grab bp]", id - 1,
+            dims[id][1], math.floor(dims[id][2] + yoff),
+            dims[id][3], dims[id][4]
+        }
+    end
+
     lilt {
         "bpsdf",
         string.format("[bpget [grab bp] %d]", singer.id),
@@ -221,7 +238,7 @@ end
 function mktrixie(vm, syms, id)
     local scale = 0.6
 
-    return mksinger(vm, syms, "trixie", id, 512) {
+    local singer = mksinger(vm, syms, "trixie", id, 512) {
         {
             "point",
             "vec2", 0.45*scale, -0.33*scale, "add2",
@@ -270,6 +287,8 @@ function mktrixie(vm, syms, id)
         -- "point vec2 0.75 0.6 ellipse gtz",
         "gtz",
     }
+
+    return singer
 end
 
 function poly4(points, scale)
@@ -401,6 +420,14 @@ function mkcarl(vm, syms, id)
     }
 end
 
+function mklfo(rate, amp, last)
+    local lfo = {}
+    lfo.rate = rate
+    lfo.amp = amp
+    lfo.last = last
+    return lfo
+end
+
 function squad.new()
     local o = {}
     fp = io.open("avatar/sdfvm_lookup_table.json")
@@ -409,7 +436,7 @@ function squad.new()
 
     o.syms = syms
 
-    setup()
+    o.dims = setup()
     lil("sdfvmnew vm")
     lil("grab vm")
     vm = pop()
@@ -450,6 +477,8 @@ function squad.new()
             {0.8, 0.1},
         }
     }
+
+    trixie.lfo = mklfo(0.4, 7, 0)
     o.trixie = trixie
 
     diamond = mkdiamond(vm, syms, 0)
@@ -486,6 +515,7 @@ function squad.new()
             {0.8, 0.1},
         }
     }
+    diamond.lfo = mklfo(0.3, 5, 0.5)
     o.diamond = diamond
 
     bubbles = mkbubbles(vm, syms, 1)
@@ -522,6 +552,7 @@ function squad.new()
             {1.5, 0.2},
         }
     }
+    bubbles.lfo = mklfo(0.25, 6, 1.1)
     o.bubbles = bubbles
 
     carl = mkcarl(vm, syms, 2)
@@ -558,6 +589,7 @@ function squad.new()
             {0.2, 0.1},
         }
     }
+    carl.lfo = mklfo(0.35, 5, 1.4)
     o.carl = carl
     return o
 end
@@ -566,10 +598,10 @@ end
 function squad.draw(o)
     local vm = o.vm
 
-    draw(vm, o.trixie)
-    draw(vm, o.diamond)
-    draw(vm, o.bubbles)
-    draw(vm, o.carl)
+    draw(vm, o.trixie, o.dims)
+    draw(vm, o.diamond, o.dims)
+    draw(vm, o.bubbles, o.dims)
+    draw(vm, o.carl, o.dims)
 end
 
 -- o = squad.new()
