@@ -95,7 +95,7 @@ function setup()
 end
 
 function draw(vm, singer)
-    local mouth = singer.close
+    local mouth = singer.rest
     apply_mouth_shape(vm, mouth)
     lilt {
         "bpsdf",
@@ -105,12 +105,13 @@ function draw(vm, singer)
     }
 end
 
-function mksinger(vm, name, id)
+function mksinger(vm, name, id, bufsize)
     local singer = {
     }
 
+    bufsize = bufsize or 256
     singer.bufname = name
-    lilt {"bufnew", singer.bufname, 256}
+    lilt {"bufnew", singer.bufname, bufsize}
     lilt {"grab", singer.bufname}
     singer.bytebuf = pop()
     singer.id = id
@@ -130,7 +131,8 @@ function mkmouth(scale, mouth_xscale, mouth_yscale, offset)
     local offx = offset[1]
     local offy = offset[2]
     local m = {
-        "point", "vec2", offx*scale, offy*scale, "add2",
+        "point",
+        "vec2", offx*scale, offy*scale, "add2",
         "scalar", 0, "uniform",
         "vec2", scale*mouth_xscale, scale*mouth_yscale, "mul2",
         "scalar", 1, "uniform",
@@ -141,12 +143,16 @@ function mkmouth(scale, mouth_xscale, mouth_yscale, offset)
         "vec2", scale*mouth_xscale, scale*mouth_yscale, "mul2",
         "poly4",
 
-        "scalar", 5, "uniform", "roundness",
-        -- r6: rounded edge amount
-        "point", "vec2", offx*scale, offy*scale, "add2",
+        "scalar", 5, "uniform",
+        "scalar", scale, "mul",
+        "roundness",
+        "point",
+        "vec2", offx*scale, offy*scale,
+        "add2",
         "scalar", 6, "uniform", "circle",
-        -- r4: circleness amount
-        "scalar", 4, "uniform", "lerp", "gtz",
+        "scalar", 4, "uniform", "lerp",
+
+        "gtz",
     }
 
     return m
@@ -154,7 +160,8 @@ end
 
 function mktrixie(vm, id)
     local scale = 0.6
-    return mksinger(vm, "trixie", id) {
+
+    return mksinger(vm, "trixie", id, 512) {
         {
             "point",
             "vec2", 0.45*scale, -0.33*scale, "add2",
@@ -358,6 +365,17 @@ trixie.close = {
         {0.4, 0.4},
     }
 }
+trixie.rest = {
+    circleness = 0.1,
+    roundedge = 0.03,
+    circrad = 0.1,
+    points = {
+        {-0.4, 0.1},
+        {-0.4, -0.1},
+        {0.4, -0.1},
+        {0.4, 0.1},
+    }
+}
 
 diamond = mkdiamond(vm, 0)
 diamond.open = {
@@ -372,6 +390,17 @@ diamond.open = {
     }
 }
 diamond.close = {
+    circleness = 0.1,
+    roundedge = 0.1,
+    circrad = 0.7,
+    points = {
+        {-0.4, 0.5},
+        {-0.1, 0.5},
+        {0.1, 0.5},
+        {0.4, 0.5},
+    }
+}
+diamond.rest = {
     circleness = 0.1,
     roundedge = 0.1,
     circrad = 0.7,
@@ -406,6 +435,18 @@ bubbles.close = {
         {1.5, 0.5},
     }
 }
+bubbles.rest = {
+    circleness = 0.1,
+    roundedge = 0.1,
+    circrad = 0.7,
+    points = {
+        {-1.5, 0.5},
+        {-0.1, 0.5},
+        {0.1, 0.5},
+        {1.5, 0.5},
+    }
+}
+
 carl = mkcarl(vm, 2)
 carl.open = {
     circleness = 0.05,
@@ -418,8 +459,18 @@ carl.open = {
         {0.5, 0.5},
     }
 }
-
 carl.close = {
+    circleness = 0.05,
+    roundedge = 0.01,
+    circrad = 0.7,
+    points = {
+        {-0.8, 0.5},
+        {-0.1, 0.3},
+        {0.1, 0.3},
+        {0.8, 0.5},
+    }
+}
+carl.rest = {
     circleness = 0.05,
     roundedge = 0.01,
     circrad = 0.7,
