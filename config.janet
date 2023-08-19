@@ -69,4 +69,9 @@
     @[["res/mouthsounds.mp4"]
       ["avatar/mouth/mouthsounds.lua"]
       ["avatar/sdfvm_lookup_table.json"]]
+
+    @[["res/hello_there_gestling.png"]
+      # TODO: move outside scratch
+      ["scratch/hello_there_gestling.lua"]
+      ["avatar/sdfvm_lookup_table.json"]]
 ])

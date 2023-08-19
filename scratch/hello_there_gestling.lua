@@ -106,4 +106,4 @@ generate_program(syms, program)
 apply_mouth_shape(vm, mouth1)
 
 lil("bpsdf [bpget [grab bp] 0] [grab vm] [grab buf]")
-lil("bppng [grab bp] scratch/hello_there_gestling.png")
+lil("bppng [grab bp] res/hello_there_gestling.png")

@@ -5,3 +5,4 @@ res/mouthtests.png
 res/sdfvm_mouth.png
 res/mouthanim.mp4
 res/mouthsounds.mp4
+res/hello_there_gestling.png
