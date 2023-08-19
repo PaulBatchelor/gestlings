@@ -9,6 +9,7 @@ core = require("util/core")
 ritualmusic = require("scratch/ritual_music")
 json = require("util/json")
 squad = require("scratch/squad")
+cauldronia_symbol = require("scratch/cauldronia_symbol")
 
 -- make sure to generate msgpack data beforehand from XM
 -- file with:
@@ -555,6 +556,7 @@ events = {
     {"invert", event_start + 14*1},
     {"invert", event_start + 14*2},
 
+    {"cauldronia", event_start + 14*3},
     {"invert", event_start + 14*3},
     {"invert", event_start + 14*4},
 
@@ -583,6 +585,8 @@ function frame(data, framenum)
                     else
                         data.invert = true
                     end
+                elseif evt[1] == "cauldronia" then
+                    data.draw_cauldronia = true
                 end
             else
                 break
@@ -596,8 +600,15 @@ function frame(data, framenum)
 
     lil("grab gfx")
     lil("gfxfill 1")
-    -- local current_mouth, next_mouth, pos = gestvm_last_values(fs.gvm)
-    squad.draw(s)
+
+    if data.draw_cauldronia == true then
+        lilt {
+           "bpfill", "[bpget [grab bp] 4]", 0
+        }
+        cauldronia_symbol.draw(data.cauld)
+    else
+        squad.draw(s)
+    end
 
     if data.invert == true then
         squad.invert(s)
@@ -619,6 +630,8 @@ framedata = {
     beat = 0,
     eventpos = 1,
     events = events,
+    draw_cauldronia = false,
+    cauld = cauldronia_symbol.new(6),
 }
 
 function bind_gesture_to_squad(sqd, voices)
