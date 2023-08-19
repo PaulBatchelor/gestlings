@@ -1,1 +1,3 @@
-Let us start at the @!(ref "beginning")!@.
+Wait we're not ready yet! Come back soon.
+
+@!(img "/res/hello_there_gestling.png")!@
