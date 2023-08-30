@@ -1998,3 +1998,14 @@
 2023-08-19 00:38:08	4c1988c9-b3fa-4812-ae50-d134c9e3f414	$duration:>635
 -	4c1988c9-b3fa-4812-ae50-d134c9e3f414	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	4c1988c9-b3fa-4812-ae50-d134c9e3f414	#d20d9581-9adf-4675-b789-53df1afbbc9e
+2023-08-30 18:22:05	d315b674-7dbc-49af-9fb3-9a8e06cd908d	>create render phony target to render all assets
+-	d315b674-7dbc-49af-9fb3-9a8e06cd908d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-30 18:22:05	d315b674-7dbc-49af-9fb3-9a8e06cd908d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-30 18:23:03	d315b674-7dbc-49af-9fb3-9a8e06cd908d	$blurb:>this is needed because rendering videos now takes up a lot of time. It would be nice to not have to re-render every time I want to push out changes to the web.
+2023-08-30 18:23:23	0a234fc5-8837-4741-890c-6da54c648040	>consider adding 'blackhole' target to diagraf
+-	0a234fc5-8837-4741-890c-6da54c648040	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-08-30 18:23:23	0a234fc5-8837-4741-890c-6da54c648040	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-30 18:26:50	0a234fc5-8837-4741-890c-6da54c648040	$blurb:>trying to figure out how to work with nodes that have no output. having a pseudo cable with a special 'black hole' node is the best thing I can come up with at the moment.
+2023-08-30 18:30:34	f42046cc-e0e7-40d8-b3e8-381f0c82356d	>specific use case: when I need to copy over a signal to a channel value to control visuals. perhaps there's another way to think about it other than a 'black hole' node, but that makes the most sense at the moment.
+-	f42046cc-e0e7-40d8-b3e8-381f0c82356d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f42046cc-e0e7-40d8-b3e8-381f0c82356d	#0a234fc5-8837-4741-890c-6da54c648040
