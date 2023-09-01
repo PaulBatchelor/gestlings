@@ -1915,7 +1915,7 @@
 -	8bf6dbf1-6aff-4b2e-9db8-33d1318f9100	#c7a2a587-a65c-4536-b49c-bbd32709f25e
 2023-08-17 01:29:52	a5edee72-eb5d-4e67-8511-3a4222dafa01	>teaser trailer: graphics
 -	a5edee72-eb5d-4e67-8511-3a4222dafa01	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-17 01:29:52	a5edee72-eb5d-4e67-8511-3a4222dafa01	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-01 18:40:50	a5edee72-eb5d-4e67-8511-3a4222dafa01	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	a5edee72-eb5d-4e67-8511-3a4222dafa01	#57309992-21a0-44ab-9e54-a353b3aa29f8
 2023-08-17 01:31:22	b9d18806-0256-4a86-b1ea-0673c814536d	>create squad
 -	b9d18806-0256-4a86-b1ea-0673c814536d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -1990,7 +1990,7 @@
 -	e059cbb6-4533-48df-a344-1ca68bb35632	#9366ebdb-162d-4b62-b3e7-6661610e7961
 2023-08-19 00:09:49	d20d9581-9adf-4675-b789-53df1afbbc9e	>create cauldronia symbol for trailer
 -	d20d9581-9adf-4675-b789-53df1afbbc9e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-19 00:09:49	d20d9581-9adf-4675-b789-53df1afbbc9e	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-01 18:40:36	d20d9581-9adf-4675-b789-53df1afbbc9e	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	d20d9581-9adf-4675-b789-53df1afbbc9e	#a5edee72-eb5d-4e67-8511-3a4222dafa01
 2023-08-19 00:23:45	2bcfab0c-e46a-4244-88aa-df946d36e506	$duration:>817
 -	2bcfab0c-e46a-4244-88aa-df946d36e506	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -2009,3 +2009,30 @@
 2023-08-30 18:30:34	f42046cc-e0e7-40d8-b3e8-381f0c82356d	>specific use case: when I need to copy over a signal to a channel value to control visuals. perhaps there's another way to think about it other than a 'black hole' node, but that makes the most sense at the moment.
 -	f42046cc-e0e7-40d8-b3e8-381f0c82356d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	f42046cc-e0e7-40d8-b3e8-381f0c82356d	#0a234fc5-8837-4741-890c-6da54c648040
+2023-09-01 18:35:20	9fec0ea6-1ae3-47f4-86b5-40b41ecba9e5	>message box component: planning
+-	9fec0ea6-1ae3-47f4-86b5-40b41ecba9e5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-09-01 18:35:28	9fec0ea6-1ae3-47f4-86b5-40b41ecba9e5	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
+-	5dc71e24-b863-4b02-b8b7-c44a35f7f307	$duration:>2009
+-	5dc71e24-b863-4b02-b8b7-c44a35f7f307	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5dc71e24-b863-4b02-b8b7-c44a35f7f307	#9fec0ea6-1ae3-47f4-86b5-40b41ecba9e5
+2023-09-01 18:36:42	943a0dfc-5a2a-4eee-9218-12700dc0458c	>speech planning
+-	943a0dfc-5a2a-4eee-9218-12700dc0458c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-09-01 18:36:46	943a0dfc-5a2a-4eee-9218-12700dc0458c	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
+2023-08-30 16:04:00	f6aae9ea-638d-4e6a-8245-96a5952ca2d6	$duration:>2283
+-	f6aae9ea-638d-4e6a-8245-96a5952ca2d6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f6aae9ea-638d-4e6a-8245-96a5952ca2d6	#943a0dfc-5a2a-4eee-9218-12700dc0458c
+2023-09-01 18:37:48	ddfc31f0-04b6-4249-a8e7-128d06e3efcb	>message box: initial implementation
+-	ddfc31f0-04b6-4249-a8e7-128d06e3efcb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-09-01 18:37:48	ddfc31f0-04b6-4249-a8e7-128d06e3efcb	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-08-31 23:33:00	1a58c90b-e262-446d-a747-4c70b215c95d	$duration:>1941
+-	1a58c90b-e262-446d-a747-4c70b215c95d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1a58c90b-e262-446d-a747-4c70b215c95d	#ddfc31f0-04b6-4249-a8e7-128d06e3efcb
+2023-09-01 18:42:17	9b90223a-6312-494b-b1c9-073a4fa94925	>deciding that the the trailer was a good first start for setting up a drawing gestling avatars, and that this task is the second draft that will involve pulling stuff out and making meaningful abstractions
+-	9b90223a-6312-494b-b1c9-073a4fa94925	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9b90223a-6312-494b-b1c9-073a4fa94925	#ba6ecac3-0392-4fbc-b4b4-afd9a9cca206
+2023-09-01 18:43:36	3bd1158a-deed-442c-86e6-ecf9cd68f579	>the initial implementation here is going to be coded up in the scratch folder.
+-	3bd1158a-deed-442c-86e6-ecf9cd68f579	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3bd1158a-deed-442c-86e6-ecf9cd68f579	#ddfc31f0-04b6-4249-a8e7-128d06e3efcb
+2023-09-01 19:10:27	ee07f79e-f3f7-410d-a666-8168ece56d67	$duration:>1663
+-	ee07f79e-f3f7-410d-a666-8168ece56d67	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ee07f79e-f3f7-410d-a666-8168ece56d67	#ddfc31f0-04b6-4249-a8e7-128d06e3efcb
