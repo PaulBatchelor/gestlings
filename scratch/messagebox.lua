@@ -58,7 +58,8 @@ buf = messagebox.new()
 messagebox.loadfont("chicago", "fonts/chicago12.uf2")
 lilt {"bpnew", "bp", 240, 60}
 lilt {"gfxnewz", "gfx", 320, 240, 2}
-lil("grab gfx")
+lil("grab gfx; dup")
+lil("gfxopen scratch/messagebox.h264")
 lil("gfxclrset 1 1.0 1.0 1.0")
 lil("gfxclrset 0 0.0 0.0 0.0")
 
@@ -137,16 +138,29 @@ for _,ev in pairs(events) do
     end
 end
 
-messagebox.draw(buf, 12)
 
-lilt {"bppng", "[grab bp]", "scratch/messagebox.png"}
 
-lil("grab gfx; dup")
--- lil("gfxfill 1")
-lil("dup")
 xoff = 320//2 - 200//2
 yoff = 240//2 - 60//2
+
+messagebox.draw(buf, 12)
+lil("grab gfx; dup")
+lil("dup")
 lilt{"gfxrectf", xoff, yoff, 200, 60, 1}
 lilt{"bptr", "[grab bp]", xoff, yoff, 200, 60, 0, 0, 0}
 lil("dup; gfxzoomit")
-lil("gfxppm scratch/messagebox.ppm")
+for n=1,60 do
+    lil("grab gfx; dup")
+    lil("gfxtransferz; gfxappend")
+end
+
+lil([[
+grab gfx
+gfxclose
+gfxmp4 scratch/messagebox.h264 scratch/messagebox_vid.mp4
+]])
+
+os.execute("ffmpeg -y -i scratch/messagebox_vid.mp4 -pix_fmt yuv420p scratch/messagebox.mp4")
+
+-- lilt {"bppng", "[grab bp]", "scratch/messagebox.png"}
+-- lil("gfxppm scratch/messagebox.ppm")
