@@ -232,4 +232,12 @@ function Core.lilts(lines)
     end
 end
 
+function Core.split(val, sep)
+    local sep = lpeg.P(sep)
+    local elem = lpeg.C((1 - sep)^0)
+    local lines = elem * (sep * elem)^0
+    lines = lpeg.Ct(lines)
+    return lpeg.match(lines, val)
+end
+
 return Core
