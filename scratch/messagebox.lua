@@ -56,8 +56,8 @@ out = descript.parse(script)
 buf = messagebox.new()
 
 messagebox.loadfont("chicago", "fonts/chicago12.uf2")
-lilt {"bpnew", "bp", 200, 60}
-lilt {"gfxnewz", "gfx", 200, 60, 2}
+lilt {"bpnew", "bp", 240, 60}
+lilt {"gfxnewz", "gfx", 320, 240, 2}
 lil("grab gfx")
 lil("gfxclrset 1 1.0 1.0 1.0")
 lil("gfxclrset 0 0.0 0.0 0.0")
@@ -142,7 +142,11 @@ messagebox.draw(buf, 12)
 lilt {"bppng", "[grab bp]", "scratch/messagebox.png"}
 
 lil("grab gfx; dup")
-lil("gfxfill 1")
-lil("bptr [grab bp] 0 0 200 60 0 0 0")
+-- lil("gfxfill 1")
+lil("dup")
+xoff = 320//2 - 200//2
+yoff = 240//2 - 60//2
+lilt{"gfxrectf", xoff, yoff, 200, 60, 1}
+lilt{"bptr", "[grab bp]", xoff, yoff, 200, 60, 0, 0, 0}
 lil("dup; gfxzoomit")
 lil("gfxppm scratch/messagebox.ppm")
