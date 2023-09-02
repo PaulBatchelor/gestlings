@@ -57,6 +57,12 @@ buf = messagebox.new()
 
 messagebox.loadfont("chicago", "fonts/chicago12.uf2")
 lilt {"bpnew", "bp", 200, 60}
+lilt {"gfxnewz", "gfx", 200, 60, 2}
+lil("grab gfx")
+lil("gfxclrset 1 1.0 1.0 1.0")
+lil("gfxclrset 0 0.0 0.0 0.0")
+
+lil("drop")
 padding = 4
 lilt {
     "bpset",
@@ -134,3 +140,9 @@ end
 messagebox.draw(buf, 12)
 
 lilt {"bppng", "[grab bp]", "scratch/messagebox.png"}
+
+lil("grab gfx; dup")
+lil("gfxfill 1")
+lil("bptr [grab bp] 0 0 200 60 0 0 0")
+lil("dup; gfxzoomit")
+lil("gfxppm scratch/messagebox.ppm")
