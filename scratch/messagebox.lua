@@ -99,7 +99,7 @@ end
 events = {}
 
 t = 1
-rate = 5
+rate = 7
 append(events, t, "a")
 t = t + rate
 append(events, t, "b")
@@ -128,28 +128,35 @@ event_handler = {
     end,
 }
 
-for _,ev in pairs(events) do
-    local f = event_handler[ev[2]]
-
-    if f ~= nil then
-        f(buf, ev[3])
-    else
-        error("unknown event " .. ev[2])
-    end
-end
-
-
-
 xoff = 320//2 - 200//2
 yoff = 240//2 - 60//2
-
-messagebox.draw(buf, 12)
-lil("grab gfx; dup")
-lil("dup")
-lilt{"gfxrectf", xoff, yoff, 200, 60, 1}
-lilt{"bptr", "[grab bp]", xoff, yoff, 200, 60, 0, 0, 0}
-lil("dup; gfxzoomit")
+evpos = 1
+last_event = events[evpos]
 for n=1,60 do
+    while (evpos <= #events) and (last_event[1] <= n) do
+        local f = event_handler[last_event[2]]
+
+        if f ~= nil then
+            f(buf, last_event[3])
+        else
+            error("unknown event " .. last_event[2])
+        end
+
+        evpos = evpos + 1
+
+        if evpos > #events then
+            last_event = nil
+            break
+        end
+
+        last_event = events[evpos]
+    end
+    messagebox.draw(buf, 12)
+    lil("grab gfx; dup")
+    lilt{"gfxrectf", xoff, yoff, 200, 60, 1}
+    lil("dup")
+    lilt{"bptr", "[grab bp]", xoff, yoff, 200, 60, 0, 0, 0}
+    lil("gfxzoomit")
     lil("grab gfx; dup")
     lil("gfxtransferz; gfxappend")
 end
