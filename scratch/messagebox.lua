@@ -22,6 +22,12 @@ function messagebox.append(buf, ch)
     buf.lines[buf.linepos] =
         buf.lines[buf.linepos] .. ch
 end
+
+function messagebox.remove(buf)
+    buf.lines[buf.linepos] =
+        string.sub(buf.lines[buf.linepos], 1, -2)
+end
+
 function messagebox.newline(buf)
     buf.linepos = buf.linepos + 1
 end
@@ -81,6 +87,10 @@ function append(events, t, ch)
     table.insert(events, new_event(t, "append", ch))
 end
 
+function remove(events, t, ch)
+    table.insert(events, new_event(t, "remove"))
+end
+
 function newline(events)
     table.insert(events, new_event(t, "newline", nil))
 end
@@ -100,7 +110,7 @@ rate = 3
 
 script = [[@block
 You're finally awake.
-hello there!<PAUSE 3>
+howdy!<BACKSPACE 6>hello there!<PAUSE 3>
 Welcome...<PAUSE 8> to Gestleton.<PAUSE 4>
 City of the Gestlings.<PAUSE 4>
 
@@ -109,15 +119,24 @@ You may be asking yourself<PAUSE 3>
 \"how did I get here?\"<PAUSE 5>
 Well,<PAUSE 3> it's a good thing
 you are sitting down.
+
+@block
+<PAUSE 8><RATE 0>BRACE.<RATE 20><PAUSE 1><RATE 0> YOURSELF.<RATE 5><PAUSE 10>
+
+@block
+You are <PAUSE 4><RATE 3>nnnooottt<RATE 5><PAUSE 5> going
+to like this.
 ]]
 
 dialogue = descript.parse(script)
 
 function process_block(block)
     clear(events, t)
-    for _,line in pairs(block) do
+    for i =2,#block do
+        line = block[i]
         local c = 1
         while c <= #line do
+            ::top::
             local ch = string.char(string.byte(line, c))
             if ch == "<" then
                 local cmdstr = ""
@@ -133,10 +152,20 @@ function process_block(block)
                 if cmd[1] == "PAUSE" then
                     pause(events, t)
                     t = t + rate*tonumber(cmd[2])
+                elseif cmd[1] == "BACKSPACE" then
+                    local ntimes = tonumber(cmd[2])
+
+                    for i=1,ntimes do
+                        remove(events, t)
+                        t = t + rate
+                    end
+                elseif cmd[1] == "RATE" then
+                    rate = tonumber(cmd[2])
                 end
 
                 c = c + 1
-                ch = string.char(string.byte(line, c))
+                -- ch = string.char(string.byte(line, c))
+                goto top
             end
             append(events, t, ch)
             t = t + rate
@@ -146,10 +175,12 @@ function process_block(block)
     end
 end
 
-table.remove(dialogue[1], 1)
-process_block(dialogue[1])
-table.remove(dialogue[2], 1)
-process_block(dialogue[2])
+for _, block in pairs(dialogue) do
+    if block[1] == "block" then
+        process_block(block)
+    end
+end
+
 
 event_handler = {
     append = function(mb, data)
@@ -167,13 +198,17 @@ event_handler = {
     clear = function(mb, data)
         messagebox.clear(mb)
     end,
+
+    remove = function(mb, data)
+        messagebox.remove(mb)
+    end,
 }
 
 xoff = 320//2 - 200//2
 yoff = 240//2 - 60//2
 evpos = 1
 last_event = events[evpos]
-for n=1,60*15 do
+for n=1,60*18 do
     while (evpos <= #events) and (last_event[1] <= n) do
         local f = event_handler[last_event[2]]
 
