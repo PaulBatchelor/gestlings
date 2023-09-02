@@ -46,12 +46,6 @@ function messagebox.loadfont(fontname, filepath)
     lilt {"uf2load", fontname, filepath}
 end
 
-script = [[You're finally awake.
-hello there!
-Welcome to Gestleton.
-City of the Gestlings.]]
-
-out = descript.parse(script)
 
 buf = messagebox.new()
 
@@ -96,28 +90,31 @@ function newline(events)
     table.insert(events, new_event(t, "newline", nil))
 end
 
+function pause(events)
+    table.insert(events, new_event(t, "pause", nil))
+end
+
 events = {}
 
 t = 1
-rate = 7
-append(events, t, "a")
-t = t + rate
-append(events, t, "b")
-t = t + rate
-append(events, t, "c")
-t = t + rate
-append(events, t, "d")
-t = t + rate
-newline(events, t)
-append(events, t, "h")
-t = t + rate
-append(events, t, "e")
-t = t + rate
-append(events, t, "l")
-t = t + rate
-append(events, t, "l")
-t = t + rate
-append(events, t, "o")
+rate = 3
+
+script = [[You're finally awake.
+hello there!
+Welcome to Gestleton.
+City of the Gestlings.]]
+
+dialogue = descript.parse(script)
+
+for _,line in pairs(dialogue[1]) do
+    for c=1, #line do
+        append(events, t, string.char(string.byte(line, c)))
+        t = t + rate
+    end
+    newline(events, t)
+    pause(events, t)
+    t = t + rate*3
+end
 
 event_handler = {
     append = function(mb, data)
@@ -126,13 +123,16 @@ event_handler = {
     newline = function(mb, data)
         messagebox.newline(mb, data)
     end,
+    pause = function(mb, data)
+        -- kill time
+    end,
 }
 
 xoff = 320//2 - 200//2
 yoff = 240//2 - 60//2
 evpos = 1
 last_event = events[evpos]
-for n=1,60 do
+for n=1,60*10 do
     while (evpos <= #events) and (last_event[1] <= n) do
         local f = event_handler[last_event[2]]
 
@@ -171,3 +171,5 @@ os.execute("ffmpeg -y -i scratch/messagebox_vid.mp4 -pix_fmt yuv420p scratch/mes
 
 -- lilt {"bppng", "[grab bp]", "scratch/messagebox.png"}
 -- lil("gfxppm scratch/messagebox.ppm")
+--
+::bye::
