@@ -14,6 +14,7 @@ function messagebox.new()
 
     buf.lines = lines
     buf.linepos = 1
+    buf.scale = 1
     buf.font = "chicago"
     return buf
 end
@@ -37,20 +38,21 @@ function messagebox.clear(buf)
     buf.linepos = 1
 end
 
-function draw_textline(txt, ypos, font)
+function draw_textline(txt, ypos, font, scale)
     lilt {
         "uf2txtln",
         "[bpget [grab bp] 0]",
         "[grab " .. font .. " ]",
         0, ypos,
-        "\"" .. txt .. "\""
+        "\"" .. txt .. "\"",
+        scale
     }
 end
 
 function messagebox.draw(buf, lheight)
     lilt {"bpfill", "[bpget [grab bp] 0]", 0}
     for idx, line in pairs(buf.lines) do
-        draw_textline(line, (idx-1)*lheight, buf.font)
+        draw_textline(line, (idx-1)*lheight*buf.scale, buf.font, buf.scale)
     end
 end
 
@@ -103,6 +105,10 @@ function clear(events)
     table.insert(events, new_event(t, "clear", nil))
 end
 
+function textscale(events, t, scale)
+    table.insert(events, new_event(t, "scale", scale))
+end
+
 events = {}
 
 t = 1
@@ -116,17 +122,39 @@ City of the Gestlings.<PAUSE 4>
 
 @block
 You may be asking yourself<PAUSE 3>
-\"how did I get here?\"<PAUSE 5>
+'how did I get here?'<PAUSE 5>
 Well,<PAUSE 3> it's a good thing
 you are sitting down.
 
+@scale 2
 @block
-<PAUSE 8><RATE 0>BRACE.<RATE 20><PAUSE 1><RATE 0> YOURSELF.<RATE 5><PAUSE 10>
+<PAUSE 8><RATE 0>BRACE.<RATE 10>
+<PAUSE 1><RATE 0>YOURSELF.<RATE 5><PAUSE 5>
+
+@scale 1
+@block
+You are <PAUSE 4><RATE 3>nnnooottt<RATE 4> gonna
+like this.
+Okay um. <RATE 2>Wow this is bad.<BACKSPACE 17><RATE 4> Where to begin...<PAUSE 4>
 
 @block
-You are <PAUSE 4><RATE 3>nnnooottt<RATE 5><PAUSE 5> going
-to like this.
+<RATE 4>Your so-called<RATE 2><BACKSPACE 9><RATE 4>AHEM reality?...
+<PAUSE 4><RATE 2>BOINK<PAUSE 2><RATE 15> Gone.<RATE 4><PAUSE 4>
+Just like that.<PAUSE 6>
+<RATE 1>You're dead, by the way<PAUSE 5>
+
+@scale 3
+@block
+<RATE 6>ANYWAYS<PAUSE 3>
+
+@scale 1
+@block
+<RATE 4>Perception is a bit
+different here.<PAUSE 3> I had to
+rebuild parts of you with
+tech.<PAUSE 5> <RATE 3>Found it under my bed.<RATE 2><BACKSPACE 22><RATE 5>Top-tier hardware.
 ]]
+
 
 dialogue = descript.parse(script)
 
@@ -178,9 +206,11 @@ end
 for _, block in pairs(dialogue) do
     if block[1] == "block" then
         process_block(block)
+    elseif string.match(block[1], "^scale") ~= nil then
+        local cmd = core.split(block[1], " ")
+        textscale(events, t, tonumber(cmd[2]))
     end
 end
-
 
 event_handler = {
     append = function(mb, data)
@@ -202,13 +232,17 @@ event_handler = {
     remove = function(mb, data)
         messagebox.remove(mb)
     end,
+
+    scale = function(mb, data)
+        mb.scale = data
+    end,
 }
 
 xoff = 320//2 - 200//2
 yoff = 240//2 - 60//2
 evpos = 1
 last_event = events[evpos]
-for n=1,60*18 do
+for n=1,60*35 do
     while (evpos <= #events) and (last_event[1] <= n) do
         local f = event_handler[last_event[2]]
 
