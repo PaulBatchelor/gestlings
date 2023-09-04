@@ -9,17 +9,14 @@ static void indent(int nspaces)
     for (n = 0; n < nspaces*4; n++) printf(" ");
 }
 
-const char *c64chars[] = {
-    "@abcdefghijklmnopqrstuvwxyz[ ]  ",
-    " !\"#$%&`()*+,-./0123456789:;<=>?",
-    "_ABCDEFGHIJKLMNOPQRSTUVWXYZ    "
-};
-
 static void print_char(unsigned char *buf,
                        int w, int h, char c,
                        int xoff, int yoff)
 {
     int x, y;
+    int charwidth;
+
+    charwidth = 8;
     /* ignore weird characters for now, labeled ' ' */
     if (c == ' ') return;
     indent(0);
@@ -34,7 +31,7 @@ static void print_char(unsigned char *buf,
     }
 
     indent(1);
-    printf("width = 8,\n");
+    printf("width = %d,\n", charwidth);
     indent(1);
     if (c == '"') {
         printf("name=\"\\%c\",\n", c);
@@ -43,10 +40,10 @@ static void print_char(unsigned char *buf,
     }
     indent(1);
     printf("bits = {\n");
-    for (y = 0; y < 8; y++) {
+    for (y = 0; y < charwidth; y++) {
         indent(2);
         printf("\"");
-        for (x = 0; x < 8; x++) {
+        for (x = 0; x < charwidth; x++) {
             int pos;
             pos = (((yoff + y)*w) + (xoff + x))*3;
 
@@ -69,6 +66,9 @@ static void print_space(void)
 {
     int x, y;
     char c;
+    int charwidth;
+
+    charwidth = 8;
 
     c = ' ';
     indent(0);
@@ -76,7 +76,7 @@ static void print_space(void)
     indent(1);
     printf("id = 0x%x,\n", c);
     indent(1);
-    printf("width = 8,\n");
+    printf("width = %d,\n", charwidth);
     indent(1);
     printf("name=\"space\",\n");
     indent(1);
@@ -96,29 +96,103 @@ int main(int argc, char *argv[])
     int charpos;
     int rowpos;
     int maxrows, maxcols;
+    int charwidth;
+    const char *pngfile;
+    size_t *charset_rows;
+    char **charrows;
+    const char *charset_file;
+    FILE *fp;
+    size_t charset_file_size;
+    size_t n;
+    size_t last;
+    char *charset;
 
-    rc = lodepng_decode24_file(&buf, &w, &h, "fonts/antik_1.png");
+    pngfile = "fonts/antik_1.png";
+    charset_file = "scratch/antik_1.txt";
+    rc = lodepng_decode24_file(&buf, &w, &h, pngfile);
 
+    if (rc) {
+        fprintf(stderr, "Could not load PNG file '%s'\n", pngfile);
+        return 1;
+    }
+
+    fp = fopen(charset_file, "r");
+
+    if (fp == NULL) {
+        fprintf(stderr, "Could not open file '%s'\n", charset_file);
+        return 1;
+    }
+
+    fseek(fp, 0L, SEEK_END);
+    charset_file_size = ftell(fp);
+    fseek(fp, 0L, SEEK_SET);
+    charset = malloc(charset_file_size + 1);
+    fread(charset, 1, charset_file_size, fp);
+    charset[charset_file_size] = 0;
 
     printf("symbols = {}\n");
 
-    maxrows = 3;
+    maxrows = 0;
+    for (n = 0; n < charset_file_size; n++) {
+        if (charset[n] == '\n') {
+            maxrows++;
+        }
+    }
+
+    if (charset[charset_file_size - 1] != '\n') {
+        /* some text editors don't include a line break on
+         * the last line */
+        maxrows++;
+    }
+
+
+    charset_rows = malloc(sizeof(size_t) * maxrows);
+    last = 0;
+    maxrows = 0;
+
+    for (n = 0; n < charset_file_size; n++) {
+        if (charset[n] == '\n') {
+            charset_rows[maxrows] = last;
+            last = n + 1;
+            maxrows++;
+        }
+    }
+
+    if (charset[charset_file_size - 1] != '\n') {
+        /* some text editors don't include a line break on
+         * the last line */
+        maxrows++;
+        charset_rows[maxrows] = last;
+    }
+
+
     maxcols = 32;
+    charwidth = 8;
     charpos = 0;
     rowpos = 0;
-    for (yoff = 0; yoff < h; yoff+= 8) {
+
+    for (yoff = 0; yoff < h; yoff+= charwidth) {
         int len;
         const char *row;
         if (rowpos >= maxrows) break;
-        row = c64chars[rowpos];
-        len = strlen(row);
+        row = &charset[charset_rows[rowpos]];
+        printf("%d\n", len);
         charpos = 0;
-        for (xoff = 0; xoff < w; xoff+= 8) {
+
+        if (rowpos == (maxrows - 1)) {
+            len = charset_file_size - charset_rows[rowpos];
+        } else {
+            len = charset_rows[rowpos + 1] - charset_rows[rowpos];
+        }
+        for (xoff = 0; xoff < w; xoff+= charwidth) {
             if (charpos >= maxcols || charpos >= len) continue;
             c = row[charpos];
-            print_char(buf, w, h, c, xoff, yoff);
+            if (c != '\n') {
+                print_char(buf, w, h, c, xoff, yoff);
+            }
             charpos++;
         }
+
         rowpos++;
     }
 
@@ -126,5 +200,7 @@ int main(int argc, char *argv[])
 
     printf("return symbols\n");
     free(buf);
+    free(charset);
+    free(charset_rows);
     return 0;
 }
