@@ -115,13 +115,6 @@
       (asset (a 0) (a 1))
       (asset (a 0) (a 1) (a 2))))
 
-(build-program
-    "avatar/mouth/mouthtests"
-    @["avatar/mouth/mouthtests"])
-
-(build-program
-    "avatar/sdfvm_lookup_table"
-    @["avatar/sdfvm_lookup_table"])
 
 (build-program
     "util/c64parse"
@@ -130,18 +123,13 @@
 (c64parse-rule)
 (uf2gen-rule)
 
-# TODO encapsulate these into functions
-(print
- (string
-    "build res/mouthtests.png: asset avatar/mouth/mouthtests\n"
-    "    command = ./avatar/mouth/mouthtests\n"
-    "    description = asset res/mouthtests.png"))
-
-(print
- (string
-    "build avatar/sdfvm_lookup_table.json: asset avatar/sdfvm_lookup_table\n"
-    "    command = ./avatar/sdfvm_lookup_table\n"
-    "    description = asset avatar/sdfvm_lookup_table.json"))
+(defn asset-cprog [name cprog]
+  (build-program cprog @[cprog])
+  (print
+   (string
+      "build " name ": asset " cprog "\n"
+      "    command = ./" cprog "\n"
+      "    description = asset " name)))
 
 (defn uf2font [fontname]
  (print
@@ -160,4 +148,5 @@
 
 (each fnt config/fonts (uf2font fnt))
 
-
+(asset-cprog "res/mouthtests.png" "avatar/mouth/mouthtests")
+(asset-cprog "avatar/sdfvm_lookup_table.json" "avatar/sdfvm_lookup_table")
