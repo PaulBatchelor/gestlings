@@ -75,3 +75,5 @@
       ["scratch/hello_there_gestling.lua"]
       ["avatar/sdfvm_lookup_table.json"]]
 ])
+
+(def fonts @["cholo" "antik_1" "cursive_a"])

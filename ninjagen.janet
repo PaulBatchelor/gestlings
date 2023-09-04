@@ -157,5 +157,7 @@
    "uf2gen fonts/bitmaps/" fontname ".lua "
    "|| cantor\n")))
 
-(uf2font "cholo")
-(uf2font "antik_1")
+
+(each fnt config/fonts (uf2font fnt))
+
+
