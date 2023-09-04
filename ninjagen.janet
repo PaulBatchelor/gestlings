@@ -143,10 +143,19 @@
     "    command = ./avatar/sdfvm_lookup_table\n"
     "    description = asset avatar/sdfvm_lookup_table.json"))
 
-(print
- (string
-    "build fonts/bitmaps/cholo.lua: c64parse fonts/bitmaps/cholo.png fonts/bitmaps/cholo.txt || util/c64parse\n"))
+(defn uf2font [fontname]
+ (print
+  (string
+   "build fonts/bitmaps/" fontname ".lua: "
+   "c64parse fonts/bitmaps/" fontname ".png "
+   "fonts/bitmaps/" fontname ".txt "
+   "|| util/c64parse\n"))
 
-(print
- (string
-    "build fonts/cholo.uf2: uf2gen fonts/bitmaps/cholo.lua || cantor\n"))
+ (print
+  (string
+   "build fonts/" fontname ".uf2: "
+   "uf2gen fonts/bitmaps/" fontname ".lua "
+   "|| cantor\n")))
+
+(uf2font "cholo")
+(uf2font "antik_1")
