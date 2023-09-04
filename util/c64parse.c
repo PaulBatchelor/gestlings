@@ -34,7 +34,9 @@ static void print_char(unsigned char *buf,
     printf("width = %d,\n", charwidth);
     indent(1);
     if (c == '"') {
-        printf("name=\"\\%c\",\n", c);
+        printf("name=\"\\\"\",\n");
+    } else if (c == '\\') {
+        printf("name=\"\\\\\",\n");
     } else {
         printf("name=\"%c\",\n", c);
     }
@@ -78,7 +80,7 @@ static void print_space(void)
     indent(1);
     printf("width = %d,\n", charwidth);
     indent(1);
-    printf("name=\"space\",\n");
+    printf("name = \"space\",\n");
     indent(1);
     printf("bits = {},\n");
     indent(0);
@@ -107,8 +109,14 @@ int main(int argc, char *argv[])
     size_t last;
     char *charset;
 
-    pngfile = "fonts/antik_1.png";
-    charset_file = "scratch/antik_1.txt";
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s charset.png charset.txt\n", argv[0]);
+        return 1;
+    }
+
+    pngfile = argv[1];
+    charset_file = argv[2];
+
     rc = lodepng_decode24_file(&buf, &w, &h, pngfile);
 
     if (rc) {
@@ -176,7 +184,6 @@ int main(int argc, char *argv[])
         const char *row;
         if (rowpos >= maxrows) break;
         row = &charset[charset_rows[rowpos]];
-        printf("%d\n", len);
         charpos = 0;
 
         if (rowpos == (maxrows - 1)) {

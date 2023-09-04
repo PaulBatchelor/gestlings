@@ -47,6 +47,16 @@
   (print "    command = ./cantor $in")
   (print "    description = asset $in"))
 
+(defn c64parse-rule []
+  (print "rule c64parse")
+  (print "    command = ./util/c64parse $in > $out")
+  (print "    description = c64parse $in"))
+
+(defn uf2gen-rule []
+  (print "rule uf2gen")
+  (print "    command = ./cantor util/uf2gen.lua $in $out")
+  (print "    description = uf2gen $in $out"))
+
 (defn build-cantor [obj]
   (each o obj
     (print
@@ -113,6 +123,13 @@
     "avatar/sdfvm_lookup_table"
     @["avatar/sdfvm_lookup_table"])
 
+(build-program
+    "util/c64parse"
+    @["util/c64parse"])
+
+(c64parse-rule)
+(uf2gen-rule)
+
 # TODO encapsulate these into functions
 (print
  (string
@@ -125,3 +142,11 @@
     "build avatar/sdfvm_lookup_table.json: asset avatar/sdfvm_lookup_table\n"
     "    command = ./avatar/sdfvm_lookup_table\n"
     "    description = asset avatar/sdfvm_lookup_table.json"))
+
+(print
+ (string
+    "build fonts/bitmaps/cholo.lua: c64parse fonts/bitmaps/cholo.png fonts/bitmaps/cholo.txt || util/c64parse\n"))
+
+(print
+ (string
+    "build fonts/cholo.uf2: uf2gen fonts/bitmaps/cholo.lua || cantor\n"))
