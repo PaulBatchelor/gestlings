@@ -1,4 +1,4 @@
-uf2 = require("path/uf2")
+uf2 = require("util/uf2")
 symtools = require("util/symtools")
 
 msgpack = require("util/MessagePack")
