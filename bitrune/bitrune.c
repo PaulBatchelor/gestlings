@@ -211,10 +211,10 @@ int draw_symbols(btprnt_region *reg,
     bytes = bitrune_row_data(row);
     nsyms = bitrune_row_length(row);
 
-    length = btprnt_uf2_draw_bytes(reg, fnt, 0, 1, bytes, curpos);
+    length = btprnt_uf2_draw_bytes(reg, fnt, 0, 1, bytes, curpos, 1);
     /* draw cursor */
     btprnt_region_draw(reg, length, 0, 1);
-    length += btprnt_uf2_draw_bytes(reg, fnt, length, 1, &bytes[curpos], nsyms - curpos);
+    length += btprnt_uf2_draw_bytes(reg, fnt, length, 1, &bytes[curpos], nsyms - curpos, 1);
 
     return length;
 }

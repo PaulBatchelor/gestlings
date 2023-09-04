@@ -1,4 +1,4 @@
-uf2 = require("path/uf2")
+uf2 = require("util/uf2")
 msgpack = require("util/MessagePack")
 base64 = require("util/base64")
 asset = require("asset/asset")

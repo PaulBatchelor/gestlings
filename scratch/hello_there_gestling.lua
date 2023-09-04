@@ -7,8 +7,8 @@ fp:close()
 
 -- pprint(syms)
 
-lil("bpnew bp 512 512")
-lil("bpset [grab bp] 0 0 0 512 512")
+lil("bpnew bp 320 320")
+lil("bpset [grab bp] 0 0 0 320 320")
 lil("bufnew buf 256")
 lil("grab buf")
 program = pop()

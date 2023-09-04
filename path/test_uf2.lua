@@ -1,7 +1,7 @@
 -- top-level file to generate uf2/symtab for path
 -- mainly used of testing purposes (still working out the system)
 
-uf2 = require("path/uf2")
+uf2 = require("util/uf2")
 symbols = require("path/symbols")
 
 msgpack = require("util/MessagePack")
