@@ -16,10 +16,14 @@ function messagebox.new()
     buf.linepos = 1
     buf.scale = 1
     buf.font = "chicago"
+    buf.nphrases = 4
     return buf
 end
 
 function messagebox.append(buf, ch)
+    if buf.lines[buf.linepos] == nil then
+        error("NIL: " .. buf.linepos)
+    end
     buf.lines[buf.linepos] =
         buf.lines[buf.linepos] .. ch
 end
@@ -109,10 +113,15 @@ function textscale(events, t, scale)
     table.insert(events, new_event(t, "scale", scale))
 end
 
-events = {}
+function nphrases(events, t, n)
+    table.insert(events, new_event(t, "nphrases", n))
+end
 
-t = 1
-rate = 3
+function blockdur(events, t, dur, pos)
+    table.insert(events, pos, new_event(t, "blockdur", dur))
+end
+
+events = {}
 
 script = [[@block
 You're finally awake.
@@ -126,27 +135,32 @@ You may be asking yourself<PAUSE 3>
 Well,<PAUSE 3> it's a good thing
 you are sitting down.
 
+@nphrases 2
 @scale 2
 @block
 <PAUSE 8><RATE 0>BRACE.<RATE 10>
 <PAUSE 1><RATE 0>YOURSELF.<RATE 5><PAUSE 5>
 
+@nphrases 3
 @scale 1
 @block
 You are <PAUSE 4><RATE 3>nnnooottt<RATE 4> gonna
 like this.
 Okay um. <RATE 2>Wow this is bad.<BACKSPACE 17><RATE 4> Where to begin...<PAUSE 4>
 
+@nphrases 4
 @block
 <RATE 4>Your so-called<RATE 2><BACKSPACE 9><RATE 4>AHEM reality?...
 <PAUSE 4><RATE 2>BOINK<PAUSE 2><RATE 15> Gone.<RATE 4><PAUSE 4>
 Just like that.<PAUSE 6>
 <RATE 1>You're dead, by the way<PAUSE 5>
 
+@nphrases 1
 @scale 3
 @block
 <RATE 6>ANYWAYS<PAUSE 3>
 
+@nphrases 4
 @scale 1
 @block
 <RATE 4>Perception is a bit
@@ -155,8 +169,24 @@ rebuild parts of you with
 tech.<PAUSE 5> <RATE 3>Found it under my bed.<RATE 2><BACKSPACE 22><RATE 5>Top-tier hardware.
 ]]
 
+function setup_sound()
+    lil("blkset 49")
+    lil("valnew msgscale")
+    lil("phasor 60 0")
+    lil("val [grab msgscale]")
+    lilt{"rephasor", "zz", "zz"}
+    lil("scale zz 330 440")
+    lil("sine zz 0.5")
+    lil("wavout zz scratch/messagebox.wav")
+    valutil.set("msgscale", 1.0/30)
+end
+
 
 dialogue = descript.parse(script)
+
+-- TODO don't use these as globals lol
+t = 1
+rate = 3
 
 function process_block(block)
     clear(events, t)
@@ -205,12 +235,30 @@ end
 
 for _, block in pairs(dialogue) do
     if block[1] == "block" then
+        local start_time = t
+        local start_pos = #events + 1
         process_block(block)
+        local end_time = t
+        blockdur(events, start_time, end_time - start_time, start_pos)
     elseif string.match(block[1], "^scale") ~= nil then
         local cmd = core.split(block[1], " ")
         textscale(events, t, tonumber(cmd[2]))
+    elseif string.match(block[1], "^nphrases") ~= nil then
+        local cmd = core.split(block[1], " ")
+        nphrases(events, t, tonumber(cmd[2]))
     end
 end
+
+
+local last = -1
+for idx,e in pairs(events) do
+    if e[1] < last then
+        error(string.format("ruh-roh %d < %d", e[1], last))
+    end
+    last = e[1]
+end
+
+-- goto bye
 
 event_handler = {
     append = function(mb, data)
@@ -236,12 +284,22 @@ event_handler = {
     scale = function(mb, data)
         mb.scale = data
     end,
+
+    blockdur = function(mb, dur)
+        valutil.set("msgscale", mb.nphrases / dur)
+    end,
+
+    nphrases = function(mb, n)
+        mb.nphrases = n
+    end,
 }
 
 xoff = 320//2 - 200//2
 yoff = 240//2 - 60//2
 evpos = 1
 last_event = events[evpos]
+setup_sound()
+
 for n=1,60*35 do
     while (evpos <= #events) and (last_event[1] <= n) do
         local f = event_handler[last_event[2]]
@@ -261,6 +319,7 @@ for n=1,60*35 do
 
         last_event = events[evpos]
     end
+    lil("compute 15")
     messagebox.draw(buf, 12)
     lil("grab gfx; dup")
     lilt{"gfxrectf", xoff, yoff, 200, 60, 1}
@@ -277,7 +336,7 @@ gfxclose
 gfxmp4 scratch/messagebox.h264 scratch/messagebox_vid.mp4
 ]])
 
-os.execute("ffmpeg -y -i scratch/messagebox_vid.mp4 -pix_fmt yuv420p scratch/messagebox.mp4")
+os.execute("ffmpeg -hide_banner -loglevel error -y -i scratch/messagebox_vid.mp4 -i scratch/messagebox.wav -pix_fmt yuv420p -acodec aac -b:a 320k scratch/messagebox.mp4")
 
 -- lilt {"bppng", "[grab bp]", "scratch/messagebox.png"}
 -- lil("gfxppm scratch/messagebox.ppm")
