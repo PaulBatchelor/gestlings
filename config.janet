@@ -74,6 +74,13 @@
       # TODO: move outside scratch
       ["scratch/hello_there_gestling.lua"]
       ["avatar/sdfvm_lookup_table.json"]]
+
+    @[["res/welcome_to_gestleton.mp4"]
+      # TODO: move outside scratch
+      ["scratch/welcome_to_gestleton.lua"]
+      ["avatar/sdfvm_lookup_table.json"
+      "scratch/welcome_to_gestleton.bin"
+      "scratch/squad.lua"]]
 ])
 
 (def fonts @["cholo" "antik_1" "cursive_a"])

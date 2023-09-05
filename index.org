@@ -1,3 +1,5 @@
 Wait we're not ready yet! Come back soon.
 
 @!(img "/res/hello_there_gestling.png")!@
+
+@!(video "/res/welcome_to_gestleton_small.mp4")!@

@@ -667,6 +667,7 @@ gfxclose
 gfxmp4 tmp/welcome_to_gestleton.h264 tmp/welcome_to_gestleton.mp4
 ]])
 os.execute("ffmpeg -y -i tmp/welcome_to_gestleton.mp4 -i tmp/welcome_to_gestleton.wav -pix_fmt yuv420p -acodec aac res/welcome_to_gestleton.mp4")
+os.execute("ffmpeg -y -i res/welcome_to_gestleton.mp4 -vf scale=320:-1 res/welcome_to_gestleton_small.mp4")
 
 ::quit::
 return nil
