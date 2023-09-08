@@ -45,7 +45,7 @@ function setup()
         },
 
         inflection = {
-            {0x0, 3, lin},
+            {0x0, 3, step},
         },
 
         gate = {
@@ -55,47 +55,163 @@ function setup()
     })
 
 
-
     local m = {}
 
-    morpheme.append(path, m, {1, 1}, pat_a{})
-    morpheme.append(path, m, {1, 1}, pat_a {
-        inflection = {
-            {0x0, 3, lin},
-            {0x4, 1, gm},
-        },
-    })
-    morpheme.append(path, m, {1, 1}, pat_a {
-        inflection = {
-            {0x4, 1, gl},
-            {0x0, 1, gl},
-            {0x2, 1, gm},
-        },
-    })
+    local app = morpheme.appender(path)
+    infl = {
+        flat = {inflection = {{0x0, 3, lin}}},
+        rise = {inflection = {{0x0, 3, lin}, {0x4, 1, stp}}},
+        downup = {inflection = {{0x4, 1, gl}, {0x0, 1, gl}, {0x2, 1, stp}}},
+        fall = {inflection = {{0x4, 3, lin}, {0x0, 1, stp}}}
+    }
 
-    morpheme.append(path, m, {1, 1}, pat_a {
-        inflection = {
-            {0x4, 3, lin},
+    asp = {
+        start = {
+            {0xFF, 1, gm},
+            {0x0, 5, stp},
+        },
+
+        second = {
             {0x0, 1, gm},
+            {0xFF, 1, gm},
+            {0x0, 4, stp},
         },
+
+        mid = {
+            {0x0, 1, gm},
+            {0xFF, 1, gm},
+            {0x0, 4, stp},
+        },
+
+        longstart = {
+            {0xFF, 1, gm},
+            {0x0, 1, stp},
+        },
+
+        longend = {
+            {0x00, 1, gm},
+            {0xFF, 1, stp},
+        },
+
+        none = {
+            {0x00, 1, stp},
+        }
+    }
+
+
+    pat_b = morpheme.template(pat_a {
+        shapes = {
+            {D, 1, lin},
+            {A, 1, lin},
+        },
+        aspiration = asp.none,
     })
 
-    -- table.insert(p_shapes, vtx{A, {1, 1}, lin})
-    -- table.insert(p_shapes, vtx{B, {1, 1}, gl})
-    -- table.insert(p_shapes, vtx{A, {1, 1}, lin})
-    -- table.insert(p_shapes, vtx{C, {1, 1}, gm})
-    -- table.insert(p_shapes, vtx{A, {1, 1}, lin})
-    -- table.insert(p_shapes, vtx{D, {1, 1}, gm})
-    -- table.insert(p_shapes, vtx{A, {1, 1}, lin})
-    -- table.insert(p_shapes, vtx{E, {1, 1}, gm})
+    pat_c = morpheme.template(pat_b {
+        shapes = {
+            {B, 4, gl},
+            {C, 1, lin},
+            {D, 1, gl},
+        },
+        aspiration = asp.none,
+    })
+
+    local vocab = {
+        ka = pat_a {},
+        xy = pat_a {
+            aspiration = asp.second,
+            shapes = {
+                {E, 2, lin},
+                {D, 1, gl},
+                {C, 1, lin},
+            },
+        },
+        gy = pat_a {
+            shapes = {
+                {E, 3, lin},
+                {D, 1, gl},
+                {A, 1, lin},
+                {E, 1, gm},
+                {A, 1, gm}
+            },
+            aspiration = asp.mid
+        },
+        ra = pat_a {
+            aspiration = asp.longstart
+        },
+        ti= pat_a {
+            shapes = {
+                {A, 1, lin},
+                {B, 1, lin},
+                {A, 1, lin},
+                {B, 1, lin},
+                {A, 3, gl},
+                {B, 3, gl},
+            },
+            aspiration = asp.longend,
+        },
+        qi= pat_a {
+            aspiration = asp.none,
+        },
+        nu = pat_b {},
+        thu = pat_b {
+            aspiration = asp.longstart
+        },
+        no = pat_b {
+            aspiration = asp.longend
+        },
+        na = pat_c { },
+        ne = pat_c {
+            aspiration = asp.mid
+        },
+        ku = pat_c {
+            aspiration = asp.longstart
+        },
+        ty={},
+        ma={},
+        zha={},
+        ge={},
+        pause = pat_a {
+            gate = {
+                {0, 1, stp},
+            }
+        }
+    }
+
+    local merge = morpheme.merge
+
+    dur_reg = {1, 1}
+    dur_short = {3, 2}
+    dur_long = {2, 3}
+
+    local phrase = {
+        {"na"},
+        {"ne"},
+        {"ku"},
+        {"nu"},
+        {"pause"},
+    }
+    for _,ph in pairs(phrase) do
+        local dur = dur_reg
+        app(m, dur, vocab[ph[1]])
+    end
 
     local words = {}
     tal.begin(words)
     morpheme.compile(tal, path, words, m, nil, lookup)
 
-    -- tal.label(words, "shapes")
-    -- path.path(tal, words, p_shapes, lookup)
-    -- tal.jump(words, "shapes")
+    local pros_flat = 0x80
+    local pros_up = 0x80 + 0x40
+    local pros_pitch = {
+        vtx {pros_flat, {1, 1}, stp},
+        vtx {pros_flat, {1, 3}, lin},
+        vtx {pros_up, {1, 2}, gm},
+        vtx {pros_flat, {1, 1}, stp}
+    }
+
+    tal.label(words, "pros_pitch")
+    path.path(tal, words, pros_pitch)
+    tal.halt(words)
     return words
 end
 
@@ -112,7 +228,7 @@ function patch(words)
     G:create()
     G:compile(words)
     lilts {
-        {"phasor", 1.3, 0},
+        {"phasor", 1.8, 0},
     }
 
     local cnd = sig:new()
@@ -136,9 +252,15 @@ function patch(words)
 
     lilt {"regget", 4}
     gesture(sigrunes, G, "inflection", cnd)
+    lilt {"mul", "zz", 0.5}
+    gesture(sigrunes, G, "pros_pitch", cnd)
     lilts {
-        {"mul", "zz", 0.5},
-        {"param", 60},
+        {"mul", "zz", 1.0 / 0xFF},
+        {"scale", "zz", -12, 12},
+        {"add", "zz", "zz"}
+    }
+    lilts {
+        {"param", 63},
         {"add", "zz", "zz"},
         -- {"sine", 7, 0.1},
         -- {"add", "zz", "zz"},
@@ -203,6 +325,32 @@ function patch(words)
 
 end
 
+consonance = {
+"b", "c", "d", "f", "g", "gh", "h", "k", "l", "m", "n",
+"p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+"zh", "th",
+}
+
+vowel = {
+"a", "e", "i", "o", "u", "y", "uo"
+}
+
+function generate_words(nwords)
+    local wordlist = {}
+    for _ = 1,nwords do
+        local v = vowel[math.random(#vowel)]
+        local c = consonance[math.random(#consonance)]
+        local word = c .. v
+        print (word)
+        -- wordlist[word] = true
+    end
+
+    -- for v,_ in pairs(wordlist) do
+    --     print(v)
+    -- end
+end
+
+-- generate_words(16)
 words = setup()
 patch(words)
 lilts {
