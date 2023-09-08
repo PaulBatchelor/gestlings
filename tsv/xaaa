@@ -2000,7 +2000,7 @@
 -	4c1988c9-b3fa-4812-ae50-d134c9e3f414	#d20d9581-9adf-4675-b789-53df1afbbc9e
 2023-08-30 18:22:05	d315b674-7dbc-49af-9fb3-9a8e06cd908d	>create render phony target to render all assets
 -	d315b674-7dbc-49af-9fb3-9a8e06cd908d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-30 18:22:05	d315b674-7dbc-49af-9fb3-9a8e06cd908d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-08 19:47:34	d315b674-7dbc-49af-9fb3-9a8e06cd908d	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-30 18:23:03	d315b674-7dbc-49af-9fb3-9a8e06cd908d	$blurb:>this is needed because rendering videos now takes up a lot of time. It would be nice to not have to re-render every time I want to push out changes to the web.
 2023-08-30 18:23:23	0a234fc5-8837-4741-890c-6da54c648040	>consider adding 'blackhole' target to diagraf
 -	0a234fc5-8837-4741-890c-6da54c648040	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -2132,3 +2132,6 @@
 2023-09-08 17:37:30	787b30d8-6b23-40d0-88f3-69f495746dd9	$duration:>5018
 -	787b30d8-6b23-40d0-88f3-69f495746dd9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	787b30d8-6b23-40d0-88f3-69f495746dd9	#64026cd2-5e74-4168-aaf3-24c6968cb898
+2023-09-08 19:47:18	4fda647c-93ea-471e-b3f7-9015ac765131	$duration:>827
+-	4fda647c-93ea-471e-b3f7-9015ac765131	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4fda647c-93ea-471e-b3f7-9015ac765131	#d315b674-7dbc-49af-9fb3-9a8e06cd908d

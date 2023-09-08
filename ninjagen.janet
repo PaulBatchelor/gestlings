@@ -3,6 +3,8 @@
 (def args (dyn :args))
 
 (var use-monome false)
+(var asset-files @[])
+(var tangled-files @[])
 
 (defn tangle [janet-file org-file]
   (print (string "build " janet-file ": tangle " org-file)))
@@ -106,15 +108,19 @@
 
 (each prog programs/pages
   (if (array? (prog :tangled))
-    (tangle (string/join (prog :tangled) " ") (prog :org))
-    (tangle (prog :tangled) (prog :org))))
+    (do
+      (each f (prog :tangled) (array/push tangled-files f))
+      (tangle (string/join (prog :tangled) " ") (prog :org)))
+    (do
+      (array/push tangled-files (prog :tangled))
+      (tangle (prog :tangled) (prog :org)))))
 
 (import config)
 (each a config/assets
   (if (= (length a) 2)
       (asset (a 0) (a 1))
-      (asset (a 0) (a 1) (a 2))))
-
+      (asset (a 0) (a 1) (a 2)))
+  (each output (a 0) (array/push asset-files output)))
 
 (build-program
     "util/c64parse"
@@ -150,3 +156,8 @@
 
 (asset-cprog "res/mouthtests.png" "avatar/mouth/mouthtests")
 (asset-cprog "avatar/sdfvm_lookup_table.json" "avatar/sdfvm_lookup_table")
+
+(print (string "build assets: phony " (string/join asset-files " ")))
+(print (string "build tangled: phony " (string/join tangled-files " ")))
+
+(print "default tangled")
