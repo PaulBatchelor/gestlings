@@ -265,6 +265,23 @@ function M.compile(tal, path, words, mp, head, lookup)
         tal.jump(words, label)
     end
 end
+
+-- tal.label(words, "hold")
+-- tal.halt(words)
+-- tal.jump(words, "hold")
+
+function M.compile_noloop(tal, path, words, mp, head, lookup)
+    head = head or {}
+    for label, p in pairs(mp) do
+        tal.label(words, label)
+        if head[label] ~= nil then
+            head[label](words)
+        end
+        lookup = lookup or nil
+        path.path(tal, words, p, lookup)
+        tal.jump(words, "hold")
+    end
+end
 #+END_SRC
 ** Articulate
 The =articulate= function takes in a sequence of morphemes

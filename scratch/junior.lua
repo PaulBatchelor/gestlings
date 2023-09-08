@@ -9,6 +9,20 @@ tal = require("tal/tal")
 morpheme = require("morpheme/morpheme")
 sigrunes = require("sigrunes/sigrunes")
 
+local function gcd(m, n)
+    while n ~= 0 do
+        local q = m
+        m = n
+        n = q % n
+    end
+    return m
+end
+
+local function lcm(m, n)
+    return (m ~= 0 and n ~= 0) and
+        m * n / gcd(m, n) or 0
+end
+
 function setup()
     lil("shapemorfnew lut shapes/junior.b64")
     lil("grab lut")
@@ -191,27 +205,41 @@ function setup()
         {"nu"},
         {"pause"},
     }
+
+    local mseq = {}
+
     for _,ph in pairs(phrase) do
         local dur = dur_reg
-        app(m, dur, vocab[ph[1]])
+        table.insert(mseq, {vocab[ph[1]], dur})
     end
-
-    local words = {}
-    tal.begin(words)
-    morpheme.compile(tal, path, words, m, nil, lookup)
 
     local pros_flat = 0x80
     local pros_up = 0x80 + 0x40
     local pros_pitch = {
-        vtx {pros_flat, {1, 1}, stp},
-        vtx {pros_flat, {1, 3}, lin},
-        vtx {pros_up, {1, 2}, gm},
-        vtx {pros_flat, {1, 1}, stp}
+        {pros_flat, 3, lin},
+        {pros_up, 1, gm},
     }
+
+    pros_pitch = path.scale_to_morphseq(pros_pitch, mseq)
+
+    for _,mrph in pairs(mseq) do
+        local dur = mrph[2]
+        local mo = mrph[1]
+        app(m, dur, mo)
+    end
+
+    local words = {}
+    tal.begin(words)
+
+    tal.label(words, "hold")
+    tal.halt(words)
+    tal.jump(words, "hold")
+
+    morpheme.compile_noloop(tal, path, words, m, nil, lookup)
 
     tal.label(words, "pros_pitch")
     path.path(tal, words, pros_pitch)
-    tal.halt(words)
+    tal.jump(tal, "hold")
     return words
 end
 
@@ -318,7 +346,7 @@ function patch(words)
 
 
     lilts {
-        {"mul", "zz", "[dblin " .. -3 .."]"},
+        {"mul", "zz", "[dblin " .. -6 .."]"},
     }
 
     lil("dcblocker zz")
