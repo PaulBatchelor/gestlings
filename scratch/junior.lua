@@ -9,19 +9,29 @@ tal = require("tal/tal")
 morpheme = require("morpheme/morpheme")
 sigrunes = require("sigrunes/sigrunes")
 
-local function gcd(m, n)
-    while n ~= 0 do
-        local q = m
-        m = n
-        n = q % n
+local function phrase_to_mseq(path, phrase, pros, vocab)
+    local mseq = {}
+    for _,ph in pairs(phrase) do
+        local dur = dur_reg
+        table.insert(mseq, {vocab[ph[1]], dur})
     end
-    return m
+
+    pros_scaled = path.scale_to_morphseq(pros, mseq)
+    return mseq, pros_scaled
 end
 
-local function lcm(m, n)
-    return (m ~= 0 and n ~= 0) and
-        m * n / gcd(m, n) or 0
+local function append_to_sequence(app, m, pros_pitch, mseq, pros)
+    for _,mrph in pairs(mseq) do
+        local dur = mrph[2]
+        local mo = mrph[1]
+        app(m, dur, mo)
+    end
+
+    for _, v in pairs(pros) do
+        table.insert(pros_pitch, v)
+    end
 end
+
 
 function setup()
     lil("shapemorfnew lut shapes/junior.b64")
@@ -215,18 +225,55 @@ function setup()
 
     local pros_flat = 0x80
     local pros_up = 0x80 + 0x40
-    local pros_pitch = {
+    local pros_up_more = 0x80 + 0x70
+    local pros_up_mild  = 0x80 + 0x10
+    local pros_down_mild  = 0x80 - 0x20
+    local pros_down = 0x80 - 0x40
+    local pros_down_more = 0x80 - 0x70
+
+    local question = {
         {pros_flat, 3, lin},
         {pros_up, 1, gm},
     }
 
-    pros_pitch = path.scale_to_morphseq(pros_pitch, mseq)
+    local neutral = {
+        {pros_flat, 1, stp},
+    }
 
-    for _,mrph in pairs(mseq) do
-        local dur = mrph[2]
-        local mo = mrph[1]
-        app(m, dur, mo)
-    end
+    local some_jumps = {
+        {pros_flat, 1, lin},
+        {pros_up, 1, lin},
+        {pros_flat, 2, lin},
+        {pros_down_mild, 1, stp},
+    }
+
+    local deflated = {
+        {pros_up_mild, 3, lin},
+        {pros_down, 1, stp},
+    }
+    local excited = {
+        {pros_flat, 1, lin},
+        {pros_up_more, 1, lin},
+        {pros_flat, 1, lin},
+        {pros_up_more, 1, lin},
+        {pros_flat, 1, lin},
+        {pros_up_more, 1, lin},
+        {pros_down_mild, 1, lin},
+        {pros_up_more, 2, stp},
+    }
+
+
+    pros_pitch = {}
+    mseq, pros = phrase_to_mseq(path, phrase, neutral, vocab)
+    append_to_sequence(app, m, pros_pitch, mseq, pros)
+    mseq, pros = phrase_to_mseq(path, phrase, question, vocab)
+    append_to_sequence(app, m, pros_pitch, mseq, pros)
+    mseq, pros = phrase_to_mseq(path, phrase, some_jumps, vocab)
+    append_to_sequence(app, m, pros_pitch, mseq, pros)
+    mseq, pros = phrase_to_mseq(path, phrase, deflated, vocab)
+    append_to_sequence(app, m, pros_pitch, mseq, pros)
+    mseq, pros = phrase_to_mseq(path, phrase, excited, vocab)
+    append_to_sequence(app, m, pros_pitch, mseq, pros)
 
     local words = {}
     tal.begin(words)
@@ -256,7 +303,7 @@ function patch(words)
     G:create()
     G:compile(words)
     lilts {
-        {"phasor", 1.8, 0},
+        {"phasor", 1.9, 0},
     }
 
     local cnd = sig:new()
@@ -299,6 +346,8 @@ function patch(words)
         {"glot", "zz", "zz", "zz", "zz"}
     }
 
+    local glot = sig:new()
+
     lilts {
         {"noise"},
         {"butlp", "zz", 1000},
@@ -328,12 +377,21 @@ function patch(words)
         {"crossfade", "zz", "zz", "zz"}
     }
 
+    glot:hold()
+
+    glot:get()
+
     lilts {
         {"tubular", "zz", "zz"},
         {"butlp", "zz", 4000},
         {"buthp", "zz", 100},
         {"regclr", 4},
     }
+
+    glot:get()
+
+    -- use balance filter to control resonances of tubular
+    lilt{"balance", "zz", "zz"}
 
     gesture(sigrunes, G, "gate", cnd)
     -- lil("gestvmlast " .. gst:get())
@@ -344,12 +402,13 @@ function patch(words)
         {"mul", "zz", "zz"}
     }
 
-
     lilts {
-        {"mul", "zz", "[dblin " .. -6 .."]"},
+        {"mul", "zz", "[dblin " .. -3 .."]"},
     }
 
     lil("dcblocker zz")
+    cnd:unhold()
+    glot:unhold()
 
 end
 
@@ -385,4 +444,4 @@ lilts {
     {"wavout", "zz", "scratch/junior.wav"}
 }
 
-lil("computes 10")
+lil("computes 20")
