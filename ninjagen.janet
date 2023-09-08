@@ -160,4 +160,4 @@
 (print (string "build assets: phony " (string/join asset-files " ")))
 (print (string "build tangled: phony " (string/join tangled-files " ")))
 
-(print "default tangled")
+(print "default tangled cantor")
