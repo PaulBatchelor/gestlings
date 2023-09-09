@@ -3,6 +3,8 @@ An auto-generated update on the gestlings.
 
 To see what I'm currently working on, see: @!(ref "TODO")!@.
 
+To see a hourly breakdown of tasks, see: @!(ref "tasks")!@.
+
 @!
 (do
   (def db (sqlite3/open "a.db"))

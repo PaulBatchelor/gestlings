@@ -11,12 +11,43 @@ sigrunes = require("sigrunes/sigrunes")
 
 local function phrase_to_mseq(path, phrase, pros, vocab)
     local mseq = {}
+
     for _,ph in pairs(phrase) do
         local dur = dur_reg
         table.insert(mseq, {vocab[ph[1]], dur})
     end
 
+    local mseq_dur = path.morphseq_dur(mseq)
+    -- print(mseq_dur[1], mseq_dur[2])
+
+    -- normalize: condense entire phrase into one beat
+    -- for some reason, we don't flip
+    -- best I can think of:
+    -- rescale each rate multiplier relative to the duration
+    -- divide each morpheme rate multiplier by the total duration
+    -- duration needs to be converted to rate (flip)
+    -- fraction division does an inversion on second operand (flip)
+    -- maybe those flips cancel out?
+    local scale = mseq_dur
+    -- print("before")
+    -- pprint(mseq[1])
+    for idx,_ in pairs(mseq) do
+        mseq[idx][2] = path.fracmul(mseq[idx][2], scale)
+
+        -- limited to 8-bit values
+        assert(mseq[idx][2][1] <= 0xFF)
+        assert(mseq[idx][2][2] <= 0xFF)
+    end
+    -- print("after")
+    -- pprint(mseq[1])
+
     pros_scaled = path.scale_to_morphseq(pros, mseq)
+
+    -- print("before")
+    -- print(#pros)
+    -- pprint(pros[2])
+    -- print("after")
+    -- pprint(pros_scaled[2])
     return mseq, pros_scaled
 end
 
@@ -303,7 +334,7 @@ function patch(words)
     G:create()
     G:compile(words)
     lilts {
-        {"phasor", 1.9, 0},
+        {"phasor", 1.0/3.0, 0},
     }
 
     local cnd = sig:new()
@@ -407,6 +438,11 @@ function patch(words)
     }
 
     lil("dcblocker zz")
+
+    -- cnd:get()
+    -- lil("scale zz 200 400")
+    -- lil("sine zz 0.3")
+    -- lil("add zz zz")
     cnd:unhold()
     glot:unhold()
 
@@ -444,4 +480,4 @@ lilts {
     {"wavout", "zz", "scratch/junior.wav"}
 }
 
-lil("computes 20")
+lil("computes 30")
