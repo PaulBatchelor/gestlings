@@ -2153,3 +2153,9 @@
 2023-09-08 21:04:14	47408f38-4430-4005-a86f-94c30edc889e	$duration:>1833
 -	47408f38-4430-4005-a86f-94c30edc889e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	47408f38-4430-4005-a86f-94c30edc889e	#64026cd2-5e74-4168-aaf3-24c6968cb898
+2023-09-09 18:14:53	000cd389-b675-47d0-a585-8ce70b3335f9	>phrases need to encompass the space of one long monoramp. right now, they are tuned to a regular conductor ramp. will tweak the existing prototype and see how well it works.
+-	000cd389-b675-47d0-a585-8ce70b3335f9	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	000cd389-b675-47d0-a585-8ce70b3335f9	#64026cd2-5e74-4168-aaf3-24c6968cb898
+2023-09-09 19:38:49	2707adfb-0bb4-4f73-8843-5041ed0ddee3	$duration:>5080
+-	2707adfb-0bb4-4f73-8843-5041ed0ddee3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	2707adfb-0bb4-4f73-8843-5041ed0ddee3	#64026cd2-5e74-4168-aaf3-24c6968cb898
