@@ -3,8 +3,8 @@ function sound()
     comp = bs.components(bs.load_components())
     bs.load_data(comp)
     phrase = {"HELLO", "IAM", "PLEASED", "WELCOME"}
-    pitchseq = "h1/ k2~ h1/ d h i2~ h4_"
-    temposeq = "d1/ f d4 c"
+    pitchseq = "h1/"
+    temposeq = "d1/ c"
     bs.speak(comp, phrase, pitchseq, temposeq)
 
     lil("mul zz [dblin -6]")
@@ -20,9 +20,8 @@ end
 
 sound()
 
-chksm="e8a5a4be658bf341dafa92a67da28d4c"
+chksm="0cc57b990545c928dd9028a3a2bc03fa"
 rc, msg = pcall(lil, "verify " .. chksm)
-
 verbose = os.getenv("VERBOSE")
 if rc == false then
     if verbose ~= nil and verbose == "1" then

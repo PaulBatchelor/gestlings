@@ -297,9 +297,14 @@ local function apply_ratemul(p, r, vertexer)
     path_with_ratemul = {}
 
     for _,v in pairs(p) do
+        local new_rate = reduce({r[1], v[2]*r[2]})
+        assert(new_rate[1] <= 0xFF,
+            "rate multiplier numerator too high: " .. new_rate[1])
+        assert(new_rate[2] <= 0xFF,
+            "rate multiplier denominator too high" .. new_rate[2])
         local v_rm = {
             v[1],
-            reduce({r[1], v[2]*r[2]}),
+            new_rate,
             v[3]
         }
         table.insert(path_with_ratemul, vertexer(v_rm))
