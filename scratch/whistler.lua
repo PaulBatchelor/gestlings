@@ -134,11 +134,11 @@ tal.jump(words, "hold")
 
 tal.label(words, "pitch")
 path.path(tal, words, melpath)
-tal.jump(tal, "hold")
+tal.jump(words, "hold")
 
 tal.label(words, "gate")
 path.path(tal, words, gatepath)
-tal.jump(tal, "hold")
+tal.jump(words, "hold")
 
 local G = gest:new()
 G:create()
@@ -172,43 +172,86 @@ lilts {
 }
     local pitch = sig:new()
     pitch:hold()
+
+-- lilts {
+--     {"noise"},
+--     {"mul", zz, 1},
+-- }
+--     pitch:get()
+-- 
+-- 
+-- lilts {
+--     {"sine", zz, 0.5},
+-- 
+--     {"param 0"},
+--     {"tgate", zz, 0.1},
+--     {"envar", zz, 0.1, 0.1},
+--     {"scale", zz, 0.5, 0.0},
+--     {"crossfade", zz, zz, zz},
+-- }
+--     pitch:get()
+--     pitch:get()
+-- 
+-- lilts {
+--     {"mul", zz, 0.2},
+--     {"butbp", zz, zz, zz},
+--     {"mul", zz, 0.8},
+-- }
+--
+
 lilts {
     {"noise"},
-    {"mul", zz, 1},
+    {"butbp", zz, 1000, 30},
+    {"buthp", zz, 1000},
+    {"mul", zz, 1.1},
 }
-    pitch:get()
-lilts {
-    {"sine", zz, 0.5},
 
-    {"param 0"},
-    {"tgate", zz, 0.1},
-    {"envar", zz, 0.1, 0.1},
-    {"scale", zz, 0.5, 0.0},
-    {"crossfade", zz, zz, zz},
-}
-    pitch:get()
-    pitch:get()
+pitch:get()
+pitch:get()
 
 lilts {
     {"mul", zz, 0.2},
     {"butbp", zz, zz, zz},
-    {"mul", zz, 0.8},
+    -- {"mul", zz, 0.8},
+}
+
+pitch:get()
+lilts {
+    {"blsquare", zz},
+    {"mul", zz, 0.1},
+    --{"mul", zz, 0.0},
+}
+
+pitch:get()
+lilts {
+    {"butbp", zz, zz, 5},
+}
+
+lilts {
+    {"add", zz, zz},
+}
+
+lilts {
+    {"mul", zz, "[dblin -5]"}
 }
 
 gesture(sigrunes, G, "gate", cnd)
 lilts {
-    {"envar", "zz", 0.05, 0.2},
+    {"envar", "zz", 0.2, 0.2},
     {"mul", "zz", "zz"}
 }
 
 lilts {
     {"dup"},
-    {"vardelay zz 0.0 0.1 0.5"},
+    {"vardelay zz 0.0 0.2 0.5"},
     {"dup"},
     {"bigverb zz zz 0.97 10000"},
-    {"drop; mul zz [dblin -15]"},
+    {"drop; mul zz [dblin -18]"},
     {"swap; mul zz [dblin -3]"},
     {"add", zz, zz},
+}
+
+lilts {
     {"wavout", zz, "test.wav"}
 }
 
