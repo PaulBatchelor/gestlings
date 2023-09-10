@@ -25,6 +25,7 @@ local gm = gest.behavior.gliss_medium
 local gl = gest.behavior.gliss
 local lin = gest.behavior.linear
 local stp = gest.behavior.step
+local gt = gest.behavior.gate_50
 
 doh = 0
 re = 2
@@ -140,6 +141,81 @@ local vibpath = {
     vtx {4, {1, 1}, stp},
 }
 
+on = 1
+off = 0
+local trigpath = {
+    -- Verse 1
+    vtx{off, Q, stp},
+    vtx{off, E, stp},
+    vtx{off, E, stp},
+
+    vtx{off, E, stp},
+    vtx{on, E, gt},
+
+    vtx{off, T, stp},
+    vtx{off, T, stp},
+    vtx{off, T, stp},
+
+    vtx{off, E, stp},
+    vtx{off, E, stp},
+    vtx{off, E, stp},
+    vtx{off, {2, 3 + 2}, stp},
+
+    -- Verse 2
+    vtx{off, E, stp},
+    vtx{on, E, gt},
+    vtx{off, E, stp},
+    vtx{off, E, stp},
+
+    vtx{off, S, stp},
+    vtx{off, S, stp},
+    vtx{off, S, stp},
+    vtx{off, S, stp},
+
+    vtx{off, E, stp},
+    vtx{off, E, stp},
+    vtx{off, E, stp},
+    vtx{off, {2,3 + 2}, stp},
+
+    -- Verse 3
+    vtx{off, E, stp},
+    vtx{off, {2, 3}, stp},
+    vtx{off, E, stp},
+    vtx{off, {2, 3}, stp},
+
+    vtx{off, E, stp},
+    vtx{off, E, stp},
+
+    vtx{off, E, stp},
+    vtx{on, E, gt},
+
+    vtx{off, S, stp},
+    vtx{off, S, stp},
+    vtx{off, E, stp},
+    vtx{off, {2,1 + 3}, stp},
+
+    -- Verse 4
+
+    vtx{off, Q, stp},
+    vtx{off, E, stp},
+    vtx{off, E, stp},
+
+    vtx{off, E, stp},
+    vtx{off, E, stp},
+
+    vtx{off, E, stp},
+    vtx{off, E, stp},
+
+    vtx{off, T, stp},
+    vtx{off, T, stp},
+    vtx{off, T, stp},
+
+    vtx{off, E, stp},
+    vtx{off, {2, 3 + 2}, stp},
+    vtx{off, {1, 2}, stp},
+    vtx{off, {1, 1}, stp},
+}
+
 words = {}
 tal.begin(words)
 tal.label(words, "hold")
@@ -156,6 +232,11 @@ tal.jump(words, "hold")
 
 tal.label(words, "vib")
 path.path(tal, words, vibpath)
+tal.jump(words, "hold")
+
+tal.label(words, "trig")
+tal.interpolate(words, 0)
+path.path(tal, words, trigpath)
 tal.jump(words, "hold")
 
 local G = gest:new()
@@ -189,6 +270,24 @@ gesture(sigrunes, G, "pitch", cnd)
 lilts {
     --{"param", 69 + 12},
     {"add", zz, 69 + 12},
+}
+
+lilts {
+    {"dup"},
+    {"add", zz, 2}
+}
+
+gesture(sigrunes, G, "trig", cnd)
+trig = sig:new()
+
+trig:hold()
+
+trig:get()
+lilts {
+    {"gtick", zz},
+    {"tgate", zz, 0.1},
+    {"envar", zz, 0.2, 0.2},
+    {"crossfade", zz, zz, zz}
 }
 
 vib:get()
@@ -236,9 +335,17 @@ lilts {
     {"noise"},
     {"butbp", zz, 1000, 30},
     {"buthp", zz, 1000},
-    {"mul", zz, 1.1},
 }
 
+trig:get()
+
+lilts {
+    {"gtick", zz},
+    {"tgate", zz, 0.1},
+    {"smoother", zz, 0.001},
+    {"scale", zz, 1.1, 1.8},
+    {"mul", zz, zz},
+}
 pitch:get()
 pitch:get()
 
@@ -288,4 +395,4 @@ lilts {
     {"wavout", zz, "test.wav"}
 }
 
-lil("computes 40")
+lil("computes 47")
