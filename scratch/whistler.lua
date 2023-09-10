@@ -126,6 +126,20 @@ local gatepath = {
     vtx {0, {1, 1}, stp},
 }
 
+local vibpath = {
+    vtx {0, {1, 7}, lin},
+    vtx {1, {1, 1}, stp},
+
+    vtx {0, {1, 6}, lin},
+    vtx {2, {1, 1}, stp},
+
+    vtx {0, {1, 8}, lin},
+    vtx {2, {1, 1}, stp},
+
+    vtx {0, {1, 8 + 1}, lin},
+    vtx {4, {1, 1}, stp},
+}
+
 words = {}
 tal.begin(words)
 tal.label(words, "hold")
@@ -138,6 +152,10 @@ tal.jump(words, "hold")
 
 tal.label(words, "gate")
 path.path(tal, words, gatepath)
+tal.jump(words, "hold")
+
+tal.label(words, "vib")
+path.path(tal, words, vibpath)
 tal.jump(words, "hold")
 
 local G = gest:new()
@@ -158,12 +176,27 @@ function gesture(sr, gst, name, cnd)
     }
 end
 
+gesture(sigrunes, G, "vib", cnd)
+lilts {
+    {"mul", zz, 0.25}
+}
+vib = sig:new()
+
+vib:hold()
+
 gesture(sigrunes, G, "pitch", cnd)
 
 lilts {
     --{"param", 69 + 12},
     {"add", zz, 69 + 12},
-    {"sine", 5.5, 0.2},
+}
+
+vib:get()
+lilt {"scale", zz, 5.3, 5.5}
+vib:get()
+lilt {"scale", zz, 0.1, 0.5}
+lilts {
+    {"sine", zz, zz},
 }
 
 lilts {
@@ -243,9 +276,9 @@ lilts {
 
 lilts {
     {"dup"},
-    {"vardelay zz 0.0 0.2 0.5"},
+    {"vardelay zz 0.0 0.3 0.5"},
     {"dup"},
-    {"bigverb zz zz 0.97 10000"},
+    {"bigverb zz zz 0.93 10000"},
     {"drop; mul zz [dblin -18]"},
     {"swap; mul zz [dblin -3]"},
     {"add", zz, zz},
