@@ -325,17 +325,18 @@ function gesture(sr, gst, name, cnd)
     sr.node(gst:node()){
         name = name,
         conductor = core.liln(cnd:getstr()),
-        extscale = 1.0,
+        extscale = "[val [grab msgscale]]",
     }
 end
 
 function patch(words)
     lil("blkset 49")
+    lil("valnew msgscale")
     local G = gest:new()
     G:create()
     G:compile(words)
     lilts {
-        {"phasor", 1.0/3.0, 0},
+        {"phasor", 60, 0},
     }
 
     local cnd = sig:new()
@@ -354,7 +355,7 @@ function patch(words)
             "[regget 4]",
             "[" .. G:gmemsymstr("shapes") .. "]",
             "[" .. table.concat(cnd:getstr(), " ") .. "]",
-            "[param 1.0]"
+            "[val [grab msgscale]]"
         },
     }
 
@@ -482,4 +483,20 @@ lilts {
     {"wavout", "zz", "scratch/junior.wav"}
 }
 
-lil("computes 30")
+durs = {3, 2.5, 4, 2, 3}
+
+for idx,_ in pairs(durs) do
+    durs[idx] = math.floor(durs[idx]*60)
+end
+durpos = 1
+counter = 0
+for n=1,60*20 do
+    if counter <= 0 and durpos <= #durs then
+        counter = durs[durpos]
+        valutil.set("msgscale", 1.0 / counter)
+        durpos = durpos + 1
+    end
+    lil("compute 15")
+    counter = counter - 1
+end
+-- lil("computes 30")
