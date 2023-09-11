@@ -2168,3 +2168,24 @@
 2023-09-09 19:58:56	2f97da28-8d68-4470-8547-c279f2823e23	$duration:>1150
 -	2f97da28-8d68-4470-8547-c279f2823e23	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	2f97da28-8d68-4470-8547-c279f2823e23	#51a122b1-8805-4b34-b81b-a5c78fe10d30
+2023-09-10 23:56:11	adc75833-d5c0-45da-bd4f-a6240cca7b0b	>add external scaling factor to gestvm
+-	adc75833-d5c0-45da-bd4f-a6240cca7b0b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-09-11 01:28:50	adc75833-d5c0-45da-bd4f-a6240cca7b0b	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
+2023-09-10 23:57:30	04abb321-e1a3-46f3-bc2c-21ea195463b2	>this is needed for the solution I have in mind for speech timing in messages boxes. the external scaling factor is used to produce long monoramps, one ramp per phrase.
+-	04abb321-e1a3-46f3-bc2c-21ea195463b2	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	04abb321-e1a3-46f3-bc2c-21ea195463b2	#adc75833-d5c0-45da-bd4f-a6240cca7b0b
+2023-09-11 00:41:05	bad2cae5-111c-4c15-b4cb-aaf3f76f77f6	$duration:>2687
+-	bad2cae5-111c-4c15-b4cb-aaf3f76f77f6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	bad2cae5-111c-4c15-b4cb-aaf3f76f77f6	#adc75833-d5c0-45da-bd4f-a6240cca7b0b
+2023-09-11 00:52:50	9ee0f616-fd93-4b8c-b547-7e69e9f77b05	>in theory, I have added external scaling. now to see if it works by manipulating my junior example
+-	9ee0f616-fd93-4b8c-b547-7e69e9f77b05	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9ee0f616-fd93-4b8c-b547-7e69e9f77b05	#adc75833-d5c0-45da-bd4f-a6240cca7b0b
+2023-09-11 01:08:15	1f53b0af-28cd-4f6c-9826-3a0045d88636	>gestvmnode seems to work. shapemorf needs adjustments now too
+-	1f53b0af-28cd-4f6c-9826-3a0045d88636	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1f53b0af-28cd-4f6c-9826-3a0045d88636	#adc75833-d5c0-45da-bd4f-a6240cca7b0b
+2023-09-11 01:20:49	44dce9f2-9329-4c34-9cfc-8438bc9cb79d	$duration:>1698
+-	44dce9f2-9329-4c34-9cfc-8438bc9cb79d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	44dce9f2-9329-4c34-9cfc-8438bc9cb79d	#adc75833-d5c0-45da-bd4f-a6240cca7b0b
+2023-09-11 01:27:15	9dfdcc1f-5222-480e-a24a-b4d103f29884	$duration:>299
+-	9dfdcc1f-5222-480e-a24a-b4d103f29884	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9dfdcc1f-5222-480e-a24a-b4d103f29884	#adc75833-d5c0-45da-bd4f-a6240cca7b0b

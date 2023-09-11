@@ -324,7 +324,8 @@ end
 function gesture(sr, gst, name, cnd)
     sr.node(gst:node()){
         name = name,
-        conductor = core.liln(cnd:getstr())
+        conductor = core.liln(cnd:getstr()),
+        extscale = 1.0,
     }
 end
 
@@ -352,7 +353,8 @@ function patch(words)
             "[grab lut]",
             "[regget 4]",
             "[" .. G:gmemsymstr("shapes") .. "]",
-            "[" .. table.concat(cnd:getstr(), " ") .. "]"
+            "[" .. table.concat(cnd:getstr(), " ") .. "]",
+            "[param 1.0]"
         },
     }
 
