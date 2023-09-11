@@ -363,8 +363,8 @@ function setup()
     mseq, pros = phrase_to_mseq(morpheme, path, phrase, question, vocab)
     append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
 
-    -- mseq, pros = phrase_to_mseq(morpheme, path, phrase, some_jumps, vocab)
-    -- append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
+    mseq, pros = phrase_to_mseq(morpheme, path, phrase, some_jumps, vocab)
+    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
 
     mseq, pros = phrase_to_mseq(morpheme, path, phrase, deflated, vocab)
     append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
