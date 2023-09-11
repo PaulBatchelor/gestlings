@@ -9,12 +9,24 @@ tal = require("tal/tal")
 morpheme = require("morpheme/morpheme")
 sigrunes = require("sigrunes/sigrunes")
 
-local function phrase_to_mseq(path, phrase, pros, vocab)
+local function phrase_to_mseq(morpheme, path, phrase, pros, vocab)
     local mseq = {}
+    local merge = morpheme.merge
 
     for _,ph in pairs(phrase) do
-        local dur = dur_reg
-        table.insert(mseq, {vocab[ph[1]], dur})
+
+        -- duration modifier
+        local dur = ph[2] or {1, 1}
+        local mrph = vocab[ph[1]]
+
+        -- merge partial morphemes
+        if ph[3] ~= nil then
+            for _, pm in pairs(ph[3]) do
+                mrph = merge(mrph, pm)
+            end
+        end
+
+        table.insert(mseq, {mrph, dur})
     end
 
     local mseq_dur = path.morphseq_dur(mseq)
@@ -41,7 +53,9 @@ local function phrase_to_mseq(path, phrase, pros, vocab)
     -- print("after")
     -- pprint(mseq[1])
 
-    pros_scaled = path.scale_to_morphseq(pros, mseq)
+    pros_scaled = {}
+    pros_scaled.pitch = path.scale_to_morphseq(pros.pitch, mseq)
+    pros_scaled.intensity = path.scale_to_morphseq(pros.intensity, mseq)
 
     -- print("before")
     -- print(#pros)
@@ -51,15 +65,19 @@ local function phrase_to_mseq(path, phrase, pros, vocab)
     return mseq, pros_scaled
 end
 
-local function append_to_sequence(app, m, pros_pitch, mseq, pros)
+local function append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
     for _,mrph in pairs(mseq) do
         local dur = mrph[2]
         local mo = mrph[1]
         app(m, dur, mo)
     end
 
-    for _, v in pairs(pros) do
+    for _, v in pairs(pros.pitch) do
         table.insert(pros_pitch, v)
+    end
+
+    for _, v in pairs(pros.intensity) do
+        table.insert(pros_intensity, v)
     end
 end
 
@@ -106,6 +124,11 @@ function setup()
         gate = {
             {1, 5, stp},
             {0, 1, stp},
+        },
+
+        vib = {
+            {0, 3, stp},
+            {0, 1, gm},
         }
     })
 
@@ -150,6 +173,10 @@ function setup()
 
         none = {
             {0x00, 1, stp},
+        },
+
+        all = {
+            {0xFF, 1, stp},
         }
     }
 
@@ -233,78 +260,117 @@ function setup()
         }
     }
 
-    local merge = morpheme.merge
-
     dur_reg = {1, 1}
     dur_short = {3, 2}
     dur_long = {2, 3}
 
-    local phrase = {
-        {"na"},
-        {"ne"},
-        {"ku"},
-        {"nu"},
-        {"pause"},
+    crazy_vib = {
+        vib = {{0x00, 1, gm}, {0xFF, 1, gm}},
     }
 
-    local mseq = {}
+    med_vib = {
+        vib = {{0x40, 1, gm}},
+    }
 
-    for _,ph in pairs(phrase) do
-        local dur = dur_reg
-        table.insert(mseq, {vocab[ph[1]], dur})
-    end
+    local phrase = {
+        {"na", dur_reg, {infl.rise, med_vib}},
+        {"ne", dur_short, {infl.downup}},
+        {"ku", dur_reg, {infl.fall}},
+        {"nu", dur_long, {infl.downup, crazy_vib}},
+        {"pause", dur_reg},
+    }
+
+    -- local mseq = {}
+
+    -- for _,ph in pairs(phrase) do
+    --     local dur = dur_reg
+    --     table.insert(mseq, {vocab[ph[1]], dur})
+    -- end
 
     local pros_flat = 0x80
     local pros_up = 0x80 + 0x40
     local pros_up_more = 0x80 + 0x70
-    local pros_up_mild  = 0x80 + 0x10
-    local pros_down_mild  = 0x80 - 0x20
+    local pros_up_mild  = 0x80 + 0x04
+    local pros_down_mild  = 0x80 - 0x04
     local pros_down = 0x80 - 0x40
-    local pros_down_more = 0x80 - 0x70
+    local pros_down_more = 0x00
 
     local question = {
-        {pros_flat, 3, lin},
-        {pros_up, 1, gm},
+        pitch = {
+            {pros_flat, 3, lin},
+            {pros_mild, 1, stp},
+        },
+        intensity = {
+            {0x80, 1, stp},
+        }
     }
 
     local neutral = {
-        {pros_flat, 1, stp},
+        pitch = {
+            {pros_flat, 1, stp},
+        },
+        intensity = {
+            {0x80, 1, stp},
+        }
     }
 
     local some_jumps = {
-        {pros_flat, 1, lin},
-        {pros_up, 1, lin},
-        {pros_flat, 2, lin},
-        {pros_down_mild, 1, stp},
+        pitch = {
+            {pros_flat, 1, lin},
+            {pros_up, 1, lin},
+            {pros_flat, 2, lin},
+            {pros_down_mild, 1, stp},
+        },
+        intensity = {
+            {0x80, 1, stp},
+        }
     }
 
     local deflated = {
-        {pros_up_mild, 3, lin},
-        {pros_down, 1, stp},
+        pitch = {
+            {pros_flat, 2, lin},
+            {pros_down_more, 1, stp},
+        },
+        intensity = {
+            {0x80, 1, lin},
+            {0x40, 1, stp},
+        }
     }
+
     local excited = {
-        {pros_flat, 1, lin},
-        {pros_up_more, 1, lin},
-        {pros_flat, 1, lin},
-        {pros_up_more, 1, lin},
-        {pros_flat, 1, lin},
-        {pros_up_more, 1, lin},
-        {pros_down_mild, 1, lin},
-        {pros_up_more, 2, stp},
+        pitch = {
+            {pros_flat, 1, lin},
+            {pros_up_more, 1, lin},
+            {pros_flat, 1, lin},
+            {pros_up_more, 1, lin},
+            {pros_flat, 1, lin},
+            {pros_up_more, 1, lin},
+            {pros_down_mild, 1, lin},
+            {pros_up_more, 2, stp},
+        },
+        intensity = {
+            {0x80, 1, lin},
+            {0xFF, 2, stp},
+        }
     }
 
 
     pros_pitch = {}
-    mseq, pros = phrase_to_mseq(path, phrase, neutral, vocab)
-    append_to_sequence(app, m, pros_pitch, mseq, pros)
-    mseq, pros = phrase_to_mseq(path, phrase, question, vocab)
-    append_to_sequence(app, m, pros_pitch, mseq, pros)
-    mseq, pros = phrase_to_mseq(path, phrase, some_jumps, vocab)
-    append_to_sequence(app, m, pros_pitch, mseq, pros)
-    mseq, pros = phrase_to_mseq(path, phrase, deflated, vocab)
-    append_to_sequence(app, m, pros_pitch, mseq, pros)
-    mseq, pros = phrase_to_mseq(path, phrase, excited, vocab)
-    append_to_sequence(app, m, pros_pitch, mseq, pros)
+    pros_intensity = {}
+    mseq, pros = phrase_to_mseq(morpheme, path, phrase, neutral, vocab)
+    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
+
+    mseq, pros = phrase_to_mseq(morpheme, path, phrase, question, vocab)
+    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
+
+    -- mseq, pros = phrase_to_mseq(morpheme, path, phrase, some_jumps, vocab)
+    -- append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
+
+    mseq, pros = phrase_to_mseq(morpheme, path, phrase, deflated, vocab)
+    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
+
+    mseq, pros = phrase_to_mseq(morpheme, path, phrase, excited, vocab)
+    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
 
     local words = {}
     tal.begin(words)
@@ -317,6 +383,10 @@ function setup()
 
     tal.label(words, "pros_pitch")
     path.path(tal, words, pros_pitch)
+    tal.jump(tal, "hold")
+
+    tal.label(words, "pros_intensity")
+    path.path(tal, words, pros_intensity)
     tal.jump(tal, "hold")
     return words
 end
@@ -358,6 +428,13 @@ function patch(words)
             "[val [grab msgscale]]"
         },
     }
+    gesture(sigrunes, G, "pros_intensity", cnd)
+    lilts {
+        {"mul", "zz", 1.0 / 0xFF},
+    }
+
+    local intensity = sig:new()
+    intensity:hold()
 
     lilt {"regget", 4}
     gesture(sigrunes, G, "inflection", cnd)
@@ -365,14 +442,45 @@ function patch(words)
     gesture(sigrunes, G, "pros_pitch", cnd)
     lilts {
         {"mul", "zz", 1.0 / 0xFF},
-        {"scale", "zz", -12, 12},
+        {"scale", "zz", -19, 19},
         {"add", "zz", "zz"}
     }
     lilts {
         {"param", 63},
         {"add", "zz", "zz"},
-        -- {"sine", 7, 0.1},
-        -- {"add", "zz", "zz"},
+    }
+    gesture(sigrunes, G, "vib", cnd)
+    lilts {
+        {"mul", "zz", 1.0 / 0xFF},
+    }
+    local vib = sig:new()
+    vib:hold()
+
+    vib:get()
+    lilts {
+        {"scale", "zz", 6.5, 8},
+    }
+
+    vib:get()
+    lilts {
+        {"scale", "zz", 0.0, 0.8},
+    }
+    intensity:get()
+    -- remap: < 0.5, return 0, other wise 0-1
+    lilts {
+        {"mul", "zz", 2},
+        {"add", "zz", -1},
+        {"limit", "zz", 0, 1},
+        {"scale", "zz", 0, 3},
+        {"add", "zz", "zz"},
+    }
+    lilts {
+        {"sine", "zz", "zz"},
+        {"add", "zz", "zz"},
+    }
+    vib:unhold()
+
+    lilts {
         {"mtof", "zz"},
         {"param", 0.2},
         {"param", 0.15},
@@ -388,20 +496,6 @@ function patch(words)
         {"buthp", "zz", 1000},
         {"highshelf", "zz", 3000, 5, 0.5},
         {"mul", "zz", 0.5},
-
-    }
-
-    lilts {
-        {"crossfade", "zz", "zz", 0.0}
-    }
-
-    lilts {
-        -- whisper-y
-        {"noise"},
-        {"butlp", "zz", 500},
-        {"peakeq", "zz", 300, 300, 2.5},
-        {"buthp", "zz", 200},
-        {"mul", "zz", 0.5},
     }
 
     gesture(sigrunes, G, "aspiration", cnd)
@@ -410,6 +504,35 @@ function patch(words)
         {"smoother", "zz", "0.005"},
         {"crossfade", "zz", "zz", "zz"}
     }
+
+    lilts {
+        -- whisper-y
+        {"noise"},
+        {"butbp", "zz", 1000, 300},
+        {"butlp", "zz", 4000},
+        -- {"butlp", "zz", 500},
+        -- {"peakeq", "zz", 300, 300, 2.5},
+        -- {"buthp", "zz", 200},
+        {"mul", "zz", 1.3},
+    }
+    lil("swap")
+
+    intensity:get()
+    lilts {
+        -- rescale so intensity curve: 0, 0.5 -> 0, 1
+        {"mul", "zz", 2},
+        {"limit", "zz", 0, 1},
+        {"crossfade", "zz", "zz", "zz"}
+    }
+
+    intensity:unhold()
+
+    -- gesture(sigrunes, G, "aspiration", cnd)
+    -- lilts {
+    --     {"mul", "zz", 1.0 / 255.0},
+    --     {"smoother", "zz", "0.005"},
+    --     {"crossfade", "zz", "zz", "zz"}
+    -- }
 
     glot:hold()
 
