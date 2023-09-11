@@ -64,6 +64,7 @@ along with a table to place the words that get generated.
 function Path.path(tal, words, path, lookup)
     for _, v in pairs(path)
     do
+        assert(v.val ~= nil)
         if v.val ~= nil then
             local pathval = v.val
 

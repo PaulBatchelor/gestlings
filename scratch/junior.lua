@@ -290,15 +290,16 @@ function setup()
     local pros_flat = 0x80
     local pros_up = 0x80 + 0x40
     local pros_up_more = 0x80 + 0x70
-    local pros_up_mild  = 0x80 + 0x04
+    local pros_up_mild  = 0x80 + 0x30
     local pros_down_mild  = 0x80 - 0x04
     local pros_down = 0x80 - 0x40
     local pros_down_more = 0x00
 
     local question = {
         pitch = {
-            {pros_flat, 3, lin},
-            {pros_mild, 1, stp},
+            {pros_flat, 3, stp},
+            {pros_flat, 1, lin},
+            {pros_up_mild, 1, stp},
         },
         intensity = {
             {0x80, 1, stp},
@@ -311,6 +312,16 @@ function setup()
         },
         intensity = {
             {0x80, 1, stp},
+        }
+    }
+
+    local whisper = {
+        pitch = {
+            {pros_flat, 1, stp},
+        },
+        intensity = {
+            {0x20, 1, lin},
+            {0x00, 1, stp},
         }
     }
 
@@ -328,12 +339,14 @@ function setup()
 
     local deflated = {
         pitch = {
-            {pros_flat, 2, lin},
-            {pros_down_more, 1, stp},
+            {pros_flat, 1, lin},
+            {pros_down_mild, 2, gm},
+            {pros_down, 4, lin},
+            {pros_down_more, 4, stp},
         },
         intensity = {
             {0x80, 1, lin},
-            {0x40, 1, stp},
+            {0x70, 1, stp},
         }
     }
 
@@ -370,6 +383,9 @@ function setup()
     append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
 
     mseq, pros = phrase_to_mseq(morpheme, path, phrase, excited, vocab)
+    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
+
+    mseq, pros = phrase_to_mseq(morpheme, path, phrase, whisper, vocab)
     append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
 
     local words = {}
@@ -442,7 +458,7 @@ function patch(words)
     gesture(sigrunes, G, "pros_pitch", cnd)
     lilts {
         {"mul", "zz", 1.0 / 0xFF},
-        {"scale", "zz", -19, 19},
+        {"scale", "zz", -14, 14},
         {"add", "zz", "zz"}
     }
     lilts {
@@ -606,7 +622,7 @@ lilts {
     {"wavout", "zz", "scratch/junior.wav"}
 }
 
-durs = {3, 2.5, 4, 2, 3}
+durs = {3, 2.5, 2, 4, 3, 3.5}
 
 for idx,_ in pairs(durs) do
     durs[idx] = math.floor(durs[idx]*60)
