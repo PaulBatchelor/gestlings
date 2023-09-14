@@ -12,7 +12,7 @@ us out camping over by
 the Mushroom Forest in
 the Upper Rings.
 
-@nphrases 4
+@nphrases 3
 @block
 We went on a nature
 trail and Cap showed us
@@ -21,10 +21,10 @@ edible.
 
 @nphrases 4
 @block
-Then Dav ate a bad mushroom
-and it made their face
-all puffy. Looked like
-a marshmallow hahahaha!
+Then Dav ate a bad
+mushroom and it made
+their face all puffy.
+wah-hahahahaha!
 
 @nphrases 3
 @block
@@ -63,6 +63,13 @@ this:
 
 @nphrases 4
 @block
+doo doo doo doo
+doh do doo ba doo
+saba-di da do ah
+ooh ah eh oo
+
+@nphrases 4
+@block
 And then we went to
 sleep. And then we
 woke up. And then
@@ -75,10 +82,13 @@ started raining.
 I hate the rain.
 And then...
 
-@nphrases 1
+@nphrases 2
+@scale 2
 @block
-AND. THEN.
+AND.
+THEN.
 
+@scale 1
 @nphrases 1
 @block
 We were home.
@@ -112,5 +122,8 @@ to find out there...
 @nphrases 3
 @block
 Anyways, miss you lots.
-I love you mom.
 See you in a few weeks!
+
+@nphrases 1
+@block
+Love, Junior

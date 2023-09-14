@@ -68,6 +68,9 @@ end
 buf = messagebox.new()
 
 messagebox.loadfont("chicago", "fonts/chicago12.uf2")
+messagebox.loadfont("fountain_joined", "fonts/fountain_joined.uf2")
+messagebox.loadfont("fountain", "fonts/fountain.uf2")
+buf.font = "fountain"
 lilt {"bpnew", "bp", 240, 60}
 lilt {"gfxnewz", "gfx", 320, 240, 2}
 lil("grab gfx; dup")
@@ -97,15 +100,15 @@ function remove(events, t, ch)
     table.insert(events, new_event(t, "remove"))
 end
 
-function newline(events)
+function newline(events, t)
     table.insert(events, new_event(t, "newline", nil))
 end
 
-function pause(events)
+function pause(events, t)
     table.insert(events, new_event(t, "pause", nil))
 end
 
-function clear(events)
+function clear(events, t)
     table.insert(events, new_event(t, "clear", nil))
 end
 
@@ -143,10 +146,10 @@ end
 dialogue = descript.parse(script)
 
 -- TODO don't use these as globals lol
-t = 1
-rate = 3
+-- t = 1
+-- rate = 4
 
-function process_block(block)
+function process_block(block, t, rate)
     clear(events, t)
     for i =2,#block do
         line = block[i]
@@ -189,13 +192,16 @@ function process_block(block)
         end
         newline(events, t)
     end
+    return t, rate
 end
 
+t = 1
+rate = 4
 for _, block in pairs(dialogue) do
     if block[1] == "block" then
         local start_time = t
         local start_pos = #events + 1
-        process_block(block)
+        t, rate = process_block(block, t, rate)
         local end_time = t
         blockdur(events, start_time, end_time - start_time, start_pos)
     elseif string.match(block[1], "^scale") ~= nil then
@@ -257,7 +263,7 @@ yoff = 240//2 - 60//2
 evpos = 1
 last_event = events[evpos]
 setup_sound()
-nframes = 60*60
+nframes = 60*(83)
 for n=1,nframes do
     if (n % 60) == 0 then
         print(n, string.format("%02d%%", math.floor(n*100/nframes)))

@@ -83,4 +83,4 @@
       "scratch/squad.lua"]]
 ])
 
-(def fonts @["cholo" "antik_1" "cursive_a"])
+(def fonts @["cholo" "antik_1" "cursive_a" "fountain_joined" "fountain"])
