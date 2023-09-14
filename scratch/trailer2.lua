@@ -257,8 +257,11 @@ yoff = 240//2 - 60//2
 evpos = 1
 last_event = events[evpos]
 setup_sound()
-
-for n=1,60*35 do
+nframes = 60*60
+for n=1,nframes do
+    if (n % 60) == 0 then
+        print(n, string.format("%02d%%", math.floor(n*100/nframes)))
+    end
     while (evpos <= #events) and (last_event[1] <= n) do
         local f = event_handler[last_event[2]]
 
