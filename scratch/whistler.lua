@@ -372,7 +372,7 @@ lilts {
 }
 
 lilts {
-    {"mul", zz, "[dblin -5]"}
+    {"mul", zz, "[dblin 0]"}
 }
 
 gesture(sigrunes, G, "gate", cnd)
