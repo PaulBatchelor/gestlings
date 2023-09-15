@@ -164,6 +164,14 @@ function TileMaker:load(name)
 end
 
 function TileMaker:press(x, y)
+    if y > 8 then
+        if x < 8 then
+            self.tilepos = (y - 9)*8 + (x + 1)
+            self.please_draw = true
+        end
+        return
+    end
+
     local row = self.tilemap[self.tilepos][y + 1]
 
     local mask = (1 << (2*x)) | (1 << (2*x + 1))
@@ -211,6 +219,17 @@ function TileMaker:draw()
         end
         self.levelmap[(y*16)+(x + 1)] = val
     end
+    for y=1,7 do
+        for x=1,8 do
+            self.levelmap[((y + 8)*16)+x]=0x00
+        end
+    end
+    local tile_xpos = ((tilepos - 1)% 8)
+    local tile_ypos = ((tilepos - 1)// 8)
+    -- tile_xpos = 0
+    -- tile_ypos = 0
+    print(tile_xpos, tile_ypos)
+    self.levelmap[((tile_ypos + 9)*16)+(tile_xpos + 1)]=0xFF
 end
 
 function TileMaker:cleanup()
