@@ -1580,7 +1580,7 @@
 -	ea0bec5a-9273-482e-94dd-ac26dddcabcd	#ba6ecac3-0392-4fbc-b4b4-afd9a9cca206
 2023-08-05 02:56:59	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	>scope out phrasebank
 -	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-05 02:56:59	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-16 23:38:05	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-05 02:57:55	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	$blurb:>a 'phrase' is a morpheme sequence with a name, that can be launched alongside a message in a message box.
 2023-08-05 02:58:14	aefc6948-3a75-4354-a9d8-c56dbc47ffff	>the first gestling
 -	aefc6948-3a75-4354-a9d8-c56dbc47ffff	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -2250,3 +2250,9 @@
 2023-09-15 21:17:22	68bca932-e089-49bf-ae46-a8d6a215ccf1	$duration:>2612
 -	68bca932-e089-49bf-ae46-a8d6a215ccf1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	68bca932-e089-49bf-ae46-a8d6a215ccf1	#4efd45b5-dd84-48ed-b927-0b12ebe0fd7f
+2023-09-16 18:18:00	a4545744-50d2-48b5-abb1-29a79a266e40	$duration:>968
+-	a4545744-50d2-48b5-abb1-29a79a266e40	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	a4545744-50d2-48b5-abb1-29a79a266e40	#4efd45b5-dd84-48ed-b927-0b12ebe0fd7f
+2023-09-16 23:38:40	3dc8ac67-b9b0-4223-bc35-54ec4bd78237	>taking a step back, and getting a live coding interface working for junior words
+-	3dc8ac67-b9b0-4223-bc35-54ec4bd78237	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3dc8ac67-b9b0-4223-bc35-54ec4bd78237	#64026cd2-5e74-4168-aaf3-24c6968cb898
