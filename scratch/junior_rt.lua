@@ -15,7 +15,7 @@ tal = require("tal/tal")
 morpheme = require("morpheme/morpheme")
 sigrunes = require("sigrunes/sigrunes")
 
-local function phrase_to_mseq(morpheme, path, phrase, pros, vocab)
+local function phrase_to_mseq(morpheme, path, phrase, pros, vocab, pmt)
     local mseq = {}
     local merge = morpheme.merge
 
@@ -28,7 +28,7 @@ local function phrase_to_mseq(morpheme, path, phrase, pros, vocab)
         -- merge partial morphemes
         if ph[3] ~= nil then
             for _, pm in pairs(ph[3]) do
-                mrph = merge(mrph, pm)
+                mrph = merge(mrph, pmt[pm])
             end
         end
 
@@ -47,8 +47,6 @@ local function phrase_to_mseq(morpheme, path, phrase, pros, vocab)
     -- fraction division does an inversion on second operand (flip)
     -- maybe those flips cancel out?
     local scale = mseq_dur
-    -- print("before")
-    -- pprint(mseq[1])
     for idx,_ in pairs(mseq) do
         mseq[idx][2] = path.fracmul(mseq[idx][2], scale)
 
@@ -56,18 +54,11 @@ local function phrase_to_mseq(morpheme, path, phrase, pros, vocab)
         assert(mseq[idx][2][1] <= 0xFF)
         assert(mseq[idx][2][2] <= 0xFF)
     end
-    -- print("after")
-    -- pprint(mseq[1])
 
     pros_scaled = {}
     pros_scaled.pitch = path.scale_to_morphseq(pros.pitch, mseq)
     pros_scaled.intensity = path.scale_to_morphseq(pros.intensity, mseq)
 
-    -- print("before")
-    -- print(#pros)
-    -- pprint(pros[2])
-    -- print("after")
-    -- pprint(pros_scaled[2])
     return mseq, pros_scaled
 end
 
@@ -88,29 +79,16 @@ local function append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros
 end
 
 function genvocab()
-
-end
-
-function setup(data)
-    -- lil("shapemorfnew lut shapes/junior.b64")
-    -- lil("grab lut")
-    -- lut = pop()
-    -- lookup = shapemorf.generate_lookup(lut)
-    local lookup = data.lookup
-
-    A='b275f8'
-    B='51f271'
-    C='9c6c5d'
-    D='5d71be'
-    E='ab8d71'
-
-    local vtx = path.vertex
     local gm = gest.behavior.gliss_medium
     local gl = gest.behavior.gliss
     local lin = gest.behavior.linear
     local stp = gest.behavior.step
 
-    local p_shapes = {}
+    local A='b275f8'
+    local B='51f271'
+    local C='9c6c5d'
+    local D='5d71be'
+    local E='ab8d71'
 
     pat_a = morpheme.template({
         shapes = {
@@ -141,16 +119,6 @@ function setup(data)
         }
     })
 
-
-    local m = {}
-
-    local app = morpheme.appender(path)
-    infl = {
-        flat = {inflection = {{0x0, 3, lin}}},
-        rise = {inflection = {{0x0, 3, lin}, {0x4, 1, stp}}},
-        downup = {inflection = {{0x4, 1, gl}, {0x0, 1, gl}, {0x2, 1, stp}}},
-        fall = {inflection = {{0x4, 3, lin}, {0x0, 1, stp}}}
-    }
 
     asp = {
         start = {
@@ -242,6 +210,10 @@ function setup(data)
             aspiration = asp.longend,
         },
         qi= pat_a {
+            shapes = {
+                {C, 1, lin},
+                {D, 1, lin},
+            },
             aspiration = asp.none,
         },
         nu = pat_b {},
@@ -269,32 +241,11 @@ function setup(data)
         }
     }
 
-    dur_reg = {1, 1}
-    dur_short = {3, 2}
-    dur_long = {2, 3}
+    return vocab
+end
 
-    crazy_vib = {
-        vib = {{0x00, 1, gm}, {0xFF, 1, gm}},
-    }
-
-    med_vib = {
-        vib = {{0x40, 1, gm}},
-    }
-
-    local phrase = {
-        {"na", dur_reg, {infl.rise, med_vib}},
-        {"ne", dur_short, {infl.downup}},
-        {"ku", dur_reg, {infl.fall}},
-        {"nu", dur_long, {infl.downup, crazy_vib}},
-        {"pause", dur_reg},
-    }
-
-    -- local mseq = {}
-
-    -- for _,ph in pairs(phrase) do
-    --     local dur = dur_reg
-    --     table.insert(mseq, {vocab[ph[1]], dur})
-    -- end
+function genpros()
+    local pros = {}
 
     local pros_flat = 0x80
     local pros_up = 0x80 + 0x40
@@ -304,7 +255,7 @@ function setup(data)
     local pros_down = 0x80 - 0x40
     local pros_down_more = 0x00
 
-    local question = {
+    pros.question = {
         pitch = {
             {pros_flat, 3, stp},
             {pros_flat, 1, lin},
@@ -315,7 +266,7 @@ function setup(data)
         }
     }
 
-    local neutral = {
+    pros.neutral = {
         pitch = {
             {pros_flat, 1, stp},
         },
@@ -324,7 +275,7 @@ function setup(data)
         }
     }
 
-    local whisper = {
+    pros.whisper = {
         pitch = {
             {pros_flat, 1, stp},
         },
@@ -334,7 +285,7 @@ function setup(data)
         }
     }
 
-    local some_jumps = {
+    pros.some_jumps = {
         pitch = {
             {pros_flat, 1, lin},
             {pros_up, 1, lin},
@@ -346,7 +297,7 @@ function setup(data)
         }
     }
 
-    local deflated = {
+    pros.deflated = {
         pitch = {
             {pros_flat, 1, lin},
             {pros_down_mild, 2, gm},
@@ -359,7 +310,7 @@ function setup(data)
         }
     }
 
-    local excited = {
+    pros.excited = {
         pitch = {
             {pros_flat, 1, lin},
             {pros_up_more, 1, lin},
@@ -376,26 +327,153 @@ function setup(data)
         }
     }
 
+    return pros
+end
+
+-- <@>
+function genphrase()
+    -- local phrase = {
+    --     {"na", dur_reg, {infl.rise, med_vib}},
+    --     {"ne", dur_short, {infl.downup}},
+    --     {"ku", dur_reg, {infl.fall}},
+    --     {"nu", dur_long, {infl.downup, crazy_vib}},
+    --     {"pause", dur_reg},
+    -- }
+
+    local dur_reg = {1, 1}
+    local dur_short = {3, 2}
+    local dur_long = {2, 3}
+    -- local phrase = {
+    --     {"ne", dur_reg, {"downup"}},
+    --     {"na", dur_short, {"flat", "med_vib"}},
+    --     {"ku", dur_reg, {"fall"}},
+    --     {"ku", dur_reg, {"rise"}},
+    --     {"ku", dur_reg, {"downup"}},
+    --     {"ku", dur_reg, {"fall"}},
+    --     {"pause", dur_reg},
+    -- }
+
+    phrase = {}
+    local reg = {1, 1}
+    -- local wrd = "nu"
+    local wrd = "qi"
+    for i=1,3 do
+        table.insert(phrase, {wrd, reg})
+    end
+    table.insert(phrase, {"pause", reg})
+    return phrase
+end
+-- </@>
+
+function genpartmorphs ()
+    local gm = gest.behavior.gliss_medium
+    local gl = gest.behavior.gliss
+    local lin = gest.behavior.linear
+    local stp = gest.behavior.step
+
+    infl = {
+        flat = {inflection = {{0x0, 3, lin}}},
+        rise = {inflection = {{0x0, 3, lin}, {0x4, 1, stp}}},
+        downup = {inflection = {{0x4, 1, gl}, {0x0, 1, gl}, {0x2, 1, stp}}},
+        fall = {inflection = {{0x4, 3, lin}, {0x0, 1, stp}}}
+    }
+
+    dur_reg = {1, 1}
+    dur_short = {3, 2}
+    dur_long = {2, 3}
+
+    crazy_vib = {
+        vib = {{0x00, 1, gm}, {0xFF, 1, gm}},
+    }
+
+    med_vib = {
+        vib = {{0x40, 1, gm}},
+    }
+
+    local pm = {
+        flat = infl.flat,
+        rise = infl.rise,
+        downup = infl.downup,
+        fall = infl.fall,
+        crazy_vib = crazy_vib,
+        med_vib = med_vib
+    }
+
+    return pm
+end
+
+function genwords(data, phrase)
+    -- lil("shapemorfnew lut shapes/junior.b64")
+    -- lil("grab lut")
+    -- lut = pop()
+    -- lookup = shapemorf.generate_lookup(lut)
+    local lookup = data.lookup
+
+    A='b275f8'
+    B='51f271'
+    C='9c6c5d'
+    D='5d71be'
+    E='ab8d71'
+
+    local vtx = path.vertex
+    local gm = gest.behavior.gliss_medium
+    local gl = gest.behavior.gliss
+    local lin = gest.behavior.linear
+    local stp = gest.behavior.step
+
+    local p_shapes = {}
+
+    local m = {}
+
+    local pm = data.pm
+
+    -- local phrase = {
+    --     {"na", dur_reg, {"rise", "med_vib"}},
+    --     {"ne", dur_short, {"downup"}},
+    --     {"ku", dur_reg, {"fall"}},
+    --     {"nu", dur_long, {"downup", "crazy_vib"}},
+    --     {"pause", dur_reg},
+    -- }
+
+    -- phrase = genphrase()
+
+    -- local mseq = {}
+
+    -- for _,ph in pairs(phrase) do
+    --     local dur = dur_reg
+    --     table.insert(mseq, {vocab[ph[1]], dur})
+    -- end
+
+    -- local vocab = genvocab()
+    local vocab = data.vocab
+
+    local app = morpheme.appender(path)
+
+    pros = genpros()
+
+    local question = pros.question
+    local neutral = pros.neutral
+    local whisper = pros.whisper
+    local some_jumps = pros.some_jumps
+    local deflated = pros.deflated
+    local excited = pros.excited
+
+    local monologue = {
+        {phrase, neutral},
+        {phrase, question},
+        {phrase, some_jumps},
+        {phrase, deflated},
+        {phrase, excited},
+        {phrase, whisper},
+    }
 
     pros_pitch = {}
     pros_intensity = {}
-    mseq, pros = phrase_to_mseq(morpheme, path, phrase, neutral, vocab)
-    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
 
-    mseq, pros = phrase_to_mseq(morpheme, path, phrase, question, vocab)
-    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
-
-    mseq, pros = phrase_to_mseq(morpheme, path, phrase, some_jumps, vocab)
-    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
-
-    mseq, pros = phrase_to_mseq(morpheme, path, phrase, deflated, vocab)
-    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
-
-    mseq, pros = phrase_to_mseq(morpheme, path, phrase, excited, vocab)
-    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
-
-    mseq, pros = phrase_to_mseq(morpheme, path, phrase, whisper, vocab)
-    append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
+    for _,stanza in pairs(monologue) do
+        mseq, pros = phrase_to_mseq(morpheme, path, stanza[1], stanza[2], vocab, pm)
+        append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
+    end
 
     local words = {}
     tal.begin(words)
@@ -439,15 +517,13 @@ function patch_setup()
     data.G = G
     data.lut = lut
     data.lookup = shapemorf.generate_lookup(lut)
+    data.vocab = genvocab()
+    data.pm = genpartmorphs()
 
     return data
 end
 
 function patch(words, data)
-    -- lil("blkset 49")
-    -- lil("valnew msgscale")
-    -- local G = gest:new()
-    -- G:create()
     local G = data.G
 
     G:compile(words)
@@ -666,43 +742,18 @@ end
 function sound()
     rtsetup()
     local data = patch_setup()
-    words = setup(data)
+    words = genwords(data, genphrase())
     patch(words, data)
     valutil.set("msgscale", 1.0 / (3*60))
     lil("out")
     return data
 end
 
-data = sound()
+local junior_data = sound()
+function run()
+    print("run")
+    local words = genwords(junior_data, genphrase())
+    patch(words, junior_data)
+    lil("out")
+end
 
---[[
--- <@>
-words = setup(data)
-patch(words, data)
--- valutil.set("msgscale", 1.0 / (3*60))
-lil("out")
--- </@>
---]]
-
--- generate_words(16)
--- lilts {
---     {"wavout", "zz", "scratch/junior.wav"}
--- }
--- 
--- durs = {3, 2.5, 2, 4, 3, 3.5}
--- 
--- for idx,_ in pairs(durs) do
---     durs[idx] = math.floor(durs[idx]*60)
--- end
--- durpos = 1
--- counter = 0
--- for n=1,60*20 do
---     if counter <= 0 and durpos <= #durs then
---         counter = durs[durpos]
---         valutil.set("msgscale", 1.0 / counter)
---         durpos = durpos + 1
---     end
---     lil("compute 15")
---     counter = counter - 1
--- end
--- lil("computes 30")
