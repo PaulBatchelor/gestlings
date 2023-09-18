@@ -99,9 +99,6 @@ data TEXT)
     o.levelmap = {}
     o.tilepos = 1
     o.tilemap = {}
-    o.widths = {}
-    o.heights= {}
-    o.shapes = {}
 
     for i=1,256 do
         o.levelmap[i] = 0x0
@@ -113,13 +110,14 @@ data TEXT)
     for _=1,64 do
         local tile = {}
 
+        tile.data = {}
         for i=1,8 do
-            tile[i] = 0
+            tile.data[i] = 0
         end
+        tile.width = 8
+        tile.height = 8
+        tile.shape = default_shape
         table.insert(o.tilemap, tile)
-        table.insert(o.widths, 8)
-        table.insert(o.heights, 8)
-        table.insert(o.shapes, default_shape)
     end
 
     o.please_draw = false
@@ -178,7 +176,7 @@ function TileMaker:press(x, y)
         local shapex = x - 13
         print(shapex, shapey)
         local bitpos = shapey*3 + shapex
-        local keyshape = self.shapes[self.tilepos]
+        local keyshape = self.tilemap[self.tilepos].shape
         local s = keyshape & (1 << bitpos)
 
         if s > 0 then
@@ -187,7 +185,7 @@ function TileMaker:press(x, y)
             keyshape = keyshape | (1 << bitpos)
         end
 
-        self.shapes[self.tilepos] = keyshape
+        self.tilemap[self.tilepos].shape = keyshape
         self.please_draw = true
         return
     end
@@ -200,7 +198,7 @@ function TileMaker:press(x, y)
             -- set current tile dimensions
             local bitpos = 3 - (y - 12)
             if x == 14 then -- width
-                local tilewidth = self.widths[self.tilepos]
+                local tilewidth = self.tilemap[self.tilepos].width
                 local s = ((1 << bitpos) & tilewidth) > 0
 
                 if s then
@@ -209,9 +207,9 @@ function TileMaker:press(x, y)
                     tilewidth = tilewidth | (1<<bitpos)
                 end
 
-                self.widths[self.tilepos] = tilewidth
+                self.tilemap[self.tilepos].width = tilewidth
             elseif x == 15 then --height
-                local tileheight = self.heights[self.tilepos]
+                local tileheight = self.tilemap[self.tilepos].height
                 local s = ((1 << bitpos) & tileheight) > 0
 
                 if s then
@@ -220,14 +218,14 @@ function TileMaker:press(x, y)
                     tileheight = tileheight | (1<<bitpos)
                 end
 
-                self.heights[self.tilepos] = tileheight
+                self.tilemap[self.tilepos].height = tileheight
             end
             self.please_draw = true
         end
         return
     end
 
-    local row = self.tilemap[self.tilepos][y + 1]
+    local row = self.tilemap[self.tilepos].data[y + 1]
 
     local mask = (1 << (2*x)) | (1 << (2*x + 1))
     local s = row & mask
@@ -242,7 +240,7 @@ function TileMaker:press(x, y)
         row = row & ~(mask)
         row = row | (mask & (bits << (2*x)))
     end
-    self.tilemap[self.tilepos][y + 1] = row
+    self.tilemap[self.tilepos].data[y + 1] = row
     -- pos = y * 16 + (x + 1)
     -- v = self.levelmap[pos]
 
@@ -259,7 +257,7 @@ function TileMaker:draw()
     for i=1,64 do
         local x = ((i - 1) % 8)
         local y = ((i - 1)// 8)
-        local row = self.tilemap[tilepos][y + 1]
+        local row = self.tilemap[tilepos].data[y + 1]
 
         local mask = (1 << (2*x)) | (1 << (2*x + 1))
         local val = ((row & mask) >> 2*x) & 0x3
@@ -286,8 +284,8 @@ function TileMaker:draw()
     local tile_ypos = ((tilepos - 1)// 8)
     self.levelmap[((tile_ypos + 9)*16)+(tile_xpos + 1)]=0xFF
 
-    local tile_width = self.widths[tilepos]
-    local tile_height = self.heights[tilepos]
+    local tile_width = self.tilemap[tilepos].width
+    local tile_height = self.tilemap[tilepos].height
     -- draw tile dimensions
     for i=1,4 do
         self.levelmap[(11 + (5 - i))*16+15]=
@@ -298,7 +296,7 @@ function TileMaker:draw()
 
 
     -- draw keyshape
-    local keyshape = self.shapes[tilepos]
+    local keyshape = self.tilemap[tilepos].shape
 
     for i=1,3 do
         local keyrow = (keyshape >> (i-1)*3) & 0x7
