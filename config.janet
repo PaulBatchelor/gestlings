@@ -47,7 +47,9 @@
       ["blipsqueak/mechanism.lua"]
       ["blipsqueak/morphemes.b64"
        "blipsqueak/words.b64"]]
+])
 
+(def resources @[
     @[["res/protogestling.mp4"]
       ["protogestling/protogestling_mockup.lua"]
       blipsqueak-assets]

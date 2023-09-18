@@ -5,6 +5,7 @@
 (var use-monome false)
 (var asset-files @[])
 (var tangled-files @[])
+(var resource-files @[])
 
 (defn tangle [janet-file org-file]
   (print (string "build " janet-file ": tangle " org-file)))
@@ -122,6 +123,12 @@
       (asset (a 0) (a 1) (a 2)))
   (each output (a 0) (array/push asset-files output)))
 
+(each a config/resources
+  (if (= (length a) 2)
+      (asset (a 0) (a 1))
+      (asset (a 0) (a 1) (a 2)))
+  (each output (a 0) (array/push resource-files output)))
+
 (build-program
     "util/c64parse"
     @["util/c64parse"])
@@ -159,5 +166,6 @@
 
 (print (string "build assets: phony " (string/join asset-files " ")))
 (print (string "build tangled: phony " (string/join tangled-files " ")))
+(print (string "build resources: phony " (string/join resource-files " ")))
 
 (print "default tangled cantor")

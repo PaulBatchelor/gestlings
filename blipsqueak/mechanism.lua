@@ -197,8 +197,9 @@ function sound()
     words = {}
 	tal.start(words)
 
-    global_pitch = {{0, 0, 0}}
-    global_tempo = {{0, 0, 0}}
+    local vtx = path.vertex
+    global_pitch = {vtx{0, {1, 1}, 0}}
+    global_tempo = {vtx{0, {1, 1}, 0}}
 
     tal.label(words, "gpitch")
     path.path(tal, words, global_pitch)
