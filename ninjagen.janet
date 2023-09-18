@@ -156,7 +156,9 @@
   (string
    "build fonts/" fontname ".uf2: "
    "uf2gen fonts/bitmaps/" fontname ".lua "
-   "|| cantor\n")))
+   "|| cantor\n"))
+
+ (array/push asset-files (string "fonts/" fontname ".uf2")))
 
 
 (each fnt config/fonts (uf2font fnt))
