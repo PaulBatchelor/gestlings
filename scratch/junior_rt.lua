@@ -161,6 +161,10 @@ function genvocab()
 
         all = {
             {0xFF, 1, stp},
+        },
+        whisp = {
+            {0x80, 1, gm},
+            {0xff, 1, gm},
         }
     }
 
@@ -175,9 +179,10 @@ function genvocab()
 
     pat_c = morpheme.template(pat_b {
         shapes = {
-            {B, 4, gl},
-            {C, 1, lin},
-            {D, 1, gl},
+            {C, 1, gm},
+            {E, 1, gm},
+            {D, 1, lin},
+            {B, 2, gl},
         },
         aspiration = asp.none,
     })
@@ -245,26 +250,36 @@ function genvocab()
         aspiration = asp.none,
     }, "yi-eh")
 
-    voc(8, 1, pat_b {}, "")
+    voc(8, 1, pat_b {}, "wah!")
 
     voc(1, 2, pat_b {
         aspiration = asp.longstart
-    }, "")
+    }, "hhhwah")
 
     voc(2, 2, pat_b {
+        shapes = {
+            {B, 1, gm},
+            {A, 1, lin},
+            {E, 1, gm},
+            {A, 4, gm},
+        },
         aspiration = asp.longend
-    }, "")
+    }, "wellwik-hhh")
 
-    voc(3, 2, pat_c {}, "")
+    voc(3, 2, pat_c {}, "oomuleh-ya")
     voc(4, 2, pat_c {
+        shapes = {
+            {D, 1, lin},
+            {E, 1, lin},
+        },
         aspiration = asp.mid
-    }, "")
+    }, "echalon")
     voc(5, 2, pat_c {
         aspiration = asp.mid
-    }, "")
+    }, "ooflayah")
     voc(6, 2, pat_c {
-        aspiration = asp.longstart
-    }, "")
+        aspiration = asp.whisp
+    }, "oovalef")
 
     return vocab
 end
@@ -364,7 +379,8 @@ function genphrase()
 
     phrase = {}
     local reg = {1, 1}
-    local wrd = {7, 1}
+    -- select the word
+    local wrd = {3, 2}
     local pause = {1, 1}
     -- local wrd = "qi"
     for i=1,3 do
@@ -702,10 +718,9 @@ function patch(words, data)
     -- lil("scale zz 200 400")
     -- lil("sine zz 0.3")
     -- lil("add zz zz")
+    G:done()
     cnd:unhold()
     glot:unhold()
-    G:done()
-
 end
 
 consonance = {
@@ -737,6 +752,8 @@ function rtsetup()
 lil([[
 hsnew hs
 rtnew [grab hs] rt
+# I'm pretty sure you can't crossfade with gestlive
+hscf [grab hs] 0
 
 func out {} {
     hsout [grab hs]
@@ -760,11 +777,14 @@ function sound()
 end
 
 local junior_data = sound()
+
+--<@>
 function run()
     print("run")
-    local words = genwords(junior_data, genphrase())
     junior_data.vocab = genvocab()
+    local words = genwords(junior_data, genphrase())
     patch(words, junior_data)
     lil("out")
 end
+--</@>
 

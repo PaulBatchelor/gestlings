@@ -2289,3 +2289,17 @@
 2023-09-18 14:18:21	88fe4eea-5929-481c-b5ad-740531ea53b6	$duration:>2684
 -	88fe4eea-5929-481c-b5ad-740531ea53b6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	88fe4eea-5929-481c-b5ad-740531ea53b6	#233e8780-a7c0-4651-a107-ce44e9a77ea0
+-	64026cd2-5e74-4168-aaf3-24c6968cb898	#e199bcf5-2027-4a22-9d72-90ce214f97ea
+-	233e8780-a7c0-4651-a107-ce44e9a77ea0	#e199bcf5-2027-4a22-9d72-90ce214f97ea
+2023-09-18 18:08:45	42eaa9fb-1336-4f46-b943-3fab3858dcf7	>I think I've worked out enough of the pipeline where I can create some symbols for each word I have in the vocab so far. Then, I'll have to build out the bitrune instance that actually compiles and re-runs phrases.
+-	42eaa9fb-1336-4f46-b943-3fab3858dcf7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	42eaa9fb-1336-4f46-b943-3fab3858dcf7	#64026cd2-5e74-4168-aaf3-24c6968cb898
+2023-09-18 18:42:31	3d6ff69d-ed51-4ade-b9ec-93d453214195	$duration:>2069
+-	3d6ff69d-ed51-4ade-b9ec-93d453214195	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	3d6ff69d-ed51-4ade-b9ec-93d453214195	#64026cd2-5e74-4168-aaf3-24c6968cb898
+2023-09-18 18:52:34	95100432-69da-4415-b99a-9f178ce1af3f	$duration:>596
+-	95100432-69da-4415-b99a-9f178ce1af3f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	95100432-69da-4415-b99a-9f178ce1af3f	#233e8780-a7c0-4651-a107-ce44e9a77ea0
+2023-09-18 19:10:28	1fc4ea12-6249-4fc7-ae96-2a82a49d9d48	$duration:>1067
+-	1fc4ea12-6249-4fc7-ae96-2a82a49d9d48	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1fc4ea12-6249-4fc7-ae96-2a82a49d9d48	#64026cd2-5e74-4168-aaf3-24c6968cb898
