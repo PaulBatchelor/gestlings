@@ -23,7 +23,7 @@ local function phrase_to_mseq(morpheme, path, phrase, pros, vocab, pmt)
 
         -- duration modifier
         local dur = ph[2] or {1, 1}
-        local mrph = vocab[ph[1]]
+        local mrph = vocab[ph[1][2]][ph[1][1]]
 
         -- merge partial morphemes
         if ph[3] ~= nil then
@@ -78,6 +78,13 @@ local function append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros
     end
 end
 
+function addvocab(vocab, x, y, w)
+    local row = y
+    local col = x
+
+    vocab[row][col] = w
+end
+-- <@>
 function genvocab()
     local gm = gest.behavior.gliss_medium
     local gl = gest.behavior.gliss
@@ -175,74 +182,93 @@ function genvocab()
         aspiration = asp.none,
     })
 
-    local vocab = {
-        ka = pat_a {},
-        xy = pat_a {
-            aspiration = asp.second,
-            shapes = {
-                {E, 2, lin},
-                {D, 1, gl},
-                {C, 1, lin},
-            },
-        },
-        gy = pat_a {
-            shapes = {
-                {E, 3, lin},
-                {D, 1, gl},
-                {A, 1, lin},
-                {E, 1, gm},
-                {A, 1, gm}
-            },
-            aspiration = asp.mid
-        },
-        ra = pat_a {
-            aspiration = asp.longstart
-        },
-        ti= pat_a {
-            shapes = {
-                {A, 1, lin},
-                {B, 1, lin},
-                {A, 1, lin},
-                {B, 1, lin},
-                {A, 3, gl},
-                {B, 3, gl},
-            },
-            aspiration = asp.longend,
-        },
-        qi= pat_a {
-            shapes = {
-                {C, 1, lin},
-                {D, 1, lin},
-            },
-            aspiration = asp.none,
-        },
-        nu = pat_b {},
-        thu = pat_b {
-            aspiration = asp.longstart
-        },
-        no = pat_b {
-            aspiration = asp.longend
-        },
-        na = pat_c { },
-        ne = pat_c {
-            aspiration = asp.mid
-        },
-        ku = pat_c {
-            aspiration = asp.longstart
-        },
-        ty={},
-        ma={},
-        zha={},
-        ge={},
-        pause = pat_a {
-            gate = {
-                {0, 1, stp},
-            }
+    local vocab = {}
+    for row = 1, 8 do
+        vocab[row] = {}
+        for col = 1, 8 do
+            vocab[row][col] = nil
+        end
+    end
+
+    voc = function (x, y, w, doc)
+        addvocab(vocab, x, y, w)
+    end
+
+    voc(1, 1, pat_a {
+        gate = {
+            {0, 1, stp},
         }
-    }
+    }, "pause.")
+
+    voc(2, 1, pat_a {}, "pattern a. 'halalayu'")
+    voc(3, 1, pat_a {
+        aspiration = asp.second,
+        shapes = {
+            {E, 2, lin},
+            {D, 1, gl},
+            {C, 1, lin},
+        },
+    }, "oohlay eddy")
+
+    voc(4, 1, pat_a {
+        shapes = {
+            {E, 3, lin},
+            {D, 1, gl},
+            {A, 1, lin},
+            {E, 1, gm},
+            {A, 1, gm}
+        },
+        aspiration = asp.mid
+    }, "oofla lowla")
+
+    voc(5, 1, pat_a {
+        aspiration = asp.longstart
+    }, "ahpf! lay-oo")
+
+    voc(6, 1, pat_a {
+        shapes = {
+            {A, 1, lin},
+            {B, 1, lin},
+            {A, 1, lin},
+            {B, 1, lin},
+            {A, 3, gl},
+            {B, 3, gl},
+        },
+        aspiration = asp.longend,
+    }, "ahlala")
+
+    voc(7, 1, pat_a {
+        shapes = {
+            {C, 1, lin},
+            {D, 1, lin},
+        },
+        aspiration = asp.none,
+    }, "yi-eh")
+
+    voc(8, 1, pat_b {}, "")
+
+    voc(1, 2, pat_b {
+        aspiration = asp.longstart
+    }, "")
+
+    voc(2, 2, pat_b {
+        aspiration = asp.longend
+    }, "")
+
+    voc(3, 2, pat_c {}, "")
+    voc(4, 2, pat_c {
+        aspiration = asp.mid
+    }, "")
+    voc(5, 2, pat_c {
+        aspiration = asp.mid
+    }, "")
+    voc(6, 2, pat_c {
+        aspiration = asp.longstart
+    }, "")
 
     return vocab
 end
+-- </@>
 
 function genpros()
     local pros = {}
@@ -332,35 +358,19 @@ end
 
 -- <@>
 function genphrase()
-    -- local phrase = {
-    --     {"na", dur_reg, {infl.rise, med_vib}},
-    --     {"ne", dur_short, {infl.downup}},
-    --     {"ku", dur_reg, {infl.fall}},
-    --     {"nu", dur_long, {infl.downup, crazy_vib}},
-    --     {"pause", dur_reg},
-    -- }
-
     local dur_reg = {1, 1}
     local dur_short = {3, 2}
     local dur_long = {2, 3}
-    -- local phrase = {
-    --     {"ne", dur_reg, {"downup"}},
-    --     {"na", dur_short, {"flat", "med_vib"}},
-    --     {"ku", dur_reg, {"fall"}},
-    --     {"ku", dur_reg, {"rise"}},
-    --     {"ku", dur_reg, {"downup"}},
-    --     {"ku", dur_reg, {"fall"}},
-    --     {"pause", dur_reg},
-    -- }
 
     phrase = {}
     local reg = {1, 1}
-    local wrd = "nu"
+    local wrd = {7, 1}
+    local pause = {1, 1}
     -- local wrd = "qi"
     for i=1,3 do
         table.insert(phrase, {wrd, reg})
     end
-    table.insert(phrase, {"pause", reg})
+    table.insert(phrase, {pause, reg})
     return phrase
 end
 -- </@>
@@ -753,6 +763,7 @@ local junior_data = sound()
 function run()
     print("run")
     local words = genwords(junior_data, genphrase())
+    junior_data.vocab = genvocab()
     patch(words, junior_data)
     lil("out")
 end
