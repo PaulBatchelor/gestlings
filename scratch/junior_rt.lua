@@ -355,8 +355,8 @@ function genphrase()
 
     phrase = {}
     local reg = {1, 1}
-    -- local wrd = "nu"
-    local wrd = "qi"
+    local wrd = "nu"
+    -- local wrd = "qi"
     for i=1,3 do
         table.insert(phrase, {wrd, reg})
     end
