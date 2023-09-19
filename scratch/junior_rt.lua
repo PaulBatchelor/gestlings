@@ -24,7 +24,7 @@ local function phrase_to_mseq(morpheme, path, phrase, pros, vocab, pmt)
 
         -- duration modifier
         local dur = ph[2] or {1, 1}
-        local mrph = vocab[ph[1][2]][ph[1][1]]
+        local mrph = vocab[ph[1]]
 
         -- merge partial morphemes
         if ph[3] ~= nil then
@@ -79,11 +79,15 @@ local function append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros
     end
 end
 
+function coord(x, y)
+    return (y - 1)*8 + x
+end
+
 function addvocab(vocab, x, y, w)
     local row = y
     local col = x
 
-    vocab[row][col] = w
+    vocab[coord(x, y)] = w
 end
 -- <@>
 function genvocab()
@@ -189,12 +193,6 @@ function genvocab()
     })
 
     local vocab = {}
-    for row = 1, 8 do
-        vocab[row] = {}
-        for col = 1, 8 do
-            vocab[row][col] = nil
-        end
-    end
 
     voc = function (x, y, w, doc)
         addvocab(vocab, x, y, w)
@@ -381,9 +379,8 @@ function genphrase()
     phrase = {}
     local reg = {1, 1}
     -- select the word
-    local wrd = {3, 2}
-    local pause = {1, 1}
-    -- local wrd = "qi"
+    local wrd = coord(3, 2)
+    local pause = coord(1, 1)
     for i=1,3 do
         table.insert(phrase, {wrd, reg})
     end
