@@ -12,11 +12,13 @@ function coord(x, y)
     return (y - 1)*8 + x
 end
 
-function addvocab(vocab, x, y, w)
+function addvocab(vocab, x, y, w, doc)
     local row = y
     local col = x
+    local pos = coord(x, y)
 
-    vocab[coord(x, y)] = w
+    vocab[1][pos] = w
+    vocab[2][pos] = doc
 end
 
 function genvocab()
@@ -122,9 +124,12 @@ function genvocab()
     })
 
     local vocab = {}
-
+    -- words
+    vocab[1] = {}
+    -- docstrings
+    vocab[2] = {}
     voc = function (x, y, w, doc)
-        addvocab(vocab, x, y, w)
+        addvocab(vocab, x, y, w, doc)
     end
 
     voc(1, 1, pat_a {

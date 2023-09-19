@@ -179,7 +179,7 @@
 (print (string "build tangled: phony " (string/join tangled-files " ")))
 (print (string "build resources: phony " (string/join resource-files " ")))
 
-(var default-targets @["tangled cantor"])
+(var default-targets @["tangled cantor assets"])
 (if (= use-monome true)
     (do
       (build-rt obj)

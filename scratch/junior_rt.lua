@@ -88,16 +88,10 @@ function coord(x, y)
     return (y - 1)*8 + x
 end
 
-function addvocab(vocab, x, y, w)
-    local row = y
-    local col = x
-
-    vocab[coord(x, y)] = w
-end
 -- <@>
 function genvocab()
     local vocab = asset:load("vocab/junior/v_junior.b64")
-    return vocab
+    return vocab[1]
 end
 -- </@>
 
