@@ -4,6 +4,7 @@ dofile("scratch/junior_rt.lua")
 -- </@>
 --]]
 
+local grid = monome_grid
 core = require("util/core")
 sig = require("sig/sig")
 lilts = core.lilts
@@ -776,7 +777,17 @@ function sound()
     return data
 end
 
+function bitrune_setup(data)
+    data.m = grid.open("/dev/ttyACM0")
+    data.br = bitrune.new("scratch/junior.uf2",
+                          "scratch/junior.bin",
+                          "scratch/junior.b64")
+    bitrune.terminal_setup(data.br)
+end
+
+
 local junior_data = sound()
+bitrune_setup(junior_data)
 
 --<@>
 function run()
@@ -786,5 +797,55 @@ function run()
     patch(words, junior_data)
     lil("out")
 end
+
+function altrun()
+    local dat = junior_data
+    local br = dat.br
+    local m = dat.m
+    local zeroquad = {0, 0, 0, 0, 0, 0, 0, 0}
+    print("running bitrune")
+
+    bitrune.update_display(br)
+    while bitrune.running(br) do
+        local events = grid.get_input_events(m)
+        for _,e in pairs(events) do
+            if e[3] == 1 then
+                print(e[1], e[2])
+                bitrune.monome_press(br, e[1], e[2])
+            end
+        end
+        local chars = bitrune.getchar()
+
+        for _,c in pairs(chars) do
+            bitrune.process_input(br, c)
+        end
+
+        if bitrune.message_available(br) then
+            local msg = bitrune.message_pop(br)
+            print(msg)
+        end
+        if bitrune.please_draw(br) then
+            bitrune.update_display(br)
+            bitrune.draw(br)
+            local quadL, quadR = bitrune.quads(br)
+
+            -- clears top quad LEDs on zero
+            grid.update(m, zeroquad, zeroquad)
+            grid.update_zero(m, quadL, quadR)
+        end
+        grid.usleep(80)
+    end
+    print("stopping bitrune")
+end
+
+function quit()
+    local dat = junior_data
+    local br = dat.br
+    print("bye")
+    bitrune.terminal_reset(br)
+    bitrune.del(br)
+    grid.close(dat.m)
+end
+
 --</@>
 

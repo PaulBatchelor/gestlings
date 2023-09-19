@@ -68,8 +68,18 @@
   (print
     (string
       "build cantor: link "
-      (string/join
-        (map (fn [x] (string x ".o")) obj) " "))))
+      (string (string/join
+        (map (fn [x] (string x ".o")) obj) " ") " cantor.o"))))
+
+(defn build-rt [obj]
+ (print "build util/rt.o: cc util/rt.c")
+ (print
+  (string
+   "build util/rt: link "
+   (string
+    (string/join
+     (map
+      (fn [x] (string x ".o")) obj) " ") " util/rt.o"))))
 
 (defn build-program [program obj]
   (each o obj
@@ -99,7 +109,6 @@
 (link-rule)
 (asset-rule)
 (def obj @[
-    "cantor"
     "protogestling/protogestling"
     "bitrune/bitrune"
     "bitrune/engine"
@@ -170,4 +179,11 @@
 (print (string "build tangled: phony " (string/join tangled-files " ")))
 (print (string "build resources: phony " (string/join resource-files " ")))
 
-(print "default tangled cantor")
+(var default-targets @["tangled cantor"])
+(if (= use-monome true)
+    (do
+      (build-rt obj)
+      (array/push default-targets "util/rt")))
+
+# (print "default tangled cantor")
+(print "default " (string/join default-targets " "))

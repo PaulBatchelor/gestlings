@@ -35,7 +35,6 @@ function main()
     for id,tile in pairs(tilemap) do
         local data = tile.data
         local width = tile.width
-        id = id - 1
 
         if empty(data) then goto skip end
 
@@ -65,7 +64,10 @@ function main()
             width = width
         }
 
-        table.insert(font, glyph)
+        -- table.insert(font, glyph)
+        -- id values are not necessarily continguous
+        -- 0 is reserved, so start at 1 (lua starts at 1 anyways)
+        font[id] = glyph
 
         local shape = tile.shape
 
@@ -84,10 +86,11 @@ function main()
                 end
                 rowstr = rowstr .. c
             end
-            print(rowstr)
+            -- print(rowstr)
         end
-        print(shapestr)
-        print()
+        -- print(shapestr)
+        -- print()
+        -- print(shapestr, id)
         table.insert(shapetab, {shapestr, id})
         ::skip::
     end
