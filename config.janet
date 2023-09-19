@@ -47,6 +47,11 @@
       ["blipsqueak/mechanism.lua"]
       ["blipsqueak/morphemes.b64"
        "blipsqueak/words.b64"]]
+
+    @[["vocab/junior/v_junior.b64"]
+      ["vocab/junior/v_junior.lua"]
+      ["asset/asset.lua"
+       "gest/gest.lua"]]
 ])
 
 (def resources @[
