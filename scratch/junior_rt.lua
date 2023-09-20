@@ -478,7 +478,7 @@ function bitrune_setup(data)
     data.m = grid.open("/dev/ttyACM0")
     data.br = bitrune.new("scratch/junior.uf2",
                           "scratch/junior.bin",
-                          "scratch/junior.b64")
+                          "vocab/junior/p_junior.b64")
     bitrune.terminal_setup(data.br)
 end
 

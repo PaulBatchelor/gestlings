@@ -53,6 +53,14 @@
       ["asset/asset.lua"
        "gest/gest.lua"]]
 
+    @[["characters/junior.b64"]
+      ["characters/junior.lua"]
+      ["vocab/junior/p_junior.b64"
+       "vocab/junior/t_junior.b64"
+       "vocab/junior/pb_junior.txt"
+       "vocab/junior/v_junior.b64"
+       ]]
+
     @[["prosody/prosody.b64"]
       ["prosody/prosody.lua"]
       []]
