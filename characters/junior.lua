@@ -1,6 +1,7 @@
 local asset = require("asset/asset")
+msgpack = require("util/MessagePack")
 asset = asset:new{
-    msgpack = require("util/MessagePack"),
+    msgpack = msgpack,
     base64 = require("util/base64")
 }
 pprint = require("util/pprint")
