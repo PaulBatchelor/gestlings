@@ -126,76 +126,22 @@ function genphrase(sentence)
 end
 -- </@>
 
-
-function genwords(data, phrase)
-    -- lil("shapemorfnew lut shapes/junior.b64")
-    -- lil("grab lut")
-    -- lut = pop()
-    -- lookup = shapemorf.generate_lookup(lut)
-    local lookup = data.lookup
-
-    A='b275f8'
-    B='51f271'
-    C='9c6c5d'
-    D='5d71be'
-    E='ab8d71'
-
-    local vtx = path.vertex
-    local gm = gest.behavior.gliss_medium
-    local gl = gest.behavior.gliss
-    local lin = gest.behavior.linear
-    local stp = gest.behavior.step
+function monologue_to_words(p)
+    local tal = p.tal
+    local path = p.path
+    local morpheme = p.morpheme
+    local vocab = p.vocab
+    local mono = p.monologue
+    local pros = p.prosody
+    local lookup = p.shapelut
 
     local p_shapes = {}
-
-    local m = {}
-
-    local pm = data.pm
-
-    -- local phrase = {
-    --     {"na", dur_reg, {"rise", "med_vib"}},
-    --     {"ne", dur_short, {"downup"}},
-    --     {"ku", dur_reg, {"fall"}},
-    --     {"nu", dur_long, {"downup", "crazy_vib"}},
-    --     {"pause", dur_reg},
-    -- }
-
-    -- phrase = genphrase()
-
-    -- local mseq = {}
-
-    -- for _,ph in pairs(phrase) do
-    --     local dur = dur_reg
-    --     table.insert(mseq, {vocab[ph[1]], dur})
-    -- end
-
-    -- local vocab = genvocab()
-    local vocab = data.vocab
-
+    local pros_pitch = {}
+    local pros_intensity = {}
     local app = morpheme.appender(path)
+    local m = {} -- TODO rename
 
-    pros = genpros()
-
-    local question = pros.question
-    local neutral = pros.neutral
-    local whisper = pros.whisper
-    local some_jumps = pros.some_jumps
-    local deflated = pros.deflated
-    local excited = pros.excited
-
-    local monologue = {
-        {phrase, neutral},
-        {phrase, question},
-        {phrase, some_jumps},
-        {phrase, deflated},
-        {phrase, excited},
-        {phrase, whisper},
-    }
-
-    pros_pitch = {}
-    pros_intensity = {}
-
-    for _,stanza in pairs(monologue) do
+    for _,stanza in pairs(mono) do
         mseq, pros = phrase_to_mseq(morpheme, path, stanza[1], stanza[2], vocab, pm)
         append_to_sequence(app, m, pros_pitch, pros_intensity, mseq, pros)
     end
@@ -216,6 +162,63 @@ function genwords(data, phrase)
     tal.label(words, "pros_intensity")
     path.path(tal, words, pros_intensity)
     tal.jump(tal, "hold")
+    return words
+end
+
+function genwords(data, phrase)
+    -- lil("shapemorfnew lut shapes/junior.b64")
+    -- lil("grab lut")
+    -- lut = pop()
+    -- lookup = shapemorf.generate_lookup(lut)
+    local lookup = data.lookup
+
+    -- A='b275f8'
+    -- B='51f271'
+    -- C='9c6c5d'
+    -- D='5d71be'
+    -- E='ab8d71'
+
+    -- local vtx = path.vertex
+    -- local gm = gest.behavior.gliss_medium
+    -- local gl = gest.behavior.gliss
+    -- local lin = gest.behavior.linear
+    -- local stp = gest.behavior.step
+
+    -- local p_shapes = {}
+
+    local m = {}
+
+    local pm = data.pm
+
+    local vocab = data.vocab
+
+    pros = genpros()
+
+    local question = pros.question
+    local neutral = pros.neutral
+    local whisper = pros.whisper
+    local some_jumps = pros.some_jumps
+    local deflated = pros.deflated
+    local excited = pros.excited
+
+    local monologue = {
+        {phrase, neutral},
+        {phrase, question},
+        {phrase, some_jumps},
+        {phrase, deflated},
+        {phrase, excited},
+        {phrase, whisper},
+    }
+
+    local words = monologue_to_words {
+        tal = tal,
+        path = path,
+        morpheme = morpheme,
+        vocab = vocab,
+        monologue = monologue,
+        prosody = pros,
+        shapelut = data.lookup
+    }
     return words
 end
 
@@ -476,8 +479,8 @@ end
 
 function bitrune_setup(data)
     data.m = grid.open("/dev/ttyACM0")
-    data.br = bitrune.new("scratch/junior.uf2",
-                          "scratch/junior.bin",
+    data.br = bitrune.new("fonts/junior.uf2",
+                          "vocab/junior/k_junior.bin",
                           "vocab/junior/p_junior.b64")
     bitrune.terminal_setup(data.br)
 end

@@ -44,5 +44,7 @@ junior.docs = junior.vocab[2]
 junior.vocab = junior.vocab[1]
 junior.tilemap = asset:load("vocab/junior/t_junior.b64")
 junior.uf2 = "fonts/junior.uf2"
+junior.shapelut = asset:load("shapes/l_junior.b64")
+junior.shapes = "shapes/junior.b64"
 
 asset:save(junior, "characters/junior.b64")

@@ -603,7 +603,7 @@ static void add_keyshapes(bitrune_display *bd, const char *keyshapesfile)
         nshapes = c & 0xf;
     } else if (c == 0xdc) {
         nshapes = (buf[pos] << 8) | buf[pos + 1];
-        pos++;
+        pos+=2;
     }
 
     printf("reading in %d shapes\n", nshapes);
@@ -620,7 +620,7 @@ static void add_keyshapes(bitrune_display *bd, const char *keyshapesfile)
         /* read in 2-element array, string and number */
 
         if (byte != 0x92) {
-            printf("expected 2-element array\n");
+            printf("expected 2-element array byte, got 0x%x\n", byte);
             break;
         }
 

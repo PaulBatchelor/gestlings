@@ -59,6 +59,7 @@
        "vocab/junior/t_junior.b64"
        "vocab/junior/pb_junior.txt"
        "vocab/junior/v_junior.b64"
+       "shapes/l_junior.b64"
        ]]
 
     @[["fonts/junior.uf2"
@@ -68,6 +69,10 @@
        ]
       ["vocab/junior/uf2_junior.lua"]
       ["vocab/junior/t_junior.b64"]]
+
+    @[["shapes/l_junior.b64"]
+      ["shapes/l_junior.lua"]
+      ["shapes/junior.b64"]]
 
     @[["prosody/prosody.b64"]
       ["prosody/prosody.lua"]
