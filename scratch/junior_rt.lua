@@ -182,20 +182,27 @@ function genpros()
 end
 
 -- <@>
-function genphrase()
+function genphrase(sentence)
     local dur_reg = {1, 1}
     local dur_short = {3, 2}
     local dur_long = {2, 3}
 
-    phrase = {}
+    local sentence = sentence or {
+        2, 3, 2, 2, 1
+    }
+    local phrase = {}
     local reg = {1, 1}
     -- select the word
     local wrd = coord(3, 2)
     local pause = coord(1, 1)
-    for i=1,3 do
-        table.insert(phrase, {wrd, reg})
+
+    for _,word in pairs(sentence) do
+        table.insert(phrase, {word, reg})
     end
-    table.insert(phrase, {pause, reg})
+    -- for i=1,3 do
+    --     table.insert(phrase, {wrd, reg})
+    -- end
+    -- table.insert(phrase, {pause, reg})
     return phrase
 end
 -- </@>
@@ -594,10 +601,19 @@ function bitrune_setup(data)
 end
 
 
-local junior_data = sound()
+junior_data = sound()
 bitrune_setup(junior_data)
 
 --<@>
+
+function eval_sentence(sentence)
+    print("eval sentence")
+    junior_data.vocab = genvocab()
+    local words = genwords(junior_data, genphrase(sentence))
+    patch(words, junior_data)
+    lil("out")
+end
+
 function run()
     print("run")
     junior_data.vocab = genvocab()
@@ -619,7 +635,7 @@ function altrun()
         for _,e in pairs(events) do
             if e[3] == 1 then
                 print(e[1], e[2])
-                bitrune.monome_press(br, e[1], e[2])
+                bitrune.monome_press(br, e[1], e[2] - 8)
             end
         end
         local chars = bitrune.getchar()
@@ -630,7 +646,14 @@ function altrun()
 
         if bitrune.message_available(br) then
             local msg = bitrune.message_pop(br)
-            print(msg)
+            msg = core.split(msg, " ")
+            sentence = {}
+
+            for _,word in pairs(msg) do
+                table.insert(sentence, tonumber(word, 16))
+            end
+
+            eval_sentence(sentence)
         end
         if bitrune.please_draw(br) then
             bitrune.update_display(br)

@@ -489,9 +489,16 @@ static void update_display(bitrune_display *bd, bitrune_engine *br)
         int currow;
         currow = bitrune_currow(br);
         /* scroll is only 5 tall to avoid the triplet box */
+#if 0
         for(y = 0; y < 5; y++) {
             /* TODO: handle more than 5 */
             if (y == currow) set_led(15, y, 1, quadL, quadR);
+            else set_led(15, y, 0, quadL, quadR);
+        }
+#endif
+        /* render position in binary in 5 bits */
+        for(y = 0; y < 5; y++) {
+            if (currow & (1 << y)) set_led(15, y, 1, quadL, quadR);
             else set_led(15, y, 0, quadL, quadR);
         }
         bd->show_vscroll = 0;
