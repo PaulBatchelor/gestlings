@@ -52,6 +52,10 @@
       ["vocab/junior/v_junior.lua"]
       ["asset/asset.lua"
        "gest/gest.lua"]]
+
+    @[["prosody/prosody.b64"]
+      ["prosody/prosody.lua"]
+      []]
 ])
 
 (def resources @[
