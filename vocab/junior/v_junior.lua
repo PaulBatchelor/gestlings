@@ -21,6 +21,39 @@ function addvocab(vocab, x, y, w, doc)
     vocab[2][pos] = doc
 end
 
+function genpartmorphs ()
+    local gm = gest.behavior.gliss_medium
+    local gl = gest.behavior.gliss
+    local lin = gest.behavior.linear
+    local stp = gest.behavior.step
+
+    infl = {
+        flat = {inflection = {{0x0, 3, lin}}},
+        rise = {inflection = {{0x0, 3, lin}, {0x4, 1, stp}}},
+        downup = {inflection = {{0x4, 1, gl}, {0x0, 1, gl}, {0x2, 1, stp}}},
+        fall = {inflection = {{0x4, 3, lin}, {0x0, 1, stp}}}
+    }
+
+    crazy_vib = {
+        vib = {{0x00, 1, gm}, {0xFF, 1, gm}},
+    }
+
+    med_vib = {
+        vib = {{0x40, 1, gm}},
+    }
+
+    local pm = {
+        flat = infl.flat,
+        rise = infl.rise,
+        downup = infl.downup,
+        fall = infl.fall,
+        crazy_vib = crazy_vib,
+        med_vib = med_vib
+    }
+
+    return pm
+end
+
 function genvocab()
     local gm = gest.behavior.gliss_medium
     local gl = gest.behavior.gliss
@@ -213,6 +246,15 @@ function genvocab()
     voc(6, 2, pat_c {
         aspiration = asp.whisp
     }, "oovalef")
+
+    local pm = genpartmorphs()
+
+    voc(7, 2, pm.flat, "PM: flat")
+    voc(8, 2, pm.rise, "PM: rise")
+    voc(1, 3, pm.downup, "PM: downup")
+    voc(2, 3, pm.fall, "PM: fall")
+    voc(3, 3, pm.fall, "PM: crazy vibrato")
+    voc(4, 3, pm.fall, "PM: medium vibrato")
 
     return vocab
 end

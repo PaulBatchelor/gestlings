@@ -21,7 +21,7 @@ asset = asset:new{
     base64 = require("util/base64")
 }
 
-local function phrase_to_mseq(morpheme, path, phrase, pros, vocab, pmt)
+local function phrase_to_mseq(morpheme, path, phrase, pros, vocab)
     local mseq = {}
     local merge = morpheme.merge
 
@@ -34,7 +34,7 @@ local function phrase_to_mseq(morpheme, path, phrase, pros, vocab, pmt)
         -- merge partial morphemes
         if ph[3] ~= nil then
             for _, pm in pairs(ph[3]) do
-                mrph = merge(mrph, pmt[pm])
+                mrph = merge(mrph, vocab[pm])
             end
         end
 
@@ -207,42 +207,6 @@ function genphrase(sentence)
 end
 -- </@>
 
-function genpartmorphs ()
-    local gm = gest.behavior.gliss_medium
-    local gl = gest.behavior.gliss
-    local lin = gest.behavior.linear
-    local stp = gest.behavior.step
-
-    infl = {
-        flat = {inflection = {{0x0, 3, lin}}},
-        rise = {inflection = {{0x0, 3, lin}, {0x4, 1, stp}}},
-        downup = {inflection = {{0x4, 1, gl}, {0x0, 1, gl}, {0x2, 1, stp}}},
-        fall = {inflection = {{0x4, 3, lin}, {0x0, 1, stp}}}
-    }
-
-    dur_reg = {1, 1}
-    dur_short = {3, 2}
-    dur_long = {2, 3}
-
-    crazy_vib = {
-        vib = {{0x00, 1, gm}, {0xFF, 1, gm}},
-    }
-
-    med_vib = {
-        vib = {{0x40, 1, gm}},
-    }
-
-    local pm = {
-        flat = infl.flat,
-        rise = infl.rise,
-        downup = infl.downup,
-        fall = infl.fall,
-        crazy_vib = crazy_vib,
-        med_vib = med_vib
-    }
-
-    return pm
-end
 
 function genwords(data, phrase)
     -- lil("shapemorfnew lut shapes/junior.b64")
@@ -360,7 +324,6 @@ function patch_setup()
     data.lut = lut
     data.lookup = shapemorf.generate_lookup(lut)
     data.vocab = genvocab()
-    data.pm = genpartmorphs()
 
     return data
 end
