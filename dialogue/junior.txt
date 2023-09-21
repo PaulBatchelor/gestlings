@@ -1,7 +1,8 @@
 @character junior
 
-@nphrases 2
+@nphrases 3
 @phrase proto_1 neutral
+@phrase proto_3 some_jumps
 @phrase proto_2 some_jumps
 @block
 <RATE 4>Dear Mom,<PAUSE 4>
@@ -153,7 +154,7 @@ and explore Cauldronia!<PAUSE 4>
 @phrase proto_7 some_jumps
 @block
 I wonder what Cap hopes
-to find out there<RATE 10>...<PAUSE 1>
+to find out there<PAUSE 4><RATE 15>...<PAUSE 1>
 
 @nphrases 2
 @phrase proto_7 some_jumps
@@ -162,7 +163,9 @@ to find out there<RATE 10>...<PAUSE 1>
 <RATE 4>Anyways,<PAUSE 2> miss you lots.
 <RATE 3>See you in a few weeks!
 
-@nphrases 1
+@nphrases 2
+@phrase proto_3 some_jumps
 @phrase proto_3 some_jumps
 @block
-<RATE 6>Love, Junior
+<RATE 4>I love you mom<PAUSE 8><BACKSPACE 14>Send me snacks please,<PAUSE 4>
+Junior<PAUSE 4>

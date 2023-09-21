@@ -18,9 +18,10 @@
       (string/join outputs " ")
       ": asset "
       (string/join inputs " ")
-      " || cantor"
+      " | cantor"
       (if-not (= deps nil)
         (string " " (string/join deps " ")))
+      " || cantor"
 
       )))
 

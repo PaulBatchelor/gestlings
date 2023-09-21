@@ -372,7 +372,7 @@ evpos = 1
 last_event = events[evpos]
 setup_sound(character, phrases)
 -- goto bye
-nframes = 60*(83)
+nframes = 60*(93)
 for n=1,nframes do
     if (n % 60) == 0 then
         print(n, string.format("%02d%%", math.floor(n*100/nframes)))

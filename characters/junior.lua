@@ -12,7 +12,9 @@ fp = io.open("vocab/junior/pb_junior.txt")
 
 local phrasenames = {}
 for l in fp:lines() do
-    table.insert(phrasenames, l)
+    if string.match(l, "^#") == nil then
+        table.insert(phrasenames, l)
+    end
 end
 fp:close()
 
