@@ -1,9 +1,22 @@
 core = require("util/core")
 lilt = core.lilt
+lilts = core.lilts
 
 descript = require("descript/descript")
 
 pprint = require("util/pprint")
+local asset = require("asset/asset")
+asset = asset:new{
+    msgpack = require("util/MessagePack"),
+    base64 = require("util/base64")
+}
+gest = require("gest/gest")
+tal = require("tal/tal")
+morpheme = require("morpheme/morpheme")
+path = require("path/path")
+monologue = require("monologue/monologue")
+sigrunes = require("sigrunes/sigrunes")
+sig = require("sig/sig")
 
 messagebox = {}
 function messagebox.new()
@@ -130,14 +143,101 @@ fp = io.open("dialogue/junior.txt")
 script = fp:read("*all")
 fp:close()
 
-function setup_sound()
+-- for this trailer, the symbols have virtually
+-- no grammer. every value is a 'word', and
+-- each word has the same duration. there are no
+-- partial morphemes
+function sentence_to_phrase(sentence)
+    local phrase = {}
+    local dur = {1, 1}
+    for _,wrd in pairs(sentence) do
+        table.insert(phrase, {wrd, dur})
+    end
+    return phrase
+end
+
+function setup_sound(character, phrases)
     lil("blkset 49")
     lil("valnew msgscale")
-    lil("phasor 60 0")
-    lil("val [grab msgscale]")
-    lilt{"rephasor", "zz", "zz"}
-    lil("scale zz 330 440")
-    lil("sine zz 0.5")
+
+    lil("shapemorfnew lut shapes/junior.b64")
+    lil("grab lut")
+    local lut = pop()
+    local lookup = shapemorf.generate_lookup(lut)
+    local vocab = character.vocab
+    local phrasebook = character.phrasebook
+    local gst = gest:new()
+    local prostab = asset:load("prosody/prosody.b64")
+    gst:create()
+
+    local mono = {}
+
+    for _, phr in pairs(phrases) do
+        local sentence = phrasebook[phr[1]]
+        assert(sentence ~= nil,
+            "Could not find phrase '" .. phr[1] .. "'")
+        -- a "sentence" is just a collection of symbols
+        -- these will need to be converted to the phrase
+        -- format an array of tuples consisting of
+        -- (word, duration, partial_morphemes)
+        -- this isn't done beforehand because the
+        -- symbols are needed for notation
+
+        -- different characters will have different
+        -- grammars most likely, so that will need
+        -- to be consolidated somehow
+        -- this one is quite rudimentary
+
+        local phrase = sentence_to_phrase(sentence)
+
+        -- the converted phrase can now be added to the
+        -- "monologue" format used to create gesture
+        -- programs. It is paired with the prosody
+       
+        local pros = prostab[phr[2]]
+
+        assert(pros ~= nil,
+            "Could not find prosody curve '" .. phr[2] .. "'")
+        table.insert(mono, {phrase, pros})
+    end
+
+    local words = monologue.to_words {
+        tal = tal,
+        path = path,
+        morpheme = morpheme,
+        vocab = vocab,
+        monologue = mono,
+        shapelut = lookup
+    }
+
+    gst:compile(words)
+
+    gst:swapper()
+    lilts {
+        {"phasor", 60, 0},
+    }
+    local cnd = sig:new()
+    cnd:hold()
+
+    -- lil("phasor 60 0")
+    -- lil("val [grab msgscale]")
+    -- lilt{"rephasor", "zz", "zz"}
+    -- lil("scale zz 330 440")
+    -- lil("sine zz 0.5")
+  
+    local phys = dofile(character.physiology)
+    
+    phys.physiology {
+        gest = gst,
+        cnd = cnd,
+        lilt = lilt,
+        lilts = lilts,
+        sigrunes = sigrunes,
+        sig = sig,
+    }
+
+    gst:done()
+    cnd:unhold()
     lil("wavout zz tmp/trailer2.wav")
     valutil.set("msgscale", 1.0/30)
 end
@@ -198,8 +298,8 @@ end
 t = 1
 rate = 4
 phrases = {}
-phraseblock = {}
 last_nphrases = -1
+character = {}
 for _, block in pairs(dialogue) do
     if block[1] == "block" then
         local start_time = t
@@ -207,17 +307,6 @@ for _, block in pairs(dialogue) do
         t, rate = process_block(block, t, rate)
         local end_time = t
         blockdur(events, start_time, end_time - start_time, start_pos)
-
-        -- since the block has started, insert the phrase block
-        -- also make sure there are enough phrases
-
-        assert(#phraseblock == last_nphrases, 
-            string.format("expected %d phrases, got %d",
-                last_nphrases, #phraseblock))
-        table.insert(phrases, phraseblock)
-
-        -- clear phraseblock to be used with next message block
-        phraseblock = {} 
     elseif string.match(block[1], "^scale") ~= nil then
         local cmd = core.split(block[1], " ")
         textscale(events, t, tonumber(cmd[2]))
@@ -227,15 +316,13 @@ for _, block in pairs(dialogue) do
         nphrases(events, t, last_nphrases)
     elseif string.match(block[1], "^phrase") ~= nil then
         local cmd = core.split(block[1], " ")
-        table.insert(phraseblock, {cmd[2], cmd[3]})
+        table.insert(phrases, {cmd[2], cmd[3]})
     elseif string.match(block[1], "^character") ~= nil then
         local cmd = core.split(block[1], " ")
-        local character = cmd[2]
-        print("using character '" .. character .. "'")
+        print("using character '" .. cmd[2] .. "'")
+        character = asset:load("characters/" .. cmd[2] .. ".b64")
     end
 end
-
-goto bye
 
 local last = -1
 for idx,e in pairs(events) do
@@ -244,8 +331,6 @@ for idx,e in pairs(events) do
     end
     last = e[1]
 end
-
--- goto bye
 
 event_handler = {
     append = function(mb, data)
@@ -285,7 +370,8 @@ xoff = 320//2 - 200//2
 yoff = 240//2 - 60//2
 evpos = 1
 last_event = events[evpos]
-setup_sound()
+setup_sound(character, phrases)
+-- goto bye
 nframes = 60*(83)
 for n=1,nframes do
     if (n % 60) == 0 then

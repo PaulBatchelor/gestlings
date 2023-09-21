@@ -69,7 +69,6 @@ function Monologue.to_words(p)
     local morpheme = p.morpheme
     local vocab = p.vocab
     local mono = p.monologue
-    local pros = p.prosody
     local lookup = p.shapelut
 
     local p_shapes = {}
