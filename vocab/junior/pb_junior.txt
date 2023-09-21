@@ -2,9 +2,9 @@ dear_mom
 sorry_for_not_writing
 camp_is_fun
 cap_camping
-# mushroom_forest
-# nature_trail
-# dav_mushroom_hahaha
+mushroom_forest
+nature_trail
+dav_mushroom_hahaha
 # made_a_fire
 # cocoa_over_fire 
 # we_had_cookies
