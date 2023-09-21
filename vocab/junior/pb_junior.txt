@@ -4,7 +4,8 @@ camp_is_fun
 cap_camping
 mushroom_forest
 nature_trail
-dav_mushroom_hahaha
+dav_mushroom
+hahahaha
 # made_a_fire
 # cocoa_over_fire 
 # we_had_cookies
