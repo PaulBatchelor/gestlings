@@ -252,6 +252,7 @@ function altrun()
         grid.usleep(80)
     end
     print("stopping bitrune")
+    grid.all(m, 0)
 end
 -- </@>
 function quit()
