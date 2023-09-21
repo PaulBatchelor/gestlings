@@ -197,6 +197,9 @@ end
 
 t = 1
 rate = 4
+phrases = {}
+phraseblock = {}
+last_nphrases = -1
 for _, block in pairs(dialogue) do
     if block[1] == "block" then
         local start_time = t
@@ -204,15 +207,35 @@ for _, block in pairs(dialogue) do
         t, rate = process_block(block, t, rate)
         local end_time = t
         blockdur(events, start_time, end_time - start_time, start_pos)
+
+        -- since the block has started, insert the phrase block
+        -- also make sure there are enough phrases
+
+        assert(#phraseblock == last_nphrases, 
+            string.format("expected %d phrases, got %d",
+                last_nphrases, #phraseblock))
+        table.insert(phrases, phraseblock)
+
+        -- clear phraseblock to be used with next message block
+        phraseblock = {} 
     elseif string.match(block[1], "^scale") ~= nil then
         local cmd = core.split(block[1], " ")
         textscale(events, t, tonumber(cmd[2]))
     elseif string.match(block[1], "^nphrases") ~= nil then
         local cmd = core.split(block[1], " ")
-        nphrases(events, t, tonumber(cmd[2]))
+        last_nphrases = tonumber(cmd[2])
+        nphrases(events, t, last_nphrases)
+    elseif string.match(block[1], "^phrase") ~= nil then
+        local cmd = core.split(block[1], " ")
+        table.insert(phraseblock, {cmd[2], cmd[3]})
+    elseif string.match(block[1], "^character") ~= nil then
+        local cmd = core.split(block[1], " ")
+        local character = cmd[2]
+        print("using character '" .. character .. "'")
     end
 end
 
+goto bye
 
 local last = -1
 for idx,e in pairs(events) do

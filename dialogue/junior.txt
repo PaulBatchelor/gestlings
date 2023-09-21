@@ -1,4 +1,10 @@
+@character junior
+
 @nphrases 4
+@phrase proto_1 neutral
+@phrase proto_2 neutral
+@phrase proto_3 neutral
+@phrase proto_4 neutral
 @block
 Dear Mom,
 Sorry for not writing
@@ -6,6 +12,10 @@ back sooner. Camp has
 been really really fun!
 
 @nphrases 4
+@phrase proto_5 neutral
+@phrase proto_6 neutral
+@phrase proto_7 neutral
+@phrase proto_1 neutral
 @block
 Last week, Captain took
 us out camping over by
@@ -13,6 +23,9 @@ the Mushroom Forest in
 the Upper Rings.
 
 @nphrases 3
+@phrase proto_2 neutral
+@phrase proto_3 neutral
+@phrase proto_4 neutral
 @block
 We went on a nature
 trail and Cap showed us
@@ -20,6 +33,10 @@ which mushrooms were
 edible.
 
 @nphrases 4
+@phrase proto_5 neutral
+@phrase proto_6 neutral
+@phrase proto_7 neutral
+@phrase proto_1 neutral
 @block
 Then Dav ate a bad
 mushroom and it made
@@ -27,12 +44,18 @@ their face all puffy.
 wah-hahahahaha!
 
 @nphrases 3
+@phrase proto_2 neutral
+@phrase proto_3 neutral
+@phrase proto_4 neutral
 @block
 And then we made a fire.
 And then we had cocoa
 over the fire.
 
 @nphrases 3
+@phrase proto_2 neutral
+@phrase proto_3 neutral
+@phrase proto_4 neutral
 @block
 And then we had cookies!
 They were the yummy ones
@@ -40,6 +63,10 @@ from the Gestleton
 Cakery! And then...
 
 @nphrases 4
+@phrase proto_5 neutral
+@phrase proto_6 neutral
+@phrase proto_7 neutral
+@phrase proto_1 neutral
 @block
 We were each supposed to
 take one cookie each...
@@ -47,21 +74,30 @@ take one cookie each...
 don't tell anyone!
 
 @nphrases 1
+@phrase proto_7 neutral
 @block
 Annnd thennnn.....
 
 @nphrases 3
+@phrase proto_5 neutral
+@phrase proto_4 neutral
+@phrase proto_3 neutral
 @block
 And then we learned
 a folk song from the
 Lower Rings district!
 
-@nphrases 2
+@nphrases 1
+@phrase proto_5 neutral
 @block
 It went something like
 this:
 
 @nphrases 4
+@phrase proto_5 neutral
+@phrase proto_4 neutral
+@phrase proto_3 neutral
+@phrase proto_5 neutral
 @block
 doo doo doo doo
 doh do doo ba doo
@@ -69,6 +105,10 @@ saba-di da do ah
 ooh ah eh oo
 
 @nphrases 4
+@phrase proto_3 neutral
+@phrase proto_2 neutral
+@phrase proto_7 neutral
+@phrase proto_4 neutral
 @block
 And then we went to
 sleep. And then we
@@ -76,6 +116,10 @@ woke up. And then
 we hiked back home.
 
 @nphrases 4
+@phrase proto_3 neutral
+@phrase proto_2 neutral
+@phrase proto_7 neutral
+@phrase proto_4 neutral
 @block
 And then. And then it
 started raining.
@@ -83,6 +127,8 @@ I hate the rain.
 And then...
 
 @nphrases 2
+@phrase proto_7 neutral
+@phrase proto_7 neutral
 @scale 2
 @block
 AND.
@@ -90,10 +136,15 @@ THEN.
 
 @scale 1
 @nphrases 1
+@phrase proto_6 neutral
 @block
 We were home.
 
 @nphrases 4
+@phrase proto_3 neutral
+@phrase proto_2 neutral
+@phrase proto_7 neutral
+@phrase proto_4 neutral
 @block
 After camp ends,
 Cap says they are
@@ -101,6 +152,10 @@ planning a solo trip
 beyond the shores.
 
 @nphrases 4
+@phrase proto_3 neutral
+@phrase proto_2 neutral
+@phrase proto_7 neutral
+@phrase proto_4 neutral
 @block
 I know Dad says I'm
 too young to visit the
@@ -108,6 +163,10 @@ shores because it is
 too dangerous.
 
 @nphrases 4
+@phrase proto_3 neutral
+@phrase proto_2 neutral
+@phrase proto_7 neutral
+@phrase proto_4 neutral
 @block
 When I grow up, I want
 to be like Cap and
@@ -115,15 +174,21 @@ live on the shores
 and explore Cauldronia!
 
 @nphrases 2
+@phrase proto_7 neutral
+@phrase proto_4 neutral
 @block
 I wonder what Cap hopes
 to find out there...
 
 @nphrases 3
+@phrase proto_7 neutral
+@phrase proto_4 neutral
+@phrase proto_6 neutral
 @block
 Anyways, miss you lots.
 See you in a few weeks!
 
 @nphrases 1
+@phrase proto_3 neutral
 @block
 Love, Junior
