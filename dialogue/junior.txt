@@ -1,194 +1,168 @@
 @character junior
 
-@nphrases 4
+@nphrases 2
 @phrase proto_1 neutral
-@phrase proto_2 neutral
-@phrase proto_3 neutral
-@phrase proto_4 neutral
+@phrase proto_2 some_jumps
 @block
-Dear Mom,
+<RATE 4>Dear Mom,<PAUSE 4>
 Sorry for not writing
-back sooner. Camp has
-been really really fun!
+back sooner.<PAUSE 4> Camp has
+been really really fun!<PAUSE 4>
 
-@nphrases 4
-@phrase proto_5 neutral
-@phrase proto_6 neutral
-@phrase proto_7 neutral
-@phrase proto_1 neutral
+@nphrases 2
+@phrase proto_5 some_jumps
+@phrase proto_6 some_jumps
 @block
-Last week, Captain took
+Last week,<PAUSE 2> Captain took
 us out camping over by
 the Mushroom Forest in
-the Upper Rings.
+the Upper Rings.<PAUSE 4>
 
-@nphrases 3
-@phrase proto_2 neutral
-@phrase proto_3 neutral
-@phrase proto_4 neutral
+@nphrases 1
+@phrase proto_2 some_jumps
 @block
 We went on a nature
 trail and Cap showed us
 which mushrooms were
 edible.
 
-@nphrases 4
-@phrase proto_5 neutral
-@phrase proto_6 neutral
-@phrase proto_7 neutral
-@phrase proto_1 neutral
+@nphrases 2
+@phrase proto_5 some_jumps
+@phrase proto_3 some_jumps
 @block
 Then Dav ate a bad
 mushroom and it made
-their face all puffy.
-wah-hahahahaha!
+their face all puffy.<PAUSE 4>
+<RATE 3>wah-hahahahaha!<RATE 4><PAUSE 4>
 
-@nphrases 3
-@phrase proto_2 neutral
-@phrase proto_3 neutral
-@phrase proto_4 neutral
+@nphrases 2
+@phrase proto_2 some_jumps
+@phrase proto_3 some_jumps
 @block
-And then we made a fire.
+<RATE 2>And then we made a fire.<PAUSE 8>
 And then we had cocoa
-over the fire.
+over the fire.<PAUSE 8>
 
-@nphrases 3
-@phrase proto_2 neutral
-@phrase proto_3 neutral
-@phrase proto_4 neutral
+@nphrases 2
+@phrase proto_2 excited
+@phrase proto_4 some_jumps
 @block
-And then we had cookies!
-They were the yummy ones
+<RATE 2>And then we had cookies!<PAUSE 8>
+<RATE 3>They were the yummy ones
 from the Gestleton
-Cakery! And then...
+Cakery!<PAUSE 8> And then...<PAUSE 4>
 
-@nphrases 4
-@phrase proto_5 neutral
-@phrase proto_6 neutral
-@phrase proto_7 neutral
-@phrase proto_1 neutral
+@nphrases 1
+@phrase proto_5 some_jumps
 @block
 We were each supposed to
-take one cookie each...
-...but I took two. But
-don't tell anyone!
+take one cookie each...<PAUSE 4>
+
+@nphrases 2
+@phrase proto_7 whisper
+@phrase proto_3 some_jumps
+@block
+<RATE 5>...but I took two.<PAUSE 4> <RATE 4>But
+don't tell anyone!<PAUSE 4>
 
 @nphrases 1
-@phrase proto_7 neutral
+@phrase proto_7 some_jumps
 @block
-Annnd thennnn.....
+<RATE 8>Annnd thennnn.....
 
-@nphrases 3
-@phrase proto_5 neutral
-@phrase proto_4 neutral
-@phrase proto_3 neutral
+@nphrases 1
+@phrase proto_5 some_jumps
 @block
-And then we learned
+<RATE 4>And then we learned
 a folk song from the
-Lower Rings district!
+Lower Rings district!<PAUSE 4>
 
 @nphrases 1
-@phrase proto_5 neutral
+@phrase proto_5 some_jumps
 @block
 It went something like
-this:
+this:<PAUSE 4>
 
-@nphrases 4
-@phrase proto_5 neutral
-@phrase proto_4 neutral
-@phrase proto_3 neutral
-@phrase proto_5 neutral
+@nphrases 1
+@phrase proto_5 some_jumps
 @block
 doo doo doo doo
 doh do doo ba doo
 saba-di da do ah
 ooh ah eh oo
 
-@nphrases 4
-@phrase proto_3 neutral
-@phrase proto_2 neutral
-@phrase proto_7 neutral
-@phrase proto_4 neutral
+@nphrases 3
+@phrase proto_3 some_jumps
+@phrase proto_2 some_jumps
+@phrase proto_7 some_jumps
 @block
-And then we went to
-sleep. And then we
-woke up. And then
-we hiked back home.
-
-@nphrases 4
-@phrase proto_3 neutral
-@phrase proto_2 neutral
-@phrase proto_7 neutral
-@phrase proto_4 neutral
-@block
-And then. And then it
-started raining.
-I hate the rain.
-And then...
+<RATE 4>And then we went to
+sleep.<PAUSE 2><RATE 3> And then we
+woke up.<PAUSE 3> And then
+we hiked back home.<PAUSE 4>
 
 @nphrases 2
-@phrase proto_7 neutral
-@phrase proto_7 neutral
+@phrase proto_3 neutral
+@phrase proto_7 deflated
+@block
+<RATE 4>And then.<PAUSE 4> And then<PAUSE 4> it
+started raining.<PAUSE 8>
+<RATE 6>I hate the rain.<PAUSE 4>
+<RATE 4>And then...<PAUSE 8>
+
+@nphrases 1
+@phrase proto_7 excited
 @scale 2
 @block
-AND.
-THEN.
+<RATE 0>AND.<RATE 4><PAUSE 8>
+<RATE 0>THEN.<RATE 4><PAUSE 8>
 
 @scale 1
 @nphrases 1
-@phrase proto_6 neutral
+@phrase proto_6 some_jumps
 @block
-We were home.
+<RATE 4>We were home.<PAUSE 9>
 
-@nphrases 4
-@phrase proto_3 neutral
-@phrase proto_2 neutral
-@phrase proto_7 neutral
-@phrase proto_4 neutral
+@nphrases 2
+@phrase proto_3 some_jumps
+@phrase proto_4 some_jumps
 @block
-After camp ends,
+After camp ends,<PAUSE 2>
 Cap says they are
 planning a solo trip
-beyond the shores.
+beyond the shores.<PAUSE 4>
 
-@nphrases 4
-@phrase proto_3 neutral
-@phrase proto_2 neutral
-@phrase proto_7 neutral
-@phrase proto_4 neutral
+@nphrases 2
+@phrase proto_3 some_jumps
+@phrase proto_4 some_jumps
 @block
 I know Dad says I'm
 too young to visit the
 shores because it is
-too dangerous.
-
-@nphrases 4
-@phrase proto_3 neutral
-@phrase proto_2 neutral
-@phrase proto_7 neutral
-@phrase proto_4 neutral
-@block
-When I grow up, I want
-to be like Cap and
-live on the shores
-and explore Cauldronia!
-
-@nphrases 2
-@phrase proto_7 neutral
-@phrase proto_4 neutral
-@block
-I wonder what Cap hopes
-to find out there...
-
-@nphrases 3
-@phrase proto_7 neutral
-@phrase proto_4 neutral
-@phrase proto_6 neutral
-@block
-Anyways, miss you lots.
-See you in a few weeks!
+too dangerous.<PAUSE 4>
 
 @nphrases 1
-@phrase proto_3 neutral
+@phrase proto_3 excited
 @block
-Love, Junior
+When I grow up,<PAUSE 2> I want
+to be like Cap and
+live on the shores
+and explore Cauldronia!<PAUSE 4>
+
+@nphrases 1
+@phrase proto_7 some_jumps
+@block
+I wonder what Cap hopes
+to find out there<RATE 10>...<PAUSE 1>
+
+@nphrases 2
+@phrase proto_7 some_jumps
+@phrase proto_6 some_jumps
+@block
+<RATE 4>Anyways,<PAUSE 2> miss you lots.
+<RATE 3>See you in a few weeks!
+
+@nphrases 1
+@phrase proto_3 some_jumps
+@block
+<RATE 6>Love, Junior

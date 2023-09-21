@@ -193,7 +193,7 @@ function setup_sound(character, phrases)
         -- the converted phrase can now be added to the
         -- "monologue" format used to create gesture
         -- programs. It is paired with the prosody
-       
+
         local pros = prostab[phr[2]]
 
         assert(pros ~= nil,
