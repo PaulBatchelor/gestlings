@@ -228,9 +228,9 @@ function altrun()
 
         if bitrune.message_available(br) then
             local msg = bitrune.message_pop(br)
+            print(msg)
             msg = core.split(msg, " ")
             sentence = {}
-
             for _,word in pairs(msg) do
                 table.insert(sentence, tonumber(word, 16))
             end

@@ -421,7 +421,7 @@ void bitrune_eval_line(bitrune_engine *br)
         }
 
         s = syms[n];
-        msg[spos] = map[(s >> 8) & 0xf];
+        msg[spos] = map[(s >> 4) & 0xf];
         spos++;
         msg[spos] = map[s & 0xf];
         spos++;
