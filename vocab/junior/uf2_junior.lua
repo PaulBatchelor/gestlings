@@ -16,11 +16,18 @@ function empty(data)
     return true
 end
 
+function coordstr(id)
+    local y = id // 8
+    local x = (id % 8)
+    return string.format("(%d, %d)", x, y)
+end
+
 function main()
     local tilemap = asset:load("vocab/junior/t_junior.b64")
 
     local font = {}
     local shapetab = {}
+    local shapetab_keys = {}
 
     for id,tile in pairs(tilemap) do
         local data = tile.data
@@ -81,6 +88,14 @@ function main()
         -- print(shapestr)
         -- print()
         -- print(shapestr, id)
+        if shapetab_keys[shapestr] ~= nil then
+            error(string.format(
+                    "non-unique shape '%d', used by id's %s and %s",
+                    shapestr,
+                    coordstr(id),
+                    coordstr(shapetab_keys[shapestr])))
+        end
+        shapetab_keys[shapestr] = id
         table.insert(shapetab, {shapestr, id})
         ::skip::
     end

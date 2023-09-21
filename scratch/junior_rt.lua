@@ -157,7 +157,15 @@ function sound()
     local data = patch_setup()
     words = genwords(data, genphrase())
     patch(words, data)
-    valutil.set("msgscale", 1.0 / (3*60))
+    valutil.set("msgscale", 1.0 / (2*60))
+    fp = io.open("vocab/junior/pb_junior.txt")
+    phrasebook = {}
+
+    for ln in fp:lines() do
+        table.insert(phrasebook, ln)
+    end
+    fp:close()
+    data.phrasebook = phrasebook
     lil("out")
     return data
 end
@@ -175,23 +183,26 @@ junior_data = sound()
 bitrune_setup(junior_data)
 
 --<@>
-
 function eval_sentence(sentence)
-    print("eval sentence")
     junior_data.vocab = genvocab()
     local words = genwords(junior_data, genphrase(sentence))
     patch(words, junior_data)
     lil("out")
 end
+--</@>
 
+-- <@>
 function run()
     print("run")
+    local wrd = ((3 - 1) * 8) + 5
+    local sent = {wrd, wrd, wrd, 1}
     junior_data.vocab = genvocab()
-    local words = genwords(junior_data, genphrase())
+    local words = genwords(junior_data, genphrase(sent))
     patch(words, junior_data)
     lil("out")
 end
-
+-- </@>
+-- <@>
 function altrun()
     local dat = junior_data
     local br = dat.br
@@ -199,6 +210,7 @@ function altrun()
     local zeroquad = {0, 0, 0, 0, 0, 0, 0, 0}
     print("running bitrune")
 
+    bitrune.start(br)
     bitrune.update_display(br)
     while bitrune.running(br) do
         local events = grid.get_input_events(m)
@@ -222,7 +234,10 @@ function altrun()
             for _,word in pairs(msg) do
                 table.insert(sentence, tonumber(word, 16))
             end
-
+            local linepos = bitrune.linepos(br)
+            local phrase = dat.phrasebook[linepos + 1]
+            pprint(sentence)
+            print("phrase: " .. phrase)
             eval_sentence(sentence)
         end
         if bitrune.please_draw(br) then
@@ -238,7 +253,7 @@ function altrun()
     end
     print("stopping bitrune")
 end
-
+-- </@>
 function quit()
     local dat = junior_data
     local br = dat.br

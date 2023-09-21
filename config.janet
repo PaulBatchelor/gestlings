@@ -113,6 +113,12 @@
       ["avatar/sdfvm_lookup_table.json"
       "scratch/welcome_to_gestleton.bin"
       "scratch/squad.lua"]]
+
+    @[["res/ref_junior.png"]
+      ["vocab/junior/ref_junior.lua"]
+      ["asset/asset.lua"
+       "vocab/junior/v_junior.b64"
+       "vocab/junior/t_junior.b64"]]
 ])
 
 (def fonts @["cholo" "antik_1" "cursive_a" "fountain_joined" "fountain"])

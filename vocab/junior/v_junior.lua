@@ -255,6 +255,13 @@ function genvocab()
     voc(2, 3, pm.fall, "PM: fall")
     voc(3, 3, pm.fall, "PM: crazy vibrato")
     voc(4, 3, pm.fall, "PM: medium vibrato")
+    voc(5, 3, pat_a {
+        shapes = {
+            {A, 1, stp},
+        },
+        aspiration = asp.longstart
+        
+    }, "HA")
 
     return vocab
 end

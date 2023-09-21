@@ -888,6 +888,26 @@ static int l_quads(lua_State *L)
     return 2;
 }
 
+static int l_linepos(lua_State *L)
+{
+    bitrune *br;
+    int row;
+
+    br = lua_touserdata(L, 1);
+    row = bitrune_currow(br->engine);
+    lua_pushinteger(L, row);
+    return 1;
+}
+
+static int l_start(lua_State *L)
+{
+    bitrune *br;
+
+    br = lua_touserdata(L, 1);
+    br->display.is_running = 1;
+    return 0;
+}
+
 static const luaL_Reg bitrune_lib[] = {
     {"new", newbitrune},
     {"del", delbitrune},
@@ -903,6 +923,8 @@ static const luaL_Reg bitrune_lib[] = {
     {"quads", l_quads},
     {"please_draw", l_please_draw},
     {"draw", l_draw},
+    {"linepos", l_linepos},
+    {"start", l_start},
     {NULL, NULL}
 };
 

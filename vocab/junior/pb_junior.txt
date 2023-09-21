@@ -1,15 +1,7 @@
-proto_0
-proto_1
-proto_2
-proto_3
-proto_4
-proto_5
-proto_6
-proto_7
-# dear_mom
-# sorry_for_not_writing
-# camp_is_fun
-# cap_camping
+dear_mom
+sorry_for_not_writing
+camp_is_fun
+cap_camping
 # mushroom_forest
 # nature_trail
 # dav_mushroom_hahaha

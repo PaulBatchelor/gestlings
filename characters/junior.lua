@@ -25,13 +25,16 @@ local vr = {}
 for _, sym in pairs(symbols) do
     if sym == 0 then
         table.insert(verses, vr)
+        -- pprint(vr)
         vr = {}
     else
         table.insert(vr, sym)
     end
 end
 
-assert(#verses == #phrasenames)
+assert(#verses == #phrasenames,
+    string.format("verse (%d)/phrasename (%d) mismatch",
+        #verses, #phrasenames))
 
 phrasebook = {}
 
