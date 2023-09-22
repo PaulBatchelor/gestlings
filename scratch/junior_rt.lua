@@ -192,10 +192,28 @@ end
 --</@>
 
 -- <@>
+function coord(x, y)
+    return ((y - 1) * 8) + x
+end
+
 function run()
     print("run")
-    local wrd = ((3 - 1) * 8) + 5
-    local sent = {wrd, wrd, wrd, 1}
+    local wrds = {
+        coord(5, 4),
+        coord(5, 5),
+        coord(5, 6),
+        coord(5, 7),
+        coord(5, 8),
+        coord(6, 1),
+    }
+    -- local sent = {wrds[1], wrds[2], wrds[1], 1}
+
+    local sent = {}
+
+    for _, w in pairs({1, 2, 3, 4, 5, 6}) do
+        table.insert(sent, wrds[w])
+    end
+    table.insert(sent, 1)
     junior_data.vocab = genvocab()
     local words = genwords(junior_data, genphrase(sent))
     patch(words, junior_data)

@@ -156,6 +156,19 @@ function genvocab()
         aspiration = asp.none,
     })
 
+    pat_d = morpheme.template(pat_a {
+        aspiration = asp.none,
+        vib = {
+            {0x80, 1, gm},
+        },
+        shapes = {
+            {C, 1, gm},
+        },
+        inflection = {
+            {0x4, 1, gm},
+        },
+    })
+
     local vocab = {}
     -- words
     vocab[1] = {}
@@ -262,6 +275,77 @@ function genvocab()
         aspiration = asp.longstart
         
     }, "HA")
+    voc(5, 4, pat_d {
+        vib = {
+            {0x80, 1, gm},
+        },
+        shapes = {
+            {A, 1, gl},
+        },
+        inflection = {
+            {0x0, 1, gm},
+        },
+    }, "music note 1")
+
+    voc(5, 5, pat_d {
+        vib = {
+            {0x80, 1, gm},
+        },
+        shapes = {
+            {B, 1, gl},
+        },
+        inflection = {
+            {0x4, 1, gm},
+        },
+    }, "music note 2")
+
+    voc(5, 6, pat_d {
+        vib = {
+            {0xf0, 1, gm},
+        },
+        shapes = {
+            {C, 1, gl},
+        },
+        inflection = {
+            {0x8, 1, gm},
+        },
+    }, "music note 3")
+
+    voc(5, 7, pat_d {
+        vib = {
+            {0x88, 1, gm},
+        },
+        shapes = {
+            {D, 1, gl},
+        },
+        inflection = {
+            {0x2*7, 1, gm},
+        },
+    }, "music note 4")
+
+    voc(5, 8, pat_d {
+        vib = {
+            {0x88, 1, gm},
+        },
+        shapes = {
+            {E, 1, gl},
+        },
+        inflection = {
+            {0x2*9, 1, gm},
+        },
+    }, "music note 5")
+
+    voc(6, 1, pat_d {
+        vib = {
+            {0x88, 1, gm},
+        },
+        shapes = {
+            {A, 1, gl},
+        },
+        inflection = {
+            {0x2*12, 1, gm},
+        },
+    }, "music note 6")
 
     return vocab
 end
