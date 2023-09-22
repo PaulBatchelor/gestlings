@@ -275,7 +275,7 @@ function genvocab()
         aspiration = asp.longstart
         
     }, "HA")
-    voc(5, 4, pat_d {
+    voc(6, 3, pat_d {
         vib = {
             {0x80, 1, gm},
         },
@@ -287,7 +287,7 @@ function genvocab()
         },
     }, "music note 1")
 
-    voc(5, 5, pat_d {
+    voc(7, 3, pat_d {
         vib = {
             {0x80, 1, gm},
         },
@@ -299,7 +299,7 @@ function genvocab()
         },
     }, "music note 2")
 
-    voc(5, 6, pat_d {
+    voc(8, 3, pat_d {
         vib = {
             {0xf0, 1, gm},
         },
@@ -311,7 +311,7 @@ function genvocab()
         },
     }, "music note 3")
 
-    voc(5, 7, pat_d {
+    voc(1, 4, pat_d {
         vib = {
             {0x88, 1, gm},
         },
@@ -323,7 +323,7 @@ function genvocab()
         },
     }, "music note 4")
 
-    voc(5, 8, pat_d {
+    voc(2, 4, pat_d {
         vib = {
             {0x88, 1, gm},
         },
@@ -335,7 +335,7 @@ function genvocab()
         },
     }, "music note 5")
 
-    voc(6, 1, pat_d {
+    voc(3, 4, pat_d {
         vib = {
             {0x88, 1, gm},
         },

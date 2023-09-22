@@ -199,12 +199,12 @@ end
 function run()
     print("run")
     local wrds = {
-        coord(5, 4),
-        coord(5, 5),
-        coord(5, 6),
-        coord(5, 7),
-        coord(5, 8),
-        coord(6, 1),
+        coord(6, 3),
+        coord(7, 3),
+        coord(8, 3),
+        coord(1, 4),
+        coord(2, 4),
+        coord(3, 4),
     }
     -- local sent = {wrds[1], wrds[2], wrds[1], 1}
 
