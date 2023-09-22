@@ -13,7 +13,7 @@ local core = require("util/core")
 local lilt = core.lilt
 
 local zoom = 4
-local symbol_width = 8 * zoom
+local symbol_width = (8 + 1) * zoom
 
 function empty(data)
     for _, row in pairs(data) do
