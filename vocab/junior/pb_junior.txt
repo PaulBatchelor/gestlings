@@ -6,12 +6,12 @@ mushroom_forest
 nature_trail
 dav_mushroom
 hahahaha
-# made_a_fire
-# cocoa_over_fire 
-# we_had_cookies
-# gestleton_cakery_and_then
-# only_one_cookie
-# but_i_took_two
+made_a_fire
+cocoa_over_fire 
+we_had_cookies
+gestleton_cakery_and_then
+only_one_cookie
+but_i_took_two
 # dont_tell_anyone
 # annd_thenn
 # learned_folk_song
