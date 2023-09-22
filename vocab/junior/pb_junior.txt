@@ -28,7 +28,7 @@ we_were_home
 after_camp_ends
 cap_planning_trip
 too_young
-# too_dangerous
+too_dangerous
 # when_i_grow_up
 # i_wonder
 # miss_you_lots

@@ -362,7 +362,7 @@ void bitrune_load(bitrune_engine *br, const char *filename)
 
     while (nbytes > 0) {
         unsigned char c;
-        if (pos > nbytes) {
+        if (pos >= nbytes) {
             read_block(&pos, &nbytes, sextet, &spos, buf, b64buf, fp);
             continue;
         }
@@ -376,7 +376,7 @@ void bitrune_load(bitrune_engine *br, const char *filename)
             c = buf[pos];
             if (c == 0xcc) {
                 /* msgpack integer header, skip */
-                pos ++;
+                pos++;
             }
             mode = 2;
         } else {
