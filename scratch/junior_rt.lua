@@ -256,7 +256,9 @@ function altrun()
             local phrase = dat.phrasebook[linepos + 1]
             pprint(sentence)
             print("phrase: " .. phrase)
-            eval_sentence(sentence)
+            if #sentence > 0 then
+                eval_sentence(sentence)
+            end
         end
         if bitrune.please_draw(br) then
             bitrune.update_display(br)
