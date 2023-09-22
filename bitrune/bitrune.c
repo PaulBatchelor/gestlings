@@ -718,6 +718,7 @@ static int newbitrune(lua_State *L)
 
 
     br = bitrune_new(font, keyshapes, outfile);
+    printf("new: currow: %d\n", bitrune_currow(br->engine));
 
     lua_pushlightuserdata(L, br);
     return 1;

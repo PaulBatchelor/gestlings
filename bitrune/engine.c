@@ -343,6 +343,7 @@ void bitrune_load(bitrune_engine *br, const char *filename)
     int mode;
     int spos;
     unsigned char sextet[4];
+    printf("loading %s\n", filename);
 
     fp = fopen(filename, "rb");
     buf = calloc(1, 128);
@@ -372,8 +373,11 @@ void bitrune_load(bitrune_engine *br, const char *filename)
             pos += 3;
             mode = 1;
         } else if (mode == 1) {
-            /* msgpack integer header, skip */
-            pos ++;
+            c = buf[pos];
+            if (c == 0xcc) {
+                /* msgpack integer header, skip */
+                pos ++;
+            }
             mode = 2;
         } else {
             c = buf[pos];
@@ -381,6 +385,10 @@ void bitrune_load(bitrune_engine *br, const char *filename)
 
             if (c == 0) {
                 row++;
+                if (row >= BITRUNE_MAXROWS) {
+                    printf("exceeded max rows (%d)\n", BITRUNE_MAXROWS);
+                    break;
+                }
                 sym = 0;
                 br->rows[row].length = 0;
             } else {
@@ -392,6 +400,7 @@ void bitrune_load(bitrune_engine *br, const char *filename)
         }
     }
 
+    printf("read %d rows\n", row);
     free(buf);
     free(b64buf);
     fclose(fp);

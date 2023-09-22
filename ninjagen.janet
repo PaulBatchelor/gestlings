@@ -66,6 +66,7 @@
     (print
       (string/format
         "build %s.o: cc %s.c" o o)))
+  (print "build cantor.o: cc cantor.c")
   (print
     (string
       "build cantor: link "
