@@ -7,7 +7,7 @@ nature_trail
 dav_mushroom
 hahahaha
 made_a_fire
-cocoa_over_fire 
+cocoa_over_fire
 we_had_cookies
 gestleton_cakery_and_then
 only_one_cookie
@@ -17,7 +17,7 @@ annd_thenn
 learned_folk_song
 went_like_this
 folk_song
-went_to_sleep 
+went_to_sleep
 woke_up
 hiked_back_home
 and_then_short
@@ -29,9 +29,9 @@ after_camp_ends
 cap_planning_trip
 too_young
 too_dangerous
-# when_i_grow_up
-# i_wonder
-# miss_you_lots
-# see_you
-# love_no_wait_snacks
-# junior
+when_i_grow_up
+i_wonder
+miss_you_lots
+see_you
+love_no_wait_snacks
+junior
