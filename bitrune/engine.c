@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "engine.h"
 
-#define BITRUNE_MAXROWS 30
+#define BITRUNE_MAXROWS 40
 #define BITRUNE_MAXSYMS 40
 
 uint32_t base64_triple(const unsigned char *data);
