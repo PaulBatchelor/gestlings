@@ -35,7 +35,7 @@ edible.<PAUSE 4>
 <RATE 2>Then <PAUSE 3>Dav ate a bad
 mushroom and it made
 their face all puffy.
-<RATE 1>wah-hahahahaha!<RATE 3><PAUSE 4>
+<RATE 1>wah-hahahahaha!<RATE 4><PAUSE 6>
 
 @nphrases 2
 @phrase made_a_fire some_jumps
