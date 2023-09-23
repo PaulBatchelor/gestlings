@@ -9,11 +9,13 @@ asset = asset:new{
 core = require("util/core")
 local lilts = core.lilts
 
-function new_block()
+function new_block(state)
     local curblock = {}
     curblock.nphrases = -1
     curblock.phrases = {}
     curblock.lines = {}
+    curblock.scale = state.scale
+    curblock.font = state.font
     return curblock
 end
 
@@ -63,12 +65,13 @@ function draw_block(blk, buf, phrasebook, ypos, drawit)
                 {
                     "uf2txtln",
                     "[bpget [grab bp] 0]",
-                    "[grab fountain]",
-                    0, ypos, "\"" .. remove_tags(line) .. "\""
+                    "[grab " .. blk.font .. "]",
+                    0, ypos, "\"" .. remove_tags(line) .. "\"",
+                    blk.scale
                 }
             }
         end
-        ypos = ypos + lineheight
+        ypos = ypos + lineheight*blk.scale
     end
 
     -- linebreak to separate symbols/text
@@ -120,7 +123,11 @@ function main()
     -- curblock.nphrases = -1
     -- curblock.phrases = {}
     -- curblock.lines = {}
-    local curblock = new_block()
+    local state = {
+        font = "chicago",
+        scale = 1
+    }
+    local curblock = new_block(state)
     for _, chunk in pairs(dialogue) do
         cmd = core.split(chunk[1], " ")
         if cmd[1] == "block" then
@@ -130,7 +137,7 @@ function main()
             end
             curblock.lines = lines
             table.insert(blocks, curblock)
-            curblock = new_block()
+            curblock = new_block(state)
             -- curblock = {}
             -- curblock.nphrases = -1
             -- curblock.phrases = {}
@@ -143,6 +150,10 @@ function main()
             character = cmd[2]
         elseif cmd[1] == "font" then
             curblock.font = cmd[2]
+            state.font = cmd[2]
+        elseif cmd[1] == "scale" then
+            curblock.scale = tonumber(cmd[2])
+            state.scale = curblock.scale
         end
     end
 
@@ -171,6 +182,8 @@ function main()
         {"bpnew", "bp", width, height},
         {"bpset", "[grab bp]", 0, padding, padding, width, height},
         {"uf2load", "fountain", "fonts/fountain.uf2"},
+        {"uf2load", "fountain_joined", "fonts/fountain_joined.uf2"},
+        {"uf2load", "chicago", "fonts/chicago12.uf2"},
         {"uf2load", "symbols", cdat.uf2},
     }
 

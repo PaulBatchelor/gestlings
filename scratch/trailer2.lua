@@ -137,6 +137,10 @@ function blockdur(events, t, dur, pos)
     table.insert(events, pos, new_event(t, "blockdur", dur))
 end
 
+function set_font(events, t, n)
+    table.insert(events, new_event(t, "set_font", n))
+end
+
 events = {}
 
 fp = io.open("dialogue/junior.txt")
@@ -321,6 +325,9 @@ for _, block in pairs(dialogue) do
         local cmd = core.split(block[1], " ")
         print("using character '" .. cmd[2] .. "'")
         character = asset:load("characters/" .. cmd[2] .. ".b64")
+    elseif string.match(block[1], "^font") ~= nil then
+        local cmd = core.split(block[1], " ")
+        set_font(events, t, cmd[2])
     end
 end
 
@@ -364,50 +371,85 @@ event_handler = {
     nphrases = function(mb, n)
         mb.nphrases = n
     end,
+
+    set_font = function(mb, font)
+        mb.font = font
+    end,
 }
 
 xoff = 320//2 - 200//2
 yoff = 240//2 - 60//2
-evpos = 1
-last_event = events[evpos]
 setup_sound(character, phrases)
 -- goto bye
 nframes = 60*(93)
-for n=1,nframes do
-    if (n % 60) == 0 then
-        print(n, string.format("%02d%%", math.floor(n*100/nframes)))
-    end
-    while (evpos <= #events) and (last_event[1] <= n) do
-        local f = event_handler[last_event[2]]
+
+function process_events(evdata, buf, n)
+    while (evdata.evpos <= #evdata.events) and (evdata.last_event[1] <= n) do
+        local f = event_handler[evdata.last_event[2]]
 
         if f ~= nil then
-            f(buf, last_event[3])
+            f(buf, evdata.last_event[3])
         else
-            error("unknown event " .. last_event[2])
+            error("unknown event " .. evdata.last_event[2])
         end
 
-        evpos = evpos + 1
+        evdata.evpos = evdata.evpos + 1
 
-        if evpos > #events then
-            last_event = nil
+        if evdata.evpos > #evdata.events then
+            evdata.last_event = nil
             break
         end
 
-        last_event = events[evpos]
+        evdata.last_event = evdata.events[evdata.evpos]
     end
-    lil("compute 15")
-
-    -- hard-coded line height for now
-    local lheight = 12
-    messagebox.draw(buf, lheight)
-    lil("grab gfx; dup")
-    lilt{"gfxrectf", xoff, yoff, 200, 60, 1}
-    lil("dup")
-    lilt{"bptr", "[grab bp]", xoff, yoff, 200, 60, 0, 0, 0}
-    lil("gfxzoomit")
-    lil("grab gfx; dup")
-    lil("gfxtransferz; gfxappend")
 end
+
+function process_video(nframes)
+    local evdata = {}
+    evdata.events = events
+    evdata.evpos = 1
+    evdata.last_event = evdata.events[evdata.evpos]
+
+
+    if nframes < 0 then
+        nframes_max = 60*60*3 -- 3 minutes
+        nframes = 1
+        while (nframes < nframes_max) do
+            process_events(evdata, buf, nframes)
+            nframes = nframes + 1
+            if evdata.evpos > #evdata.events then
+                evdata.last_event = nil
+                break
+            end
+        end
+        return nframes
+    end
+
+    for n=1,nframes do
+        if (n % 60) == 0 then
+            print(n, string.format("%02d%%", math.floor(n*100/nframes)))
+        end
+
+        process_events(evdata, buf, n)
+        lil("compute 15")
+
+        -- hard-coded line height for now
+        local lheight = 12
+        messagebox.draw(buf, lheight)
+        lil("grab gfx; dup")
+        lilt{"gfxrectf", xoff, yoff, 200, 60, 1}
+        lil("dup")
+        lilt{"bptr", "[grab bp]", xoff, yoff, 200, 60, 0, 0, 0}
+        lil("gfxzoomit")
+        lil("grab gfx; dup")
+        lil("gfxtransferz; gfxappend")
+    end
+end
+
+-- first pass to get duration
+nframes = process_video(-1)
+process_video(nframes)
+
 
 lil([[
 grab gfx

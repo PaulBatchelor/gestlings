@@ -6,10 +6,10 @@
 @phrase sorry_for_not_writing some_jumps
 @phrase camp_is_fun some_jumps
 @block
-<RATE 4>Dear Mom,<PAUSE 4>
+<RATE 3>Dear Mom,<PAUSE 3>
 Sorry for not writing
 back sooner.<PAUSE 4> Camp has
-been really really fun!<PAUSE 4>
+been really really fun!<PAUSE 3>
 
 @nphrases 2
 @phrase cap_camping some_jumps
@@ -26,16 +26,16 @@ the Upper Rings.<PAUSE 4>
 We went on a nature
 trail and Cap showed us
 which mushrooms were
-edible.
+edible.<PAUSE 4>
 
 @nphrases 2
 @phrase dav_mushroom some_jumps
 @phrase hahahaha excited
 @block
-Then Dav ate a bad
+<RATE 2>Then <PAUSE 3>Dav ate a bad
 mushroom and it made
-their face all puffy.<PAUSE 4>
-<RATE 3>wah-hahahahaha!<RATE 4><PAUSE 4>
+their face all puffy.
+<RATE 1>wah-hahahahaha!<RATE 3><PAUSE 4>
 
 @nphrases 2
 @phrase made_a_fire some_jumps
@@ -49,8 +49,8 @@ over the fire.<PAUSE 8>
 @phrase we_had_cookies excited
 @phrase gestleton_cakery_and_then some_jumps
 @block
-<RATE 2>And then we had cookies!<PAUSE 8>
-<RATE 3>They were the yummy ones
+<RATE 1>And then we had cookies!<RATE 2><PAUSE 8>
+They were the yummy ones
 from the Gestleton
 Cakery!<PAUSE 8> And then...<PAUSE 4>
 
@@ -64,18 +64,18 @@ take one cookie each...<PAUSE 4>
 @phrase but_i_took_two whisper
 @phrase dont_tell_anyone excited
 @block
-<RATE 5>...but I took two.<PAUSE 4> <RATE 4>But
+<RATE 3>...but I took two.<PAUSE 4> <RATE 3>But
 don't tell anyone!<PAUSE 4>
 
 @nphrases 1
 @phrase annd_thenn some_jumps
 @block
-<RATE 8>Annnd thennnn.....
+<RATE 2>Annnd thennnn.....<PAUSE 8>
 
 @nphrases 1
 @phrase learned_folk_song some_jumps
 @block
-<RATE 4>And then we learned
+<RATE 2>And then we learned
 a folk song from the
 Lower Rings district!<PAUSE 4>
 
@@ -88,7 +88,7 @@ this:<PAUSE 4>
 @nphrases 1
 @phrase folk_song neutral
 @block
-doo doo doo doo
+<RATE 3>doo doo doo doo
 doh do doo ba doo
 saba-di da do ah
 ooh ah eh oo
@@ -98,8 +98,8 @@ ooh ah eh oo
 @phrase woke_up some_jumps
 @phrase hiked_back_home some_jumps
 @block
-<RATE 4>And then we went to
-sleep.<PAUSE 2><RATE 3> And then we
+<RATE 3>And then we went to
+sleep.<PAUSE 2><RATE 2> And then we
 woke up.<PAUSE 3> And then
 we hiked back home.<PAUSE 4>
 
@@ -107,23 +107,25 @@ we hiked back home.<PAUSE 4>
 @phrase started_raining neutral
 @phrase hate_the_rain deflated
 @block
-<RATE 4>And then.<PAUSE 4> And then<PAUSE 4> it
+<RATE 3>And then.<PAUSE 4> And then it
 started raining.<PAUSE 8>
-<RATE 6>I hate the rain.<PAUSE 4>
-<RATE 4>And then...<PAUSE 8>
+<RATE 5>I hate the rain.<PAUSE 4>
+<RATE 3>And then...<PAUSE 8>
 
 @nphrases 1
+@font chicago
 @phrase and_then_spaces excited
 @scale 2
 @block
-<RATE 0>AND.<RATE 4><PAUSE 8>
+<RATE 0>AND.<RATE 2><PAUSE 8>
 <RATE 0>THEN.<RATE 4><PAUSE 8>
 
+@font fountain
 @scale 1
 @nphrases 1
 @phrase we_were_home some_jumps
 @block
-<RATE 4>We were home.<PAUSE 9>
+<RATE 3>We were home.<PAUSE 9>
 
 @nphrases 2
 @phrase after_camp_ends some_jumps
@@ -146,7 +148,7 @@ too dangerous.<PAUSE 4>
 @nphrases 1
 @phrase when_i_grow_up some_jumps
 @block
-When I grow up,<PAUSE 2> I want
+<RATE 2>When I grow up,<PAUSE 2> I want
 to be like Cap and
 live on the shores
 and explore Cauldronia!<PAUSE 4>
@@ -158,15 +160,16 @@ I wonder what Cap hopes
 to find out there<PAUSE 4><RATE 15>...<PAUSE 1>
 
 @nphrases 2
+@font fountain_joined
 @phrase miss_you_lots some_jumps
 @phrase see_you some_jumps
 @block
-<RATE 4>Anyways,<PAUSE 2> miss you lots.
-<RATE 3>See you in a few weeks!
+<RATE 3>Anyways,<PAUSE 2> miss you lots.
+<RATE 2>See you in a few weeks!
 
 @nphrases 2
 @phrase love_no_wait_snacks some_jumps
 @phrase junior some_jumps
 @block
-<RATE 4>I love you mom<PAUSE 8><BACKSPACE 14>Send me snacks please,<PAUSE 4>
+<RATE 3>I love you mom<PAUSE 8><BACKSPACE 14>Send me snacks please,<PAUSE 4>
 Junior<PAUSE 4>
