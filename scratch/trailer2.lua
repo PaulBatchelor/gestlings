@@ -83,6 +83,7 @@ buf = messagebox.new()
 messagebox.loadfont("chicago", "fonts/chicago12.uf2")
 messagebox.loadfont("fountain_joined", "fonts/fountain_joined.uf2")
 messagebox.loadfont("fountain", "fonts/fountain.uf2")
+messagebox.loadfont("protorunes", "fonts/protorunes.uf2")
 buf.font = "fountain"
 lilt {"bpnew", "bp", 240, 60}
 lilt {"gfxnewz", "gfx", 320, 240, 2}

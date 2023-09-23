@@ -185,6 +185,7 @@ function main()
         {"uf2load", "fountain_joined", "fonts/fountain_joined.uf2"},
         {"uf2load", "chicago", "fonts/chicago12.uf2"},
         {"uf2load", "symbols", cdat.uf2},
+        {"uf2load", "protorunes", "fonts/protorunes.uf2"},
     }
 
     lil("grab buf")

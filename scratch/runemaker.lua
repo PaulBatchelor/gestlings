@@ -2,6 +2,7 @@ pprint = require("util/pprint")
 fp = io.open("runes/runes.txt", "r")
 core = require("util/core")
 lilts = core.lilts
+uf2 = require("util/uf2")
 
 linepos = 1
 glyphs = {}
@@ -27,36 +28,50 @@ for line in fp:lines() do
 end
 fp:close()
 
-nrows = 2
-ncols = 20
-glyphwidth = 8
-glyphheight = 8
 
-width = ncols*glyphwidth
-height = nrows*glyphheight
-lilts {
-    {"bpnew", "bp", width, height},
-    {"bpset", "[grab bp]", 0, 0, 0, width, height},
-}
+chars = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+fp = io.stdout
+
+-- fp:write("symbols = {}\n")
+symbols = {}
+fmt = string.format
+
+-- gpos = 1
+-- gly = glyphs[gpos]
 
 for gpos, gly in pairs(glyphs) do
-    print((gpos - 1)% ncols, (gpos - 1)// ncols)
-    xoff = ((gpos - 1)% ncols)*glyphwidth
-    yoff = ((gpos - 1)// ncols)*glyphheight
     for pos, row in pairs(gly) do
-        for x=1,#row do
-            local bit = row[x]
-            lilts {
-                {
-                    "bprectf", "[bpget [grab bp] 0]",
-                    xoff+x, yoff+pos,
-                    1, 1, bit
-                }
-            }
+        local id = string.byte(chars, gpos)
+        local sym = {}
+        -- fp:write(fmt("symbol[0x%02x] = {\n", id))
+        sym.id = id
+        sym.width = 7
+        sym.name = string.char(id)
+        sym.bits = {}
+        -- fp:write(fmt("    id = 0x%02x,\n",id))
+        -- fp:write("    width = 7,\n")
+        -- fp:write(fmt("    name = \"%s\",\n", string.char(id)))
+        -- fp:write("    bits = {\n")
+        for pos, row in pairs(gly) do
+            local rowstr = ""
+            -- fp:write("        \"")
+            for x=1,#row do
+                if row[x] == 1 then
+                    --fp:write("#")
+                    rowstr = rowstr .. "#"
+                elseif row[x] == 0 then
+                    --fp:write("-")
+                    rowstr = rowstr .. "-"
+                end
+            end
+            table.insert(sym.bits, rowstr)
+            -- fp:write("\",\n")
         end
+        symbols[id] = sym
+        -- fp:write("    }\n")
+        -- fp:write("}\n")
     end
 end
 
-lilts {
-    {"bppng", "[grab bp]", "scratch/runes.png"}
-}
+uf2.generate(symbols, "fonts/protorunes.uf2")

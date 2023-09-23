@@ -86,14 +86,16 @@ It went something like
 this:<PAUSE 4>
 
 @nphrases 1
+@font protorunes
 @phrase folk_song neutral
 @block
-<RATE 3>doo doo doo doo
+<RATE 4>doo doo doo doo
 doh do doo ba doo
-saba-di da do ah
-ooh ah eh oo
+saba di da do ah
+ooh ah eh oo<PAUSE 4>
 
 @nphrases 3
+@font fountain
 @phrase went_to_sleep some_jumps
 @phrase woke_up some_jumps
 @phrase hiked_back_home some_jumps
@@ -140,7 +142,7 @@ beyond the shores.<PAUSE 4>
 @phrase too_young some_jumps
 @phrase too_dangerous some_jumps
 @block
-I know Dad says I'm
+I know Dad says I am
 too young to visit the
 shores because it is
 too dangerous.<PAUSE 4>
