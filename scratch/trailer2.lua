@@ -396,7 +396,10 @@ for n=1,nframes do
         last_event = events[evpos]
     end
     lil("compute 15")
-    messagebox.draw(buf, 12)
+
+    -- hard-coded line height for now
+    local lheight = 12
+    messagebox.draw(buf, lheight)
     lil("grab gfx; dup")
     lilt{"gfxrectf", xoff, yoff, 200, 60, 1}
     lil("dup")

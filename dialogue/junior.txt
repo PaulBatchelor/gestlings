@@ -1,4 +1,5 @@
 @character junior
+@font fountain
 
 @nphrases 3
 @phrase dear_mom neutral
