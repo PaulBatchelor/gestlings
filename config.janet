@@ -77,6 +77,10 @@
     @[["prosody/prosody.b64"]
       ["prosody/prosody.lua"]
       []]
+
+    @[["fonts/protorunes.uf2"]
+      ["runes/runemaker.lua"]
+      ["runes/runes.txt"]]
 ])
 
 (def resources @[
