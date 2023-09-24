@@ -3,3 +3,7 @@ Wait we're not ready yet! Come back soon.
 @!(img "/res/hello_there_gestling.png")!@
 
 @!(video "/res/welcome_to_gestleton_small.mp4")!@
+
+@!(video "/res/trailer2_small.mp4")!@
+
+@!(img "/res/sco_junior.png")!@

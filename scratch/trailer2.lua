@@ -470,5 +470,17 @@ ffmpeg_args = {
     "res/trailer2.mp4"
 }
 os.execute(table.concat(ffmpeg_args, " "))
+ffmpeg_args = {
+    "export AV_LOG_FORCE_NOCOLOR=1;",
+    "ffmpeg",
+    "-hide_banner", "-loglevel", "error", "-y",
+    "-i", "res/trailer2.mp4",
+    "-vf", "scale=320:-1",
+    "-pix_fmt", "yuv420p",
+    "-acodec", "aac",
+    "-b:a", "320k",
+    "res/trailer2_small.mp4"
+}
+os.execute(table.concat(ffmpeg_args, " "))
 
 ::bye::

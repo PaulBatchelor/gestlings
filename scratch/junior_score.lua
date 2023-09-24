@@ -226,7 +226,7 @@ function main()
     --draw_block(blk, buf, phrasebook, ypos, true)
 
     lilts {
-        {"bppng", "[grab bp]", "scratch/junior_score.png"}
+        {"bppng", "[grab bp]", "res/sco_junior.png"}
     }
 end
 

@@ -125,6 +125,20 @@
       ["asset/asset.lua"
        "vocab/junior/v_junior.b64"
        "vocab/junior/t_junior.b64"]]
+
+    @[["res/sco_junior.png"]
+      # TODO: move outside scratch
+      ["scratch/junior_score.lua"]
+      ["asset/asset.lua"
+       "descript/descript.lua"
+       "dialogue/junior.txt"]]
+
+    @[["res/trailer2.mp4"]
+      # TODO: move outside scratch
+      ["scratch/trailer2.lua"]
+      ["asset/asset.lua"
+       "descript/descript.lua"
+       "dialogue/junior.txt"]]
 ])
 
 (def fonts @["cholo" "antik_1" "cursive_a" "fountain_joined" "fountain"])

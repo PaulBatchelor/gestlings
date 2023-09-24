@@ -7,3 +7,6 @@ res/mouthanim.mp4
 res/mouthsounds.mp4
 res/hello_there_gestling.png
 res/welcome_to_gestleton_small.mp4
+res/trailer2.mp4
+res/sco_junior.png
+res/ref_junior.png
