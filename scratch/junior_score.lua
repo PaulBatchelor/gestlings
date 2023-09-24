@@ -53,6 +53,13 @@ function remove_tags(line)
     return new_line
 end
 
+-- prosody lookup table.
+-- TODO: don't make this global
+-- I need to refactor things so it's all consolidated in
+-- one data block
+
+local prosody_lookup = asset:load("prosody/prosody_symlut.b64")
+
 function draw_block(blk, buf, phrasebook, ypos, drawit)
     local glyphzoom = 2
     local glyphheight = 6
@@ -77,8 +84,30 @@ function draw_block(blk, buf, phrasebook, ypos, drawit)
     -- linebreak to separate symbols/text
     ypos = ypos + lineheight
 
+    -- prosody symbol (12) + divider (5)
+    xoff = (12 + 5)*glyphzoom
+
+    divsym = prosody_lookup["divider"]
+    assert(divsym ~= nil)
     for idx,phrase in pairs(blk.phrases) do
         if drawit == true then
+
+            -- write prosody symbol
+            mnobuf.clear(buf)
+            local psym = prosody_lookup[phrase[2]]
+            assert(psym ~= nil)
+            mnobuf.append(buf, psym)
+            mnobuf.append(buf, divsym)
+            lilts {
+                {
+                    "uf2bytes",
+                    "[bpget [grab bp] 0]",
+                    "[grab prosodysyms]",
+                    "[grab buf]",
+                    0, ypos, glyphzoom
+                }
+            }
+
             mnobuf.clear(buf)
             for _,c in pairs(phrasebook[phrase[1]]) do
                 mnobuf.append(buf, c)
@@ -90,7 +119,7 @@ function draw_block(blk, buf, phrasebook, ypos, drawit)
                     "[bpget [grab bp] 0]",
                     "[grab symbols]",
                     "[grab buf]",
-                    0, ypos, glyphzoom
+                    xoff, ypos, glyphzoom
                 }
             }
         end
@@ -186,6 +215,7 @@ function main()
         {"uf2load", "chicago", "fonts/chicago12.uf2"},
         {"uf2load", "symbols", cdat.uf2},
         {"uf2load", "protorunes", "fonts/protorunes.uf2"},
+        {"uf2load", "prosodysyms", "fonts/prosody.uf2"},
     }
 
     lil("grab buf")

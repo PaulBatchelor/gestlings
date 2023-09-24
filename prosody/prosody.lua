@@ -4,6 +4,8 @@ asset = asset:new {
     base64 = require("util/base64")
 }
 
+local uf2 = require("util/uf2")
+
 function genprosody()
     local pros = {}
 
@@ -95,4 +97,131 @@ function write_prosody_asset(filename)
     asset:save(pros, filename)
 end
 
+function write_prosody_symbols(uf2_fname, lookup_fname)
+    local symbols = {}
+    local pos = 1
+
+    -- divider
+    symbols[pos] = {
+        id = pos,
+        name = "divider",
+        width = 5,
+        bits = {
+            "--#-----",
+            "--#-----",
+            "--#-----",
+            "--#-----",
+            "--#-----",
+            "--#-----",
+        }
+    }
+    pos = pos + 1
+
+    -- question
+    symbols[pos] = {
+        id = pos,
+        name = "question",
+        width = 12,
+        bits = {
+            "------------",
+            "--------####",
+            "--------#---",
+            "--------#---",
+            "#########---",
+            "------------",
+        }
+    }
+    pos = pos + 1
+
+    -- neutral
+    symbols[pos] = {
+        id = pos,
+        name = "neutral",
+        width = 12,
+        bits = {
+            "------------",
+            "------------",
+            "------------",
+            "############",
+            "------------",
+            "------------",
+        }
+    }
+    pos = pos + 1
+
+    -- whisper
+    symbols[pos] = {
+        id=pos,
+        name="whisper",
+        width=12,
+        bits = {
+            "------------",
+            "------------",
+            "------------",
+            "------------",
+            "#--#--#--#--",
+            "############",
+        }
+    }
+    pos = pos + 1
+
+    -- some_jumps
+    symbols[pos] = {
+        id = pos,
+        name = "some_jumps",
+        width = 12,
+        bits = {
+            "###---------",
+            "--#-------##",
+            "--#--###--#-",
+            "--####-#--#-",
+            "-------#--#-",
+            "-------####-",
+        }
+    }
+    pos = pos + 1
+
+    -- deflated
+    symbols[pos] = {
+        id = pos,
+        name = "deflated",
+        width = 12,
+        bits = {
+            "###---------",
+            "--#---------",
+            "--#---------",
+            "--#---------",
+            "--######----",
+            "-------#####",
+        }
+    }
+    pos = pos + 1
+
+    -- excited
+    symbols[pos] = {
+        id = pos,
+        name = "excited",
+        width = 12,
+        bits = {
+            "##-###-###-#",
+            "-###-###-###",
+            "------------",
+            "#--#--#--#--",
+            "#--#--#--#--",
+            "#--#--#--#--",
+        }
+    }
+    pos = pos + 1
+
+    local lookup = {}
+
+    for _, sym in pairs(symbols) do
+        lookup[sym.name] = sym.id
+    end
+
+    uf2.generate(symbols, uf2_fname)
+    asset:save(lookup, lookup_fname)
+end
+
 write_prosody_asset("prosody/prosody.b64")
+write_prosody_symbols("fonts/prosody.uf2", "prosody/prosody_symlut.b64")

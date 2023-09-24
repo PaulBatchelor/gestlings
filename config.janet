@@ -74,7 +74,9 @@
       ["shapes/l_junior.lua"]
       ["shapes/junior.b64"]]
 
-    @[["prosody/prosody.b64"]
+    @[["prosody/prosody.b64"
+       "fonts/prosody.uf2"
+       "prosody/prosody_symlut.b64"]
       ["prosody/prosody.lua"]
       []]
 
