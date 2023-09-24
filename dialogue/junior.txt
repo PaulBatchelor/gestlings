@@ -12,7 +12,7 @@ back sooner.<PAUSE 4> Camp has
 been really really fun!<PAUSE 3>
 
 @nphrases 2
-@phrase cap_camping some_jumps
+@phrase cap_camping some_jumps_v2
 @phrase mushroom_forest some_jumps
 @block
 Last week,<PAUSE 2> Captain took
@@ -29,7 +29,7 @@ which mushrooms were
 edible.<PAUSE 4>
 
 @nphrases 2
-@phrase dav_mushroom some_jumps
+@phrase dav_mushroom some_jumps_v2
 @phrase hahahaha excited
 @block
 <RATE 2>Then <PAUSE 3>Dav ate a bad
@@ -47,7 +47,7 @@ over the fire.<PAUSE 8>
 
 @nphrases 2
 @phrase we_had_cookies excited
-@phrase gestleton_cakery_and_then some_jumps
+@phrase gestleton_cakery_and_then some_jumps_v2
 @block
 <RATE 1>And then we had cookies!<RATE 2><PAUSE 8>
 They were the yummy ones
@@ -73,7 +73,7 @@ don't tell anyone!<PAUSE 4>
 <RATE 2>Annnd thennnn.....<PAUSE 8>
 
 @nphrases 1
-@phrase learned_folk_song some_jumps
+@phrase learned_folk_song some_jumps_v2
 @block
 <RATE 2>And then we learned
 a folk song from the
@@ -97,7 +97,7 @@ ooh ah eh oo<PAUSE 4>
 @nphrases 3
 @font fountain
 @phrase went_to_sleep some_jumps
-@phrase woke_up some_jumps
+@phrase woke_up some_jumps_v2
 @phrase hiked_back_home some_jumps
 @block
 <RATE 3>And then we went to
@@ -130,7 +130,7 @@ started raining.<PAUSE 8>
 <RATE 3>We were home.<PAUSE 9>
 
 @nphrases 2
-@phrase after_camp_ends some_jumps
+@phrase after_camp_ends some_jumps_v2
 @phrase cap_planning_trip some_jumps
 @block
 After camp ends,<PAUSE 2>
@@ -140,7 +140,7 @@ beyond the shores.<PAUSE 4>
 
 @nphrases 2
 @phrase too_young some_jumps
-@phrase too_dangerous some_jumps
+@phrase too_dangerous some_jumps_v2
 @block
 I know Dad says I am
 too young to visit the
@@ -148,7 +148,7 @@ shores because it is
 too dangerous.<PAUSE 4>
 
 @nphrases 1
-@phrase when_i_grow_up some_jumps
+@phrase when_i_grow_up some_jumps_v2
 @block
 <RATE 2>When I grow up,<PAUSE 2> I want
 to be like Cap and
@@ -163,7 +163,7 @@ to find out there<PAUSE 4><RATE 15>...<PAUSE 1>
 
 @nphrases 2
 @font fountain_joined
-@phrase miss_you_lots some_jumps
+@phrase miss_you_lots some_jumps_v2
 @phrase see_you some_jumps
 @block
 <RATE 3>Anyways,<PAUSE 2> miss you lots.

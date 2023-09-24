@@ -89,6 +89,23 @@ function genprosody()
         }
     }
 
+    pros.some_jumps_v2 = {
+        pitch = {
+            {pros_flat, 1, gl},
+            {pros_up, 1, lin},
+            {pros_flat, 1, lin},
+            {pros_up, 1, lin},
+            {pros_flat, 2, lin},
+            {pros_up, 2, lin},
+            {pros_flat, 2, stp},
+        },
+        intensity = {
+            {0x80, 1, lin},
+            {0x90, 1, lin},
+            {0x80, 1, stp},
+        }
+    }
+
     return pros
 end
 
@@ -209,6 +226,22 @@ function write_prosody_symbols(uf2_fname, lookup_fname)
             "#--#--#--#--",
             "#--#--#--#--",
             "#--#--#--#--",
+        }
+    }
+    pos = pos + 1
+
+    -- some_jumps_v2
+    symbols[pos] = {
+        id = pos,
+        name = "some_jumps_v2",
+        width = 12,
+        bits = {
+            "---------###",
+            "---------#--",
+            "---------#--",
+            "--####---#--",
+            "--#--#####--",
+            "###---------",
         }
     }
     pos = pos + 1
