@@ -1,18 +1,70 @@
-Here is a poem Cap taught me to
-help remember which mushrooms
-are edible and which are poisonous:
+@character junior
+@font fountain
 
-To eat a mushroom off a tree
-One must choose quite carefully
-For if you pick a tainted shroom
-A single bite could mean your doom!
+@nphrases 1
+@phrase sorry_for_not_writing some_jumps
+@block
+Cap taught me a poem
+while I was at Camp
+Gestletree
 
-Stay away from pink and red
-A single lick will make you dead
-Black and green with leaves of four
-Take a handful, eat some more!
+@nphrases 1
+@phrase sorry_for_not_writing some_jumps
+@block
+It's a way to help
+remember which mushrooms
+are edible and which
+are poisoinous.
 
-While purple stripes look quite delicious
-their poison venom can be vicious!
-Shiny and white, with gold polka dots
-Lucky find; Rare, and worth lots!
+@nphrases 1
+@phrase sorry_for_not_writing some_jumps
+@block
+It goes like this:
+
+@nphrases 1
+@phrase sorry_for_not_writing some_jumps
+@block
+To eat a mushroom
+off a tree,
+one must choose
+quite carefully.
+
+@nphrases 1
+@phrase sorry_for_not_writing some_jumps
+@block
+For if you pick
+a tainted shroom,
+a single bite
+could mean your doom!
+
+@nphrases 1
+@phrase sorry_for_not_writing some_jumps
+@block
+Stay away from
+pink and red.
+A single lick
+will make you dead.
+
+@nphrases 1
+@phrase sorry_for_not_writing some_jumps
+@block
+Black and green with
+leaves of four,
+take a handful,
+eat some more!
+
+@nphrases 1
+@phrase sorry_for_not_writing some_jumps
+@block
+While purple stripes
+look quite delicious,
+their poison venom
+can be vicious!
+
+@nphrases 1
+@phrase sorry_for_not_writing some_jumps
+@block
+Shiny and white,
+with gold polka dots
+Lucky find;
+Rare, and worth lots!
