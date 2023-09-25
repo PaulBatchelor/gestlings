@@ -1,15 +1,8 @@
-if #arg < 2 then
-    error("Usage: inspire dialogue.txt name")
-end
-
 core = require("util/core")
 lilt = core.lilt
 lilts = core.lilts
 
 descript = require("descript/descript")
-
-script_txt = arg[1]
-gestling_name = arg[2]
 
 pprint = require("util/pprint")
 local asset = require("asset/asset")
@@ -84,30 +77,37 @@ function messagebox.loadfont(fontname, filepath)
     lilt {"uf2load", fontname, filepath}
 end
 
+function load_fonts()
+    messagebox.loadfont("chicago", "fonts/chicago12.uf2")
+    messagebox.loadfont("fountain_joined", "fonts/fountain_joined.uf2")
+    messagebox.loadfont("fountain", "fonts/fountain.uf2")
+    messagebox.loadfont("protorunes", "fonts/protorunes.uf2")
+end
 
-buf = messagebox.new()
+function setup(gestling_name)
+    load_fonts()
+    buf = messagebox.new()
 
-messagebox.loadfont("chicago", "fonts/chicago12.uf2")
-messagebox.loadfont("fountain_joined", "fonts/fountain_joined.uf2")
-messagebox.loadfont("fountain", "fonts/fountain.uf2")
-messagebox.loadfont("protorunes", "fonts/protorunes.uf2")
-buf.font = "fountain"
-lilt {"bpnew", "bp", 240, 60}
-lilt {"gfxnewz", "gfx", 320, 240, 2}
-lil("grab gfx; dup")
-lil("gfxopen tmp/" .. gestling_name .. ".h264")
-lil("gfxclrset 1 1.0 1.0 1.0")
-lil("gfxclrset 0 0.0 0.0 0.0")
+    buf.font = "fountain"
+    lilt {"bpnew", "bp", 240, 60}
+    lilt {"gfxnewz", "gfx", 320, 240, 2}
+    lil("grab gfx; dup")
+    lil("gfxopen tmp/" .. gestling_name .. ".h264")
+    lil("gfxclrset 1 1.0 1.0 1.0")
+    lil("gfxclrset 0 0.0 0.0 0.0")
 
-lil("drop")
-padding = 4
-lilt {
-    "bpset",
-    "[grab bp]", 0,
-    padding, padding,
-    200 - 2*padding,
-    60 - 2*padding
-}
+    lil("drop")
+    padding = 4
+    lilt {
+        "bpset",
+        "[grab bp]", 0,
+        padding, padding,
+        200 - 2*padding,
+        60 - 2*padding
+    }
+
+    return buf
+end
 
 function new_event(t, name, data)
     return {t, name, data}
@@ -149,13 +149,6 @@ function set_font(events, t, n)
     table.insert(events, new_event(t, "set_font", n))
 end
 
-events = {}
-
-fp = io.open(script_txt)
-assert(fp ~= nil, "couldn't open: " .. script_txt)
-script = fp:read("*all")
-fp:close()
-
 -- for this trailer, the symbols have virtually
 -- no grammer. every value is a 'word', and
 -- each word has the same duration. there are no
@@ -169,7 +162,7 @@ function sentence_to_phrase(sentence)
     return phrase
 end
 
-function setup_sound(character, phrases)
+function setup_sound(gestling_name, character, phrases)
     lil("blkset 49")
     lil("valnew msgscale")
 
@@ -249,9 +242,7 @@ function setup_sound(character, phrases)
 end
 
 
-dialogue = descript.parse(script)
-
-function process_block(block, t, rate)
+function process_block(block, t, rate, events)
     clear(events, t)
     for i =2,#block do
         line = block[i]
@@ -297,91 +288,8 @@ function process_block(block, t, rate)
     return t, rate
 end
 
-t = 1
-rate = 4
-phrases = {}
-last_nphrases = -1
-character = {}
-for _, block in pairs(dialogue) do
-    if block[1] == "block" then
-        local start_time = t
-        local start_pos = #events + 1
-        t, rate = process_block(block, t, rate)
-        local end_time = t
-        blockdur(events, start_time, end_time - start_time, start_pos)
-    elseif string.match(block[1], "^scale") ~= nil then
-        local cmd = core.split(block[1], " ")
-        textscale(events, t, tonumber(cmd[2]))
-    elseif string.match(block[1], "^nphrases") ~= nil then
-        local cmd = core.split(block[1], " ")
-        last_nphrases = tonumber(cmd[2])
-        nphrases(events, t, last_nphrases)
-    elseif string.match(block[1], "^phrase") ~= nil then
-        local cmd = core.split(block[1], " ")
-        table.insert(phrases, {cmd[2], cmd[3]})
-    elseif string.match(block[1], "^character") ~= nil then
-        local cmd = core.split(block[1], " ")
-        print("using character '" .. cmd[2] .. "'")
-        character = asset:load("characters/" .. cmd[2] .. ".b64")
-    elseif string.match(block[1], "^font") ~= nil then
-        local cmd = core.split(block[1], " ")
-        set_font(events, t, cmd[2])
-    end
-end
-
-local last = -1
-for idx,e in pairs(events) do
-    if e[1] < last then
-        error(string.format("ruh-roh %d < %d", e[1], last))
-    end
-    last = e[1]
-end
-
-event_handler = {
-    append = function(mb, data)
-        messagebox.append(mb, data)
-    end,
-
-    newline = function(mb, data)
-        messagebox.newline(mb)
-    end,
-
-    pause = function(mb, data)
-        -- kill time
-    end,
-
-    clear = function(mb, data)
-        messagebox.clear(mb)
-    end,
-
-    remove = function(mb, data)
-        messagebox.remove(mb)
-    end,
-
-    scale = function(mb, data)
-        mb.scale = data
-    end,
-
-    blockdur = function(mb, dur)
-        valutil.set("msgscale", mb.nphrases / dur)
-    end,
-
-    nphrases = function(mb, n)
-        mb.nphrases = n
-    end,
-
-    set_font = function(mb, font)
-        mb.font = font
-    end,
-}
-
-xoff = 320//2 - 200//2
-yoff = 240//2 - 60//2
-setup_sound(character, phrases)
--- goto bye
-nframes = 60*(93)
-
 function process_events(evdata, buf, n)
+    local event_handler = evdata.event_handler
     while (evdata.evpos <= #evdata.events) and (evdata.last_event[1] <= n) do
         local f = event_handler[evdata.last_event[2]]
 
@@ -402,12 +310,51 @@ function process_events(evdata, buf, n)
     end
 end
 
-function process_video(nframes)
+function process_video(nframes, events)
     local evdata = {}
+
+    local event_handler = {
+        append = function(mb, data)
+            messagebox.append(mb, data)
+        end,
+
+        newline = function(mb, data)
+            messagebox.newline(mb)
+        end,
+
+        pause = function(mb, data)
+            -- kill time
+        end,
+
+        clear = function(mb, data)
+            messagebox.clear(mb)
+        end,
+
+        remove = function(mb, data)
+            messagebox.remove(mb)
+        end,
+
+        scale = function(mb, data)
+            mb.scale = data
+        end,
+
+        blockdur = function(mb, dur)
+            valutil.set("msgscale", mb.nphrases / dur)
+        end,
+
+        nphrases = function(mb, n)
+            mb.nphrases = n
+        end,
+
+        set_font = function(mb, font)
+            mb.font = font
+        end,
+    }
+
     evdata.events = events
+    evdata.event_handler = event_handler
     evdata.evpos = 1
     evdata.last_event = evdata.events[evdata.evpos]
-
 
     if nframes < 0 then
         nframes_max = 60*60*3 -- 3 minutes
@@ -423,6 +370,8 @@ function process_video(nframes)
         return nframes
     end
 
+    local xoff = 320//2 - 200//2
+    local yoff = 240//2 - 60//2
     for n=1,nframes do
         if (n % 60) == 0 then
             print(n, string.format("%02d%%", math.floor(n*100/nframes)))
@@ -444,32 +393,99 @@ function process_video(nframes)
     end
 end
 
--- first pass to get duration
-nframes = process_video(-1)
-process_video(nframes)
+function parse_script(script_txt)
+    local events = {}
 
+    fp = io.open(script_txt)
+    assert(fp ~= nil, "couldn't open: " .. script_txt)
+    script = fp:read("*all")
+    fp:close()
 
-lilts {
-    {"grab", "gfx"},
-    {"gfxclose"},
-    {
-        "gfxmp4",
-        "tmp/" .. gestling_name .. ".h264",
-        "tmp/" .. gestling_name .. "_nosound.mp4"
-    },
-}
+    local dialogue = descript.parse(script)
 
-ffmpeg_args = {
-    "export AV_LOG_FORCE_NOCOLOR=1;",
-    "ffmpeg",
-    "-hide_banner", "-loglevel", "error", "-y",
-    "-i", "tmp/" .. gestling_name .. "_nosound.mp4",
-    "-i", "tmp/" .. gestling_name .. ".wav",
-    "-pix_fmt", "yuv420p",
-    "-acodec", "aac",
-    "-b:a", "320k",
-    "res/" .. gestling_name .. ".mp4"
-}
-os.execute(table.concat(ffmpeg_args, " "))
+    local t = 1
+    local rate = 4
+    phrases = {}
+    last_nphrases = -1
+    local character = {}
+    for _, block in pairs(dialogue) do
+        if block[1] == "block" then
+            local start_time = t
+            local start_pos = #events + 1
+            t, rate = process_block(block, t, rate, events)
+            local end_time = t
+            blockdur(events, start_time, end_time - start_time, start_pos)
+        elseif string.match(block[1], "^scale") ~= nil then
+            local cmd = core.split(block[1], " ")
+            textscale(events, t, tonumber(cmd[2]))
+        elseif string.match(block[1], "^nphrases") ~= nil then
+            local cmd = core.split(block[1], " ")
+            last_nphrases = tonumber(cmd[2])
+            nphrases(events, t, last_nphrases)
+        elseif string.match(block[1], "^phrase") ~= nil then
+            local cmd = core.split(block[1], " ")
+            table.insert(phrases, {cmd[2], cmd[3]})
+        elseif string.match(block[1], "^character") ~= nil then
+            local cmd = core.split(block[1], " ")
+            print("using character '" .. cmd[2] .. "'")
+            character = asset:load("characters/" .. cmd[2] .. ".b64")
+        elseif string.match(block[1], "^font") ~= nil then
+            local cmd = core.split(block[1], " ")
+            set_font(events, t, cmd[2])
+        end
+    end
 
-::bye::
+    local last = -1
+    for idx,e in pairs(events) do
+        if e[1] < last then
+            error(string.format("ruh-roh %d < %d", e[1], last))
+        end
+        last = e[1]
+    end
+
+    return events, character, phrases
+end
+
+function close_video(gestling_name)
+    lilts {
+        {"grab", "gfx"},
+        {"gfxclose"},
+        {
+            "gfxmp4",
+            "tmp/" .. gestling_name .. ".h264",
+            "tmp/" .. gestling_name .. "_nosound.mp4"
+        },
+    }
+end
+
+function generate_mp4(gestling_name)
+    ffmpeg_args = {
+        "export AV_LOG_FORCE_NOCOLOR=1;",
+        "ffmpeg",
+        "-hide_banner", "-loglevel", "error", "-y",
+        "-i", "tmp/" .. gestling_name .. "_nosound.mp4",
+        "-i", "tmp/" .. gestling_name .. ".wav",
+        "-pix_fmt", "yuv420p",
+        "-acodec", "aac",
+        "-b:a", "320k",
+        "res/" .. gestling_name .. ".mp4"
+    }
+    os.execute(table.concat(ffmpeg_args, " "))
+end
+
+function main(script_txt, gestling_name)
+    buf = setup(gestling_name)
+    events, character, phrases = parse_script(script_txt)
+    setup_sound(gestling_name, character, phrases)
+    -- first pass to get duration
+    nframes = process_video(-1, events)
+    process_video(nframes, events)
+    close_video(gestling_name)
+    generate_mp4(gestling_name)
+end
+
+if #arg < 2 then
+    error("Usage: inspire dialogue.txt name")
+end
+
+main(arg[1], arg[2])
