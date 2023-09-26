@@ -1,0 +1,9 @@
+f_foo.b64: font data, can be used to generate a uf2 file
+k_foo.bin: keyshapes
+p_foo.b64: lines of symbols containing phrases, generated from bitrune
+pb_foo.txt: text file of phrase names, corresponding to bitrune lines
+ref_foo.lua: script to generate keyshape reference
+t_foo.b64: tilemap of symbols, created by tilemaker
+uf2_foo.lua: script to generate uf2 font file
+v_foo.b64: vocabulary
+v_foo.lua: lua script to generate vocabulary
