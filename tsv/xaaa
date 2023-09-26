@@ -2514,7 +2514,7 @@
 -	db77f47b-5df2-4927-90cf-04c2a5a9b98c	#97065e49-386f-4183-9df6-840732755a32
 2023-09-26 15:08:39	a6633840-1943-4211-bdce-9131ed30145c	>make phrasebooks more flexible
 -	a6633840-1943-4211-bdce-9131ed30145c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-09-26 15:08:39	a6633840-1943-4211-bdce-9131ed30145c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-26 17:06:11	a6633840-1943-4211-bdce-9131ed30145c	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-09-26 15:09:42	a6633840-1943-4211-bdce-9131ed30145c	$blurb:>specifically: add multiple phrasesbooks, and tie different parsing methods to each one. needed because the new junior character will be using a new set of phrases that require a different notation parser scheme.
 2023-09-26 15:09:45	594d1abe-4f63-4735-a7d8-fc19f4ebfa1e	$duration:>1252
 -	594d1abe-4f63-4735-a7d8-fc19f4ebfa1e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -2522,3 +2522,6 @@
 2023-09-26 17:05:58	40e80219-2ab0-4f36-b208-667acfdc08e4	$duration:>670
 -	40e80219-2ab0-4f36-b208-667acfdc08e4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	40e80219-2ab0-4f36-b208-667acfdc08e4	#a6633840-1943-4211-bdce-9131ed30145c
+2023-09-26 17:39:21	dea0b481-2a4e-41f6-8e6c-492336954ad0	$duration:>1978
+-	dea0b481-2a4e-41f6-8e6c-492336954ad0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	dea0b481-2a4e-41f6-8e6c-492336954ad0	#2eee1c8f-dd7d-4964-8e33-dda104a096e4
