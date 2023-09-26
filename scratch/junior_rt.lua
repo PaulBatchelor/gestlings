@@ -54,6 +54,78 @@ function genphrase(sentence)
 
     return phrase
 end
+
+-- <@>
+function split_up_words(sentence, vocab)
+    local words = {}
+    local last_word = {}
+
+    for _, letter in pairs(sentence) do
+        local v = vocab[letter]
+        assert(v ~= nil)
+        if v.tok ~= nil and v.tok == "divider" then
+            table.insert(words, last_word)
+            last_word = {}
+        else
+            table.insert(last_word, letter)
+       end
+    end
+
+    return words
+end
+-- </@>
+
+-- <@>
+function process_word(word, vocab, durs)
+    local outword = {-1, {1, 1}}
+
+    for _, c in pairs(word) do
+        assert(vocab[c] ~= nil)
+        local tok = vocab[c].tok
+        local d = {1, 1}
+        if tok ~= nil and durs[tok] ~= nil then
+            outword[2] = durs[tok]
+        else
+            if outword[1] < 0 then
+                outword[1] = c
+            else
+                if outword[3] == nil then
+                    outword[3] = {}
+                end
+
+                table.insert(outword[3], c)
+            end
+        end
+    end
+
+    return outword
+end
+-- </@>
+
+-- <@>
+function genphrase_v2(sentence, vocab)
+    print("genphrase_v2")
+
+    local sentence = sentence or { 1 }
+    local phrase = {}
+    local reg = {1, 1}
+    local durs = {
+        dur1 = {1, 1},
+        dur2 = {1, 2},
+        dur3 = {1, 3}
+    }
+
+    words = split_up_words(sentence, vocab)
+
+    print(#words)
+    for _, wrd in pairs(words) do
+        local outword = process_word(wrd, vocab, durs)
+        pprint(outword)
+        table.insert(phrase, outword)
+    end
+
+    return phrase
+end
 -- </@>
 
 function genwords(data, phrase)
@@ -184,9 +256,9 @@ junior_data = sound()
 bitrune_setup(junior_data)
 
 --<@>
-function eval_sentence(sentence)
+function eval_sentence(phrase)
     junior_data.vocab = genvocab()
-    local words = genwords(junior_data, genphrase(sentence))
+    local words = genwords(junior_data, phrase)
     patch(words, junior_data)
     lil("out")
 end
@@ -256,10 +328,12 @@ function altrun()
             local linepos = bitrune.linepos(br)
             local phrase = dat.phrasebook[linepos + 1]
             pprint(sentence)
-            print("phrase: " .. phrase)
+            -- local split_words = split_up_words(sentence, dat.vocab)
+            -- pprint(split_words)
+            -- pprint(process_word(split_words[2], vocab))
+            --genphrase_v2(sentence, dat.vocab)
             if #sentence > 0 then
-                -- TODO rework parser
-                -- eval_sentence(sentence)
+                eval_sentence(genphrase_v2(sentence, dat.vocab))
             end
         end
         if bitrune.please_draw(br) then

@@ -12,7 +12,7 @@ function coord(x, y)
     return (y - 1)*8 + x
 end
 
-function addvocab(vocab, x, y, w, doc)
+function addvocab(vocab, x, y, w, doc, tok)
     local row = y
     local col = x
     local pos = coord(x, y)
@@ -20,6 +20,7 @@ function addvocab(vocab, x, y, w, doc)
     local v = {}
     v.doc = doc
     v.word = w
+    v.tok = tok
     vocab[pos] = v
 end
 
@@ -176,8 +177,8 @@ function genvocab()
     vocab[1] = {}
     -- docstrings
     vocab[2] = {}
-    voc = function (x, y, w, doc)
-        addvocab(vocab, x, y, w, doc)
+    voc = function (x, y, w, doc, tok)
+        addvocab(vocab, x, y, w, doc, tok)
     end
 
     voc(1, 1, pat_a {
@@ -348,13 +349,13 @@ function genvocab()
         },
     }, "music note 6")
 
-    voc(4, 4, {}, "word divider")
+    voc(4, 4, {}, "word divider", "divider")
 
-    voc(5, 4, {}, "duration 1")
+    voc(5, 4, {}, "duration 1", "dur1")
 
-    voc(6, 4, {}, "duration 2")
+    voc(6, 4, {}, "duration 2", "dur2")
 
-    voc(7, 4, {}, "duration 3")
+    voc(7, 4, {}, "duration 3", "dur3")
 
     return vocab
 end
