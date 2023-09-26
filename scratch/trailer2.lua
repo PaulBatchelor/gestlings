@@ -170,7 +170,7 @@ function setup_sound(character, phrases)
     local lut = pop()
     local lookup = shapemorf.generate_lookup(lut)
     local vocab = character.vocab
-    local phrasebook = character.phrasebook
+    local phrasebook = character.phrasebook[1].phrases
     local gst = gest:new()
     local prostab = asset:load("prosody/prosody.b64")
     gst:create()

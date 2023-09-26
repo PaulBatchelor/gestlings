@@ -42,7 +42,10 @@ for idx, name in pairs(phrasenames) do
     phrasebook[name] = verses[idx]
 end
 
-junior.phrasebook = phrasebook
+junior.phrasebook = {}
+junior.phrasebook[1] = {}
+junior.phrasebook[1].phrases = phrasebook
+junior.phrasebook[1].notation = "simple"
 
 junior.vocab = asset:load("vocab/junior/v_junior.b64")
 junior.docs = junior.vocab[2]

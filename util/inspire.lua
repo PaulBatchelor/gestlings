@@ -162,16 +162,19 @@ function sentence_to_phrase(sentence)
     return phrase
 end
 
-function setup_sound(gestling_name, character, phrases)
+function setup_sound(gestling_name, character, phrases, phrasebook_id)
     lil("blkset 49")
     lil("valnew msgscale")
+
+    phrasebook_id = phrasebook_id or 1
 
     lil("shapemorfnew lut " .. character.shapes)
     lil("grab lut")
     local lut = pop()
     local lookup = shapemorf.generate_lookup(lut)
     local vocab = character.vocab
-    local phrasebook = character.phrasebook
+    local pb = character.phrasebook[phrasebook_id]
+    local phrasebook = pb.phrases
     local gst = gest:new()
     local prostab = asset:load("prosody/prosody.b64")
     gst:create()
@@ -193,8 +196,12 @@ function setup_sound(gestling_name, character, phrases)
         -- grammars most likely, so that will need
         -- to be consolidated somehow
         -- this one is quite rudimentary
-
-        local phrase = sentence_to_phrase(sentence)
+        local phrase = nil
+        if pb.notation == "simple" then
+            phrase = sentence_to_phrase(sentence)
+        else
+            error("notation system not supported: " .. pb.notation)
+        end
 
         -- the converted phrase can now be added to the
         -- "monologue" format used to create gesture
