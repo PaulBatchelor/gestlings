@@ -347,6 +347,14 @@ function genvocab()
         },
     }, "music note 6")
 
+    voc(4, 4, {}, "word divider")
+
+    voc(5, 4, {}, "duration 1")
+
+    voc(6, 4, {}, "duration 2")
+
+    voc(7, 4, {}, "duration 3")
+
     return vocab
 end
 
