@@ -17,8 +17,10 @@ function addvocab(vocab, x, y, w, doc)
     local col = x
     local pos = coord(x, y)
 
-    vocab[1][pos] = w
-    vocab[2][pos] = doc
+    local v = {}
+    v.doc = doc
+    v.word = w
+    vocab[pos] = v
 end
 
 function genpartmorphs ()
@@ -273,7 +275,6 @@ function genvocab()
             {A, 1, stp},
         },
         aspiration = asp.longstart
-        
     }, "HA")
     voc(6, 3, pat_d {
         vib = {

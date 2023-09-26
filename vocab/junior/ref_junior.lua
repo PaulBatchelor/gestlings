@@ -3,12 +3,12 @@ asset = asset:new{
     msgpack = require("util/MessagePack"),
     base64 = require("util/base64")
 }
+local pprint = require("util/pprint")
 
 local vocab = asset:load("vocab/junior/v_junior.b64")
-local docs = vocab[2]
-vocab = vocab[1]
+-- local docs = vocab[2]
+-- vocab = vocab[1]
 local tilemap = asset:load("vocab/junior/t_junior.b64")
-local pprint = require("util/pprint")
 local core = require("util/core")
 local lilt = core.lilt
 
@@ -59,7 +59,7 @@ lilt {
 }
 
 function draw_row(tile, idx)
-    local docstr = docs[idx] or ""
+    local docstr = vocab[idx].doc or ""
     local height = tile.height
     local width = tile.width
     local data = tile.data
@@ -139,7 +139,9 @@ idx = 2
 tile = tilemap[idx]
 
 for idx, tile in pairs(tilemap) do
-    draw_row(tile, idx)
+    if empty(tile.data) == false then
+        draw_row(tile, idx)
+    end
 end
 
 lil("bppng [grab bp] res/ref_junior.png")

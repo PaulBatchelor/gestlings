@@ -8,12 +8,12 @@ local function phrase_to_mseq(morpheme, path, phrase, pros, vocab)
 
         -- duration modifier
         local dur = ph[2] or {1, 1}
-        local mrph = vocab[ph[1]]
+        local mrph = vocab[ph[1]].word
 
         -- merge partial morphemes
         if ph[3] ~= nil then
             for _, pm in pairs(ph[3]) do
-                mrph = merge(mrph, vocab[pm])
+                mrph = merge(mrph, vocab[pm].word)
             end
         end
 

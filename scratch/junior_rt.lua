@@ -26,7 +26,7 @@ local juniorphys = require("physiology/phys_junior")
 -- <@>
 function genvocab()
     local vocab = asset:load("vocab/junior/v_junior.b64")
-    return vocab[1]
+    return vocab
 end
 -- </@>
 
