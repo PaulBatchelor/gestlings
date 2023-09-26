@@ -166,7 +166,7 @@ function setup_sound(gestling_name, character, phrases)
     lil("blkset 49")
     lil("valnew msgscale")
 
-    lil("shapemorfnew lut shapes/junior.b64")
+    lil("shapemorfnew lut " .. character.shapes)
     lil("grab lut")
     local lut = pop()
     local lookup = shapemorf.generate_lookup(lut)
