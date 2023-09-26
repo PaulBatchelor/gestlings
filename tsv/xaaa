@@ -2493,3 +2493,29 @@
 -	686364fd-63d1-4116-b2d1-d1cc543a93d5	$duration:>900
 -	686364fd-63d1-4116-b2d1-d1cc543a93d5	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	686364fd-63d1-4116-b2d1-d1cc543a93d5	#161cf9d7-5c32-48a4-9c33-7a56914072b3
+2023-09-26 14:48:40	2eee1c8f-dd7d-4964-8e33-dda104a096e4	>improve sound notation system
+-	2eee1c8f-dd7d-4964-8e33-dda104a096e4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-09-26 14:48:40	2eee1c8f-dd7d-4964-8e33-dda104a096e4	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-26 14:49:21	2eee1c8f-dd7d-4964-8e33-dda104a096e4	$blurb:>this involves creating a notation that adds duration and partial morpheme support
+2023-09-26 14:50:09	dcb1dff2-3121-431f-884b-954e07fea4d6	>the first gestling is going to be Junior reciting a poem about mushrooms
+-	dcb1dff2-3121-431f-884b-954e07fea4d6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	dcb1dff2-3121-431f-884b-954e07fea4d6	#aefc6948-3a75-4354-a9d8-c56dbc47ffff
+2023-09-26 14:56:51	97065e49-386f-4183-9df6-840732755a32	>move 'junior' to 'protojunior'
+-	97065e49-386f-4183-9df6-840732755a32	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-09-26 15:08:25	97065e49-386f-4183-9df6-840732755a32	$state:#7272290f-61b8-4fa0-a9e2-4c79a6a2e8ad
+2023-09-26 15:05:15	67b30a74-8403-4ef0-8d6a-0e6c75e4a27d	>the main issue is, I want to add more phrases, but there are already lots of phrases, and also the new phrases are going to have a different grammar
+-	67b30a74-8403-4ef0-8d6a-0e6c75e4a27d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	67b30a74-8403-4ef0-8d6a-0e6c75e4a27d	#97065e49-386f-4183-9df6-840732755a32
+2023-09-26 15:06:18	054ebab3-2a00-4b58-8812-d50baf2f4a73	>it might be a better design to think about trying to make the phrasebook more flexible. multiple phrasebooks, each phrasebook can have information like which parser to use
+-	054ebab3-2a00-4b58-8812-d50baf2f4a73	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	054ebab3-2a00-4b58-8812-d50baf2f4a73	#97065e49-386f-4183-9df6-840732755a32
+2023-09-26 15:07:41	db77f47b-5df2-4927-90cf-04c2a5a9b98c	>yes, I'm going with that I think.
+-	db77f47b-5df2-4927-90cf-04c2a5a9b98c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	db77f47b-5df2-4927-90cf-04c2a5a9b98c	#97065e49-386f-4183-9df6-840732755a32
+2023-09-26 15:08:39	a6633840-1943-4211-bdce-9131ed30145c	>make phrasebooks more flexible
+-	a6633840-1943-4211-bdce-9131ed30145c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-09-26 15:08:39	a6633840-1943-4211-bdce-9131ed30145c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-26 15:09:42	a6633840-1943-4211-bdce-9131ed30145c	$blurb:>specifically: add multiple phrasesbooks, and tie different parsing methods to each one. needed because the new junior character will be using a new set of phrases that require a different notation parser scheme.
+2023-09-26 15:09:45	594d1abe-4f63-4735-a7d8-fc19f4ebfa1e	$duration:>1252
+-	594d1abe-4f63-4735-a7d8-fc19f4ebfa1e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	594d1abe-4f63-4735-a7d8-fc19f4ebfa1e	#2eee1c8f-dd7d-4964-8e33-dda104a096e4
