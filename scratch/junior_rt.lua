@@ -39,6 +39,7 @@ end
 
 -- <@>
 function genphrase(sentence)
+    -- TODO create purpose
     local dur_reg = {1, 1}
     local dur_short = {3, 2}
     local dur_long = {2, 3}
@@ -158,7 +159,7 @@ function sound()
     words = genwords(data, genphrase())
     patch(words, data)
     valutil.set("msgscale", 1.0 / (2*60))
-    fp = io.open("vocab/junior/pb_junior.txt")
+    fp = io.open("vocab/junior/pb_junior_verses.txt")
     phrasebook = {}
 
     for ln in fp:lines() do
@@ -174,7 +175,7 @@ function bitrune_setup(data)
     data.m = grid.open("/dev/ttyACM0")
     data.br = bitrune.new("fonts/junior.uf2",
                           "vocab/junior/k_junior.bin",
-                          "vocab/junior/p_junior.b64")
+                          "vocab/junior/p_junior_verses.b64")
     bitrune.terminal_setup(data.br)
 end
 
@@ -257,7 +258,8 @@ function altrun()
             pprint(sentence)
             print("phrase: " .. phrase)
             if #sentence > 0 then
-                eval_sentence(sentence)
+                -- TODO rework parser
+                -- eval_sentence(sentence)
             end
         end
         if bitrune.please_draw(br) then
