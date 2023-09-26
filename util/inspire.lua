@@ -166,7 +166,7 @@ function setup_sound(gestling_name, character, phrases, phrasebook_id)
     lil("blkset 49")
     lil("valnew msgscale")
 
-    phrasebook_id = phrasebook_id or 1
+    phrasebook_id = phrasebook_id or "default"
 
     lil("shapemorfnew lut " .. character.shapes)
     lil("grab lut")

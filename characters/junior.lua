@@ -8,44 +8,54 @@ pprint = require("util/pprint")
 
 junior = {}
 
-fp = io.open("vocab/junior/pb_junior.txt")
+function genphrasebook(phrasenames_fname, symbols_fname, notation)
+    fp = io.open(phrasenames_fname)
 
-local phrasenames = {}
-for l in fp:lines() do
-    if string.match(l, "^#") == nil then
-        table.insert(phrasenames, l)
+    assert(fp ~= nil, "Could not open file:" .. phrasenames_fname)
+    local phrasenames = {}
+    for l in fp:lines() do
+        if string.match(l, "^#") == nil then
+            table.insert(phrasenames, l)
+        end
     end
-end
-fp:close()
+    fp:close()
 
-local symbols = asset:load("vocab/junior/p_junior.b64")
-local verses = {}
-local vr = {}
+    local symbols = asset:load(symbols_fname)
+    local verses = {}
+    local vr = {}
 
-for _, sym in pairs(symbols) do
-    if sym == 0 then
-        table.insert(verses, vr)
-        -- pprint(vr)
-        vr = {}
-    else
-        table.insert(vr, sym)
+    for _, sym in pairs(symbols) do
+        if sym == 0 then
+            table.insert(verses, vr)
+            -- pprint(vr)
+            vr = {}
+        else
+            table.insert(vr, sym)
+        end
     end
-end
 
-assert(#verses == #phrasenames,
-    string.format("verse (%d)/phrasename (%d) mismatch",
-        #verses, #phrasenames))
+    assert(#verses == #phrasenames,
+        string.format("verse (%d)/phrasename (%d) mismatch",
+            #verses, #phrasenames))
 
-phrasebook = {}
+    phrases = {}
 
-for idx, name in pairs(phrasenames) do
-    phrasebook[name] = verses[idx]
+    for idx, name in pairs(phrasenames) do
+        phrases[name] = verses[idx]
+    end
+
+    local phrasebook = {}
+
+    phrasebook.phrases = phrases
+    phrasebook.notation = notation
+    return phrasebook
 end
 
 junior.phrasebook = {}
-junior.phrasebook[1] = {}
-junior.phrasebook[1].phrases = phrasebook
-junior.phrasebook[1].notation = "simple"
+junior.phrasebook.default =
+    genphrasebook("vocab/junior/pb_junior.txt",
+        "vocab/junior/p_junior.b64",
+        "simple")
 
 junior.vocab = asset:load("vocab/junior/v_junior.b64")
 junior.docs = junior.vocab[2]
