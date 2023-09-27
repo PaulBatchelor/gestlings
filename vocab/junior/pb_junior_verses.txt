@@ -10,3 +10,6 @@
 # can_be_vicious
 # shiny_and_white
 # rare_worth_lots
+# cap_taught_me
+# way_to_remember
+# goes_like_this
