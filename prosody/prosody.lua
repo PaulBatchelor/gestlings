@@ -1,4 +1,5 @@
 local asset = require("asset/asset")
+local gest = require("gest/gest")
 asset = asset:new {
     msgpack = require("util/MessagePack"),
     base64 = require("util/base64")
@@ -16,6 +17,11 @@ function genprosody()
     local pros_down_mild  = 0x80 - 0x04
     local pros_down = 0x80 - 0x40
     local pros_down_more = 0x00
+
+    stp = gest.behavior.step
+    lin = gest.behavior.linear
+    gl = gest.behavior.gliss
+    gm = gest.behavior.gliss_medium
 
     pros.question = {
         pitch = {
@@ -105,6 +111,87 @@ function genprosody()
             {0x80, 1, stp},
         }
     }
+
+    pros.meter_rise = {
+        pitch = {
+            {0x80 + 0x20, 9, lin},
+            {0x80, 2, lin},
+            {0x80 + 0x10, 1 + 3, stp},
+        },
+        intensity = {
+            {0x70, 1, lin},
+            {0x80, 1, lin},
+            {0x80, 1, stp},
+        }
+    }
+
+    pros.meter_fall = {
+        pitch = {
+            {0x80, 9, lin},
+            {0x80 + 40, 2, lin},
+            {0x80, 1 + 3, stp},
+        },
+        intensity = {
+            {0x70, 1, lin},
+            {0x80, 1, lin},
+            {0x80, 1, stp},
+        }
+    }
+
+    pros.meter_jumps_rise = {
+        pitch = {
+            {0x80+0x20, 2, gl},
+            {0x80+0x50, 1, gl},
+            {0x80+0x10, 2, gl},
+            {0x80+0x20, 1, gl},
+            {0x80, 2, gl},
+            {0x80+0x10, 1, gl},
+            {0x80, 2, lin},
+            {0x80 + 0x10, 1 + 3, stp},
+        },
+        intensity = {
+            {0x70, 1, lin},
+            {0x80, 1, lin},
+            {0x80, 1, stp},
+        }
+    }
+
+    pros.meter_jumps_fall = {
+        pitch = {
+            {0x80, 2, gl},
+            {0x80+0x20, 1, gl},
+            {0x80+0x10, 2, gl},
+            {0x80+0x30, 1, gl},
+            {0x80+0x20, 2, gl},
+            {0x80+0x35, 1, gl},
+            {0x80 + 40, 2, lin},
+            {0x80, 1 + 3, stp},
+        },
+        intensity = {
+            {0x70, 1, lin},
+            {0x80, 1, lin},
+            {0x80, 1, stp},
+        }
+    }
+
+    pros.meter_bigjumps_rise = {
+        pitch = {
+            {0x80+0x50, 2, gl},
+            {0x80+0x30, 1, gl},
+            {0x80+0x40, 2, gl},
+            {0x80+0x20, 1, gl},
+            {0x80+0x10, 2, gl},
+            {0x80+0x10, 1, gl},
+            {0x80, 2, lin},
+            {0x80 + 0x10, 1 + 3, stp},
+        },
+        intensity = {
+            {0x70, 1, lin},
+            {0x80, 1, lin},
+            {0x80, 1, stp},
+        }
+    }
+
 
     return pros
 end

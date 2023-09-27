@@ -4,7 +4,7 @@ dofile("scratch/junior_rt.lua")
 -- </@>
 --]]
 
-local grid = monome_grid
+grid = monome_grid
 core = require("util/core")
 sig = require("sig/sig")
 lilts = core.lilts
@@ -20,8 +20,8 @@ asset = asset:new{
     msgpack = require("util/MessagePack"),
     base64 = require("util/base64")
 }
-local monologue = require("monologue/monologue")
-local juniorphys = require("physiology/phys_junior")
+monologue = require("monologue/monologue")
+juniorphys = require("physiology/phys_junior")
 
 -- <@>
 function genvocab()
@@ -120,7 +120,6 @@ function genphrase_v2(sentence, vocab)
     print(#words)
     for _, wrd in pairs(words) do
         local outword = process_word(wrd, vocab, durs)
-        pprint(outword)
         table.insert(phrase, outword)
     end
 
@@ -128,6 +127,7 @@ function genphrase_v2(sentence, vocab)
 end
 -- </@>
 
+-- <@>
 function genwords(data, phrase)
     local lookup = data.lookup
     local vocab = data.vocab
@@ -141,12 +141,18 @@ function genwords(data, phrase)
     local excited = pros.excited
 
     local mono = {
-        {phrase, neutral},
-        {phrase, question},
-        {phrase, some_jumps},
-        {phrase, deflated},
-        {phrase, excited},
-        {phrase, whisper},
+        -- {phrase, neutral},
+        {phrase, pros.meter_rise},
+        {phrase, pros.meter_fall},
+        {phrase, pros.meter_jumps_rise},
+        {phrase, pros.meter_jumps_fall},
+        {phrase, pros.meter_bigjumps_rise},
+        {phrase, pros.meter_jumps_fall},
+        -- {phrase, question},
+        -- {phrase, some_jumps},
+        -- {phrase, deflated},
+        -- {phrase, excited},
+        -- {phrase, whisper},
     }
 
     local words = monologue.to_words {
@@ -160,6 +166,7 @@ function genwords(data, phrase)
     }
     return words
 end
+-- <@>
 
 function patch_setup()
     lil("shapemorfnew lut shapes/junior.b64")
@@ -181,6 +188,7 @@ function patch_setup()
     return data
 end
 
+-- <@>
 function patch(words, data)
     local G = data.G
 
@@ -205,7 +213,9 @@ function patch(words, data)
 
     G:done()
     cnd:unhold()
+    valutil.set("msgscale", 1.0 / (3*60))
 end
+-- </@>
 
 function rtsetup()
 lil([[
@@ -327,7 +337,8 @@ function altrun()
             end
             local linepos = bitrune.linepos(br)
             local phrase = dat.phrasebook[linepos + 1]
-            pprint(sentence)
+            print(phrase)
+            -- pprint(sentence)
             -- local split_words = split_up_words(sentence, dat.vocab)
             -- pprint(split_words)
             -- pprint(process_word(split_words[2], vocab))
