@@ -162,11 +162,75 @@ function sentence_to_phrase(sentence)
     return phrase
 end
 
+function split_up_words(sentence, vocab)
+    local words = {}
+    local last_word = {}
+
+    for _, letter in pairs(sentence) do
+        local v = vocab[letter]
+        assert(v ~= nil)
+        if v.tok ~= nil and v.tok == "divider" then
+            table.insert(words, last_word)
+            last_word = {}
+        else
+            table.insert(last_word, letter)
+       end
+    end
+
+    return words
+end
+
+function process_word(word, vocab, durs)
+    local outword = {-1, {1, 1}}
+
+    for _, c in pairs(word) do
+        assert(vocab[c] ~= nil)
+        local tok = vocab[c].tok
+        local d = {1, 1}
+        if tok ~= nil and durs[tok] ~= nil then
+            outword[2] = durs[tok]
+        else
+            if outword[1] < 0 then
+                outword[1] = c
+            else
+                if outword[3] == nil then
+                    outword[3] = {}
+                end
+
+                table.insert(outword[3], c)
+            end
+        end
+    end
+
+    return outword
+end
+
+function poetic_phrase(sentence, vocab)
+    local sentence = sentence or { 1 }
+    local phrase = {}
+    local reg = {1, 1}
+    local durs = {
+        dur1 = {1, 1},
+        dur2 = {1, 2},
+        dur3 = {1, 3}
+    }
+
+    words = split_up_words(sentence, vocab)
+
+    for _, wrd in pairs(words) do
+        local outword = process_word(wrd, vocab, durs)
+        table.insert(phrase, outword)
+    end
+
+    return phrase
+end
+
 function setup_sound(gestling_name, character, phrases, phrasebook_id)
     lil("blkset 49")
     lil("valnew msgscale")
 
     phrasebook_id = phrasebook_id or "default"
+    print("phrasebook: " .. phrasebook_id)
 
     lil("shapemorfnew lut " .. character.shapes)
     lil("grab lut")
@@ -199,6 +263,8 @@ function setup_sound(gestling_name, character, phrases, phrasebook_id)
         local phrase = nil
         if pb.notation == "simple" then
             phrase = sentence_to_phrase(sentence)
+        elseif pb.notation == "poetic" then
+            phrase = poetic_phrase(sentence, character.vocab)
         else
             error("notation system not supported: " .. pb.notation)
         end
@@ -415,7 +481,9 @@ function parse_script(script_txt)
     phrases = {}
     last_nphrases = -1
     local character = {}
+    local phrasebook_name = "default"
     for _, block in pairs(dialogue) do
+        -- TODO: convert into look-up table
         if block[1] == "block" then
             local start_time = t
             local start_pos = #events + 1
@@ -429,6 +497,9 @@ function parse_script(script_txt)
             local cmd = core.split(block[1], " ")
             last_nphrases = tonumber(cmd[2])
             nphrases(events, t, last_nphrases)
+        elseif string.match(block[1], "^phrasebook") ~= nil then
+            local cmd = core.split(block[1], " ")
+            phrasebook_name = cmd[2]
         elseif string.match(block[1], "^phrase") ~= nil then
             local cmd = core.split(block[1], " ")
             table.insert(phrases, {cmd[2], cmd[3]})
@@ -450,7 +521,8 @@ function parse_script(script_txt)
         last = e[1]
     end
 
-    return events, character, phrases
+    -- TODO create table to hold these values
+    return events, character, phrases, phrasebook_name
 end
 
 function close_video(gestling_name)
@@ -482,8 +554,8 @@ end
 
 function main(script_txt, gestling_name)
     buf = setup(gestling_name)
-    events, character, phrases = parse_script(script_txt)
-    setup_sound(gestling_name, character, phrases)
+    events, character, phrases, phrasebook_name = parse_script(script_txt)
+    setup_sound(gestling_name, character, phrases, phrasebook_name)
     -- first pass to get duration
     nframes = process_video(-1, events)
     process_video(nframes, events)

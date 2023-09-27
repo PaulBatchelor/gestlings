@@ -1,70 +1,77 @@
 @character junior
+@phrasebook mushroom_poem
 @font fountain
 
 @nphrases 1
-@phrase sorry_for_not_writing some_jumps
+@phrase cap_taught_me some_jumps
 @block
-Cap taught me a poem
+<RATE 2>Cap taught me a poem
 while I was at Camp
-Gestletree
+Gestletree.<PAUSE 2>
 
 @nphrases 1
-@phrase sorry_for_not_writing some_jumps
+@phrase way_to_remember some_jumps_v2
 @block
-It's a way to help
+<RATE 3>It's a way to help
 remember which mushrooms
 are edible and which
-are poisoinous.
+are poisoinous.<PAUSE 2>
 
 @nphrases 1
-@phrase sorry_for_not_writing some_jumps
+@phrase goes_like_this some_jumps
 @block
-It goes like this:
+<RATE 4>It goes like this:<PAUSE 10>
 
-@nphrases 1
-@phrase sorry_for_not_writing some_jumps
+@nphrases 2
+@phrase to_eat_a_mushroom meter_jumps_rise
+@phrase choose_carefully meter_jumps_fall
 @block
-To eat a mushroom
-off a tree,
+<RATE 4>To eat a mushroom
+off a tree,<PAUSE 3>
 one must choose
-quite carefully.
+quite carefully.<PAUSE 4>
 
-@nphrases 1
-@phrase sorry_for_not_writing some_jumps
+@nphrases 2
+@phrase tainted_shroom meter_bigjumps_rise
+@phrase mean_your_doom meter_jumps_fall
 @block
 For if you pick
-a tainted shroom,
+a tainted shroom,<PAUSE 3>
 a single bite
-could mean your doom!
+could mean your doom!<PAUSE 4>
 
-@nphrases 1
-@phrase sorry_for_not_writing some_jumps
+@nphrases 2
+@phrase pink_and_red meter_jumps_rise
+@phrase make_you_dead meter_jumps_fall
 @block
 Stay away from
-pink and red.
+pink and red.<PAUSE 3>
 A single lick
-will make you dead.
+will make you dead.<PAUSE 4>
 
-@nphrases 1
-@phrase sorry_for_not_writing some_jumps
+@nphrases 2
+@phrase black_and_green meter_rise
+@phrase eat_some_more meter_fall
 @block
 Black and green with
-leaves of four,
-take a handful,
-eat some more!
+leaves of four,<PAUSE 3>
+take a handful,<PAUSE 2>
+eat some more!<PAUSE 4>
 
-@nphrases 1
-@phrase sorry_for_not_writing some_jumps
+@nphrases 2
+@phrase purple_stripes meter_jumps_rise
+@phrase can_be_vicious meter_jumps_fall
 @block
 While purple stripes
-look quite delicious,
+look quite delicious,<PAUSE 3>
 their poison venom
-can be vicious!
+can be vicious!<PAUSE 4>
 
-@nphrases 1
-@phrase sorry_for_not_writing some_jumps
+@nphrases 2
+@phrase shiny_and_white meter_bigjumps_rise
+@phrase rare_worth_lots meter_jumps_fall
 @block
-Shiny and white,
-with gold polka dots
-Lucky find;
-Rare, and worth lots!
+Shiny <PAUSE 2>and white,<PAUSE 2>
+with gold polka dots<PAUSE 3>
+Lucky find;<PAUSE 2>
+Rare,<PAUSE 1> and worth lots!<PAUSE 3>

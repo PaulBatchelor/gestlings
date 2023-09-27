@@ -54,6 +54,7 @@ function genphrase(sentence)
 
     return phrase
 end
+-- </@>
 
 -- <@>
 function split_up_words(sentence, vocab)

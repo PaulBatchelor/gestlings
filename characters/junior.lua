@@ -56,6 +56,10 @@ junior.phrasebook.default =
     genphrasebook("vocab/junior/pb_junior.txt",
         "vocab/junior/p_junior.b64",
         "simple")
+junior.phrasebook.mushroom_poem =
+    genphrasebook("vocab/junior/pb_junior_verses.txt",
+        "vocab/junior/p_junior_verses.b64",
+        "poetic")
 
 junior.vocab = asset:load("vocab/junior/v_junior.b64")
 junior.tilemap = asset:load("vocab/junior/t_junior.b64")
