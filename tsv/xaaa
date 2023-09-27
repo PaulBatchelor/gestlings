@@ -2534,3 +2534,12 @@
 2023-09-27 01:36:34	9ce0d09e-2b34-40ba-bb9b-8fda6cea907c	$duration:>3527
 -	9ce0d09e-2b34-40ba-bb9b-8fda6cea907c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	9ce0d09e-2b34-40ba-bb9b-8fda6cea907c	#aefc6948-3a75-4354-a9d8-c56dbc47ffff
+2023-09-27 13:55:19	bbc26133-7f02-4159-bfa7-a1b29278fff8	>improve ref-card to be more pdf-friendly
+-	bbc26133-7f02-4159-bfa7-a1b29278fff8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-09-27 13:55:19	bbc26133-7f02-4159-bfa7-a1b29278fff8	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-27 14:37:44	8a4fb5e7-5012-4a95-b2c6-e7a35e4f148f	$duration:>2430
+-	8a4fb5e7-5012-4a95-b2c6-e7a35e4f148f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	8a4fb5e7-5012-4a95-b2c6-e7a35e4f148f	#bbc26133-7f02-4159-bfa7-a1b29278fff8
+2023-09-27 14:38:23	28e52fd1-2ef4-47ef-b2a8-068696c82a43	>it's a bit of a hack, but now I am breaking things up into a5 sized pages, and I'm using imagemagick to group them together into a PDF
+-	28e52fd1-2ef4-47ef-b2a8-068696c82a43	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	28e52fd1-2ef4-47ef-b2a8-068696c82a43	#bbc26133-7f02-4159-bfa7-a1b29278fff8
