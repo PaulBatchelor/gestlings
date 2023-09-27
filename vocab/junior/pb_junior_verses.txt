@@ -13,3 +13,6 @@ rare_worth_lots
 cap_taught_me
 way_to_remember
 goes_like_this
+good_luck
+laughing
+pause

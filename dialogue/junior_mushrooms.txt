@@ -23,6 +23,7 @@ are poisoinous.<PAUSE 2>
 <RATE 4>It goes like this:<PAUSE 10>
 
 @nphrases 2
+@font plotter
 @phrase to_eat_a_mushroom meter_jumps_rise
 @phrase choose_carefully meter_jumps_fall
 @block
@@ -75,3 +76,13 @@ Shiny <PAUSE 2>and white,<PAUSE 2>
 with gold polka dots<PAUSE 3>
 Lucky find;<PAUSE 2>
 Rare,<PAUSE 1> and worth lots!<PAUSE 3>
+
+@nphrases 2
+@font fountain
+@phrase good_luck some_jumps_v2
+@phrase laughing excited
+@block
+<RATE 3>Good luck!<PAUSE 2>
+Try not to eat a bad
+mushroom.<PAUSE 4>
+<RATE 2>hahahahaha!<PAUSE 4>

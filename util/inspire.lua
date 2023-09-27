@@ -82,6 +82,7 @@ function load_fonts()
     messagebox.loadfont("fountain_joined", "fonts/fountain_joined.uf2")
     messagebox.loadfont("fountain", "fonts/fountain.uf2")
     messagebox.loadfont("protorunes", "fonts/protorunes.uf2")
+    messagebox.loadfont("plotter", "fonts/plotter.uf2")
 end
 
 function setup(gestling_name)

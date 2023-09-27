@@ -56,8 +56,10 @@
     @[["characters/junior.b64"]
       ["characters/junior.lua"]
       ["vocab/junior/p_junior.b64"
+       "vocab/junior/p_junior_verses.b64"
        "vocab/junior/t_junior.b64"
        "vocab/junior/pb_junior.txt"
+       "vocab/junior/pb_junior_verses.txt"
        "vocab/junior/v_junior.b64"
        "shapes/l_junior.b64"
        ]]
@@ -141,4 +143,4 @@
        "dialogue/junior.txt"]]
 ])
 
-(def fonts @["cholo" "antik_1" "cursive_a" "fountain_joined" "fountain"])
+(def fonts @["cholo" "antik_1" "cursive_a" "fountain_joined" "fountain" "plotter"])
