@@ -142,8 +142,11 @@ function nphrases(events, t, n)
     table.insert(events, new_event(t, "nphrases", n))
 end
 
-function blockdur(events, t, dur, pos)
-    table.insert(events, pos, new_event(t, "blockdur", dur))
+function blockdur(events, t, dur, pos, nphrases)
+    local data = {}
+    data.dur = dur
+    data.nphrases = nphrases
+    table.insert(events, pos, new_event(t, "blockdur", data))
 end
 
 function set_font(events, t, n)
@@ -412,8 +415,11 @@ function process_video(nframes, events)
             mb.scale = data
         end,
 
-        blockdur = function(mb, dur)
-            valutil.set("msgscale", mb.nphrases / dur)
+        blockdur = function(mb, data)
+            local dur = data.dur
+            local nphrases = data.nphrases
+            assert(nphrases > 0, "invalid nphrases amount")
+            valutil.set("msgscale", nphrases / dur)
         end,
 
         nphrases = function(mb, n)
@@ -490,7 +496,23 @@ function parse_script(script_txt)
             local start_pos = #events + 1
             t, rate = process_block(block, t, rate, events)
             local end_time = t
-            blockdur(events, start_time, end_time - start_time, start_pos)
+            local total_dur = end_time - start_time
+            blockdur(events, start_time, total_dur, start_pos, last_nphrases)
+
+            -- TODO add segment mode
+            -- the main idea is to get segments in a block with
+            -- various lengths
+            -- each phrase segment would get a proportional
+            -- value using a "phraselen" command
+            -- then, each phrase would get their own
+            -- blockdur event.
+            -- the proportional values would be used to calculate
+            -- each phrase duration in units of frames. Any
+            -- "leftover" frames get appeneded to the last
+            -- phrase.
+            -- segment mode would explicitely turned on
+            -- before adding phrases, then turned off
+            -- after the block command
         elseif string.match(block[1], "^scale") ~= nil then
             local cmd = core.split(block[1], " ")
             textscale(events, t, tonumber(cmd[2]))
