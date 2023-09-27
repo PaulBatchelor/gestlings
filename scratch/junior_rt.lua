@@ -344,6 +344,7 @@ function altrun()
             -- pprint(process_word(split_words[2], vocab))
             --genphrase_v2(sentence, dat.vocab)
             if #sentence > 0 then
+                print("eval")
                 eval_sentence(genphrase_v2(sentence, dat.vocab))
             end
         end
