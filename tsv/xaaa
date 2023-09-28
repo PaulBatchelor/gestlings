@@ -2574,7 +2574,7 @@
 -	db9363a5-3c61-4567-9df7-7e1c74b2b009	#58649506-80dd-4d70-bf0a-a822612b183b
 2023-09-28 13:25:33	7363154b-dc72-4006-a056-91904d9938dc	>video dimensions, window, and messagebox
 -	7363154b-dc72-4006-a056-91904d9938dc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-09-28 13:25:33	7363154b-dc72-4006-a056-91904d9938dc	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-28 16:08:18	7363154b-dc72-4006-a056-91904d9938dc	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	7363154b-dc72-4006-a056-91904d9938dc	#161cf9d7-5c32-48a4-9c33-7a56914072b3
 2023-09-28 13:53:47	297fa952-deb0-4771-8b41-88797a7be5a8	$duration:>1673
 -	297fa952-deb0-4771-8b41-88797a7be5a8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -2585,8 +2585,26 @@
 -	09a3f75a-2352-41d0-848d-4e8273806632	#aefc6948-3a75-4354-a9d8-c56dbc47ffff
 2023-09-28 13:55:30	2db4af24-b2b0-4adb-9997-7651dc6373c1	>placeholder avatar
 -	2db4af24-b2b0-4adb-9997-7651dc6373c1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-09-28 13:55:30	2db4af24-b2b0-4adb-9997-7651dc6373c1	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-28 16:08:10	2db4af24-b2b0-4adb-9997-7651dc6373c1	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	2db4af24-b2b0-4adb-9997-7651dc6373c1	#161cf9d7-5c32-48a4-9c33-7a56914072b3
 2023-09-28 14:23:49	99d51cc8-4f06-4cdd-ab68-465f7d9db7fe	$duration:>1682
 -	99d51cc8-4f06-4cdd-ab68-465f7d9db7fe	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	99d51cc8-4f06-4cdd-ab68-465f7d9db7fe	#2db4af24-b2b0-4adb-9997-7651dc6373c1
+2023-09-28 16:09:28	720286c8-a357-492d-9e64-2630d1d32998	>hooking up the avatar is easier said than done. at this point, the avatar is being drawn, but it's not being controlled
+-	720286c8-a357-492d-9e64-2630d1d32998	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	720286c8-a357-492d-9e64-2630d1d32998	#5ff398ff-7dd6-49be-8914-3807a9ec09fb
+2023-09-28 16:11:13	5dd9df8d-7e0d-48f7-9a3c-f478b9a444cb	>rigging the mouth animation and getting it intergrated with vocab is what will be done here
+-	5dd9df8d-7e0d-48f7-9a3c-f478b9a444cb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5dd9df8d-7e0d-48f7-9a3c-f478b9a444cb	#5ff398ff-7dd6-49be-8914-3807a9ec09fb
+2023-09-28 16:14:21	88748498-73e2-4cd7-9ae9-2e93f629f918	>I'll need to review how I did mouth sync for the welcome to gestleton trailer, but my understanding is that it's a gesture with points, and those points correspond to a set of states somewhere?
+-	88748498-73e2-4cd7-9ae9-2e93f629f918	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	88748498-73e2-4cd7-9ae9-2e93f629f918	#5ff398ff-7dd6-49be-8914-3807a9ec09fb
+2023-09-28 16:15:28	23027092-053c-4886-97c6-25c0c775c8e7	>I think the trailer tied tract shapes to mouth shapes. I think I am going to try binding it to each word.
+-	23027092-053c-4886-97c6-25c0c775c8e7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	23027092-053c-4886-97c6-25c0c775c8e7	#5ff398ff-7dd6-49be-8914-3807a9ec09fb
+2023-09-28 16:15:37	bd74c0a8-3efb-42a4-b345-f2910593e491	$duration:>431
+-	bd74c0a8-3efb-42a4-b345-f2910593e491	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	bd74c0a8-3efb-42a4-b345-f2910593e491	#161cf9d7-5c32-48a4-9c33-7a56914072b3
+2023-09-28 16:29:51	5f4ca56e-797e-4949-9ffe-ae000b8c1719	$duration:>178
+-	5f4ca56e-797e-4949-9ffe-ae000b8c1719	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	5f4ca56e-797e-4949-9ffe-ae000b8c1719	#161cf9d7-5c32-48a4-9c33-7a56914072b3
