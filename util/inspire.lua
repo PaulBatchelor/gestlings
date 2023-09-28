@@ -88,23 +88,23 @@ function load_fonts()
     messagebox.loadfont("plotter", "fonts/plotter.uf2")
 end
 
-
--- TODO consolidate into data
-trixie = nil
-function setup(gestling_name)
+function setup(inspire)
     load_fonts()
-    buf = messagebox.new()
+    local buf = messagebox.new()
+    local gestling_name = inspire.gestling_name
 
     lil("sdfvmnew vm")
 
     lil("grab vm")
     vm = pop()
+    inspire.vm = vm
     fp = io.open("avatar/sdfvm_lookup_table.json")
     syms = json.decode(fp:read("*all"))
     fp:close()
 
     -- TODO rework placeholder avatar
-    trixie = mktrixie(vm, syms, 1)
+    --
+    local trixie = mktrixie(vm, syms, 1)
     trixie.open = {
         circleness = 0.7,
         roundedge = 0.1,
@@ -186,7 +186,9 @@ function setup(gestling_name)
         240 - 2*window_padding, 320 - 2*window_padding
     }
 
-    return buf
+    inspire.buf = buf
+    inspire.trixie = trixie
+    inspire.mouth = sqrcirc
 end
 
 function new_event(t, name, data)
@@ -313,7 +315,12 @@ function poetic_phrase(sentence, vocab)
     return phrase
 end
 
-function setup_sound(gestling_name, character, phrases, phrasebook_id)
+-- function setup_sound(gestling_name, character, phrases, phrasebook_id)
+function setup_sound(inspire)
+    local gestling_name = inspire.gestling_name
+    local character = inspire.character
+    local phrases = inspire.phrases
+    local phrasebook_id = inspire.phrasebook_name
     lil("blkset 49")
     lil("valnew msgscale")
 
@@ -508,7 +515,6 @@ function generate_bytecode(syms, script, bytebuf)
     end
 end
 
-
 function mksinger(vm, syms, name, id, bufsize)
     local singer = {
     }
@@ -526,98 +532,11 @@ function mksinger(vm, syms, name, id, bufsize)
     end
 end
 
-
-function apply_mouth_shape(vm, mouth)
-    local scale = 0.6
-    sdfvm.uniset_scalar(vm, 4, mouth.circleness)
-    sdfvm.uniset_scalar(vm, 5, mouth.roundedge)
-    sdfvm.uniset_scalar(vm, 6, mouth.circrad*scale)
-
-    for i=1,4 do
-        local p = mouth.points[i]
-        sdfvm.uniset_vec2(vm, i-1, p[1]*scale, p[2]*scale)
-    end
-end
-
-function mouth_interp(m1, m2, pos)
-    local newmouth = {}
-
-    newmouth.circleness =
-        pos*m2.circleness +
-        (1 - pos)*m1.circleness
-
-    newmouth.roundedge =
-        pos*m2.roundedge +
-        (1 - pos)*m1.roundedge
-
-    newmouth.circrad =
-        pos*m2.circrad +
-        (1 - pos)*m1.circrad
-
-    newmouth.points = {}
-    for i=1,4 do
-        newmouth.points[i] = {}
-        newmouth.points[i][1] =
-            pos*m2.points[i][1] +
-            (1 - pos)*m1.points[i][1]
-        newmouth.points[i][2] =
-            pos*m2.points[i][2] +
-            (1 - pos)*m1.points[i][2]
-    end
-
-    return newmouth
-end
-
 function avatar_draw(vm, singer, dims)
     local mouth = singer.open
-    if singer.shape_gesture ~= nil then
-        local cur, nxt, pos = gestvm_last_values(singer.shape_gesture)
-        local m1 = nil
-        local m2 = nil
 
-        -- TODO: use lookup table to get open/close values
-        if cur == 1 then
-            m1 = singer.close
-        else
-            m1 = singer.open
-        end
-
-        if nxt == 1 then
-            m2 = singer.close
-        else
-            m2 = singer.open
-        end
-
-        mouth = mouth_interp(m1, m2, pos)
-    end
-
-    local restamt = 0
-    if singer.gate_gesture ~= nil then
-        local cur, nxt, pos = gestvm_last_values(singer.gate_gesture)
-        local gate = pos*nxt + (1 -pos)*cur
-        restamt = 1 - gate
-
-        restamt = lerp(singer.restamt or 1, restamt, 0.5)
-        singer.restamt = restamt
-    end
-
-    mouth = mouth_interp(mouth, singer.rest, restamt)
-    apply_mouth_shape(vm, mouth)
-
-    if singer.lfo ~= nil and dims ~= nil then
-        local lfo = singer.lfo
-        local phs = lfo.last
-        yoff = math.sin(phs)*lfo.amp
-        phs = phs + (2*math.pi / 60)*lfo.rate
-        lfo.last = phs % (2*math.pi)
-        local id = singer.id + 1
-        lilt {
-            "bpset",
-            "[grab bp]", id - 1,
-            dims[id][1], math.floor(dims[id][2] + yoff),
-            dims[id][3], dims[id][4]
-        }
-    end
+    -- TODO re-introduce mouth interpolation using gesture
+    singer.sqrcirc:apply_shape(vm, mouth)
 
     lilt {
         "bpsdf",
@@ -630,6 +549,7 @@ end
 --- placeholder avatar stuff
 function mktrixie(vm, syms, id)
     local scale = 0.6
+    local sqrcirc = mouth:squarecirc()
 
     local singer = mksinger(vm, syms, "trixie", id, 512) {
         {
@@ -674,22 +594,25 @@ function mktrixie(vm, syms, id)
         "swap subtract",
         "add",
 
-        mouth.squarecirc(scale, 0.8, 0.05, {0, 0.3}),
+        sqrcirc:generate(scale, 0.8, 0.05, {0, 0.3}),
 
         "add",
         -- "point vec2 0.75 0.6 ellipse gtz",
         "gtz",
     }
 
+    singer.sqrcirc = sqrcirc
+
     return singer
 end
 
-function process_video(nframes, events)
+function process_video(inspire, nframes)
     local evdata = {}
+    local trixie = inspire.trixie
 
-    -- TODO store the vm somewhere instead of grabbing it here
-    lil("grab vm")
-    local vm = pop()
+    local events = inspire.events
+    local buf = inspire.buf
+    local vm = inspire.vm
 
     local event_handler = {
         append = function(mb, data)
@@ -977,13 +900,28 @@ function generate_mp4(gestling_name)
     os.execute(table.concat(ffmpeg_args, " "))
 end
 
+function inspire_init(script_txt, gestling_name)
+    local inspire = {}
+    local events, character, phrases, phrasebook_name = parse_script(script_txt)
+    inspire.buf = buf
+    inspire.events = events
+    inspire.character = character
+    inspire.phrases = phrases
+    inspire.phrasebook_name = phrasebook_name
+    inspire.gestling_name = gestling_name
+    setup(inspire)
+    return inspire
+end
+
 function main(script_txt, gestling_name)
-    buf = setup(gestling_name)
-    events, character, phrases, phrasebook_name = parse_script(script_txt)
-    setup_sound(gestling_name, character, phrases, phrasebook_name)
+    --events, character, phrases, phrasebook_name = parse_script(script_txt)
+    -- setup_sound(gestling_name, character, phrases, phrasebook_name)
+    inspire = inspire_init(script_txt, gestling_name)
+    setup_sound(inspire)
     -- first pass to get duration
-    nframes = process_video(-1, events)
-    process_video(nframes, events)
+    nframes = process_video(inspire, -1)
+    -- process_video(nframes, events)
+    process_video(inspire, nframes)
     close_video(gestling_name)
     generate_mp4(gestling_name)
     ::bye::
