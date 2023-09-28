@@ -1,0 +1,8 @@
+Thanks to damieng for their zx-spectrum fonts:
+
+fountain_joined
+fountain
+plotter
+
+More can be found here:
+https://damieng.com/typography/zx-origins/
