@@ -12,7 +12,7 @@ Gestletree.<PAUSE 2>
 @nphrases 1
 @phrase way_to_remember some_jumps_v2
 @block
-<RATE 3>It's a way to help
+<RATE 3>It is a way to help
 remember which mushrooms
 are edible and which
 are poisonous.<PAUSE 2>
