@@ -153,7 +153,8 @@
    (string
       "build " name ": asset " cprog "\n"
       "    command = ./" cprog "\n"
-      "    description = asset " name)))
+      "    description = asset " name))
+   (array/push asset-files name))
 
 (defn uf2font [fontname]
  (print
