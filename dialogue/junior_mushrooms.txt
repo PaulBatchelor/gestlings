@@ -15,7 +15,7 @@ Gestletree.<PAUSE 2>
 <RATE 3>It's a way to help
 remember which mushrooms
 are edible and which
-are poisoinous.<PAUSE 2>
+are poisonous.<PAUSE 2>
 
 @nphrases 1
 @phrase goes_like_this some_jumps
