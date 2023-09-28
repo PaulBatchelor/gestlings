@@ -4,6 +4,7 @@ lilt = core.lilt
 lilts = core.lilts
 json = require("util/json")
 mouth = require("avatar/mouth/mouth")
+sdfdraw = require("avatar/sdfdraw")
 
 descript = require("descript/descript")
 
@@ -98,9 +99,10 @@ function setup(inspire)
     lil("grab vm")
     vm = pop()
     inspire.vm = vm
-    fp = io.open("avatar/sdfvm_lookup_table.json")
-    syms = json.decode(fp:read("*all"))
-    fp:close()
+    --fp = io.open("avatar/sdfvm_lookup_table.json")
+    -- syms = json.decode(fp:read("*all"))
+    --fp:close()
+    syms = sdfdraw.load_symbols(json)
 
     -- TODO rework placeholder avatar
     --
@@ -480,54 +482,21 @@ end
 
 -- AVATAR PLACEHOLDER CODE
 
-function tokenize(s)
-    local sep = lpeg.S(" \t\n")
-    local elem = lpeg.C((1 - sep)^0)
-    local p = lpeg.Ct(elem * (sep*elem)^0)
-    return lpeg.match(p, s)
-end
-
-function generate_bytecode(syms, script, bytebuf)
-    input_script = {}
-
-    for _,line in pairs(script) do
-        if (type(line) == "table") then
-            table.insert(input_script, table.concat(line, " "))
-        else
-            table.insert(input_script, line)
-        end
-    end
-
-    local program = tokenize(table.concat(input_script, "\n"))
-
-    for _,p in pairs(program) do
-        if #p == 0 then
-            -- ignore
-        elseif type(tonumber(p)) == "number" then
-            mnobuf.append_float(bytebuf, tonumber(p))
-        elseif type(p) == "string" then
-            local opcode = syms[p]
-            assert(opcode ~= nil, string.format("Invalid opcode: %s", p))
-            mnobuf.append(bytebuf, opcode)
-        else
-            error("can't handle type " .. type(p))
-        end
-    end
-end
-
 function mksinger(vm, syms, name, id, bufsize)
     local singer = {
     }
 
-    bufsize = bufsize or 256
-    singer.bufname = name
-    lilt {"bufnew", singer.bufname, bufsize}
-    lilt {"grab", singer.bufname}
-    singer.bytebuf = pop()
+    -- bufsize = bufsize or 256
+    -- singer.bufname = name
+    -- lilt {"bufnew", singer.bufname, bufsize}
+    -- lilt {"grab", singer.bufname}
+    -- singer.bytebuf = pop()
     singer.id = id
 
+    singer.renderer = sdfdraw.mkrenderer(syms, singer.bufname, bufsize)
     return function(program)
-        generate_bytecode(syms, program, singer.bytebuf)
+        -- sdfdraw.generate_bytecode(syms, program, singer.bytebuf)
+        singer.renderer:generate_bytecode(program)
         return singer
     end
 end
@@ -538,18 +507,22 @@ function avatar_draw(vm, singer, dims)
     -- TODO re-introduce mouth interpolation using gesture
     singer.sqrcirc:apply_shape(vm, mouth)
 
-    lilt {
-        "bpsdf",
+    singer.renderer:draw(
         string.format("[bpget [grab bp] %d]", singer.id),
-        "[grab vm]",
-        "[grab " .. singer.bufname .. "]"
-    }
+        "[grab vm]"
+    )
+    -- lilt {
+    --     "bpsdf",
+    --     string.format("[bpget [grab bp] %d]", singer.id),
+    --     "[grab vm]",
+    --     "[grab " .. singer.bufname .. "]"
+    -- }
 end
 
 --- placeholder avatar stuff
 function mktrixie(vm, syms, id)
     local scale = 0.6
-    local sqrcirc = mouth:squarecirc()
+    local sqrcirc = mouth:squirc()
 
     local singer = mksinger(vm, syms, "trixie", id, 512) {
         {

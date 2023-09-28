@@ -1,7 +1,8 @@
 Mouth = {}
 
-local SquareCirc = {}
-function SquareCirc:new(o)
+local Squirc = {}
+
+function Squirc:new(o)
     o = o or {}
 
     setmetatable(o, self)
@@ -10,7 +11,7 @@ function SquareCirc:new(o)
     return o
 end
 
-function SquareCirc:generate(scale, mouth_xscale, mouth_yscale, offset)
+function Squirc:generate(scale, mouth_xscale, mouth_yscale, offset)
     local offx = offset[1]
     local offy = offset[2]
     local m = {
@@ -41,20 +42,24 @@ function SquareCirc:generate(scale, mouth_xscale, mouth_yscale, offset)
     return m
 end
 
-function SquareCirc:apply_shape(vm, shape)
-    local scale = 0.6
+function Squirc:apply_shape(vm, shape, scale)
+    scale = scale or 0.6
     sdfvm.uniset_scalar(vm, 4, shape.circleness)
     sdfvm.uniset_scalar(vm, 5, shape.roundedge)
-    sdfvm.uniset_scalar(vm, 6, shape.circrad*scale)
+    sdfvm.uniset_scalar(vm, 6, scale*shape.circrad)
 
     for i=1,4 do
         local p = shape.points[i]
-        sdfvm.uniset_vec2(vm, i-1, p[1]*scale, p[2]*scale)
+        sdfvm.uniset_vec2(vm, i-1, scale*p[1], scale*p[2])
     end
 end
 
-function Mouth.squarecirc(o)
-    return SquareCirc:new(o)
+function Squirc:new_shape()
+
+end
+
+function Mouth.squirc(o)
+    return Squirc:new(o)
 end
 
 return Mouth
