@@ -91,21 +91,33 @@ function setup(gestling_name)
     buf = messagebox.new()
 
     buf.font = "fountain"
-    lilt {"bpnew", "bp", 240, 60}
-    lilt {"gfxnewz", "gfx", 320, 240, 2}
+    -- lilt {"bpnew", "bp", 240, 60}
+    lilt {"bpnew", "bp", 240, 320}
+    lilt {"gfxnewz", "gfx", 240, 320, 1}
     lil("grab gfx; dup")
     lil("gfxopen tmp/" .. gestling_name .. ".h264")
     lil("gfxclrset 1 1.0 1.0 1.0")
     lil("gfxclrset 0 0.0 0.0 0.0")
 
     lil("drop")
-    padding = 4
+    msgbox_width = 224
+    window_padding = 4
+    padding = 4 + window_padding
+    -- to avoid rounded edges
+    ylift = 4
+    xcenter = (240 // 2) - (msgbox_width // 2) + padding
     lilt {
         "bpset",
         "[grab bp]", 0,
-        padding, padding,
-        200 - 2*padding,
+        xcenter, (320 - 60 - ylift) + padding,
+        msgbox_width - 2*padding,
         60 - 2*padding
+    }
+    lilt {
+        "bpset",
+        "[grab bp]", 2,
+        window_padding, window_padding,
+        240 - 2*window_padding, 320 - 2*window_padding
     }
 
     return buf
@@ -456,8 +468,10 @@ function process_video(nframes, events)
         return nframes
     end
 
-    local xoff = 320//2 - 200//2
-    local yoff = 240//2 - 60//2
+    -- local xoff = 320//2 - 200//2
+    -- local yoff = 240//2 - 60//2
+    local xoff = 0
+    local yoff = 0
     for n=1,nframes do
         if (n % 60) == 0 then
             print(n, string.format("%02d%%", math.floor(n*100/nframes)))
@@ -470,9 +484,29 @@ function process_video(nframes, events)
         local lheight = 12
         messagebox.draw(buf, lheight)
         lil("grab gfx; dup")
-        lilt{"gfxrectf", xoff, yoff, 200, 60, 1}
+        lilt{"gfxrectf", xoff, yoff, 240, 320, 1}
         lil("dup")
-        lilt{"bptr", "[grab bp]", xoff, yoff, 200, 60, 0, 0, 0}
+        -- TODO padding info in data somewhere
+        -- right now, it's in two places (DRY)
+        window_padding = 4
+        lilt{
+            "bproundrect",
+            "[bpget [grab bp] 2]",
+            0, 0,
+            240 - 2*window_padding, 320 - 2*window_padding,
+            16, 1
+        }
+
+        msgbox_divider = (320 - 60 - 8)
+        lilt {
+            "bpline",
+            "[bpget [grab bp] 2]",
+            0, msgbox_divider,
+            240, msgbox_divider,
+            1
+        }
+        -- lil("bpoutline [bpget [grab bp] 0] 1")
+        lilt{"bptr", "[grab bp]", xoff, yoff, 240, 320, 0, 0, 0}
         lil("gfxzoomit")
         lil("grab gfx; dup")
         lil("gfxtransferz; gfxappend")
