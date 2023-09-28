@@ -1,3 +1,4 @@
+#! ./cantor
 core = require("util/core")
 lilt = core.lilt
 lilts = core.lilts
@@ -142,10 +143,15 @@ function nphrases(events, t, n)
     table.insert(events, new_event(t, "nphrases", n))
 end
 
-function blockdur(events, t, dur, pos, nphrases)
+function blockdur_data(dur, nphrases)
     local data = {}
     data.dur = dur
     data.nphrases = nphrases
+    return data
+end
+
+function blockdur(events, t, dur, pos, nphrases)
+    local data = blockdur_data(dur, nphrases)
     table.insert(events, pos, new_event(t, "blockdur", data))
 end
 
@@ -489,6 +495,9 @@ function parse_script(script_txt)
     last_nphrases = -1
     local character = {}
     local phrasebook_name = "default"
+    local segmode = false
+    local segments = {}
+    local seglen = 1
     for _, block in pairs(dialogue) do
         -- TODO: convert into look-up table
         if block[1] == "block" then
@@ -497,9 +506,8 @@ function parse_script(script_txt)
             t, rate = process_block(block, t, rate, events)
             local end_time = t
             local total_dur = end_time - start_time
-            blockdur(events, start_time, total_dur, start_pos, last_nphrases)
 
-            -- TODO add segment mode
+            -- segment mode!
             -- the main idea is to get segments in a block with
             -- various lengths
             -- each phrase segment would get a proportional
@@ -513,6 +521,69 @@ function parse_script(script_txt)
             -- segment mode would explicitely turned on
             -- before adding phrases, then turned off
             -- after the block command
+
+            if segmode then
+                print("we are in segmode!")
+                assert(last_nphrases == #segments,
+                    string.format("segment (%d)/nphrases (%d) mismatch",
+                        #segments, last_nphrases))
+
+                local total_seglen = 0
+                local nsegs = #segments
+
+                -- compute sum of all segments
+                for _,v in pairs(segments) do
+                    total_seglen = total_seglen + v
+                end
+
+                assert(total_seglen > 0, "invalid seglen")
+                local frames_per_unit = total_dur // total_seglen
+
+                local toffset = 0
+
+                for idx, seg in pairs(segments) do
+                    local segframes = seg*frames_per_unit
+
+                    if idx == nsegs then
+                        segframes = total_dur - toffset
+                    end
+
+                    -- sweep through event list and insert
+                    -- in order
+
+                    local t = start_time + toffset
+                    for i=start_pos, #events do
+                        if (i < #events) then
+                            local cur = events[i]
+                            local nxt = events[i + 1]
+
+                            if t >= cur[1] and t <= nxt[1] then
+                                local data = blockdur_data(segframes, 1)
+                                table.insert(events, i + 1,
+                                    new_event(t, "blockdur", data))
+                                break
+                            end
+                        else
+                            -- if it's the largest, just
+                            -- append at the end
+                            print("appending at end")
+                        end
+                    end
+                    -- blockdur(events, 
+                    --     start_time + toffset,
+                    --     segframes,
+                    --     start_pos + (idx - 1),
+                    --     1)
+                    toffset = toffset + segframes
+                end
+                -- reset
+                segmode = false
+                segments = {}
+                seglen = 1
+            else
+                blockdur(events, start_time, total_dur, start_pos, last_nphrases)
+            end
+
         elseif string.match(block[1], "^scale") ~= nil then
             local cmd = core.split(block[1], " ")
             textscale(events, t, tonumber(cmd[2]))
@@ -526,6 +597,10 @@ function parse_script(script_txt)
         elseif string.match(block[1], "^phrase") ~= nil then
             local cmd = core.split(block[1], " ")
             table.insert(phrases, {cmd[2], cmd[3]})
+            if segmode then
+                print("inserting segment of length " .. seglen)
+                table.insert(segments, seglen)
+            end
         elseif string.match(block[1], "^character") ~= nil then
             local cmd = core.split(block[1], " ")
             print("using character '" .. cmd[2] .. "'")
@@ -533,6 +608,12 @@ function parse_script(script_txt)
         elseif string.match(block[1], "^font") ~= nil then
             local cmd = core.split(block[1], " ")
             set_font(events, t, cmd[2])
+        elseif string.match(block[1], "^segmode") ~= nil then
+            segmode = true
+            segments = {}
+        elseif string.match(block[1], "^seglen") ~= nil then
+            local cmd = core.split(block[1], " ")
+            seglen = tonumber(cmd[2])
         end
     end
 
@@ -584,6 +665,7 @@ function main(script_txt, gestling_name)
     process_video(nframes, events)
     close_video(gestling_name)
     generate_mp4(gestling_name)
+    ::bye::
 end
 
 if #arg < 2 then
@@ -591,3 +673,4 @@ if #arg < 2 then
 end
 
 main(arg[1], arg[2])
+

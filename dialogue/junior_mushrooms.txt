@@ -79,10 +79,13 @@ Rare,<PAUSE 1> and worth lots!<PAUSE 3>
 
 @nphrases 2
 @font fountain
+@segmode
+@seglen 2
 @phrase good_luck some_jumps_v2
+@seglen 1
 @phrase laughing excited
 @block
 <RATE 3>Good luck!<PAUSE 2>
 Try not to eat a bad
-mushroom.<PAUSE 4>
-<RATE 2>hahahahaha!<PAUSE 4>
+mushroom.<PAUSE 2>
+hahahahaha!<PAUSE 4>
