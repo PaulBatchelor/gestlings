@@ -171,6 +171,7 @@ function setup(inspire)
     ylift = 4
     xcenter = (240 // 2) - (msgbox_width // 2) + padding
     -- message box
+  
     lilt {
         "bpset",
         "[grab bp]", 0,
@@ -181,13 +182,23 @@ function setup(inspire)
 
     local avatar_padding = window_padding + 8
     -- avatar
-    lilt {
-        "bpset",
-        "[grab bp]", 1,
+    local avatar_dims = {
         avatar_padding, avatar_padding,
         240 - 2*avatar_padding,
         (320 - 60) - 2*avatar_padding
     }
+
+    lilt {
+        "bpset",
+        "[grab bp]", 1,
+        avatar_dims[1], avatar_dims[2],
+        avatar_dims[3], avatar_dims[4]
+        -- avatar_padding, avatar_padding,
+        -- 240 - 2*avatar_padding,
+        -- (320 - 60) - 2*avatar_padding
+    }
+
+    inspire.avatar_dims = avatar_dims
 
     -- window (canvas)
     lilt {
@@ -507,13 +518,12 @@ function mksinger(vm, syms, name, id, bufsize)
 
     singer.renderer = sdfdraw.mkrenderer(syms, singer.bufname, bufsize)
     return function(program)
-        -- sdfdraw.generate_bytecode(syms, program, singer.bytebuf)
         singer.renderer:generate_bytecode(program)
         return singer
     end
 end
 
-function avatar_draw(vm, singer, mouth_x, mouth_y)
+function avatar_draw(vm, singer, mouth_x, mouth_y, dims, framepos)
     -- local mouth = singer.open
     local m1 = nil
     local m2 = nil
@@ -536,6 +546,19 @@ function avatar_draw(vm, singer, mouth_x, mouth_y)
 
     -- TODO re-introduce mouth interpolation using gesture
     singer.sqrcirc:apply_shape(vm, mouth)
+
+    -- quick hack: LFO to add floating
+    lfo = math.sin(2*math.pi * (framepos/(60 * 1.3)))*0.06
+    sdfvm.bias(vm, 0, lfo)
+    lilt {
+        "bpset",
+        "[grab bp]", 1,
+        dims[1], dims[2],
+        dims[3], dims[4]
+        -- avatar_padding, avatar_padding,
+        -- 240 - 2*avatar_padding,
+        -- (320 - 60) - 2*avatar_padding
+    }
 
     singer.renderer:draw(
         string.format("[bpget [grab bp] %d]", singer.id),
@@ -712,7 +735,9 @@ function process_video(inspire, nframes)
         avatar_draw(vm,
             trixie,
             inspire.physdat.mouth_x,
-            inspire.physdat.mouth_y
+            inspire.physdat.mouth_y,
+            inspire.avatar_dims,
+            n
         )
         if (n == (60*1.7)) then
             lil("bppng [grab bp] tmp/screenshot.png")

@@ -194,18 +194,32 @@ function genvocab()
         gate = {
             {0, 1, stp},
         },
+        mouth_x = {
+            {"open", 1, gm},
+            {"close", 1, gm},
+        },
         mouth_y = {
             {0x00, 1, gm},
         }
     }, "pause.")
 
-    voc(2, 1, pat_a {}, "pattern a. 'halalayu'")
+    voc(2, 1, pat_a {
+        mouth_x = {
+            {"tri", 1, gm},
+            {"upwider", 1, gm},
+            {"close", 1, gm},
+        },
+    }, "pattern a. 'halalayu'")
     voc(3, 1, pat_a {
         aspiration = asp.second,
         shapes = {
             {E, 2, lin},
             {D, 1, gl},
             {C, 1, lin},
+        },
+        mouth_x = {
+            {"tri", 1, gm},
+            {"close", 1, gm},
         },
     }, "oohlay eddy")
 
@@ -217,11 +231,19 @@ function genvocab()
             {E, 1, gm},
             {A, 1, gm}
         },
-        aspiration = asp.mid
+        aspiration = asp.mid,
+        mouth_x = {
+            {"triflip", 1, gm},
+            {"close", 1, gm},
+        },
     }, "oofla lowla")
 
     voc(5, 1, pat_a {
-        aspiration = asp.longstart
+        aspiration = asp.longstart,
+        mouth_x = {
+            {"wide", 1, gm},
+            {"close", 1, gm},
+        },
     }, "ahpf! lay-oo")
 
     voc(6, 1, pat_a {
@@ -234,6 +256,10 @@ function genvocab()
             {B, 3, gl},
         },
         aspiration = asp.longend,
+        mouth_x = {
+            {"upwider", 1, gm},
+            {"close", 1, gm},
+        },
     }, "ahlala")
 
     voc(7, 1, pat_a {
@@ -242,12 +268,25 @@ function genvocab()
             {D, 1, lin},
         },
         aspiration = asp.none,
+        mouth_x = {
+            {"smallcirc", 1, gm},
+            {"close", 1, gm},
+        },
     }, "yi-eh")
 
-    voc(8, 1, pat_b {}, "wah!")
+    voc(8, 1, pat_b {
+        mouth_x = {
+            {"open", 1, gm},
+            {"close", 1, gm},
+        },
+    }, "wah!")
 
     voc(1, 2, pat_b {
-        aspiration = asp.longstart
+        aspiration = asp.longstart,
+        mouth_x = {
+            {"tri", 1, gm},
+            {"close", 1, gm},
+        },
     }, "hhhwah")
 
     voc(2, 2, pat_b {
@@ -257,22 +296,49 @@ function genvocab()
             {E, 1, gm},
             {A, 4, gm},
         },
-        aspiration = asp.longend
+        aspiration = asp.longend,
+        mouth_x = {
+            {"bigsqr", 1, gm},
+            {"smallsqr", 1, gm},
+        },
+        mouth_x = {
+            {"smallsqr", 1, gm},
+            {"close", 1, gm},
+        },
     }, "wellwik-hhh")
 
-    voc(3, 2, pat_c {}, "oomuleh-ya")
+    voc(3, 2, pat_c {
+        mouth_x = {
+            {"open", 1, gm},
+            {"close", 1, gm},
+        },
+    }, "oomuleh-ya")
     voc(4, 2, pat_c {
         shapes = {
             {D, 1, lin},
             {E, 1, lin},
         },
-        aspiration = asp.mid
+        aspiration = asp.mid,
+        mouth_x = {
+            {"bigsqr", 1, gm},
+            {"close", 1, gm},
+        },
     }, "echalon")
     voc(5, 2, pat_c {
-        aspiration = asp.mid
+        aspiration = asp.mid,
+        mouth_x = {
+            {"open", 1, lin},
+            {"wide", 1, lin},
+            {"close", 1, gm},
+        },
     }, "ooflayah")
     voc(6, 2, pat_c {
-        aspiration = asp.whisp
+        aspiration = asp.whisp,
+        mouth_x = {
+            {"triflip", 1, lin},
+            {"tri", 1, lin},
+            {"smallcirc", 1, gm},
+        },
     }, "oovalef")
 
     local pm = genpartmorphs()
@@ -287,7 +353,11 @@ function genvocab()
         shapes = {
             {A, 1, stp},
         },
-        aspiration = asp.longstart
+        aspiration = asp.longstart,
+        mouth_x = {
+            {"open", 1, lin},
+            {"close", 1, lin},
+        },
     }, "HA")
     voc(6, 3, pat_d {
         vib = {
