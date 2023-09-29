@@ -85,6 +85,10 @@
     @[["fonts/protorunes.uf2"]
       ["runes/runemaker.lua"]
       ["runes/runes.txt"]]
+
+    @[["avatar/mouth/mouthshapes1.b64"]
+      ["avatar/mouth/mouthshapes1.lua"]
+      ["asset/asset.lua"]]
 ])
 
 (def resources @[
@@ -141,6 +145,13 @@
       ["asset/asset.lua"
        "descript/descript.lua"
        "dialogue/junior.txt"]]
+
+    @[["res/mouthshapes1.png"]
+      ["avatar/mouth/mouthchart.lua"]
+      ["asset/asset.lua"
+       "avatar/mouth/mouth.lua"
+       "avatar/sdfdraw.lua"
+       "avatar/mouth/mouthshapes1.b64"]]
 ])
 
 (def fonts @["cholo" "antik_1" "cursive_a" "fountain_joined" "fountain" "plotter"])

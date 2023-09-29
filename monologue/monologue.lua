@@ -70,6 +70,7 @@ function Monologue.to_words(p)
     local vocab = p.vocab
     local mono = p.monologue
     local lookup = p.shapelut
+    local mouthshapes = p.mouthshapes
 
     local p_shapes = {}
     local pros_pitch = {}
@@ -90,10 +91,10 @@ function Monologue.to_words(p)
     tal.jump(words, "hold")
 
     -- TODO mouthshapes should be an argument
-    local mouthshapes = {
-        open=1,
-        close=2
-    }
+    -- local mouthshapes = {
+    --     open=1,
+    --     close=2
+    -- }
 
     -- a lookup table, specifically for mouthshapes
     -- this allows certain paths in a morpheme to have

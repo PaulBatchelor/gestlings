@@ -89,6 +89,44 @@ function load_fonts()
     messagebox.loadfont("plotter", "fonts/plotter.uf2")
 end
 
+local function mkmouth(name)
+    return function(shape)
+        local mth = {}
+        mth.name = name
+        mth.shape = shape
+        return mth
+    end
+end
+
+function mkmouthtab(mouthshapes)
+    local lut = {}
+    for _, mth in pairs(mouthshapes) do
+        lut[mth.name] = mth.shape
+    end
+
+    return lut
+end
+
+function mkmouthlut(mouthshapes)
+    local lut = {}
+
+    for idx, mth in pairs(mouthshapes) do
+        lut[mth.name] = idx
+    end
+
+    return lut
+end
+
+function mkmouthidx(mouthshapes)
+    local lut = {}
+
+    for idx, mth in pairs(mouthshapes) do
+        lut[idx] = mth.shape
+    end
+
+    return lut
+end
+
 function setup(inspire)
     load_fonts()
     local buf = messagebox.new()
@@ -99,52 +137,23 @@ function setup(inspire)
     lil("grab vm")
     vm = pop()
     inspire.vm = vm
-    --fp = io.open("avatar/sdfvm_lookup_table.json")
-    -- syms = json.decode(fp:read("*all"))
-    --fp:close()
     syms = sdfdraw.load_symbols(json)
 
     -- TODO rework placeholder avatar
-    --
     local trixie = mktrixie(vm, syms, 1)
-    trixie.open = {
-        circleness = 0.7,
-        roundedge = 0.1,
-        circrad = 0.35,
-        points = {
-            {-0.4, 0.4},
-            {-0.05, -0.4},
-            {0.05, -0.4},
-            {0.4, 0.4},
-        }
-    }
-    trixie.close = {
-        circleness = 0.7,
-        roundedge = 0.1,
-        circrad = 0.1,
-        points = {
-            {-0.4, 0.4},
-            {-0.05, -0.4},
-            {0.05, -0.4},
-            {0.4, 0.4},
-        }
-    }
-    trixie.rest = {
-        circleness = 0.1,
-        roundedge = 0.03,
-        circrad = 0.1,
-        points = {
-            {-0.8, 0.1},
-            {-0.8, -0.1},
-            {0.8, -0.1},
-            {0.8, 0.1},
-        }
-    }
+    
+    local mouthshapes = asset:load("avatar/mouth/mouthshapes1.b64")
+    -- really only used to access specific shapes
+    -- (right now it's "rest")
+    trixie.mouthshapes = mkmouthtab(mouthshapes)
 
+    -- used to generate monologue
+    trixie.mouthlut = mkmouthlut(mouthshapes)
+
+    -- used for shape lookup in avatar draw
+    trixie.mouthidx = mkmouthidx(mouthshapes)
 
     buf.font = "fountain"
-
-
 
     -- lilt {"bpnew", "bp", 240, 60}
     lilt {"bpnew", "bp", 240, 320}
@@ -383,7 +392,8 @@ function setup_sound(inspire)
         morpheme = morpheme,
         vocab = vocab,
         monologue = mono,
-        shapelut = lookup
+        shapelut = lookup,
+        mouthshapes = inspire.trixie.mouthlut
     }
 
     gst:compile(words)
@@ -504,11 +514,14 @@ function mksinger(vm, syms, name, id, bufsize)
 end
 
 function avatar_draw(vm, singer, mouth_x, mouth_y)
-    local mouth = singer.open
+    -- local mouth = singer.open
     local m1 = nil
     local m2 = nil
+    local mouth = nil
 
-    local mouthvals = {singer.open, singer.close}
+    local mouthshapes = singer.mouthshapes
+    --local mouthvals = {mouthshapes.open, mouthshapes.close}
+    local mouthvals = singer.mouthidx
 
     local cur, nxt, pos = gestvm_last_values(mouth_x)
     -- print(cur, nxt)
@@ -519,7 +532,7 @@ function avatar_draw(vm, singer, mouth_x, mouth_y)
     cur = cur / 0xFF
     nxt = nxt / 0xFF
     pos = (1 - pos)*cur + pos*nxt
-    mouth = singer.sqrcirc:interp(singer.rest, mouth, pos)
+    mouth = singer.sqrcirc:interp(mouthshapes.rest, mouth, pos)
 
     -- TODO re-introduce mouth interpolation using gesture
     singer.sqrcirc:apply_shape(vm, mouth)
@@ -528,12 +541,6 @@ function avatar_draw(vm, singer, mouth_x, mouth_y)
         string.format("[bpget [grab bp] %d]", singer.id),
         "[grab vm]"
     )
-    -- lilt {
-    --     "bpsdf",
-    --     string.format("[bpget [grab bp] %d]", singer.id),
-    --     "[grab vm]",
-    --     "[grab " .. singer.bufname .. "]"
-    -- }
 end
 
 --- placeholder avatar stuff
