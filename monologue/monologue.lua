@@ -92,8 +92,12 @@ function Monologue.to_words(p)
     -- TODO mouthshapes should be an argument
     local mouthshapes = {
         open=1,
-        close=0
+        close=2
     }
+
+    -- a lookup table, specifically for mouthshapes
+    -- this allows certain paths in a morpheme to have
+    -- different lookup values
 
     local mouthlut = {
         mouth_x=mouthshapes,

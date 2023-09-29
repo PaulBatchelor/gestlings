@@ -8,6 +8,7 @@ function gesture(sr, gst, name, cnd)
 end
 
 function juniorphys.physiology(p)
+    local physdat = {}
     local G = p.gest
     local cnd = p.cnd
     local lilts = p.lilts
@@ -160,6 +161,17 @@ function juniorphys.physiology(p)
 
     lil("dcblocker zz")
 
+    -- mouth gestures, to be used for visuals
+    gesture(sigrunes, G, "mouth_x", cnd)
+    lil("drop")
+    lil("gestvmlast " .. G:get())
+    physdat.mouth_x = pop()
+    gesture(sigrunes, G, "mouth_y", cnd)
+    lil("drop")
+    lil("gestvmlast " .. G:get())
+    physdat.mouth_y = pop()
+
+    return physdat
 end
 
 return juniorphys

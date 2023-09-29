@@ -42,6 +42,35 @@ function Squirc:generate(scale, mouth_xscale, mouth_yscale, offset)
     return m
 end
 
+function Squirc:interp(m1, m2, pos)
+    local newmouth = {}
+
+    newmouth.circleness =
+        pos*m2.circleness +
+        (1 - pos)*m1.circleness
+
+    newmouth.roundedge =
+        pos*m2.roundedge +
+        (1 - pos)*m1.roundedge
+
+    newmouth.circrad =
+        pos*m2.circrad +
+        (1 - pos)*m1.circrad
+
+    newmouth.points = {}
+    for i=1,4 do
+        newmouth.points[i] = {}
+        newmouth.points[i][1] =
+            pos*m2.points[i][1] +
+            (1 - pos)*m1.points[i][1]
+        newmouth.points[i][2] =
+            pos*m2.points[i][2] +
+            (1 - pos)*m1.points[i][2]
+    end
+
+    return newmouth
+end
+
 function Squirc:apply_shape(vm, shape, scale)
     scale = scale or 0.6
     sdfvm.uniset_scalar(vm, 4, shape.circleness)

@@ -396,7 +396,7 @@ function setup_sound(inspire)
     cnd:hold()
 
     local phys = dofile(character.physiology)
-    phys.physiology {
+    local physdat = phys.physiology {
         gest = gst,
         cnd = cnd,
         lilt = lilt,
@@ -404,6 +404,8 @@ function setup_sound(inspire)
         sigrunes = sigrunes,
         sig = sig,
     }
+
+    inspire.physdat = physdat
 
     gst:done()
     cnd:unhold()
@@ -501,8 +503,23 @@ function mksinger(vm, syms, name, id, bufsize)
     end
 end
 
-function avatar_draw(vm, singer, dims)
+function avatar_draw(vm, singer, mouth_x, mouth_y)
     local mouth = singer.open
+    local m1 = nil
+    local m2 = nil
+
+    local mouthvals = {singer.open, singer.close}
+
+    local cur, nxt, pos = gestvm_last_values(mouth_x)
+    -- print(cur, nxt)
+    m1 = mouthvals[cur]
+    m2 = mouthvals[nxt]
+    mouth = singer.sqrcirc:interp(m1, m2, pos)
+    local cur, nxt, pos = gestvm_last_values(mouth_y)
+    cur = cur / 0xFF
+    nxt = nxt / 0xFF
+    pos = (1 - pos)*cur + pos*nxt
+    mouth = singer.sqrcirc:interp(singer.rest, mouth, pos)
 
     -- TODO re-introduce mouth interpolation using gesture
     singer.sqrcirc:apply_shape(vm, mouth)
@@ -685,7 +702,11 @@ function process_video(inspire, nframes)
             1
         }
         -- lil("bpoutline [bpget [grab bp] 1] 1")
-        avatar_draw(vm, trixie)
+        avatar_draw(vm,
+            trixie,
+            inspire.physdat.mouth_x,
+            inspire.physdat.mouth_y
+        )
         if (n == (60*1.7)) then
             lil("bppng [grab bp] tmp/screenshot.png")
         end

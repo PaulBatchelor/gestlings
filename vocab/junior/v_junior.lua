@@ -104,7 +104,7 @@ function genvocab()
         },
 
         mouth_y = {
-            {0x1, 1, gm},
+            {0xFF, 1, gm},
         }
     })
 
@@ -193,6 +193,9 @@ function genvocab()
     voc(1, 1, pat_a {
         gate = {
             {0, 1, stp},
+        },
+        mouth_y = {
+            {0x00, 1, gm},
         }
     }, "pause.")
 
