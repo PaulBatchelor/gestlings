@@ -685,8 +685,13 @@ function clockentry () {
         exit 1
     fi
 
-    DATE=$2
-    DATE=$(date -d "$DATE" "+%Y-%m-%d")
+    if [ -z "${DATE}" ]
+    then
+        DATE="date"
+    fi
+
+    START_DATE=$2
+    START_DATE=$($DATE -d "$START_DATE" "+%Y-%m-%d")
     START_TIME=$3
     DURATION=$(time2seconds $4)
 
