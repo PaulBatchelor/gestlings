@@ -7,7 +7,7 @@ asset = asset:new {
 local morpheme = require("morpheme/morpheme")
 
 -- corresponds to how symbols are
--- arragened in tilemaker 
+-- arranged in tilemaker
 function coord(x, y)
     return (y - 1)*8 + x
 end
@@ -96,6 +96,15 @@ function genvocab()
         vib = {
             {0, 3, stp},
             {0, 1, gm},
+        },
+
+        mouth_x = {
+            {"open", 1, gm},
+            {"close", 1, gm},
+        },
+
+        mouth_y = {
+            {0x1, 1, gm},
         }
     })
 

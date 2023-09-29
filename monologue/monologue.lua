@@ -89,7 +89,18 @@ function Monologue.to_words(p)
     tal.halt(words)
     tal.jump(words, "hold")
 
-    morpheme.compile_noloop(tal, path, words, m, nil, lookup)
+    -- TODO mouthshapes should be an argument
+    local mouthshapes = {
+        open=1,
+        close=0
+    }
+
+    local mouthlut = {
+        mouth_x=mouthshapes,
+        mouth_y=mouthshapes
+    }
+
+    morpheme.compile_noloop(tal, path, words, m, nil, lookup, mouthlut)
 
     tal.label(words, "pros_pitch")
     path.path(tal, words, pros_pitch)
