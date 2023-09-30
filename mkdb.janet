@@ -49,6 +49,7 @@ Tasks for Gestlings. Updated automatically using [[/wiki/zetdo][zetdo]].
 (ww-add-page "mouthsounds" `@!(wikipage "mouthsounds")!@`)
 (ww-add-page "ref_junior" `#+TITLE: Junior Reference
 @!(img "/res/ref_junior.png")!@`)
+(ww-add-page "junior" `@!(gestlingpage "junior")!@`)
 
 # linked pages
 
