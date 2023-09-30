@@ -97,26 +97,28 @@ to other pages.
 function GMapGen:portals()
     nrows = 32
     ncols = 22
-    scale = self.zoom * 8
+    -- scale = self.zoom * 8
+    scale = 8
     portals  = {
+        -- {
+        --     x = (ncols//2 - 4 - 1)*scale,
+        --     y = (nrows//2 - 6 - 1)*scale,
+        --     w = 5*scale,
+        --     h = 5*scale,
+        --     description = "just a small box.",
+        --     page = "upper_rings"
+        -- },
         {
-            x = (ncols//2 - 4 - 1)*scale,
-            y = (nrows//2 - 6 - 1)*scale,
-            w = 5*scale,
-            h = 5*scale,
-            description = "just a small box.",
-            page = "upper_rings"
-        },
-        {
-            x = 1*scale,
-            y = (nrows - 6 - 1)*scale,
-            w = 5*scale,
-            h = 5*scale,
+            x = (7 - 1)*scale,
+            y = (25 - 1)*scale,
+            w = 4*scale,
+            h = 4*scale,
             description = "junior!",
             page = "junior"
         },
     }
 
+    -- return portals
     return portals
 end
 #+END_SRC
