@@ -6,4 +6,4 @@ Wait we're not ready yet! Come back soon.
 
 @!(video "/res/trailer2_small.mp4")!@
 
-@!(img "/res/sco_junior.png")!@
+@!(img "/res/sco_junior_letter.png")!@

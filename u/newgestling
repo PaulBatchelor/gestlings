@@ -1,0 +1,10 @@
+if [ "$#" -lt 1 ]
+then
+    echo "Usage: $0 gestling_name"
+    exit 1
+fi
+
+GESTLING_NAME=$1
+
+weewiki add $GESTLING_NAME
+weewiki set $GESTLING_NAME "@!(gestlingpage \"$GESTLING_NAME\")!@"
