@@ -1,3 +1,4 @@
+#! ./cantor
 local grid = monome_grid
 local pprint = require("util/pprint")
 local asset = require("asset/asset")
@@ -187,6 +188,11 @@ function TileMaker:press(x, y)
 
         self.tilemap[self.tilepos].shape = keyshape
         self.please_draw = true
+        return
+    end
+
+    -- border
+    if (y == 8 and x < 8) or (x == 8 and y < 8) then
         return
     end
 

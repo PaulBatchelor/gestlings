@@ -4,7 +4,7 @@
         "@!(imagemap"
         `"gestleton_map"`
         `"levels/gestleton/portals.json"`
-        `"/res/gestleton.png")!@`
+        `"/tmp/gestleton_proto.png")!@`
     ))
 
 (defn generate []

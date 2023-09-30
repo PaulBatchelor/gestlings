@@ -2664,10 +2664,22 @@
 -	4a352119-e408-4f5f-9966-d1bfd9497cc7	#28b5c77a-40e2-4541-9185-fcfc4cdb05a1
 2023-09-30 14:26:01	acd9421c-221d-4ae4-97e2-e18ae4f8710c	>make a link to junior page on gestleton image map
 -	acd9421c-221d-4ae4-97e2-e18ae4f8710c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-09-30 14:26:01	acd9421c-221d-4ae4-97e2-e18ae4f8710c	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-30 19:00:15	acd9421c-221d-4ae4-97e2-e18ae4f8710c	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-09-30 14:33:10	fc244c14-e5d0-4a0b-90eb-68bed4fa984f	$duration:>419
 -	fc244c14-e5d0-4a0b-90eb-68bed4fa984f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	fc244c14-e5d0-4a0b-90eb-68bed4fa984f	#acd9421c-221d-4ae4-97e2-e18ae4f8710c
 2023-09-30 14:40:23	fe2290c4-b14e-4c7e-8ffb-d464230d7317	$duration:>301
 -	fe2290c4-b14e-4c7e-8ffb-d464230d7317	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	fe2290c4-b14e-4c7e-8ffb-d464230d7317	#acd9421c-221d-4ae4-97e2-e18ae4f8710c
+2023-09-30 19:00:48	a87c42eb-e4c4-410c-9b67-e44cfa3b29cb	>rework map generator
+-	a87c42eb-e4c4-410c-9b67-e44cfa3b29cb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-09-30 19:00:48	a87c42eb-e4c4-410c-9b67-e44cfa3b29cb	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-09-30 19:01:51	44a14148-be79-4d66-bf57-f3f5b589ef39	>I don't like how it looks now. Going to try again with 256x256, and I'm going to manually write the map in a text editor, where each letter corresponds to a tile.
+-	44a14148-be79-4d66-bf57-f3f5b589ef39	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	44a14148-be79-4d66-bf57-f3f5b589ef39	#a87c42eb-e4c4-410c-9b67-e44cfa3b29cb
+2023-09-30 19:47:29	d8d2e636-036e-499b-90e2-0b8f52f8501e	$duration:>2700
+-	d8d2e636-036e-499b-90e2-0b8f52f8501e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d8d2e636-036e-499b-90e2-0b8f52f8501e	#a87c42eb-e4c4-410c-9b67-e44cfa3b29cb
+2023-09-30 21:14:49	d887ed1f-7ca6-470b-abd7-db571576a596	$duration:>4176
+-	d887ed1f-7ca6-470b-abd7-db571576a596	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d887ed1f-7ca6-470b-abd7-db571576a596	#a87c42eb-e4c4-410c-9b67-e44cfa3b29cb
