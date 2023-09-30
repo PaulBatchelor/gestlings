@@ -79,10 +79,13 @@ end
 
 function draw(reg, tilemap, zoom)
     nrows = 32
+    -- why 22 and not 24?
     ncols = 22
     draw_box(reg, tilemap, 0, 0, ncols - 2, nrows - 2, zoom)
     draw_box(reg, tilemap, ncols//2 - 4 - 1, nrows//2 - 6 - 1, 3, 3, zoom)
     draw_box(reg, tilemap, 4, 4, ncols - 8 - 2, nrows - 8 - 2, zoom)
+
+    draw_box(reg, tilemap, 0, nrows - 6 - 1, 3, 3, zoom)
 end
 #+END_SRC
 * Portals
@@ -103,7 +106,15 @@ function GMapGen:portals()
             h = 5*scale,
             description = "just a small box.",
             page = "upper_rings"
-        }
+        },
+        {
+            x = 0*scale,
+            y = (nrows - 6 - 1)*scale,
+            w = 5*scale,
+            h = 5*scale,
+            description = "junior!",
+            page = "junior"
+        },
     }
 
     return portals
