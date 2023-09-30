@@ -89,6 +89,7 @@
     @[["avatar/mouth/mouthshapes1.b64"]
       ["avatar/mouth/mouthshapes1.lua"]
       ["asset/asset.lua"]]
+
 ])
 
 (def resources @[
