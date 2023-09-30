@@ -333,6 +333,83 @@ function write_prosody_symbols(uf2_fname, lookup_fname)
     }
     pos = pos + 1
 
+
+    -- meter_rise
+    symbols[pos] = {
+        id = pos,
+        name = "meter_rise",
+        width = 12,
+        bits = {
+            "#--#--#--###",
+            "------------",
+            "------######",
+            "----##------",
+            "--##--------",
+            "##----------",
+        }
+    }
+    pos = pos + 1
+    -- meter_fall
+    
+    symbols[pos] = {
+        id = pos,
+        name = "meter_fall",
+        width = 12,
+        bits = {
+            "#--#--#--###",
+            "------------",
+            "######------",
+            "------##----",
+            "--------##--",
+            "----------##",
+        }
+    }
+    pos = pos + 1
+    -- meter_jumps_rise
+    symbols[pos] = {
+        id = pos,
+        name = "meter_jumps_rise",
+        width = 12,
+        bits = {
+            "#--#--#--###",
+            "------------",
+            "----###-----",
+            "----#-#-----",
+            "###-#-#-###-",
+            "#-###-###-##",
+        }
+    }
+    pos = pos + 1
+    -- meter_jumps_fall
+    symbols[pos] = {
+        id = pos,
+        name = "meter_jumps_fall",
+        width = 12,
+        bits = {
+            "#--#--#--###",
+            "------------",
+            "###-----###-",
+            "#-#-----#-#-",
+            "#-#-###-#-#-",
+            "#-###-###-##",
+        }
+    }
+    pos = pos + 1
+    -- meter_bigjumps_rise
+    symbols[pos] = {
+        id = pos,
+        name = "meter_bigjumps_rise",
+        width = 12,
+        bits = {
+            "#--#--#--###",
+            "------------",
+            "--#######---",
+            "--#-----#---",
+            "###-----###-",
+            "#---------##",
+        }
+    }
+
     local lookup = {}
 
     for _, sym in pairs(symbols) do

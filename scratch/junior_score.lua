@@ -58,9 +58,7 @@ end
 -- I need to refactor things so it's all consolidated in
 -- one data block
 
-local prosody_lookup = asset:load("prosody/prosody_symlut.b64")
-
-function draw_block(blk, buf, phrasebook, ypos, drawit)
+function draw_block(blk, buf, phrasebook, ypos, drawit, prosody_lookup)
     local glyphzoom = 2
     local glyphheight = 6
     local glyphspace = 1*glyphzoom
@@ -95,7 +93,7 @@ function draw_block(blk, buf, phrasebook, ypos, drawit)
             -- write prosody symbol
             mnobuf.clear(buf)
             local psym = prosody_lookup[phrase[2]]
-            assert(psym ~= nil)
+            assert(psym ~= nil, "Could not find prosody symbol: " .. phrase[2])
             mnobuf.append(buf, psym)
             mnobuf.append(buf, divsym)
             lilts {
@@ -109,7 +107,7 @@ function draw_block(blk, buf, phrasebook, ypos, drawit)
             }
 
             mnobuf.clear(buf)
-            for _,c in pairs(phrasebook[phrase[1]]) do
+            for _,c in pairs(phrasebook.phrases[phrase[1]]) do
                 mnobuf.append(buf, c)
             end
 
@@ -129,34 +127,37 @@ function draw_block(blk, buf, phrasebook, ypos, drawit)
     return ypos
 end
 
-function draw_blocks(phrasebook, blocks, buf, drawit)
+function draw_blocks(phrasebook, blocks, buf, drawit, prosody_lookup)
     local ypos = 0
 
     for _,blk in pairs(blocks) do
-        ypos = draw_block(blk, buf, phrasebook, ypos, drawit)
+        ypos = draw_block(blk, buf, phrasebook, ypos, drawit, prosody_lookup)
     end
 
     return ypos
 end
 
 function main()
-    fp = io.open("dialogue/junior.txt")
+    local script_txt = "dialogue/junior.txt"
+    -- local script_txt = "dialogue/junior_mushrooms.txt"
+    local character = "junior"
+    fp = io.open(script_txt)
+    assert(fp ~= nil, "File not found")
     script = fp:read("*all")
     fp:close()
     local blocks = {}
     local character = "???"
+    local prosody_lookup = asset:load("prosody/prosody_symlut.b64")
+
 
     dialogue = descript.parse(script)
 
-    -- local curblock = {}
-    -- curblock.nphrases = -1
-    -- curblock.phrases = {}
-    -- curblock.lines = {}
     local state = {
         font = "chicago",
         scale = 1
     }
     local curblock = new_block(state)
+    local which_phrasebook = "default"
     for _, chunk in pairs(dialogue) do
         cmd = core.split(chunk[1], " ")
         if cmd[1] == "block" then
@@ -167,12 +168,10 @@ function main()
             curblock.lines = lines
             table.insert(blocks, curblock)
             curblock = new_block(state)
-            -- curblock = {}
-            -- curblock.nphrases = -1
-            -- curblock.phrases = {}
-            -- curblock.lines = {}
         elseif cmd[1] == "nphrases" then
             curblock.nphrases = tonumber(cmd[2])
+        elseif cmd[1] == "phrasebook" then
+            which_phrasebook = cmd[2]
         elseif cmd[1] == "phrase" then
             table.insert(curblock.phrases, {cmd[2], cmd[3]})
         elseif cmd[1] == "character" then
@@ -191,11 +190,7 @@ function main()
     local height = 320 + 2*padding
     local fmt = string.format
     local cdat = asset:load(fmt("characters/%s.b64", character))
-    local phrasebook = cdat.phrasebook
-
-    -- local blk = blocks[1]
-
-    -- for k,_ in pairs(cdat) do print(k) end
+    local phrasebook = cdat.phrasebook[which_phrasebook]
 
     lilts {
         {"bufnew", "buf", 128},
@@ -203,7 +198,7 @@ function main()
 
     --local ypos = 0
     -- ypos = draw_block(blk, buf, phrasebook, ypos, false)
-    height = draw_blocks(phrasebook, blocks, buf, false)
+    height = draw_blocks(phrasebook, blocks, buf, false, prosody_lookup)
     height = height + 2*padding
 
 
@@ -216,17 +211,21 @@ function main()
         {"uf2load", "symbols", cdat.uf2},
         {"uf2load", "protorunes", "fonts/protorunes.uf2"},
         {"uf2load", "prosodysyms", "fonts/prosody.uf2"},
+        {"uf2load", "plotter", "fonts/plotter.uf2"},
     }
 
     lil("grab buf")
     buf = pop()
 
     ypos = 0
-    draw_blocks(phrasebook, blocks, buf, true)
-    --draw_block(blk, buf, phrasebook, ypos, true)
+    draw_blocks(phrasebook, blocks, buf, true, prosody_lookup)
 
     lilts {
-        {"bppng", "[grab bp]", "res/sco_junior.png"}
+        {
+            "bppng",
+            "[grab bp]",
+            "res/sco_" .. character .. ".png"
+        }
     }
 end
 
