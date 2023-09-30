@@ -132,8 +132,7 @@
        "vocab/junior/v_junior.b64"
        "vocab/junior/t_junior.b64"]]
 
-    @[["res/sco_junior.png"]
-      # TODO: move outside scratch
+    @[["res/sco_junior_letter.png"]
       ["scratch/junior_score.lua"]
       ["asset/asset.lua"
        "descript/descript.lua"

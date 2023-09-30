@@ -1,3 +1,4 @@
+#! ./cantor
 descript = require("descript/descript")
 
 pprint = require("util/pprint")
@@ -137,10 +138,7 @@ function draw_blocks(phrasebook, blocks, buf, drawit, prosody_lookup)
     return ypos
 end
 
-function main()
-    local script_txt = "dialogue/junior.txt"
-    -- local script_txt = "dialogue/junior_mushrooms.txt"
-    local character = "junior_letter"
+function main(script_txt, character)
     fp = io.open(script_txt)
     assert(fp ~= nil, "File not found")
     script = fp:read("*all")
@@ -229,4 +227,10 @@ function main()
     }
 end
 
-main()
+if #arg < 2 then
+    error("Usage: mkscore dialogue.txt character")
+end
+
+local script_txt = arg[1]
+local character = arg[2]
+main(script_txt, character)
