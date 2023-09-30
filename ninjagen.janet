@@ -61,6 +61,16 @@
   (print "    command = ./cantor util/uf2gen.lua $in $out")
   (print "    description = uf2gen $in $out"))
 
+(defn inspire-rule []
+  (print "rule inspire")
+  (print "    command = ./util/inspire.lua $in $character")
+  (print "    description = inspire $in $character ($out)"))
+
+(defn mkscore-rule []
+  (print "rule mkscore")
+  (print "    command = ./util/mkscore.lua $in $character")
+  (print "    description = mkscore $in $character ($out)"))
+
 (defn build-cantor [obj]
   (each o obj
     (print
@@ -110,6 +120,8 @@
 (cc-rule cflags)
 (link-rule)
 (asset-rule)
+(inspire-rule)
+(mkscore-rule)
 (def obj @[
     "protogestling/protogestling"
     "bitrune/bitrune"
@@ -177,6 +189,25 @@
 
 (asset-cprog "res/mouthtests.png" "avatar/mouth/mouthtests")
 (asset-cprog "avatar/sdfvm_lookup_table.json" "avatar/sdfvm_lookup_table")
+
+(defn gestling [dialogue character]
+ (def mp4 (string "res/" character ".mp4"))
+ (def png (string "res/sco_" character ".png"))
+ (print
+  (string
+   "build " mp4 ": inspire " dialogue " | cantor\n"
+   "    character = " character))
+
+ (print
+  (string
+   "build " png ": mkscore " dialogue " | cantor\n"
+   "    character = " character))
+
+  (array/push resource-files mp4)
+  (array/push resource-files png))
+
+
+(gestling "dialogue/junior_mushrooms.txt" "junior")
 
 (print (string "build assets: phony " (string/join asset-files " ")))
 (print (string "build tangled: phony " (string/join tangled-files " ")))

@@ -138,7 +138,7 @@ function draw_blocks(phrasebook, blocks, buf, drawit, prosody_lookup)
     return ypos
 end
 
-function main(script_txt, character)
+function main(script_txt, gestling_name)
     fp = io.open(script_txt)
     assert(fp ~= nil, "File not found")
     script = fp:read("*all")
@@ -222,7 +222,7 @@ function main(script_txt, character)
         {
             "bppng",
             "[grab bp]",
-            "res/sco_" .. character .. ".png"
+            "res/sco_" .. gestling_name .. ".png"
         }
     }
 end

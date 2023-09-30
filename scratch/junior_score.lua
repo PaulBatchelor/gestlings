@@ -140,7 +140,7 @@ end
 function main()
     local script_txt = "dialogue/junior.txt"
     -- local script_txt = "dialogue/junior_mushrooms.txt"
-    local character = "junior_letter"
+    local gestling_name = "junior_letter"
     fp = io.open(script_txt)
     assert(fp ~= nil, "File not found")
     script = fp:read("*all")
@@ -224,7 +224,7 @@ function main()
         {
             "bppng",
             "[grab bp]",
-            "res/sco_" .. character .. ".png"
+            "res/sco_" .. gestling_name .. ".png"
         }
     }
 end

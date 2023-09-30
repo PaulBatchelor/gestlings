@@ -161,6 +161,16 @@ function sentence_to_phrase(sentence)
     return phrase
 end
 
+function mkmouthlut(mouthshapes)
+    local lut = {}
+
+    for idx, mth in pairs(mouthshapes) do
+        lut[mth.name] = idx
+    end
+
+    return lut
+end
+
 function setup_sound(character, phrases)
     lil("blkset 49")
     lil("valnew msgscale")
@@ -206,13 +216,16 @@ function setup_sound(character, phrases)
         table.insert(mono, {phrase, pros})
     end
 
+    local mouthshapes = asset:load("avatar/mouth/mouthshapes1.b64")
+    local mouthlut = mkmouthlut(mouthshapes)
     local words = monologue.to_words {
         tal = tal,
         path = path,
         morpheme = morpheme,
         vocab = vocab,
         monologue = mono,
-        shapelut = lookup
+        shapelut = lookup,
+        mouthshapes = mouthlut
     }
 
     gst:compile(words)
