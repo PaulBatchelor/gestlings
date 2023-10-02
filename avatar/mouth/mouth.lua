@@ -91,4 +91,33 @@ function Mouth.squirc(o)
     return Squirc:new(o)
 end
 
+function Mouth.mkmouthtab(mouthshapes)
+    local lut = {}
+    for _, mth in pairs(mouthshapes) do
+        lut[mth.name] = mth.shape
+    end
+
+    return lut
+end
+
+function Mouth.mkmouthlut(mouthshapes)
+    local lut = {}
+
+    for idx, mth in pairs(mouthshapes) do
+        lut[mth.name] = idx
+    end
+
+    return lut
+end
+
+function Mouth.mkmouthidx(mouthshapes)
+    local lut = {}
+
+    for idx, mth in pairs(mouthshapes) do
+        lut[idx] = mth.shape
+    end
+
+    return lut
+end
+
 return Mouth

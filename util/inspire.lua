@@ -5,6 +5,7 @@ lilts = core.lilts
 json = require("util/json")
 mouth = require("avatar/mouth/mouth")
 sdfdraw = require("avatar/sdfdraw")
+avatar = require("avatar/avatar")
 
 descript = require("descript/descript")
 
@@ -503,75 +504,12 @@ function process_events(evdata, buf, n)
     end
 end
 
--- AVATAR PLACEHOLDER CODE
-
-function mksinger(vm, syms, name, id, bufsize)
-    local singer = {
-    }
-
-    -- bufsize = bufsize or 256
-    -- singer.bufname = name
-    -- lilt {"bufnew", singer.bufname, bufsize}
-    -- lilt {"grab", singer.bufname}
-    -- singer.bytebuf = pop()
-    singer.id = id
-
-    singer.renderer = sdfdraw.mkrenderer(syms, singer.bufname, bufsize)
-    return function(program)
-        singer.renderer:generate_bytecode(program)
-        return singer
-    end
-end
-
-function avatar_draw(vm, singer, mouth_x, mouth_y, dims, framepos)
-    -- local mouth = singer.open
-    local m1 = nil
-    local m2 = nil
-    local mouth = nil
-
-    local mouthshapes = singer.mouthshapes
-    --local mouthvals = {mouthshapes.open, mouthshapes.close}
-    local mouthvals = singer.mouthidx
-
-    local cur, nxt, pos = gestvm_last_values(mouth_x)
-    -- print(cur, nxt)
-    m1 = mouthvals[cur]
-    m2 = mouthvals[nxt]
-    mouth = singer.sqrcirc:interp(m1, m2, pos)
-    local cur, nxt, pos = gestvm_last_values(mouth_y)
-    cur = cur / 0xFF
-    nxt = nxt / 0xFF
-    pos = (1 - pos)*cur + pos*nxt
-    mouth = singer.sqrcirc:interp(mouthshapes.rest, mouth, pos)
-
-    -- TODO re-introduce mouth interpolation using gesture
-    singer.sqrcirc:apply_shape(vm, mouth)
-
-    -- quick hack: LFO to add floating
-    lfo = math.sin(2*math.pi * (framepos/(60 * 1.3)))*0.06
-    sdfvm.bias(vm, 0, lfo)
-    lilt {
-        "bpset",
-        "[grab bp]", 1,
-        dims[1], dims[2],
-        dims[3], dims[4]
-        -- avatar_padding, avatar_padding,
-        -- 240 - 2*avatar_padding,
-        -- (320 - 60) - 2*avatar_padding
-    }
-
-    singer.renderer:draw(
-        string.format("[bpget [grab bp] %d]", singer.id),
-        "[grab vm]"
-    )
-end
-
---- placeholder avatar stuff
 function mktrixie(vm, syms, id)
     local scale = 0.6
     local sqrcirc = mouth:squirc()
 
-    local singer = mksinger(vm, syms, "trixie", id, 512) {
+    -- TODO: save to disk as data, and store in character data bundle
+    local shader = {
         {
             "point",
             "vec2", 0.45*scale, -0.33*scale, "add2",
@@ -620,6 +558,11 @@ function mktrixie(vm, syms, id)
         -- "point vec2 0.75 0.6 ellipse gtz",
         "gtz",
     }
+
+    -- asset:save(shader, "tmp/a_junior.b64")
+    -- shader = asset:load("tmp/a_junior.b64")
+    local singer =
+        avatar.mkavatar(sdfdraw, vm, syms, "trixie", id, 512)(shader)
 
     singer.sqrcirc = sqrcirc
 
@@ -732,7 +675,7 @@ function process_video(inspire, nframes)
             1
         }
         -- lil("bpoutline [bpget [grab bp] 1] 1")
-        avatar_draw(vm,
+        avatar.draw(vm,
             trixie,
             inspire.physdat.mouth_x,
             inspire.physdat.mouth_y,

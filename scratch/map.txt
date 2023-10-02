@@ -23,10 +23,10 @@ bbb.......aaaaak.laaaaa........b
 bbb............k.l............bb
 bbb............k.l....ii......bb
 bbb............k.l...iiii.....bb
-bbb....mn......k.l....iiii..bbbb
-bbbbb..opiii...k.l..........bbbb
-bbbbb...iiiii..k.l..........bbbb
-bbbbbb..iiiii..k.l........bbbbbb
+bbb....mnop....k.l....iiii..bbbb
+bbbbb..qrst....k.l..........bbbb
+bbbbb..uvwx.i..k.l..........bbbb
+bbbbbb.yzABii..k.l........bbbbbb
 bbbbbb...iii...k.l........bbbbbb
 bbbbbb.........k.l........bbbbbb
 aaaaaaaaaa.....k.l....aaaaaaaaaa
