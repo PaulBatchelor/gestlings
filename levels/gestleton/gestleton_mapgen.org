@@ -111,8 +111,8 @@ function GMapGen:portals()
         {
             x = (7 - 1)*scale,
             y = (25 - 1)*scale,
-            w = 4*scale,
-            h = 4*scale,
+            w = 6*scale,
+            h = 6*scale,
             description = "junior!",
             page = "junior"
         },
