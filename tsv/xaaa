@@ -1584,7 +1584,7 @@
 2023-08-05 02:57:55	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	$blurb:>a 'phrase' is a morpheme sequence with a name, that can be launched alongside a message in a message box.
 2023-08-05 02:58:14	aefc6948-3a75-4354-a9d8-c56dbc47ffff	>the first gestling
 -	aefc6948-3a75-4354-a9d8-c56dbc47ffff	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-05 02:58:14	aefc6948-3a75-4354-a9d8-c56dbc47ffff	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-10-05 19:39:30	aefc6948-3a75-4354-a9d8-c56dbc47ffff	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-05 02:59:32	aefc6948-3a75-4354-a9d8-c56dbc47ffff	$blurb:>the first official gestling is going to be a full end-to-end video rendering from a descript file. no extra lua code glue. just descript -> video. if we can get here, we have a working gestling creation pipeline.
 2023-08-05 03:00:01	ad50a349-9732-4312-8281-f687fe1c2165	>mouth animation
 -	ad50a349-9732-4312-8281-f687fe1c2165	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -2481,7 +2481,7 @@
 -	eb66b263-dc4d-41f0-b826-8733c58cbbeb	#3baea843-db9d-4314-8b53-b5f1ff1170ca
 2023-09-25 18:49:30	161cf9d7-5c32-48a4-9c33-7a56914072b3	>create 'inspire' utility
 -	161cf9d7-5c32-48a4-9c33-7a56914072b3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-09-25 18:49:30	161cf9d7-5c32-48a4-9c33-7a56914072b3	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-10-05 19:39:38	161cf9d7-5c32-48a4-9c33-7a56914072b3	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-09-25 18:50:06	161cf9d7-5c32-48a4-9c33-7a56914072b3	$blurb:>this is the name of the top-level utility for producing gestlings. scripts go in, gestlings come out.
 2023-09-25 18:50:58	453fcca7-f507-4158-b66b-b92efb026f67	>port trailer 2 code to initial 'inspire' utility
 -	453fcca7-f507-4158-b66b-b92efb026f67	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -2688,3 +2688,9 @@
 -	20370d1d-df53-4fad-b92c-eff210045ef0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 2023-10-02 19:03:39	20370d1d-df53-4fad-b92c-eff210045ef0	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	533a1be6-b134-4901-a0d0-08c5a770c62b	#20370d1d-df53-4fad-b92c-eff210045ef0
+2023-10-05 19:40:14	e1bb5f9f-4c15-437d-91a1-721435aa2de4	>create sprite layer for maps
+-	e1bb5f9f-4c15-437d-91a1-721435aa2de4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-10-05 19:40:14	e1bb5f9f-4c15-437d-91a1-721435aa2de4	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-10-05 20:21:42	2310a791-f383-49c5-a210-754cee0d10a3	$duration:>2478
+-	2310a791-f383-49c5-a210-754cee0d10a3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	2310a791-f383-49c5-a210-754cee0d10a3	#e1bb5f9f-4c15-437d-91a1-721435aa2de4
