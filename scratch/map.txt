@@ -9,7 +9,7 @@ bbcd....iiiii.................bb
 bbcc...........................b
 bbcd......aaaaaaaaaaaaa........b
 bbcc......aefgi...ihcda........b
-bbcd......acd.aaaaaiefa........b
+bbcd......aciaaaaaaaifa........b
 bbcc......aefijiajiigga........b
 bbcd......aggiaaaaaigga........b
 bbcd......aghia...aigga........b
@@ -22,11 +22,11 @@ bbb.......aefef...gggga........b
 bbb.......aaaaak.laaaaa........b
 bbb............k.l............bb
 bbb............k.l....ii......bb
-bbb............k.l...iiii.....bb
-bbb....mnop....k.l....iiii..bbbb
-bbbbb..qrst....k.l..........bbbb
-bbbbb..uvwx.i..k.l..........bbbb
-bbbbbb.yzABii..k.l........bbbbbb
-bbbbbb...iii...k.l........bbbbbb
+bbb.....iiii...k.l...iiii.....bb
+bbb....iiiiii..k.l....iiii..bbbb
+bbbbb..iiiiiii.k.l..........bbbb
+bbbbb..iiiii...k.l..........bbbb
+bbbbbb.iiiiii..k.l........bbbbbb
+bbbbbb..iiii...k.l........bbbbbb
 bbbbbb.........k.l........bbbbbb
 aaaaaaaaaa.....k.l....aaaaaaaaaa

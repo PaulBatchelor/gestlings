@@ -63,34 +63,42 @@ function draw_glyph(tile, xpos, ypos)
         rowstr = ""
         for x=1,width do
             local shft = (x - 1)*2
-            local bits = ((row & 1 << shft) >> shft)
-            c = 0
+            local bits = ((row & (0x3 << shft)) >> shft)
+            c = -1
 
-            if bits > 0 then
+            if bits == 1 then
                 c = 1
-            else
+            elseif bits == 0 then
                 c = 0
             end
-            btprnt.draw(mainreg,
-                xpos*8 + (x - 1),
-                ypos*8 + (rowpos - 1),
-                c)
+
+            if c >= 0 then
+                btprnt.draw(mainreg,
+                    xpos*8 + (x - 1),
+                    ypos*8 + (rowpos - 1),
+                    c)
+            end
         end
     end
 end
 
-map = io.open("scratch/map.txt", "r")
+function draw_map(mapname)
+    map = io.open(mapname, "r")
 
-rowpos = 0
-for line in map:lines() do
-    for i=1,#line do
-        local ch = string.char(string.byte(line, i))
-        local tile_id = palette[ch]
-        if tile_id ~= nil then
-            draw_glyph(tiles[tile_id].data, i-1, rowpos)
+    rowpos = 0
+    for line in map:lines() do
+        for i=1,#line do
+            local ch = string.char(string.byte(line, i))
+            local tile_id = palette[ch]
+            if tile_id ~= nil then
+                draw_glyph(tiles[tile_id].data, i-1, rowpos)
+            end
         end
+        rowpos = rowpos + 1
     end
-    rowpos = rowpos + 1
 end
+
+draw_map("scratch/map.txt")
+draw_map("scratch/map2.txt")
 
 lil("bppng [grab bp] tmp/gestleton_proto.png")
