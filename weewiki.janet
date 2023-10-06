@@ -176,8 +176,8 @@
   (file/close file))
 
 (defn gestlingpage [name]
-    (def vid (respath (string "/res/" name ".mp4")))
-    (def sco (respath (string "/res/sco_" name ".png")))
+    (def vid (string "/res/" name ".mp4"))
+    (def sco (string "/res/sco_" name ".png"))
     (org (string "#+TITLE: " name "\n\n"))
     (video vid)
     (org "\n")
