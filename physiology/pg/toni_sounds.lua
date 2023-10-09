@@ -28,7 +28,7 @@ function excitation(pitch, trig, gate)
         {"mtof", zz},
         {"param", 0.5},
         {"sine", zz, zz},
-        {"sine", "[mtof 72]", 1},
+        {"sine", "[mtof [rline 50 82 3]]", 1},
         {"biscale", zz, 0, 1},
         {"mul", zz, zz},
         {"regget", clk.reg},
@@ -133,23 +133,44 @@ end
 
 -- <@>
 function patch()
+    lil("regmrk 3")
+    lil("regmrk 4")
+    lil("regmrk 6")
+
     lilts {
         {"tubularnew", 8, 4},
-        {"regset", "zz", 4},
-        {"regmrk", 4},
+        -- {"regset", "zz", 4},
+        -- {"regmrk", 4},
     }
-    lil( [[
-    genvals [tabnew 1] "0.1 0.9 0.1 0.1 0.1 0.1 0.3 0.1"
-    regset zz 3
-    regmrk 3
+    tubular = sig:new()
+    tubular:hold_data()
 
-    tabnew [tubularsz [regget 4] ]
-    regset zz 6
-    regmrk 6
+    local shape = {
+        0.1, 0.1, 0.1, 0.1, 0.1, 0.4, 0.3, 0.9
+    }
+    lilt {
+        "genvals",
+        "[tabnew 1]",
+        "\"" .. table.concat(shape, " ") .. "\""
+    }
+    local tractshape = sig:new()
+    tractshape:hold_data()
 
-    tractdrm [regget 6] [regget 3]
-    tubulardiams [regget 4] [regget 6]
+    tubular:get()
+    lil("tabnew [tubularsz zz]")
+
+    local tractdiams = sig:new()
+    tractdiams:hold_data()
+
+    tractdiams:get()
+    tractshape:get()
+    lil([[
+    tractdrm zz zz
     ]])
+
+    tubular:get()
+    tractdiams:get()
+    lil("tubulardiams zz zz")
 
     local pitch, trig, gate = tempwhistlesigs()
     excitation(pitch, trig, gate)
@@ -157,7 +178,8 @@ function patch()
     trig:unhold()
     local exc = sig:new()
     exc:hold()
-    lil("regget 4")
+    -- lil("regget 4")
+    tubular:get()
     exc:get()
     lil("tubular zz zz")
     exc:get()
@@ -166,6 +188,9 @@ function patch()
     lilt {"mul", "zz", "zz"}
     gate:unhold()
     exc:unhold()
+    tubular:unhold()
+    tractshape:unhold()
+    tractdiams:unhold()
     lilt {"dcblocker zz"}
     lilt{"buthp", zz, 100}
     lil("limit zz -1 1")
