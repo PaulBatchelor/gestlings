@@ -8,7 +8,7 @@ function gesture(sr, gst, name, cnd)
     }
 end
 
-function whistle_square(pitch)
+function whistle_square(lilts, pitch)
     pitch:get()
     lilts {
         {"blsquare", zz},
@@ -22,7 +22,7 @@ function whistle_square(pitch)
     }
 end
 
-function whistle_noise(pitch, trig)
+function whistle_noise(lilts, pitch, trig)
     lilts {
         {"noise"},
         {"butbp", zz, 1000, 50},
@@ -49,15 +49,17 @@ function whistle_noise(pitch, trig)
     }
 end
 
-function whistle(pitch, trig, gate)
-    whistle_noise(pitch, trig)
-    whistle_square(pitch)
+function whistle(lilts, pitch, trig, gate)
+    whistle_noise(lilts, pitch, trig)
+    whistle_square(lilts, pitch)
     lilts {
         {"add", zz, zz},
     }
 end
 
-function toniphys.excitation(sig, pitch, trig, gate)
+function toniphys.excitation(sig, core, pitch, trig, gate)
+    local lilts = core.lilts
+    local lilt = core.lilt
     local clk = sig:new()
     lilts {
         {"metro", "[rline 4 20 3]"},
@@ -82,7 +84,7 @@ function toniphys.excitation(sig, pitch, trig, gate)
         {"env", zz, 0.002, 0.005, 0.002}
     }
     lilt {"crossfade", zz, 1, 1}
-    whistle(pitch, trig, gate)
+    whistle(lilts, pitch, trig, gate)
     lilt {"mul", zz, zz}
     lilts {
         {"metro", 2},
@@ -106,8 +108,10 @@ function toniphys.create(p)
     return p
 end
 
-function toniphys.tempwhistlesigs()
-    lil("metro 0.5; tgate zz 1")
+function toniphys.tempwhistlesigs(localsig)
+    sig = sig or localsig
+    assert(sig ~= nil, "sig module must be loaded")
+    lil("metro 0.3; tgate zz 1")
     local gate = sig:new()
     gate:hold()
 

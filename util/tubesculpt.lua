@@ -1,3 +1,4 @@
+#! ./cantor
 local grid = monome_grid
 local pprint = require("util/pprint")
 local asset = require("asset/asset")
@@ -6,9 +7,16 @@ asset = asset:new{
     base64 = require("util/base64")
 }
 local klover = require("klover/klover")
+local toni = require("physiology/phys_toni")
+local sig = require("sig/sig")
+local core = require("util/core")
 
 function start_sound()
 lil([[
+regmrk 4
+regmrk 3
+regmrk 0
+
 hsnew hs
 rtnew [grab hs] rt
 
@@ -26,14 +34,25 @@ tractdrm [regget 0] [regget 3]
 tubulardiams [regget 4] [regget 0]
 
 regget 4
-#glot [mtof 46] [param 0.7] [param 0.03] [param 0.001]
-glot [mtof 67] [param 0.7] [param 0.03] [param 0.001]
+]])
+
+-- lil([[
+-- #glot [mtof 46] [param 0.7] [param 0.03] [param 0.001]
+-- glot [mtof 67] [param 0.7] [param 0.03] [param 0.001]
+-- ]])
+
+local pitch, trig, gate = toni.tempwhistlesigs(sig)
+toni.excitation(sig, core, pitch, trig, gate)
+pitch:unhold()
+trig:unhold()
+gate:unhold()
+
+lil([[
 tubular zz zz zz
 mul zz [dblin -5]
 butlp zz 4000
 hsout [grab hs]
 hsswp [grab hs]
-
 ]])
 
 end

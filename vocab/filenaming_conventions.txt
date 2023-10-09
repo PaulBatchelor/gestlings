@@ -7,3 +7,4 @@ t_foo.b64: tilemap of symbols, created by tilemaker
 uf2_foo.lua: script to generate uf2 font file
 v_foo.b64: vocabulary
 v_foo.lua: lua script to generate vocabulary
+s_foo.b64: tubesculpt shapes (usually found in shapes folder)
