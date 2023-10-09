@@ -31,7 +31,7 @@ function patch(phystoni)
     -- create excitation signal
     local pitch, trig, gate = phystoni.tempwhistlesigs()
 
-    phystoni.excitation(sig, pitch, trig, gate)
+    phystoni.excitation(sig, core, pitch, trig, gate)
     pitch:unhold()
     trig:unhold()
 
