@@ -1,12 +1,5 @@
 toniphys = {}
 local zz = "zz"
-function gesture(sr, gst, name, cnd)
-    sr.node(gst:node()){
-        name = name,
-        conductor = core.liln(cnd:getstr()),
-        extscale = "[val [grab msgscale]]",
-    }
-end
 
 function whistle_square(lilts, pitch)
     pitch:get()
@@ -113,15 +106,15 @@ function toniphys.tempwhistlesigs(localsig)
     assert(sig ~= nil, "sig module must be loaded")
     lil("metro 0.3; tgate zz 1")
     local gate = sig:new()
-    gate:hold()
+    gate:hold_cabnew()
 
     lil("add 0 0")
     local trig = sig:new()
-    trig:hold()
+    trig:hold_cabnew()
 
     lil("mtof ".. "[rline 81 88 10]")
     local pitch = sig:new()
-    pitch:hold()
+    pitch:hold_cabnew()
     return pitch, trig, gate
 end
 
@@ -181,7 +174,44 @@ end
 
 function toniphys.physiology(p)
     local physdat = {}
-    -- TODO
+    local sig = p.sig
+    local core = p.core
+    local gst = p.gst
+    local cnd = p.cnd
+
+    local pt = toniphys.create {
+        sig = sig,
+    }
+
+    -- set up tract filter, use fixed shape for testing
+    local tubular = pt.tubular
+    local shape = {
+        0.1, 0.1, 0.1, 0.1, 0.1, 0.4, 0.3, 0.9
+    }
+
+    toniphys.fixed_tube_shape(sig, tubular, shape)
+
+    -- create excitation signal
+    local pitch, trig, gate = toniphys.tempwhistlesigs()
+    gate:unhold()
+
+    toniphys.excitation(sig, core, pitch, trig, gate)
+    pitch:unhold()
+    trig:unhold()
+
+    local exc = sig:new()
+    exc:hold()
+
+    -- process excitation with tract filter
+    toniphys.filter(tubular, exc)
+    exc:unhold()
+    local gate = sig:new()
+    gst:gesture("gate", cnd)
+    gate:hold()
+    toniphys.gate(gate)
+    gate:unhold()
+    toniphys.postprocess()
+    toniphys.clean(pt)
     return physdat
 end
 

@@ -3,6 +3,7 @@ rt = require("util/rt")
 lilt = core.lilt
 lilts = core.lilts
 sig = require("sig/sig")
+sigrunes = require("sigrunes/sigrunes")
 phystoni = require("physiology/phys_toni")
 gest = require("gest/gest")
 asset = require("asset/asset")
@@ -17,7 +18,7 @@ path = require("path/path")
 
 function genvocab()
     local behavior = gest.behavior
-    local stp = behavior.stp
+    local stp = behavior.step
     pat_a = morpheme.template({
         gate = {
             {1, 1, stp},
@@ -32,7 +33,7 @@ function genvocab()
     end
 
     add("A", pat_a{})
-    add("S", pat_a{
+    add("S", pat_a {
         gate = {
             {0, 1, stp}
         }
@@ -41,7 +42,7 @@ function genvocab()
     return vocab
 end
 
-function patch(phystoni)
+function patch(phystoni, gst)
     local pt = phystoni.create {
         sig = sig,
     }
@@ -52,38 +53,49 @@ function patch(phystoni)
         0.1, 0.1, 0.1, 0.1, 0.1, 0.4, 0.3, 0.9
     }
 
-    phystoni.fixed_tube_shape(sig, tubular, shape)
+    lilt {"phasor", 1/3, 0}
+    local cnd = sig:new()
+    cnd:hold_cabnew()
 
-    -- create excitation signal
-    local pitch, trig, gate = phystoni.tempwhistlesigs()
+    phystoni.physiology {
+        core = core,
+        sig = sig,
+        gst = gst,
+        cnd = cnd
+    }
+    -- phystoni.fixed_tube_shape(sig, tubular, shape)
 
-    phystoni.excitation(sig, core, pitch, trig, gate)
-    pitch:unhold()
-    trig:unhold()
+    -- -- create excitation signal
+    -- local pitch, trig, gate = phystoni.tempwhistlesigs()
 
-    local exc = sig:new()
-    exc:hold()
+    -- phystoni.excitation(sig, core, pitch, trig, gate)
+    -- pitch:unhold()
+    -- trig:unhold()
 
-    -- process excitation with tract filter
-    phystoni.filter(tubular, exc)
-    exc:unhold()
-    phystoni.gate(gate)
-    gate:unhold()
-    phystoni.postprocess()
-    phystoni.clean(pt)
+    -- local exc = sig:new()
+    -- exc:hold()
+
+    -- -- process excitation with tract filter
+    -- phystoni.filter(tubular, exc)
+    -- exc:unhold()
+    -- phystoni.gate(gate)
+    -- gate:unhold()
+    -- phystoni.postprocess()
+    -- phystoni.clean(pt)
 end
 
-function mkmonologue()
+function mkmonologue(gst)
     local prostab = asset:load("prosody/prosody.b64")
 
     local phrase = {
-        {1, {1, 1}},
-        {2, {1, 1}}
+        {1, {1, 2}},
+        {2, {1, 1}},
     }
 
     local vocab = genvocab()
 
     mono = {
+        {phrase, prostab.neutral},
         {phrase, prostab.neutral}
     }
 
@@ -95,11 +107,23 @@ function mkmonologue()
         monologue = mono,
     }
 
-    -- TODO: test and see if this actually works?
+    return words
 end
 
-mkmonologue()
-patch(phystoni)
+function sound()
+    local gst = gest:new {
+        tal = tal,
+        sigrunes = sigrunes,
+        core = core,
+    }
+    gst:create()
+    local words = mkmonologue()
+    gst:compile(words)
+    gst:swapper()
+    patch(phystoni, gst)
+    gst:done()
+end
 
+sound()
 lil("wavout zz tmp/test.wav")
 lil("computes 10")

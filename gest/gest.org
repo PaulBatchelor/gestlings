@@ -20,6 +20,8 @@ function Gest:new(o)
     o.name = o.name or "glive"
     o.bufname = o.bufname or "mem"
     o.tal = o.tal or tal
+    o.sigrunes = o.sigrunes or sigrunes
+    o.core = o.core or core 
     assert(o.tal ~= nil, "tal not found")
     setmetatable(o, self)
     self.__index = self
@@ -218,5 +220,21 @@ function Gest:gmemsymstr(symbol)
     local program = 
         string.format("gmemsym [grab %s] %s", mem, symbol)
     return program
+end
+#+END_SRC
+* Gesture
+Cannonical gesture function.
+#+NAME: gest
+#+BEGIN_SRC lua
+function Gest:gesture(name, cnd, extscale)
+    local sr = self.sigrunes
+    local core = self.core
+    assert(sr ~= nil, "sigrune module not loaded")
+    assert(core ~= nil, "core module not loaded")
+    sr.node(self.node(self)){
+        name = name,
+        conductor = core.liln(cnd:getstr()),
+        extscale = extscale
+    }
 end
 #+END_SRC
