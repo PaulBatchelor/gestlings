@@ -47,7 +47,7 @@ function patch()
         {"regmrk", 4},
     }
     lil( [[
-    genvals [tabnew 1] "0.1 0.3 0.1 0.3 0.1 0.1 0.1 0.5"
+    genvals [tabnew 1] "0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1"
     regset zz 3
 
     tabnew [tubularsz [regget 4] ]
