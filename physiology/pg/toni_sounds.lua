@@ -40,6 +40,60 @@ end
 -- </@>
 
 -- <@>
+function whistle(pitch, vib, trig, gate)
+    lilts {
+        {"noise"},
+        {"butbp", zz, 1000, 50},
+        {"buthp", zz, 1000},
+    }
+
+    trig:get()
+
+    lilts {
+        {"gtick", zz},
+        {"tgate", zz, 0.1},
+        {"smoother", zz, 0.001},
+        {"scale", zz, 1.1, 1.8},
+        {"mul", zz, zz},
+    }
+
+    pitch:get()
+    pitch:get()
+
+    lilts {
+        {"mul", zz, 0.2},
+        {"butbp", zz, zz, zz},
+        -- {"mul", zz, 0.8},
+    }
+
+    pitch:get()
+    lilts {
+        {"blsquare", zz},
+        {"mul", zz, 0.1},
+        --{"mul", zz, 0.0},
+    }
+
+    pitch:get()
+    lilts {
+        {"butbp", zz, zz, 5},
+    }
+
+    lilts {
+        {"add", zz, zz},
+    }
+
+    gate:get()
+    lilts {
+        {"envar", "zz", 0.2, 0.2},
+        {"mul", "zz", "zz"}
+    }
+    lilts {
+        {"mul", zz, "[dblin 3]"}
+    }
+
+end
+-- </@>
+-- <@>
 function patch()
     lilts {
         {"tubularnew", 8, 4},

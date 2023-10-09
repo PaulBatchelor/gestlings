@@ -271,7 +271,6 @@ function generate_signals(G, cnd)
 
     gesture(sigrunes, G, "trig", cnd)
     local trig = sig:new()
-
     trig:hold()
 
     trig:get()
@@ -300,10 +299,85 @@ function generate_signals(G, cnd)
     local gate = sig:new()
     gesture(sigrunes, G, "gate", cnd)
     gate:hold()
+
+    -- vib:unhold()
     return pitch, vib, trig, gate
 end
 
-function whistle(pitch, vib, trig, gate)
+function generate_gestures(G, cnd)
+    gesture(sigrunes, G, "vib", cnd)
+    local vib = sig:new()
+    vib:hold()
+
+    gesture(sigrunes, G, "pitch", cnd)
+    local pitch = sig:new()
+    pitch:hold()
+
+    gesture(sigrunes, G, "trig", cnd)
+    local trig = sig:new()
+    trig:hold()
+
+    local gate = sig:new()
+    gesture(sigrunes, G, "gate", cnd)
+    gate:hold()
+
+    return pitch, vib, trig, gate
+end
+
+function generate_pitch_signal(g_pitch, g_vib, trig)
+    -- gesture(sigrunes, G, "vib", cnd)
+    -- local old_vib = vib
+    g_vib:get()
+    lilts {
+        {"mul", zz, 0.25}
+    }
+    g_vib:unhold()
+
+    local vib = sig:new()
+
+    vib:hold()
+
+    -- gesture(sigrunes, G, "pitch", cnd)
+    g_pitch:get()
+
+    lilts {
+        --{"param", 69 + 12},
+        {"add", zz, 69 + 12},
+    }
+
+    lilts {
+        {"dup"},
+        {"add", zz, 2}
+    }
+
+    trig:get()
+    lilts {
+        {"gtick", zz},
+        {"tgate", zz, 0.1},
+        {"envar", zz, 0.2, 0.2},
+        {"crossfade", zz, zz, zz}
+    }
+
+    vib:get()
+    lilt {"scale", zz, 5.3, 5.5}
+    vib:get()
+    lilt {"scale", zz, 0.1, 0.5}
+    lilts {
+        {"sine", zz, zz},
+    }
+
+    lilts {
+        {"add", zz, zz},
+        {"mtof", zz},
+    }
+    local pitch = sig:new()
+    pitch:hold()
+    g_pitch:unhold()
+
+    return pitch
+end
+
+function whistle(pitch, trig, gate)
     lilts {
         {"noise"},
         {"butbp", zz, 1000, 50},
@@ -380,10 +454,11 @@ local cnd = sig:new()
 cnd:hold()
 
 
-pitch, vib, trig, gate = generate_signals(G, cnd)
-whistle(pitch, trig, vib, gate)
+-- pitch, vib, trig, gate = generate_signals(G, cnd)
+pitch, vib, trig, gate = generate_gestures(G, cnd)
+pitch = generate_pitch_signal(pitch, vib, trig)
+whistle(pitch, trig, gate)
 pitch:unhold()
-vib:unhold()
 trig:unhold()
 cnd:unhold()
 gate:unhold()
