@@ -691,8 +691,8 @@ function clockentry () {
     fi
 
     START_DATE=$2
-    START_DATE=$($DATE -d "$START_DATE" "+%Y-%m-%d")
-    START_TIME=$3
+    START_DATE=$($DATE -d "$DATE" "+%Y-%m-%d")
+    START_TIME=$($DATE -d "$3" "+%H:%M")
     DURATION=$(time2seconds $4)
 
     DUR_UUID=$(weewiki zet var create duration)
@@ -701,7 +701,7 @@ function clockentry () {
     weewiki zet link $DUR_UUID $ITEM_UUID
 
     sqlite_cmd=$(cat <<EOM
-UPDATE wikizet SET time=datetime('$DATE $START_TIME', 'utc')
+UPDATE wikizet SET time=datetime('$START_DATE $START_TIME', 'utc')
 WHERE UUID == '$DUR_UUID' AND value LIKE '\$duration:>%';
 EOM
 )
