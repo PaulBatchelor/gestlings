@@ -691,7 +691,7 @@ function clockentry () {
     fi
 
     START_DATE=$2
-    START_DATE=$($DATE -d "$DATE" "+%Y-%m-%d")
+    START_DATE=$($DATE -d "$START_DATE" "+%Y-%m-%d")
     START_TIME=$($DATE -d "$3" "+%H:%M")
     DURATION=$(time2seconds $4)
 
