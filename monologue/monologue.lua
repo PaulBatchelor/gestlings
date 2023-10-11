@@ -77,6 +77,7 @@ function Monologue.to_words(p)
     local pros_intensity = {}
     local app = morpheme.appender(path)
     local m = {} -- TODO rename
+    local head = p.head
 
     for _,stanza in pairs(mono) do
         mseq, pros = phrase_to_mseq(morpheme, path, stanza[1], stanza[2], vocab, pm)
@@ -105,7 +106,7 @@ function Monologue.to_words(p)
         mouth_y=mouthshapes
     }
 
-    morpheme.compile_noloop(tal, path, words, m, nil, lookup, mouthlut)
+    morpheme.compile_noloop(tal, path, words, m, head, lookup, mouthlut)
 
     tal.label(words, "pros_pitch")
     path.path(tal, words, pros_pitch)

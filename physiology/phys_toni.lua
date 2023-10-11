@@ -50,41 +50,126 @@ function whistle(lilts, pitch, trig, gate)
     }
 end
 
-function toniphys.excitation(sig, core, pitch, trig, gate)
+--function toniphys.excitation(sig, core, pitch, trig, gate)
+function toniphys.excitation(pt)
+    local sig = pt.sig
+    local core = pt.core
+    local pitch = pt.pitch
+    local trig = pt.trig
+    local gate = pt.gate
     local lilts = core.lilts
     local lilt = core.lilt
     local clk = sig:new()
+
+    if pt.click_rate ~= nil then
+        pt.click_rate(pt)
+    else
+        lil("rline 4 20 3")
+    end
+
     lilts {
-        {"metro", "[rline 4 20 3]"},
+        {"metro", zz},
     }
+
+    if pt.tickpat ~= nil then
+        pt.tickpat(pt)
+        lilt {"gtick", zz}
+    else
+        lilt {"param", 0}
+    end
+
+    if pt.tickmode ~= nil then
+        pt.tickmode(pt)
+    else
+        lilt {"param", 1}
+    end
+    lilt {"crossfade", zz, zz, zz}
+
     clk:hold()
     lilts {
         {"regget", clk.reg},
         {"env", zz, 0.004, 0.001, 0.001},
-        {"scale", zz, "[param 70]", "[param 96]"},
+    }
+
+    if pt.click_fmin ~= nil then
+        pt.click_fmin(pt)
+    else
+        lilt {"param", 70}
+    end
+
+    if pt.click_fmax ~= nil then
+        pt.click_fmax(pt)
+    else
+        lilt {"param", 96}
+    end
+    lilts {
+        {"scale", zz, zz, zz},
+    }
+
+    if pt.pros_pitch_sig ~= nil then
+        pt.pros_pitch_sig:get()
+        lilt {"scale", zz, -12, 12}
+        lilt {"add", zz, zz}
+    end
+
+    lilts {
         {"mtof", zz},
         {"param", 0.5},
         {"sine", zz, zz},
-        {"sine", "[mtof [rline 50 82 3]]", 1},
+    }
+
+    if pt.amfreq ~= nil then
+        pt.amfreq(pt)
+    else
+        lilt {"param", 60}
+    end
+
+    if pt.pros_pitch_sig ~= nil then
+        pt.pros_pitch_sig:get()
+        lilt {"scale", zz, -12, 12}
+        lilt {"add", zz, zz}
+    end
+
+    lilt {"mtof", zz}
+    lilt {"param", 1}
+    lilts {
+        {"sine", zz, zz},
         {"biscale", zz, 0, 1},
         {"mul", zz, zz},
         {"regget", clk.reg},
-        {"env", zz, 0.001, 0.01, 0.001},
+        {"env", zz, 0.0015, 0.01, 0.0015},
         {"mul", zz, zz},
     }
     clk:get()
     lilts{
         {"env", zz, 0.002, 0.005, 0.002}
     }
-    lilt {"crossfade", zz, 1, 1}
+    -- constant
+    lil ("param 1")
+    -- reverse signals so pulse amount 100% is pulse
+    lil ("swap")
+    if pt.pulse_amt ~= nil then
+        pt.pulse_amt(pt)
+    else
+        lilt {"param", 8}
+    end
+
+    lilt {"mul", zz, 1.0 / 8.0}
+    lilt {"crossfade", zz, zz, zz}
     whistle(lilts, pitch, trig, gate)
     lilt {"mul", zz, zz}
-    lilts {
-        {"metro", 2},
-        {"tog", zz},
-        {"smoother", zz, 0.01},
-    }
-    lilt{"crossfade", zz, zz, zz}
+
+    if pt.whistle_amt ~= nil then
+        pt.whistle_amt(pt)
+    else
+        lilts {
+            {"metro", 2},
+            {"tog", zz},
+            {"smoother", zz, 0.01},
+        }
+    end
+    lilt {"mul", zz, 1.0 / 8.0}
+    lilt {"crossfade", zz, zz, zz}
     clk:unhold()
 end
 
@@ -172,6 +257,13 @@ function toniphys.postprocess()
     lil("limit zz -1 1")
 end
 
+function gesture_param(name)
+    return function(pt)
+        assert(pt.gst ~= nil, "Gesture not loaded")
+        pt.gst:gesture(name, pt.cnd)
+    end
+end
+
 function toniphys.physiology(p)
     local physdat = {}
     local sig = p.sig
@@ -181,6 +273,18 @@ function toniphys.physiology(p)
 
     local pt = toniphys.create {
         sig = sig,
+        core = core,
+        cnd = cnd,
+        gst = gst,
+        click_rate = gesture_param("click_rate"),
+        whistle_amt = gesture_param("whistle_amt"),
+        pulse_amt = gesture_param("pulse_amt"),
+        click_fmin = gesture_param("click_fmin"),
+        click_fmax = gesture_param("click_fmax"),
+        amfreq = gesture_param("amfreq"),
+        tickmode = gesture_param("tickmode"),
+        tickpat = gesture_param("tickpat"),
+        pros_pitch = gesture_param("pros_pitch"),
     }
 
     -- set up tract filter, use fixed shape for testing
@@ -191,11 +295,36 @@ function toniphys.physiology(p)
 
     toniphys.fixed_tube_shape(sig, tubular, shape)
 
-    -- create excitation signal
-    local pitch, trig, gate = toniphys.tempwhistlesigs()
-    gate:unhold()
+    gst:gesture("pitch", cnd)
 
-    toniphys.excitation(sig, core, pitch, trig, gate)
+    if pt.pros_pitch ~= nil then
+        pt.pros_pitch(pt)
+        lilt {"mul", zz, 1.0/0xFF}
+        pt.pros_pitch_sig = sig:new()
+        pt.pros_pitch_sig:hold()
+
+        pt.pros_pitch_sig:get()
+        lilt {"scale", zz, -12, 12}
+        lilt {"add", zz, zz}
+    end
+
+    lil("mtof zz")
+    local pitch = sig:new()
+    pitch:hold()
+
+    gst:gesture("trig", cnd)
+    lil("gtick zz")
+    local trig = sig:new()
+    trig:hold()
+
+    pt.pitch = pitch
+    pt.trig = trig 
+    pt.gate = gate 
+    -- toniphys.excitation(sig, core, pitch, trig, gate)
+    toniphys.excitation(pt)
+    if pt.pros_pitch_sig ~= nil then
+        pt.pros_pitch_sig:unhold()
+    end
     pitch:unhold()
     trig:unhold()
 
