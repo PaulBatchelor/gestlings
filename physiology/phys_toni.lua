@@ -67,8 +67,15 @@ function toniphys.excitation(pt)
         lil("rline 4 20 3")
     end
 
+    if pt.sync ~= nil then
+        pt.sync(pt)
+        lilt {"gtick", zz}
+    else
+        lilt {"param", 0}
+    end
+
     lilts {
-        {"metro", zz},
+        {"metrosync", zz, zz},
     }
 
     if pt.tickpat ~= nil then
@@ -306,6 +313,7 @@ function toniphys.physiology(p)
         tickmode = gesture_param("tickmode"),
         tickpat = gesture_param("tickpat"),
         pros_pitch = gesture_param("pros_pitch"),
+        sync = gesture_param("sync"),
     }
 
     -- set up tract filter, use fixed shape for testing

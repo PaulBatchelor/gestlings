@@ -98,6 +98,10 @@ function genvocab()
             {shA, 1, lin},
             {shE, 1, lin},
             {shC, 1, lin}
+        },
+
+        sync = {
+            {1, 1, gt}
         }
     })
 
@@ -171,6 +175,9 @@ function mkmonologue(shapelut)
             tal.interpolate(words, 0)
         end,
         tickpat = function(words)
+            tal.interpolate(words, 0)
+        end,
+        sync = function(words)
             tal.interpolate(words, 0)
         end,
     }
