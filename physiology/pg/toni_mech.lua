@@ -22,6 +22,14 @@ function genvocab()
     local gm = behavior.gliss_medium
     local lin = behavior.linear
     local gt = behavior.gate_50
+
+
+    local shA = "364f9c"
+    local shB = "ebaa8f"
+    local shC = "c72639"
+    local shD = "14d545"
+    local shE = "d5141b"
+
     pat_a = morpheme.template({
         gate = {
             {1, 1, stp},
@@ -48,11 +56,11 @@ function genvocab()
         },
 
         pulse_amt = {
-            {0, 1, stp},
+            {0, 1, gm},
         },
 
         click_fmin = {
-            {70, 1, stp},
+            {70, 1, gm},
         },
 
         click_fmax = {
@@ -85,6 +93,12 @@ function genvocab()
             {1, 2, gt},
             {1, 2, gt},
         },
+
+        shapes = {
+            {shA, 1, lin},
+            {shE, 1, lin},
+            {shC, 1, lin}
+        }
     })
 
     local vocab = {}
@@ -133,7 +147,7 @@ function patch(phystoni, gst)
     }
 end
 
-function mkmonologue(gst)
+function mkmonologue(shapelut)
     local prostab = asset:load("prosody/prosody.b64")
 
     local phrase = {
@@ -168,23 +182,35 @@ function mkmonologue(gst)
         vocab = vocab,
         monologue = mono,
         head = head,
+        shapelut = shapelut,
     }
 
     return words
 end
 
 function sound()
+    -- shapemorf stuff
+    local shape_fname = "shapes/s_toni.b64"
+    lil("shapemorfnew lut " .. shape_fname)
+    lil("grab lut")
+    local lut = pop()
+    local shapelut = shapemorf.generate_lookup(lut)
+
+    -- gestvm stuff
     local gst = gest:new {
         tal = tal,
         sigrunes = sigrunes,
         core = core,
     }
     gst:create()
-    local words = mkmonologue()
+
+    -- generate gestvm program
+    local words = mkmonologue(shapelut)
     gst:compile(words)
     gst:swapper()
     patch(phystoni, gst)
     gst:done()
+    ::bye::
 end
 
 sound()

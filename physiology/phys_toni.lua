@@ -157,6 +157,7 @@ function toniphys.excitation(pt)
     lilt {"mul", zz, 1.0 / 8.0}
     lilt {"crossfade", zz, zz, zz}
     whistle(lilts, pitch, trig, gate)
+    lilt {"mul", zz, "[dblin 3]"}
     lilt {"mul", zz, zz}
 
     if pt.whistle_amt ~= nil then
@@ -254,6 +255,8 @@ end
 function toniphys.postprocess()
     lil("dcblocker zz")
     lil("buthp zz 100")
+    lil("mul zz [dblin 6]")
+    -- lil("peakeq zz 1000 1000 2")
     lil("limit zz -1 1")
 end
 
@@ -262,6 +265,24 @@ function gesture_param(name)
         assert(pt.gst ~= nil, "Gesture not loaded")
         pt.gst:gesture(name, pt.cnd)
     end
+end
+
+function setup_shapemorf(gst, tubular, cnd, use_msgscale)
+    msgscale = nil
+    if use_msgscale == true then
+        msgscale = "[val [grab msgscale]]"
+    end
+    lilts {
+        {"shapemorf",
+            gst:get(),
+            "[grab lut]",
+            "[" .. table.concat(tubular:getstr(), " ") .. "]",
+            "[" .. gst:gmemsymstr("shapes") .. "]",
+            "[" .. table.concat(cnd:getstr(), " ") .. "]",
+            -- "[val [grab msgscale]]"
+            msgscale
+        },
+    }
 end
 
 function toniphys.physiology(p)
@@ -292,8 +313,14 @@ function toniphys.physiology(p)
     local shape = {
         0.1, 0.1, 0.1, 0.1, 0.1, 0.4, 0.3, 0.9
     }
+    local use_msgscale = false
+    local use_shapemorf = true
 
-    toniphys.fixed_tube_shape(sig, tubular, shape)
+    if use_shapemorf then
+        setup_shapemorf(gst, tubular, cnd, use_msgscale)
+    else
+        toniphys.fixed_tube_shape(sig, tubular, shape)
+    end
 
     gst:gesture("pitch", cnd)
 
