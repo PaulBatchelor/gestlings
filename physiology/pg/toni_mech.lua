@@ -78,7 +78,7 @@ function genphrase()
     local phrase = {
         {w.wh_long, dlong},
         {w.wh_mel2, dshort},
-        {w.test, dlong},
+        {w.wh_mel3, dlong},
         {w.silence, short},
     }
 
