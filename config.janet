@@ -76,6 +76,13 @@
       ["shapes/l_junior.lua"]
       ["shapes/junior.b64"]]
 
+
+    # Toni
+    @[["vocab/toni/v_toni.b64"]
+      ["vocab/toni/v_toni.lua"]
+      ["asset/asset.lua"
+       "gest/gest.lua"]]
+
     @[["prosody/prosody.b64"
        "fonts/prosody.uf2"
        "prosody/prosody_symlut.b64"]

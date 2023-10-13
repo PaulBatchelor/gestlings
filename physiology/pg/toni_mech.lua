@@ -23,126 +23,12 @@ tal = require("tal/tal")
 path = require("path/path")
 
 function genvocab()
-    local behavior = gest.behavior
-    local stp = behavior.step
-    local gm = behavior.gliss_medium
-    local lin = behavior.linear
-    local gt = behavior.gate_50
-
-
-    local shA = "364f9c"
-    local shB = "ebaa8f"
-    local shC = "c72639"
-    local shD = "14d545"
-    local shE = "d5141b"
-
-    pat_a = morpheme.template({
-        gate = {
-            {1, 1, stp},
-        },
-        pitch = {
-            {84, 1, gm},
-            {84 + 5, 1, gm},
-        },
-        -- TODO remove whistle trigger or make it sound better
-        trig = {
-            {0, 1, gt},
-        },
-
-        click_rate = {
-            {8, 1, lin},
-            {20, 1, gm},
-            {4, 1, lin},
-            {20, 1, lin},
-        },
-
-        whistle_amt = {
-            {0, 3, gm},
-            {8, 1, gm},
-        },
-
-        pulse_amt = {
-            {0, 1, gm},
-        },
-
-        click_fmin = {
-            {70, 1, gm},
-        },
-
-        click_fmax = {
-            {92, 1, lin},
-            {99, 1, lin},
-        },
-
-        amfreq = {
-            {48, 1, lin},
-            {96, 1, lin},
-            {60, 1, gm},
-        },
-
-        tickmode = {
-            {0, 1, gm},
-            {1, 3, stp},
-        },
-
-        tickpat = {
-            {1, 2, gt},
-            {1, 1, gt},
-            {1, 2, gt},
-            {1, 1, gt},
-            {1, 2, gt},
-            {1, 2, gt},
-            {1, 2, gt},
-            {1, 1, gt},
-            {1, 2, gt},
-            {1, 1, gt},
-            {1, 2, gt},
-            {1, 2, gt},
-        },
-
-        shapes = {
-            {shA, 1, lin},
-            {shE, 1, lin},
-            {shC, 1, lin}
-        },
-
-        sync = {
-            {1, 1, gt}
-        }
-    })
-
-    local vocab = {}
-    add = function(key, mrph)
-        local w = {}
-        w.word = mrph
-        table.insert(vocab, w)
-    end
-
-    add("A", pat_a{})
-    add("S", pat_a {
-        tickmode= {
-            {1, 1, stp},
-        },
-        tickpat = {
-            {0, 1, stp},
-        },
-        gate = {
-            {0, 1, stp}
-        }
-    })
-
-    return vocab
+    return asset:load("vocab/toni/v_toni.b64")
 end
 
 function patch(phystoni, gst)
     local pt = phystoni.create {
         sig = sig,
-    }
-
-    -- set up tract filter, use fixed shape for testing
-    local tubular = pt.tubular
-    local shape = {
-        0.1, 0.1, 0.1, 0.1, 0.1, 0.4, 0.1, 0.1
     }
 
     lilt {"phasor", 1/4, 0}
@@ -227,21 +113,6 @@ function setup()
 end
 
 function sound(dat)
-    -- -- shapemorf stuff
-    -- local shape_fname = "shapes/s_toni.b64"
-    -- lil("shapemorfnew lut " .. shape_fname)
-    -- lil("grab lut")
-    -- local lut = pop()
-    -- local shapelut = shapemorf.generate_lookup(lut)
-
-    -- -- gestvm stuff
-    -- local gst = gest:new {
-    --     tal = tal,
-    --     sigrunes = sigrunes,
-    --     core = core,
-    -- }
-    -- gst:create()
-
     -- generate gestvm program
     local shapelut = dat.shapelut
     local gst = dat.gst
@@ -261,5 +132,3 @@ function run ()
     rt.out()
 end
 -- </@>
--- lil("wavout zz tmp/test.wav")
--- lil("computes 20")
