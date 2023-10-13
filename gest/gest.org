@@ -208,7 +208,11 @@ Gest.behavior = {
     gliss = 3,
     gate_125 = 4,
     gate_25 = 5,
-    gate_50 = 6 
+    gate_50 = 6,
+    exp_convex_low = 7,
+    exp_convex_high = 8,
+    exp_concave_low = 9,
+    exp_concave_high = 10,
 }
 #+END_SRC
 * Gmemsymstr

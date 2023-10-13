@@ -2,6 +2,13 @@
 -- <@>
 dofile("physiology/pg/toni_mech.lua")
 -- </@>
+
+-- <@>
+lil("unholdall")
+for i=1,16 do
+    lil(string.format("regclr %d", i - 1))
+end
+-- </@>
 --]]
 
 core = require("util/core")
@@ -26,6 +33,7 @@ function genvocab()
     return asset:load("vocab/toni/v_toni.b64")
 end
 
+-- <@>
 function patch(phystoni, gst)
     local pt = phystoni.create {
         sig = sig,
@@ -41,18 +49,48 @@ function patch(phystoni, gst)
         gst = gst,
         cnd = cnd
     }
+    cnd:unhold()
 end
+-- </@>
 
+-- <@>
+function coord(x, y)
+    return (y - 1)*8 + x
+end
+-- </@>
+
+-- <@>
+function genphrase()
+    dlong = {1, 2}
+    dshort = {1, 1}
+
+    local w = {
+        test = coord(1, 1),
+        silence = coord(2, 1),
+        wh_long = coord(3, 1),
+        p_shp_a = coord(4, 1),
+        p_shp_b = coord(5, 1),
+        wh_mel1 = coord(6, 1),
+        wh_mel2 = coord(7, 1),
+        wh_mel3 = coord(8, 1),
+    }
+
+    local phrase = {
+        {w.wh_long, dlong},
+        {w.wh_mel2, dshort},
+        {w.test, dlong},
+        {w.silence, short},
+    }
+
+    return phrase
+end
+-- </@>
+
+-- <@>
 function mkmonologue(shapelut)
     local prostab = asset:load("prosody/prosody.b64")
 
-    local phrase = {
-        {1, {1, 2}},
-        {1, {1, 1}},
-        {2, {1, 1}},
-    }
-
-    local vocab = genvocab()
+    local phrase = genphrase()
 
     mono = {
         {phrase, prostab.neutral},
@@ -61,6 +99,9 @@ function mkmonologue(shapelut)
         {phrase, prostab.some_jumps_v2},
         {phrase, prostab.excited},
     }
+
+    local vocab = genvocab()
+
 
     head = {
         trig = function(words)
@@ -86,6 +127,7 @@ function mkmonologue(shapelut)
 
     return words
 end
+-- </@>
 
 function setup()
     -- shapemorf stuff

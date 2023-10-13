@@ -24,6 +24,27 @@ function addvocab(vocab, x, y, w, doc, tok)
     vocab[pos] = v
 end
 
+function genmel(mel)
+    local last_bhvr = 2 -- gliss_medium
+    local base = 84
+
+    local p = {}
+    for _, m in pairs(mel) do
+        local bhvr = last_behavior
+        local pitch = m[1] + base
+        local dur = m[2]
+
+        if p[3] ~= nil then
+            bhvr = m[3]
+            last_behavior = bhvr
+        end
+
+        table.insert(p, {pitch, dur, bhvr})
+    end
+
+    return p
+end
+
 function genvocab()
     local vocab = {}
     voc = function (x, y, w, doc, tok)
@@ -33,8 +54,10 @@ function genvocab()
     local behavior = gest.behavior
     local stp = behavior.step
     local gm = behavior.gliss_medium
+    local gm = behavior.gliss
     local lin = behavior.linear
     local gt = behavior.gate_50
+    local exp = behavior.exp_convex_low
 
 
     local shA = "364f9c"
@@ -43,9 +66,13 @@ function genvocab()
     local shD = "14d545"
     local shE = "d5141b"
 
-    pat_a = morpheme.template({
+    local template = morpheme.template
+    local merge = morpheme.merge
+
+    pat_a = template({
         gate = {
-            {1, 1, stp},
+            {1, 3, stp},
+            {0, 1, stp},
         },
         pitch = {
             {84, 1, gm},
@@ -118,6 +145,38 @@ function genvocab()
         }
     })
 
+    p_sh_a = {
+        shapes = {
+            {shA, 1, gm},
+        },
+    }
+
+    p_sh_b = {
+        shapes = {
+            {shA, 1, lin},
+            {shB, 1, lin},
+            {shA, 1, lin},
+            {shB, 1, lin},
+            {shC, 2, lin},
+            {shE, 2, lin},
+        },
+    }
+
+    local m_whistle_pitched = template(pat_a {
+        whistle_amt = {
+            {8, 3, stp},
+            {8, 1, gm},
+        },
+        shapes = {
+            {shB, 1, lin},
+        },
+        pitch = {
+            {84, 1, stp},
+            {84, 1, gm},
+        },
+    })
+
+
     voc(1, 1, pat_a {
     }, "test word.")
 
@@ -132,6 +191,46 @@ function genvocab()
             {0, 1, stp}
         }
     }, "silence.")
+
+    voc(3, 1,
+        m_whistle_pitched {},
+        "pitched whistle. flat")
+
+        -- TODO: overwrite, don't produce PM's yet
+    voc(4, 1,
+        p_sh_a,
+        "tract shapes a. steady.")
+
+    voc(5, 1,
+        p_sh_b,
+        "tract shapes b. some rhythmic turbulance")
+
+    voc(6, 1,
+        m_whistle_pitched {
+            pitch = genmel {
+                {0, 1, gl}, {9, 2}, {3, 2}
+            }
+        },
+        "pitched whistle: melodic a")
+
+    voc(7, 1,
+        m_whistle_pitched {
+            pitch = genmel {
+                {9, 1}, {7, 1}, {0, 1}, {5, 4}
+            }
+        },
+        "pitched whistle: melodic b")
+
+    voc(8, 1,
+        merge(m_whistle_pitched {
+            pitch = genmel {
+                {12, 1, gl}, {10, 2},
+                {12, 1}, {10, 2},
+                {12, 1}, {10, 2},
+                {0, 3, exp}, {7, 6, gm},
+            }
+        }, p_sh_b),
+        "pitched whistle: melodic c")
 
     return vocab
 end
