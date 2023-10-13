@@ -1,3 +1,9 @@
+--[[
+-- <@>
+dofile("physiology/pg/toni_mech.lua")
+-- </@>
+--]]
+
 core = require("util/core")
 rt = require("util/rt")
 lilt = core.lilt
@@ -195,7 +201,7 @@ function mkmonologue(shapelut)
     return words
 end
 
-function sound()
+function setup()
     -- shapemorf stuff
     local shape_fname = "shapes/s_toni.b64"
     lil("shapemorfnew lut " .. shape_fname)
@@ -211,15 +217,49 @@ function sound()
     }
     gst:create()
 
+    local o = {}
+
+    o.gst = gst
+    o.shapelut = shapelut
+
+    rt.setup()
+    return o
+end
+
+function sound(dat)
+    -- -- shapemorf stuff
+    -- local shape_fname = "shapes/s_toni.b64"
+    -- lil("shapemorfnew lut " .. shape_fname)
+    -- lil("grab lut")
+    -- local lut = pop()
+    -- local shapelut = shapemorf.generate_lookup(lut)
+
+    -- -- gestvm stuff
+    -- local gst = gest:new {
+    --     tal = tal,
+    --     sigrunes = sigrunes,
+    --     core = core,
+    -- }
+    -- gst:create()
+
     -- generate gestvm program
+    local shapelut = dat.shapelut
+    local gst = dat.gst
     local words = mkmonologue(shapelut)
     gst:compile(words)
     gst:swapper()
     patch(phystoni, gst)
     gst:done()
-    ::bye::
 end
 
-sound()
-lil("wavout zz tmp/test.wav")
-lil("computes 20")
+ToniData = setup()
+
+-- <@>
+function run ()
+    print("run")
+    sound(ToniData)
+    rt.out()
+end
+-- </@>
+-- lil("wavout zz tmp/test.wav")
+-- lil("computes 20")
