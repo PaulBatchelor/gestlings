@@ -232,6 +232,34 @@ function genvocab()
         }, p_sh_b),
         "pitched whistle: melodic c")
 
+    voc(1, 2,
+        merge(m_whistle_pitched {
+            pitch = genmel {
+                {0, 1, gm}, {9, 3, gm},
+                {4, 2, gm}, {9, 6, gm},
+                {2, 1, lin}, {0, 5, gm},
+            }
+        }, p_sh_b),
+        "pitched whistle: melodic d")
+
+    voc(2, 2,
+        merge(m_whistle_pitched {
+            pitch = genmel {
+                {0, 1, gm}, {2, 1, gm},
+                {4, 1, gm}, {0, 1, gm},
+                {11, 8, gm},
+            }
+        }, p_sh_b),
+        "pitched whistle: melodic e")
+
+    voc(3, 2,
+        merge(m_whistle_pitched {
+            pitch = genmel {
+                {0, 4, exp}, {7, 2, gm},
+            }
+        }, p_sh_b),
+        "pitch rise")
+
     return vocab
 end
 
