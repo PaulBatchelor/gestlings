@@ -1,18 +1,4 @@
---[[
--- <@>
-dofile("physiology/pg/toni_mech.lua")
--- </@>
-
--- <@>
-lil("unholdall")
-for i=1,16 do
-    lil(string.format("regclr %d", i - 1))
-end
--- </@>
---]]
-
 core = require("util/core")
-rt = require("util/rt")
 lilt = core.lilt
 lilts = core.lilts
 sig = require("sig/sig")
@@ -39,7 +25,8 @@ function patch(phystoni, gst)
         sig = sig,
     }
 
-    lilt {"phasor", 1/4, 0}
+    -- lilt {"phasor", 1/4, 0}
+    lilt {"phasor", 1/3, 0}
     local cnd = sig:new()
     cnd:hold_cabnew()
 
@@ -60,7 +47,7 @@ end
 -- </@>
 
 -- <@>
-function genphrase()
+function genproofword(word)
     dlong = {1, 2}
     dshort = {1, 1}
 
@@ -75,11 +62,11 @@ function genphrase()
         wh_mel3 = coord(8, 1),
     }
 
+    local silence = coord(2, 1)
+    local word = coord(word[1], word[2])
     local phrase = {
-        {w.wh_long, dlong},
-        {w.wh_mel2, dshort},
-        {w.wh_mel3, dlong},
-        {w.silence, short},
+        {word, dlong},
+        {silence, dshort},
     }
 
     return phrase
@@ -87,21 +74,16 @@ end
 -- </@>
 
 -- <@>
-function mkmonologue(shapelut)
+function mkmonologue(shapelut, word)
     local prostab = asset:load("prosody/prosody.b64")
 
-    local phrase = genphrase()
+    local phrase = genproofword(word)
 
     mono = {
         {phrase, prostab.neutral},
-        {phrase, prostab.question},
-        {phrase, prostab.some_jumps},
-        {phrase, prostab.some_jumps_v2},
-        {phrase, prostab.excited},
     }
 
     local vocab = genvocab()
-
 
     head = {
         trig = function(words)
@@ -151,17 +133,15 @@ function setup()
     o.gst = gst
     o.shapelut = shapelut
 
-    rt.setup()
     return o
 end
 
 -- <@>
-function sound(dat)
-    local phystoni = require("physiology/phys_toni")
+function sound(dat, word)
     -- generate gestvm program
     local shapelut = dat.shapelut
     local gst = dat.gst
-    local words = mkmonologue(shapelut)
+    local words = mkmonologue(shapelut, word)
     gst:compile(words)
     gst:swapper()
     patch(phystoni, gst)
@@ -169,12 +149,54 @@ function sound(dat)
 end
 -- </@>
 
-ToniData = setup()
+function generate_filename(w)
+    return string.format("tmp/toni_proof/toni_%d_%d.wav", w[1], w[2])
+end
+
+function render_word(w)
+    local ToniData = setup()
+    print(string.format("rendering (%d, %d)", w[1], w[2]))
+    sound(ToniData, w)
+    lilt {
+        "wavout", "zz", generate_filename(w)
+    }
+    lil("computes 3.5")
+end
 
 -- <@>
 function run ()
-    print("run")
-    sound(ToniData)
-    rt.out()
+    local words = {
+        {1, 1},
+        {3, 1},
+        {6, 1},
+        {7, 1},
+        {8, 1},
+    }
+    local filenames = {}
+
+    -- for i=1,8 do
+    --     os.execute(string.format("espeak -w tmp/%d.wav \"%d\"", i, i))
+    --     os.execute(string.format("sox tmp/%d.wav -r 44100 tmp/tmp.wav", i))
+    --     os.execute(string.format("mv tmp/tmp.wav tmp/%d.wav", i))
+    -- end
+
+    os.execute("mkdir -p tmp/toni_proof/")
+    for _,w in pairs(words) do
+        render_word(w)
+        table.insert(filenames, string.format("tmp/%d.wav", w[1]))
+        table.insert(filenames, string.format("tmp/%d.wav", w[2]))
+        table.insert(filenames, generate_filename(w))
+        mnoreset()
+    end
+
+    sox_cmd =
+        "sox " ..
+        table.concat(filenames, " ") ..
+        " tmp/toni_proof/proof.wav"
+
+    os.execute(sox_cmd)
+
 end
 -- </@>
+
+run()

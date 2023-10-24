@@ -86,7 +86,6 @@ function Path.path(tal, words, path, lookup)
         end
     end
 end
-
 #+END_SRC
 * Saving/Loading Paths as Assets
 Requires an instantiated @!(ref "asset")!@ component.

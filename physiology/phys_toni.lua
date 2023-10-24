@@ -186,7 +186,7 @@ function toniphys.create(p)
     local sig = sig or p.sig
     assert(sig ~= nil, "sig module not found")
     lilts {
-        {"tubularnew", 9, 4},
+        {"tubularnew", 4, 4},
     }
     tubular = sig:new()
     tubular:hold_data()
