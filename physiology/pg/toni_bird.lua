@@ -15,6 +15,9 @@ monologue = require("monologue/monologue")
 tal = require("tal/tal")
 path = require("path/path")
 
+
+mnorealloc(10, 16)
+
 function genvocab()
     return asset:load("vocab/toni/v_toni.b64")
 end
@@ -25,7 +28,10 @@ function patch(phystoni, gst)
         sig = sig,
     }
 
-    lilt {"phasor", string.format("[rline %g %g 0.3]", 1/2, 1/5), "[param 0]"}
+    lilt {"phasor",
+        string.format("[rline %g %g 0.3]", 1/2, 1/4),
+        0 
+    }
     local cnd = sig:new()
     cnd:hold_cabnew()
 
