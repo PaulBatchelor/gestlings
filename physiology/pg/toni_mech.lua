@@ -3,6 +3,9 @@
 dofile("physiology/pg/toni_mech.lua")
 -- </@>
 
+-- I'm not clearing all the registers apparently
+-- Run this block when "regnxt" failure errors
+-- pop up
 -- <@>
 lil("unholdall")
 for i=1,16 do
@@ -17,7 +20,7 @@ lilt = core.lilt
 lilts = core.lilts
 sig = require("sig/sig")
 sigrunes = require("sigrunes/sigrunes")
-phystoni = require("physiology/phys_toni")
+-- phystoni = require("physiology/phys_toni")
 gest = require("gest/gest")
 asset = require("asset/asset")
 asset = asset:new {
@@ -73,12 +76,15 @@ function genphrase()
         wh_mel1 = coord(6, 1),
         wh_mel2 = coord(7, 1),
         wh_mel3 = coord(8, 1),
+        cl_a = coord(4, 2),
+        cl_b = coord(5, 2),
+        cl_c = coord(6, 2),
     }
 
     local phrase = {
-        {w.wh_long, dlong},
-        {w.wh_mel2, dshort},
-        {w.wh_mel3, dlong},
+--        {w.cl_a, dlong},
+        {w.cl_b, dlong},
+        {w.cl_c, dlong},
         {w.silence, short},
     }
 
@@ -157,7 +163,7 @@ end
 
 -- <@>
 function sound(dat)
-    local phystoni = require("physiology/phys_toni")
+    local phystoni = dofile("physiology/phys_toni.lua")
     -- generate gestvm program
     local shapelut = dat.shapelut
     local gst = dat.gst

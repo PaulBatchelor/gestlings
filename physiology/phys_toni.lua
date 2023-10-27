@@ -61,6 +61,13 @@ function toniphys.excitation(pt)
     local lilt = core.lilt
     local clk = sig:new()
 
+    -- use dirtysine to get add more grit to spectrum
+    lil("gensinesum [tabnew 8192] \"1 0.1 0.01 0 0 0.1\"")
+    local dirtysine = sig:new()
+    dirtysine:hold_data()
+
+    dirtysine:get()
+
     if pt.click_rate ~= nil then
         pt.click_rate(pt)
     else
@@ -74,10 +81,12 @@ function toniphys.excitation(pt)
         lilt {"param", 0}
     end
 
+    -- metrosync, restarts at beginning of morpheme
     lilts {
         {"metrosync", zz, zz},
     }
 
+    -- use an explicit tick pattern instead of metro
     if pt.tickpat ~= nil then
         pt.tickpat(pt)
         lilt {"gtick", zz}
@@ -85,6 +94,7 @@ function toniphys.excitation(pt)
         lilt {"param", 0}
     end
 
+    -- blend between two tick signals
     if pt.tickmode ~= nil then
         pt.tickmode(pt)
     else
@@ -92,6 +102,7 @@ function toniphys.excitation(pt)
     end
     lilt {"crossfade", zz, zz, zz}
 
+    -- percussive pitch envelope
     clk:hold()
     lilts {
         {"regget", clk.reg},
@@ -121,10 +132,13 @@ function toniphys.excitation(pt)
 
     lilts {
         {"mtof", zz},
-        {"param", 0.5},
-        {"sine", zz, zz},
+        -- {"param", 0.5},
+        -- {"sine", zz, zz},
+        {"oscf", zz, zz, 0},
+        {"mul", zz, 0.2},
     }
 
+    -- apply AM to click signal
     if pt.amfreq ~= nil then
         pt.amfreq(pt)
     else
@@ -142,9 +156,31 @@ function toniphys.excitation(pt)
     lilts {
         {"sine", zz, zz},
         {"biscale", zz, 0, 1},
+    }
+
+    -- constant amplitude signal (no AM)
+    lilt {"param", 1}
+    -- swap the AM modulator / constant around
+    -- so AM_AMT makes sense
+    lilt {"swap"}
+
+    -- apply AM to click signal
+    if pt.amamt ~= nil then
+        pt.amamt(pt)
+        lilt {"mul", zz, 1/0xFF}
+    else
+        lilt {"param", 1}
+    end
+
+    lilts {
+        {"crossfade", zz, zz, zz},
         {"mul", zz, zz},
+    }
+
+    -- amplitude envelope
+    lilts {
         {"regget", clk.reg},
-        {"env", zz, 0.0015, 0.01, 0.0015},
+        {"env", zz, 0.001, 0.001, 0.001},
         {"mul", zz, zz},
     }
     clk:get()
@@ -179,6 +215,7 @@ function toniphys.excitation(pt)
     lilt {"mul", zz, 1.0 / 8.0}
     lilt {"crossfade", zz, zz, zz}
     clk:unhold()
+    dirtysine:unhold()
 end
 
 function toniphys.create(p)
@@ -314,6 +351,7 @@ function toniphys.physiology(p)
         tickpat = gesture_param("tickpat"),
         pros_pitch = gesture_param("pros_pitch"),
         sync = gesture_param("sync"),
+        amamt = gesture_param("amamt"),
     }
 
     -- set up tract filter, use fixed shape for testing
@@ -339,7 +377,7 @@ function toniphys.physiology(p)
         pt.pros_pitch_sig:hold()
 
         pt.pros_pitch_sig:get()
-        lilt {"scale", zz, -12, 12}
+        lilt {"scale", zz, 0, 0}
         lilt {"add", zz, zz}
     end
 

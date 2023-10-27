@@ -58,6 +58,9 @@ function genvocab()
     local lin = behavior.linear
     local gt = behavior.gate_50
     local exp = behavior.exp_convex_low
+    local expcvhi = behavior.exp_convex_high
+    local expcclo = behavior.exp_concave_low
+    local expcchi = behavior.exp_concave_high
 
 
     local shA = "364f9c"
@@ -142,6 +145,11 @@ function genvocab()
 
         sync = {
             {1, 1, gt}
+        },
+
+        amamt = {
+            {0xFF, 3, stp},
+            {0xFF, 1, gm},
         }
     })
 
@@ -176,6 +184,45 @@ function genvocab()
         },
     })
 
+    local m_clicks = template(pat_a {
+        whistle_amt = {
+            {0, 3, stp},
+            {0, 1, gm},
+        },
+        tickmode = {
+            {0, 1, stp},
+        },
+        tickpat = {
+            {1, 1, gt},
+            {1, 1, gt},
+            {1, 2, gt},
+        },
+        click_fmin = {
+            {48, 1, gm},
+            {60, 1, gm},
+        },
+
+        click_fmax = {
+            {62, 3, lin},
+            {78, 1, gm},
+        },
+        amfreq = {
+            {40, 1, gm},
+            {40 + 12, 1, gm},
+            {80, 1, gm},
+        },
+        click_rate = {
+            {4, 3, exp},
+            {13, 1, lin},
+        },
+        pitch = {
+            {60, 1, gm},
+        },
+        shapes = {
+            {shC, 1, gm},
+            {shA, 1, gm},
+        },
+    })
 
     voc(1, 1, pat_a {
     }, "test word.")
@@ -229,7 +276,7 @@ function genvocab()
                 {12, 1}, {10, 2},
                 {0, 3, exp}, {7, 6, gm},
             }
-        }, p_sh_b),
+        }, p_sh_a),
         "pitched whistle: melodic c")
 
     voc(1, 2,
@@ -239,7 +286,7 @@ function genvocab()
                 {4, 2, gm}, {9, 6, gm},
                 {2, 1, lin}, {0, 5, gm},
             }
-        }, p_sh_b),
+        }, p_sh_a),
         "pitched whistle: melodic d")
 
     voc(2, 2,
@@ -249,7 +296,7 @@ function genvocab()
                 {4, 1, gm}, {0, 1, gm},
                 {11, 8, gm},
             }
-        }, p_sh_b),
+        }, p_sh_a),
         "pitched whistle: melodic e")
 
     voc(3, 2,
@@ -257,8 +304,71 @@ function genvocab()
             pitch = genmel {
                 {0, 4, exp}, {7, 2, gm},
             }
-        }, p_sh_b),
+        }, p_sh_a),
         "pitch rise")
+
+    voc(4, 2, m_clicks {}, "upward clicks")
+    voc(5, 2, m_clicks {
+        click_rate = {
+            {15, 3, exp},
+            {4, 1, gm},
+        },
+
+        click_fmin = {
+            {60, 1, gm},
+            {48, 1, gm},
+        },
+
+        click_fmax = {
+            {78, 3, lin},
+            {62, 1, gm},
+        },
+        amfreq = {
+            {80, 3, exp},
+            {40, 1, gm},
+        },
+        shapes = {
+            {shE, 3, exp},
+            {shA, 1, gm},
+        },
+    }, "downward clicks")
+
+    voc(6, 2, m_clicks {
+        click_rate = {
+            {14, 1, lin},
+            {18, 1, gm},
+            {16, 1, lin},
+        },
+
+        click_fmin = {
+            {60, 1, gm},
+        },
+
+        click_fmax = {
+            {70, 3, expcvhi},
+            {70 + 12, 1, gm},
+            {70, 3, expcvhi},
+            {70 + 14, 1, gm},
+            {70, 3, expcvhi},
+            {70 + 17, 1, gm},
+        },
+        amfreq = {
+            {80 - 24, 3, exp},
+            {80, 1, gm},
+            {80 - 24, 3, exp},
+            {85, 1, gm},
+            {80 - 24, 3, exp},
+            {86, 1, gm},
+        },
+        shapes = {
+            {shE, 3, expcvlo},
+            {shB, 1, gm},
+        },
+        gate = {
+            {1, 7, stp},
+            {0, 1, stp},
+        },
+    }, "3 ascending click rolls")
 
     return vocab
 end
