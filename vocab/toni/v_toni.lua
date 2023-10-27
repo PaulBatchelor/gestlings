@@ -370,6 +370,41 @@ function genvocab()
         },
     }, "3 ascending click rolls")
 
+    voc(7, 2, m_clicks {
+        click_rate = {
+            {14, 2, gm},
+            {28, 1, gm},
+            {10, 3, lin},
+            {20, 1, gm},
+        },
+
+        click_fmin = {
+            {60, 1, lin},
+            {72, 1, gm},
+        },
+
+        click_fmax = {
+            {70 + 12, 3, expcvhi},
+            {70, 1, gm},
+            {70 + 24, 3, lin},
+            {60, 1, gm},
+        },
+        amfreq = {
+            {80, 3, exp},
+            {86 - 24, 1, gm},
+        },
+        shapes = {
+            {shD, 1, gm},
+            {shA, 1, gm},
+            {shD, 1, gm},
+            {shA, 1, gm},
+        },
+        gate = {
+            {1, 7, stp},
+            {0, 1, stp},
+        },
+    }, "various chitters")
+
     return vocab
 end
 
