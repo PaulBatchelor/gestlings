@@ -288,10 +288,21 @@ function toniphys.fixed_tube_shape(sig, tubular, shape)
     tractdiams:unhold()
 end
 
-function toniphys.gate(gate)
+function toniphys.gate(gate, gst, cnd)
     gate:get()
+    gst:gesture("atk", cnd)
     lilts {
-        {"envar", "zz", 0.2, 0.2},
+        {"mul", zz, 1/0xFF},
+        {"scale", zz, 0.001, 0.4},
+    }
+    gst:gesture("rel", cnd)
+    lilts {
+        {"mul", zz, 1/0xFF},
+        {"scale", zz, 0.001, 0.4},
+    }
+    lilts {
+        -- {"envar", "zz", 0.2, 0.2},
+        {"envar", "zz", "zz", "zz"},
         {"mul", "zz", "zz"}
     }
 end
@@ -410,7 +421,7 @@ function toniphys.physiology(p)
     local gate = sig:new()
     gst:gesture("gate", cnd)
     gate:hold()
-    toniphys.gate(gate)
+    toniphys.gate(gate, gst, cnd)
     gate:unhold()
     toniphys.postprocess()
     toniphys.clean(pt)

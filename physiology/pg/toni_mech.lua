@@ -71,8 +71,8 @@ function genphrase()
         test = coord(1, 1),
         silence = coord(2, 1),
         wh_long = coord(3, 1),
-        p_shp_a = coord(4, 1),
-        p_shp_b = coord(5, 1),
+        cp_a = coord(4, 1),
+        cp_b = coord(5, 1),
         wh_mel1 = coord(6, 1),
         wh_mel2 = coord(7, 1),
         wh_mel3 = coord(8, 1),
@@ -83,10 +83,8 @@ function genphrase()
     }
 
     local phrase = {
---        {w.cl_a, dlong},
-        {w.cl_b, dshort},
-        {w.cl_b, dshort},
-        {w.cl_d, dlong},
+        {w.cp_a, dshort},
+        {w.cp_b, dshort},
         {w.silence, short},
     }
 

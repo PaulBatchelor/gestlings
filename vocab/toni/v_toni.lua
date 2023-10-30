@@ -45,6 +45,28 @@ function genmel(mel)
     return p
 end
 
+function clickpat (p)
+    local gt = gest.behavior.gate_50
+    local o = {}
+
+    for _,x in pairs(p) do
+        table.insert(o, {1, x, gt})
+    end
+
+    return o
+end
+
+function tonepat (p)
+    local gm = gest.behavior.gate_50
+    local o = {}
+
+    for _,x in pairs(p) do
+        table.insert(o, {x[1], x[2], gm})
+    end
+
+    return o
+end
+
 function genvocab()
     local vocab = {}
     voc = function (x, y, w, doc, tok)
@@ -54,7 +76,7 @@ function genvocab()
     local behavior = gest.behavior
     local stp = behavior.step
     local gm = behavior.gliss_medium
-    local gm = behavior.gliss
+    local gl = behavior.gliss
     local lin = behavior.linear
     local gt = behavior.gate_50
     local exp = behavior.exp_convex_low
@@ -150,6 +172,16 @@ function genvocab()
         amamt = {
             {0xFF, 3, stp},
             {0xFF, 1, gm},
+        },
+
+        atk = {
+            {0x80, 3, stp},
+            {0x80, 1, gm},
+        },
+
+        rel = {
+            {0x80, 3, stp},
+            {0x80, 1, gm},
         }
     })
 
@@ -222,6 +254,57 @@ function genvocab()
             {shC, 1, gm},
             {shA, 1, gm},
         },
+        gate = {
+            {1, 11, stp},
+            {0, 1, stp},
+        },
+    })
+
+    local m_clickpat = template(m_clicks {
+        shapes = {
+            {shE, 1, gm},
+        },
+        tickmode = {
+            {1, 1, stp},
+        },
+        tickpat = {
+            {1, 3, gt},
+            {1, 1, gt},
+            {1, 2, gt},
+
+            {1, 2, gt},
+            {1, 1, gt},
+        },
+        click_fmin = {
+            {96, 1, gm},
+        },
+
+        click_fmax = {
+            {48, 1, gm},
+        },
+        amfreq = {
+            {60, 1, gm},
+        },
+        pitch = {
+            {60, 1, gm},
+        },
+        shapes = {
+            {shE, 1, gm},
+            {shA, 1, gm},
+        },
+        amamt = {
+            {0x00, 3, stp},
+            {0x00, 1, gm},
+        },
+        atk = {
+            {0x00, 3, stp},
+            {0x00, 1, gm},
+        },
+
+        rel = {
+            {0x00, 3, stp},
+            {0x00, 1, gm},
+        }
     })
 
     voc(1, 1, pat_a {
@@ -243,14 +326,27 @@ function genvocab()
         m_whistle_pitched {},
         "pitched whistle. flat")
 
-        -- TODO: overwrite, don't produce PM's yet
     voc(4, 1,
-        p_sh_a,
-        "tract shapes a. steady.")
+        m_clickpat {},
+        "clickpat A")
 
     voc(5, 1,
-        p_sh_b,
-        "tract shapes b. some rhythmic turbulance")
+        m_clickpat {
+            click_fmax = tonepat {
+                {80, 1},
+                {48, 2},
+                {84, 1},
+                {48, 2},
+                {88, 1},
+                {48, 2},
+            },
+            tickpat = clickpat {
+                2, 2, 2,
+                2, 2, 1, 1,
+                6,
+            }
+        },
+        "clickpat B")
 
     voc(6, 1,
         m_whistle_pitched {
