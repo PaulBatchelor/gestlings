@@ -80,11 +80,12 @@ function genphrase()
         cl_b = coord(5, 2),
         cl_c = coord(6, 2),
         cl_d = coord(7, 2),
+        cp_c = coord(8, 2),
     }
 
     local phrase = {
-        {w.cp_a, dshort},
         {w.cp_b, dshort},
+        {w.cp_c, dshort},
         {w.silence, short},
     }
 

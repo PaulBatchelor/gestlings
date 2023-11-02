@@ -199,6 +199,7 @@ function toniphys.excitation(pt)
 
     lilt {"mul", zz, 1.0 / 8.0}
     lilt {"crossfade", zz, zz, zz}
+
     whistle(lilts, pitch, trig, gate)
     lilt {"mul", zz, "[dblin 3]"}
     lilt {"mul", zz, zz}
@@ -310,8 +311,7 @@ end
 function toniphys.postprocess()
     lil("dcblocker zz")
     lil("buthp zz 100")
-    lil("mul zz [dblin 6]")
-    -- lil("peakeq zz 1000 1000 2")
+    lil("mul zz [dblin 5]")
     lil("limit zz -1 1")
 end
 

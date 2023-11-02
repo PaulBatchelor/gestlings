@@ -501,6 +501,27 @@ function genvocab()
         },
     }, "various chitters")
 
+    voc(8, 2,
+        m_clickpat {
+            click_fmax = tonepat {
+                {80, 1},
+                {48, 2},
+                {60, 1},
+                {48, 2},
+                {88, 1},
+                {48, 2},
+                {60, 1},
+                {48, 2},
+            },
+            tickpat = clickpat {
+                2, 4, 2,
+                2, 4, 2,
+                2, 4, 2,
+                1, 1, 1, 1,
+                1, 1, 1, 1,
+            }
+        },
+        "clickpat C")
     return vocab
 end
 
