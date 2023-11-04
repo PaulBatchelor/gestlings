@@ -16,6 +16,7 @@ alias tasks="./zetdo tasks"
 alias tagged="./zetdo tagged"
 alias zdi="./zetdo info"
 alias stopwatch="./zetdo stopwatch"
+alias clockentry="./zetdo clockentry"
 
 hist_noless() {
     UUID=$(weewiki zet resolve $1)
