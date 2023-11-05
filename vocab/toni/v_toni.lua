@@ -307,6 +307,35 @@ function genvocab()
         }
     })
 
+    m_whistleclick = template (m_clickpat {
+        whistle_amt = {
+            {0, 4, exp},
+            {8, 1, gm},
+        },
+        pitch = {
+            {72, 2, exp},
+            {72 + 12 + 7, 1, gm},
+        },
+        pulse_amt = {
+            {8, 1, gm},
+            {0, 1, gm},
+            {8, 1, gm},
+            {0, 1, gm},
+        },
+        tickpat = clickpat {
+            2, 2, 3,
+            2, 2, 3,
+            2, 2, 3,
+            2, 2, 3,
+        },
+        rel = {
+            {0x80, 3, stp},
+            {0x80, 1, gm},
+        }
+    })
+
+    -- Vocab Words
+
     voc(1, 1, pat_a {
     }, "test word.")
 
@@ -522,6 +551,31 @@ function genvocab()
             }
         },
         "clickpat C")
+
+    voc(1, 3,
+        m_whistleclick {
+        },
+        "whistleclick A")
+    voc(2, 3,
+        m_whistleclick {
+            tickpat = clickpat {
+                1, 1, 2, 3,
+                1, 1, 2, 3,
+                1, 1, 2, 3,
+                2, 2, 3,
+            },
+            pitch = {
+                {72 + 12 + 7, 3, exp},
+                {72, 1, gm},
+            },
+            shapes = {
+                {shD, 1, lin},
+                {shA, 1, lin},
+                {shD, 1, gm},
+                {shA, 1, gm},
+            },
+        },
+        "whistleclick B")
     return vocab
 end
 
