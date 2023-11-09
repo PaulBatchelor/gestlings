@@ -94,7 +94,7 @@ function draw_row(vocab, tile, idx, rowpos, row_width, zoom, symbol_width, squar
     local ypos = row_width * rowpos - 1
 
     lilt {
-        "bpline", "[bpget [grab bp] 0]", 
+        "bpline", "[bpget [grab bp] 0]",
         0, ypos,
         240, ypos,
         1
@@ -113,10 +113,14 @@ function draw_row(vocab, tile, idx, rowpos, row_width, zoom, symbol_width, squar
                 c = 0
             end
 
-            lilt {
-                "bprectf", "[bpget [grab bp] 0]",
-                x*zoom, rowoff+y*zoom, zoom, zoom, c
-            }
+            -- only draw black, otherwise it could
+            -- overwrite grid lines
+            if c == 1 then
+                lilt {
+                    "bprectf", "[bpget [grab bp] 0]",
+                    x*zoom, rowoff+y*zoom, zoom, zoom, c
+                }
+            end
             -- rowstr = rowstr .. c
         end
         -- print(rowstr)
