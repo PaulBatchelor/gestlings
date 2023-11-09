@@ -47,9 +47,15 @@ Tasks for Gestlings. Updated automatically using [[/wiki/zetdo][zetdo]].
 (ww-add-page "sdfvm_mouth" `@!(wikipage "sdfvm_mouth")!@`)
 (ww-add-page "mouthanim" `@!(wikipage "mouthanim")!@`)
 (ww-add-page "mouthsounds" `@!(wikipage "mouthsounds")!@`)
-(ww-add-page "ref_junior" `#+TITLE: Junior Reference
-@!(img "/res/ref_junior.png")!@`)
 (ww-add-page "junior" `@!(gestlingpage "junior")!@`)
+(ww-add-page "ref_junior" `#+TITLE: Junior Reference
+@!(img "/res/ref_junior_01.png")!@
+
+@!(img "/res/ref_junior_02.png")!@
+`)
+(ww-add-page "ref_toni" `#+TITLE: Toni Reference (WIP)
+@!(img "/res/ref_toni_01.png")!@
+`)
 
 # linked pages
 
