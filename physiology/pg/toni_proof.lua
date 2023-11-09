@@ -181,6 +181,8 @@ function run ()
         {6, 2},
         {7, 2},
         {8, 2},
+        {1, 3},
+        {2, 3},
     }
     local filenames = {}
 

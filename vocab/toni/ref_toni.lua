@@ -166,8 +166,8 @@ function draw_row(vocab, tile, idx, rowpos, row_width, zoom, symbol_width, squar
     }
 end
 
-local vocab = asset:load("vocab/junior/v_junior.b64")
-local tilemap = asset:load("vocab/junior/t_junior.b64")
+local vocab = asset:load("vocab/toni/v_toni.b64")
+local tilemap = asset:load("vocab/toni/t_toni.b64")
 local zoom = 4
 local symbol_width = (8 + 1) * zoom
 
@@ -202,7 +202,7 @@ for idx, tile in pairs(tilemap) do
         lilt {
             "bppng",
             "[grab bp]",
-            string.format("res/ref_junior_%02d.png", pagenum)
+            string.format("res/ref_toni_%02d.png", pagenum)
         }
         lilt {"bpfill", "[bpget [grab bp] 0]", 0}
         draw_lines(glyphs_left, rows_per_page, row_width, table_width, symbol_width, shape_width)
@@ -221,6 +221,6 @@ if rowpos > 1 then
     lilt {
         "bppng",
         "[grab bp]",
-        string.format("res/ref_junior_%02d.png", pagenum)
+        string.format("res/ref_toni_%02d.png", pagenum)
     }
 end
