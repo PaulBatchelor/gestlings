@@ -134,7 +134,7 @@
       "scratch/welcome_to_gestleton.bin"
       "scratch/squad.lua"]]
 
-    @[["res/ref_junior.png"]
+    @[["res/ref_junior_01.png" "res/ref_junior_02.png"]
       ["vocab/junior/ref_junior.lua"]
       ["asset/asset.lua"
        "vocab/junior/v_junior.b64"
@@ -159,6 +159,12 @@
        "avatar/mouth/mouth.lua"
        "avatar/sdfdraw.lua"
        "avatar/mouth/mouthshapes1.b64"]]
+
+    @[["res/ref_toni_01.png"]
+      ["vocab/toni/ref_toni.lua"]
+      ["asset/asset.lua"
+       "vocab/toni/v_toni.b64"
+       "vocab/toni/t_toni.b64"]]
 ])
 
 (def fonts @["cholo" "antik_1" "cursive_a" "fountain_joined" "fountain" "plotter"])
