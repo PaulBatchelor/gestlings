@@ -10,3 +10,7 @@ res/welcome_to_gestleton_small.mp4
 res/trailer2.mp4
 res/sco_junior.png
 res/junior.mp4
+res/sco_junior_letter.png
+res/ref_junior_01.png
+res/ref_junior_02.png
+res/ref_toni_01.png
