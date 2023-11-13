@@ -67,7 +67,6 @@
     @[["fonts/junior.uf2"
        "vocab/junior/k_junior.bin"
        "vocab/junior/f_junior.b64"
-       # "vocab/junior/ref_junior.png"
        ]
       ["vocab/junior/uf2_junior.lua"]
       ["vocab/junior/t_junior.b64"]]
@@ -82,6 +81,13 @@
       ["vocab/toni/v_toni.lua"]
       ["asset/asset.lua"
        "gest/gest.lua"]]
+
+    @[["fonts/toni.uf2"
+       "vocab/toni/k_toni.bin"
+       "vocab/toni/f_toni.b64"
+       ]
+      ["vocab/toni/uf2_toni.lua"]
+      ["vocab/toni/t_toni.b64"]]
 
     @[["prosody/prosody.b64"
        "fonts/prosody.uf2"
