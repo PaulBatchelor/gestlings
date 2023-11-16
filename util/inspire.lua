@@ -142,7 +142,7 @@ function setup(inspire)
 
     -- TODO rework placeholder avatar
     local trixie = mktrixie(vm, syms, 1)
-    
+
     local mouthshapes = asset:load("avatar/mouth/mouthshapes1.b64")
     -- really only used to access specific shapes
     -- (right now it's "rest")
