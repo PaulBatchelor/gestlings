@@ -1,10 +1,4 @@
 #! ./cantor
---[[
--- <@>
-dofile("scratch/junior_rt.lua")
--- </@>
---]]
-
 grid = monome_grid
 core = require("util/core")
 sig = require("sig/sig")
@@ -22,10 +16,13 @@ asset = asset:new{
     base64 = require("util/base64")
 }
 monologue = require("monologue/monologue")
+
+-- TODO: load this from CLI args
 juniorphys = require("physiology/phys_junior")
 
 -- <@>
 function genvocab()
+    -- TODO load from CLI args
     local vocab = asset:load("vocab/junior/v_junior.b64")
     return vocab
 end
@@ -188,6 +185,7 @@ end
 -- <@>
 
 function patch_setup()
+    -- TODO load from CLI args
     lil("shapemorfnew lut shapes/junior.b64")
     lil("grab lut")
     lut = pop()
@@ -221,6 +219,7 @@ function patch(words, data)
     local cnd = sig:new()
     cnd:hold()
 
+    -- TODO make generic, not just junior
     juniorphys.physiology {
         gest = G,
         cnd = cnd,
@@ -260,7 +259,9 @@ function sound()
     words = genwords(data, genphrase())
     patch(words, data)
     valutil.set("msgscale", 1.0 / (2*60))
-    fp = io.open("vocab/junior/pb_junior_verses.txt")
+    -- TODO: load file CLI args
+    local phrasebook_file = "vocab/junior/pb_junior_verses.txt"
+    fp = io.open(phrasebook_file)
     phrasebook = {}
 
     for ln in fp:lines() do
@@ -273,14 +274,17 @@ function sound()
 end
 
 function bitrune_setup(data)
+    -- TODO eventually make these come from CLI args
+    local uf2_file = "fonts/junior.uf2"
+    local keyshapes_file = "vocab/junior/k_junior.bin"
+    local phrases_file = "vocab/junior/p_junior_verses.b64"
     data.m = grid.open("/dev/ttyACM0")
-    data.br = bitrune.new("fonts/junior.uf2",
-                          "vocab/junior/k_junior.bin",
-                          "vocab/junior/p_junior_verses.b64")
+    data.br = bitrune.new(uf2_file, keyshapes_file, phrases_file)
     bitrune.terminal_setup(data.br)
 end
 
 
+-- TODO generalize variable name
 junior_data = sound()
 bitrune_setup(junior_data)
 
