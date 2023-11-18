@@ -17,31 +17,26 @@ asset = asset:new{
 }
 monologue = require("monologue/monologue")
 
--- TODO: load this from CLI args
-juniorphys = require("physiology/phys_junior")
+phys_path = "physiology/phys_junior"
+gestlingphys = require(phys_path)
 
 -- <@>
-function genvocab()
-    -- TODO load from CLI args
-    local vocab = asset:load("vocab/junior/v_junior.b64")
+function genvocab(vocab_filename)
+    local vocab = asset:load(vocab_filename)
     return vocab
 end
 -- </@>
 
 -- <@>
 function genpros()
-    local pros = asset:load("prosody/prosody.b64")
+    local prosody_filename = "prosody/prosody.b64"
+    local pros = asset:load(prosody_filename)
     return pros
 end
 -- </@>
 
 -- <@>
 function genphrase(sentence)
-    -- TODO create purpose
-    local dur_reg = {1, 1}
-    local dur_short = {3, 2}
-    local dur_long = {2, 3}
-
     local sentence = sentence or { 1 }
     local phrase = {}
     local reg = {1, 1}
@@ -184,9 +179,8 @@ function genwords(data, phrase)
 end
 -- <@>
 
-function patch_setup()
-    -- TODO load from CLI args
-    lil("shapemorfnew lut shapes/junior.b64")
+function patch_setup(vocab_filename, shapes_file)
+    lilt {"shapemorfnew", "lut", shapes_file}
     lil("grab lut")
     lut = pop()
 
@@ -200,7 +194,7 @@ function patch_setup()
     data.G = G
     data.lut = lut
     data.lookup = shapemorf.generate_lookup(lut)
-    data.vocab = genvocab()
+    data.vocab = genvocab(vocab_filename)
 
     return data
 end
@@ -219,8 +213,7 @@ function patch(words, data)
     local cnd = sig:new()
     cnd:hold()
 
-    -- TODO make generic, not just junior
-    juniorphys.physiology {
+    gestlingphys.physiology {
         gest = G,
         cnd = cnd,
         lilt = lilt,
@@ -253,14 +246,12 @@ func playtog {} {
 ]])
 end
 
-function sound()
+function sound(phrasebook_file, vocab_filename, shapes_file)
     rtsetup()
-    local data = patch_setup()
+    local data = patch_setup(vocab_filename, shapes_file)
     words = genwords(data, genphrase())
     patch(words, data)
     valutil.set("msgscale", 1.0 / (2*60))
-    -- TODO: load file CLI args
-    local phrasebook_file = "vocab/junior/pb_junior_verses.txt"
     fp = io.open(phrasebook_file)
     phrasebook = {}
 
@@ -273,26 +264,28 @@ function sound()
     return data
 end
 
-function bitrune_setup(data)
-    -- TODO eventually make these come from CLI args
-    local uf2_file = "fonts/junior.uf2"
-    local keyshapes_file = "vocab/junior/k_junior.bin"
-    local phrases_file = "vocab/junior/p_junior_verses.b64"
+function bitrune_setup(data, uf2_file, keyshapes_file, phrases_file)
     data.m = grid.open("/dev/ttyACM0")
     data.br = bitrune.new(uf2_file, keyshapes_file, phrases_file)
     bitrune.terminal_setup(data.br)
 end
 
 
--- TODO generalize variable name
-junior_data = sound()
-bitrune_setup(junior_data)
+-- TODO load from CLI args
+local phrasebook_file = "vocab/junior/pb_junior_verses.txt"
+local uf2_file = "fonts/junior.uf2"
+local keyshapes_file = "vocab/junior/k_junior.bin"
+local phrases_file = "vocab/junior/p_junior_verses.b64"
+local vocab_filename = "vocab/junior/v_junior.b64"
+local shapes_file = "shapes/junior.b64"
+gestling_data = sound(phrasebook_file, vocab_filename, shapes_file)
+bitrune_setup(gestling_data, uf2_file, keyshapes_file, phrases_file)
 
 --<@>
-function eval_sentence(phrase)
-    junior_data.vocab = genvocab()
-    local words = genwords(junior_data, phrase)
-    patch(words, junior_data)
+function eval_sentence(phrase, vocab_filename)
+    gestling_data.vocab = genvocab(vocab_filename)
+    local words = genwords(gestling_data, phrase)
+    patch(words, gestling_data)
     lil("out")
 end
 --</@>
@@ -302,33 +295,10 @@ function coord(x, y)
     return ((y - 1) * 8) + x
 end
 
-function run()
-    print("run")
-    local wrds = {
-        coord(6, 3),
-        coord(7, 3),
-        coord(8, 3),
-        coord(1, 4),
-        coord(2, 4),
-        coord(3, 4),
-    }
-    -- local sent = {wrds[1], wrds[2], wrds[1], 1}
-
-    local sent = {}
-
-    for _, w in pairs({1, 2, 3, 4, 5, 6}) do
-        table.insert(sent, wrds[w])
-    end
-    table.insert(sent, 1)
-    junior_data.vocab = genvocab()
-    local words = genwords(junior_data, genphrase(sent))
-    patch(words, junior_data)
-    lil("out")
-end
--- </@>
 -- <@>
-function altrun()
-    local dat = junior_data
+function altrun(vocab_filename)
+    --local vocab_filename = "vocab/junior/v_junior.b64"
+    local dat = gestling_data
     local br = dat.br
     local m = dat.m
     local zeroquad = {0, 0, 0, 0, 0, 0, 0, 0}
@@ -368,7 +338,7 @@ function altrun()
             --genphrase_v2(sentence, dat.vocab)
             if #sentence > 0 then
                 print("eval")
-                eval_sentence(genphrase_v2(sentence, dat.vocab))
+                eval_sentence(genphrase_v2(sentence, dat.vocab), vocab_filename)
             end
         end
         if bitrune.please_draw(br) then
@@ -387,7 +357,7 @@ function altrun()
 end
 -- </@>
 function quit()
-    local dat = junior_data
+    local dat = gestling_data
     local br = dat.br
     print("bye")
     bitrune.terminal_reset(br)
@@ -396,5 +366,5 @@ function quit()
 end
 --</@>
 
-altrun()
+altrun(vocab_filename)
 quit()
