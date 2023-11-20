@@ -2936,3 +2936,9 @@
 2023-11-18 18:02:42	c9d79f15-4f96-407b-aec0-564611c7c723	$duration:>1325
 -	c9d79f15-4f96-407b-aec0-564611c7c723	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	c9d79f15-4f96-407b-aec0-564611c7c723	#8048d650-818d-44a9-97ed-20317655ae15
+2023-11-20 01:00:28	946acb12-dcfb-48a3-896c-d067f0906020	>there are so many data files being loaded here, it's best to just pass in the monolothic character file. Toni's hasn't been made yet, so I'll be setting that up now.
+-	946acb12-dcfb-48a3-896c-d067f0906020	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	946acb12-dcfb-48a3-896c-d067f0906020	#8048d650-818d-44a9-97ed-20317655ae15
+2023-11-20 01:19:09	b06501e1-bc36-49ca-8df5-eee2eb18ab99	$duration:>1178
+-	b06501e1-bc36-49ca-8df5-eee2eb18ab99	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b06501e1-bc36-49ca-8df5-eee2eb18ab99	#8048d650-818d-44a9-97ed-20317655ae15
