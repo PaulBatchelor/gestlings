@@ -95,6 +95,19 @@
       ["prosody/prosody.lua"]
       []]
 
+    # TODO: implement all toni components
+    @[["characters/toni.b64"]
+      ["characters/toni.lua"]
+      [
+       #"vocab/toni/p_toni.b64"
+       #"vocab/toni/p_toni_verses.b64"
+       "vocab/toni/t_toni.b64"
+       "vocab/toni/pb_toni.txt"
+       # "vocab/toni/pb_toni_verses.txt"
+       "vocab/toni/v_toni.b64"
+       # "shapes/l_toni.b64"
+       ]]
+
     @[["fonts/protorunes.uf2"]
       ["runes/runemaker.lua"]
       ["runes/runes.txt"]]

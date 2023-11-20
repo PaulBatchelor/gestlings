@@ -246,19 +246,19 @@ func playtog {} {
 ]])
 end
 
-function sound(phrasebook_file, vocab_filename, shapes_file)
+function sound(phrasebook, vocab_filename, shapes_file)
     rtsetup()
     local data = patch_setup(vocab_filename, shapes_file)
     words = genwords(data, genphrase())
     patch(words, data)
     valutil.set("msgscale", 1.0 / (2*60))
-    fp = io.open(phrasebook_file)
-    phrasebook = {}
+    -- fp = io.open(phrasebook_file)
+    -- phrasebook = {}
 
-    for ln in fp:lines() do
-        table.insert(phrasebook, ln)
-    end
-    fp:close()
+    -- for ln in fp:lines() do
+    --     table.insert(phrasebook, ln)
+    -- end
+    -- fp:close()
     data.phrasebook = phrasebook
     lil("out")
     return data
@@ -271,13 +271,18 @@ function bitrune_setup(data, uf2_file, keyshapes_file, phrases_file)
 end
 
 
--- TODO load from CLI args
+-- TODO load from character data file via CLI
+
+local character = asset:load("characters/junior.b64")
+-- TODO make this work with the character phrasebook
 local phrasebook_file = "vocab/junior/pb_junior_verses.txt"
-local uf2_file = "fonts/junior.uf2"
+--local uf2_file = "fonts/junior.uf2"
+local uf2_file = character.uf2
 local keyshapes_file = "vocab/junior/k_junior.bin"
 local phrases_file = "vocab/junior/p_junior_verses.b64"
 local vocab_filename = "vocab/junior/v_junior.b64"
-local shapes_file = "shapes/junior.b64"
+--local shapes_file = "shapes/junior.b64"
+local shapes_file = character.shapes
 gestling_data = sound(phrasebook_file, vocab_filename, shapes_file)
 bitrune_setup(gestling_data, uf2_file, keyshapes_file, phrases_file)
 
