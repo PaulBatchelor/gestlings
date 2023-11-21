@@ -68,5 +68,6 @@ junior.shapelut = asset:load("shapes/l_junior.b64")
 junior.shapes = "shapes/junior.b64"
 junior.physiology = "physiology/phys_junior.lua"
 junior.name = "junior"
+junior.keyshapes = "vocab/junior/k_junior.bin"
 
 asset:save(junior, "characters/junior.b64")

@@ -17,12 +17,18 @@ asset = asset:new{
 }
 monologue = require("monologue/monologue")
 
-phys_path = "physiology/phys_junior"
-gestlingphys = require(phys_path)
+mnorealloc(10, 16)
+function genvocab(vocab)
 
--- <@>
-function genvocab(vocab_filename)
-    local vocab = asset:load(vocab_filename)
+    -- before, this used to load the asset every time
+    -- (good for live coding). Now it reads data from
+    -- a bundle loaded once (good for re-use)
+    -- this hack here tries to have it both ways
+    if type(vocab) == "string" then
+        -- not actually data, but a filename pointing
+        -- to data.
+        vocab = asset:load(vocab)
+    end
     return vocab
 end
 -- </@>
@@ -114,6 +120,7 @@ function genphrase_v2(sentence, vocab)
     print(#words)
     for _, wrd in pairs(words) do
         local outword = process_word(wrd, vocab, durs)
+        pprint(outword)
         table.insert(phrase, outword)
     end
 
@@ -213,13 +220,14 @@ function patch(words, data)
     local cnd = sig:new()
     cnd:hold()
 
-    gestlingphys.physiology {
+    data.gestlingphys.physiology {
         gest = G,
         cnd = cnd,
         lilt = lilt,
         lilts = lilts,
         sigrunes = sigrunes,
         sig = sig,
+        core = core,
     }
 
     G:done()
@@ -246,9 +254,10 @@ func playtog {} {
 ]])
 end
 
-function sound(phrasebook, vocab_filename, shapes_file)
+function sound(phrasebook, vocab_filename, shapes_file, phys)
     rtsetup()
     local data = patch_setup(vocab_filename, shapes_file)
+    data.gestlingphys = phys
     words = genwords(data, genphrase())
     patch(words, data)
     valutil.set("msgscale", 1.0 / (2*60))
@@ -260,6 +269,7 @@ function sound(phrasebook, vocab_filename, shapes_file)
     -- end
     -- fp:close()
     data.phrasebook = phrasebook
+    data.gestlingphys = phys
     lil("out")
     return data
 end
@@ -273,17 +283,29 @@ end
 
 -- TODO load from character data file via CLI
 
-local character = asset:load("characters/junior.b64")
+if #arg < 3 then
+    print("Usage: phrasemaker characters/foo.b64 vocab/foo/pb_foo.txt vocab/foo/p_foo.b64")
+    error("not enough args")
+end
+
+local charfile = arg[1]
+local character = asset:load(charfile)
+--local character = asset:load("characters/junior.b64")
 -- TODO make this work with the character phrasebook
-local phrasebook_file = "vocab/junior/pb_junior_verses.txt"
---local uf2_file = "fonts/junior.uf2"
+--local phrasebook_file = "vocab/junior/pb_junior_verses.txt"
+local phrasebook_file = arg[2]
+--local phrases_file = "vocab/junior/p_junior_verses.b64"
+local phrases_file = arg[3]
+local vocab_filename = character.vocab
 local uf2_file = character.uf2
-local keyshapes_file = "vocab/junior/k_junior.bin"
-local phrases_file = "vocab/junior/p_junior_verses.b64"
-local vocab_filename = "vocab/junior/v_junior.b64"
---local shapes_file = "shapes/junior.b64"
+local keyshapes_file = character.keyshapes
 local shapes_file = character.shapes
-gestling_data = sound(phrasebook_file, vocab_filename, shapes_file)
+gestlingphys = dofile(character.physiology)
+
+gestling_data = sound(phrasebook_file,
+                      vocab_filename,
+                      shapes_file,
+                      gestlingphys)
 bitrune_setup(gestling_data, uf2_file, keyshapes_file, phrases_file)
 
 --<@>

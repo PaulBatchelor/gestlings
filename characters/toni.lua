@@ -65,8 +65,9 @@ toni.tilemap = asset:load("vocab/toni/t_toni.b64")
 toni.uf2 = "fonts/toni.uf2"
 -- TODO
 -- toni.shapelut = asset:load("shapes/l_toni.b64")
-toni.shapes = "shapes/toni.b64"
+toni.shapes = "shapes/s_toni.b64"
 toni.physiology = "physiology/phys_toni.lua"
 toni.name = "toni"
+toni.keyshapes = "vocab/toni/k_toni.bin"
 
 asset:save(toni, "characters/toni.b64")

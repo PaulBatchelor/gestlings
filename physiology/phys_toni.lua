@@ -344,7 +344,7 @@ function toniphys.physiology(p)
     local physdat = {}
     local sig = p.sig
     local core = p.core
-    local gst = p.gst
+    local gst = p.gst or p.gest
     local cnd = p.cnd
 
     local pt = toniphys.create {
