@@ -255,20 +255,20 @@ func playtog {} {
 ]])
 end
 
-function sound(phrasebook, vocab_filename, shapes_file, phys)
+function sound(phrasebook_file, vocab_filename, shapes_file, phys)
     rtsetup()
     local data = patch_setup(vocab_filename, shapes_file)
     data.gestlingphys = phys
     words = genwords(data, genphrase())
     patch(words, data)
     valutil.set("msgscale", 1.0 / (2*60))
-    -- fp = io.open(phrasebook_file)
-    -- phrasebook = {}
+    fp = io.open(phrasebook_file)
+    phrasebook = {}
 
-    -- for ln in fp:lines() do
-    --     table.insert(phrasebook, ln)
-    -- end
-    -- fp:close()
+    for ln in fp:lines() do
+        table.insert(phrasebook, ln)
+    end
+    fp:close()
     data.phrasebook = phrasebook
     data.gestlingphys = phys
     lil("out")
