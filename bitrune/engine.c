@@ -275,6 +275,7 @@ void bitrune_save(bitrune_engine *br, const char *filename)
     FILE *fp;
     uint16_t nitems;
     unsigned char msgpack_array16[3];
+    printf("saving to %s\n", filename);
     fp = fopen(filename, "wb");
 
     nitems = writesymbols(br, fp, 0);

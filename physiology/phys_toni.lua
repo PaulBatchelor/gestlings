@@ -289,14 +289,14 @@ function toniphys.fixed_tube_shape(sig, tubular, shape)
     tractdiams:unhold()
 end
 
-function toniphys.gate(gate, gst, cnd)
+function toniphys.gate(gate, gst, cnd, msgscale)
     gate:get()
-    gst:gesture("atk", cnd)
+    gst:gesture("atk", cnd, msgscale)
     lilts {
         {"mul", zz, 1/0xFF},
         {"scale", zz, 0.001, 0.4},
     }
-    gst:gesture("rel", cnd)
+    gst:gesture("rel", cnd, msgscale)
     lilts {
         {"mul", zz, 1/0xFF},
         {"scale", zz, 0.001, 0.4},
@@ -315,10 +315,10 @@ function toniphys.postprocess()
     lil("limit zz -1 1")
 end
 
-function gesture_param(name)
+function gesture_param(name, msgscale)
     return function(pt)
         assert(pt.gst ~= nil, "Gesture not loaded")
-        pt.gst:gesture(name, pt.cnd)
+        pt.gst:gesture(name, pt.cnd, msgscale)
     end
 end
 
@@ -334,7 +334,6 @@ function setup_shapemorf(gst, tubular, cnd, use_msgscale)
             "[" .. table.concat(tubular:getstr(), " ") .. "]",
             "[" .. gst:gmemsymstr("shapes") .. "]",
             "[" .. table.concat(cnd:getstr(), " ") .. "]",
-            -- "[val [grab msgscale]]"
             msgscale
         },
     }
@@ -346,23 +345,29 @@ function toniphys.physiology(p)
     local core = p.core
     local gst = p.gst or p.gest
     local cnd = p.cnd
+    local msgscale = nil
+    local use_msgscale = p.use_msgscale or false
+
+    if use_msgscale == true then
+        msgscale = "[val [grab msgscale]]"
+    end
 
     local pt = toniphys.create {
         sig = sig,
         core = core,
         cnd = cnd,
         gst = gst,
-        click_rate = gesture_param("click_rate"),
-        whistle_amt = gesture_param("whistle_amt"),
-        pulse_amt = gesture_param("pulse_amt"),
-        click_fmin = gesture_param("click_fmin"),
-        click_fmax = gesture_param("click_fmax"),
-        amfreq = gesture_param("amfreq"),
-        tickmode = gesture_param("tickmode"),
-        tickpat = gesture_param("tickpat"),
-        pros_pitch = gesture_param("pros_pitch"),
-        sync = gesture_param("sync"),
-        amamt = gesture_param("amamt"),
+        click_rate = gesture_param("click_rate", msgscale),
+        whistle_amt = gesture_param("whistle_amt", msgscale),
+        pulse_amt = gesture_param("pulse_amt", msgscale),
+        click_fmin = gesture_param("click_fmin", msgscale),
+        click_fmax = gesture_param("click_fmax", msgscale),
+        amfreq = gesture_param("amfreq", msgscale),
+        tickmode = gesture_param("tickmode", msgscale),
+        tickpat = gesture_param("tickpat", msgscale),
+        pros_pitch = gesture_param("pros_pitch", msgscale),
+        sync = gesture_param("sync", msgscale),
+        amamt = gesture_param("amamt", msgscale),
     }
 
     -- set up tract filter, use fixed shape for testing
@@ -370,7 +375,7 @@ function toniphys.physiology(p)
     local shape = {
         0.1, 0.1, 0.1, 0.1, 0.1, 0.4, 0.3, 0.9
     }
-    local use_msgscale = false
+    local use_msgscale = p.use_msgscale or false
     local use_shapemorf = true
 
     if use_shapemorf then
@@ -379,7 +384,7 @@ function toniphys.physiology(p)
         toniphys.fixed_tube_shape(sig, tubular, shape)
     end
 
-    gst:gesture("pitch", cnd)
+    gst:gesture("pitch", cnd, msgscale)
 
     if pt.pros_pitch ~= nil then
         pt.pros_pitch(pt)
@@ -396,7 +401,7 @@ function toniphys.physiology(p)
     local pitch = sig:new()
     pitch:hold()
 
-    gst:gesture("trig", cnd)
+    gst:gesture("trig", cnd, msgscale)
     lil("gtick zz")
     local trig = sig:new()
     trig:hold()
@@ -419,9 +424,9 @@ function toniphys.physiology(p)
     toniphys.filter(tubular, exc)
     exc:unhold()
     local gate = sig:new()
-    gst:gesture("gate", cnd)
+    gst:gesture("gate", cnd, msgscale)
     gate:hold()
-    toniphys.gate(gate, gst, cnd)
+    toniphys.gate(gate, gst, cnd, msgscale)
     gate:unhold()
     toniphys.postprocess()
     toniphys.clean(pt)

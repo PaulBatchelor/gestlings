@@ -228,6 +228,7 @@ function patch(words, data)
         sigrunes = sigrunes,
         sig = sig,
         core = core,
+        use_msgscale = true,
     }
 
     G:done()
