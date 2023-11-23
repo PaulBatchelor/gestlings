@@ -336,10 +336,10 @@ function genvocab()
 
     -- Vocab Words
 
-    voc(1, 1, pat_a {
+    voc(2, 1, pat_a {
     }, "test word.")
 
-    voc(2, 1, pat_a {
+    voc(1, 1, pat_a {
         tickmode= {
             {1, 1, stp},
         },
