@@ -578,6 +578,8 @@ function genvocab()
         "whistleclick B")
     voc(3, 3, {}, "word divider", "divider")
     voc(4, 3, {}, "duration 1", "dur1")
+    voc(5, 3, {}, "duration 2", "dur2")
+    voc(6, 3, {}, "duration 3", "dur3")
     return vocab
 end
 
