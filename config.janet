@@ -178,7 +178,7 @@
        "avatar/sdfdraw.lua"
        "avatar/mouth/mouthshapes1.b64"]]
 
-    @[["res/ref_toni_01.png"]
+    @[["res/ref_toni_01.png" "res/ref_toni_02.png"]
       ["vocab/toni/ref_toni.lua"]
       ["asset/asset.lua"
        "vocab/toni/v_toni.b64"
