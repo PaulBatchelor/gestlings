@@ -75,7 +75,6 @@
       ["shapes/l_junior.lua"]
       ["shapes/junior.b64"]]
 
-
     # Toni
     @[["vocab/toni/v_toni.b64"]
       ["vocab/toni/v_toni.lua"]

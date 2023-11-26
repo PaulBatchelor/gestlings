@@ -71,6 +71,11 @@
   (print "    command = ./util/mkscore.lua $in $character")
   (print "    description = mkscore $in $character ($out)"))
 
+(defn genpdf-rule []
+  (print "rule genpdf")
+  (print "    command = convert $in $out")
+  (print "    description = genpdf $out"))
+
 (defn build-cantor [obj]
   (each o obj
     (print
@@ -122,6 +127,7 @@
 (asset-rule)
 (inspire-rule)
 (mkscore-rule)
+(genpdf-rule)
 (def obj @[
     "protogestling/protogestling"
     "bitrune/bitrune"
@@ -206,8 +212,20 @@
   (array/push resource-files mp4)
   (array/push resource-files png))
 
+(defn genref [outpdf pdfs]
+ (print
+  (string
+   "build "
+   outpdf
+   ": genpdf "
+   (string/join pdfs " "))))
 
 (gestling "dialogue/junior_mushrooms.txt" "junior")
+(genref
+ "res/ref_toni.pdf"
+ (array
+  "res/ref_toni_01.png"
+  "res/ref_toni_02.png"))
 
 (print (string "build assets: phony " (string/join asset-files " ")))
 (print (string "build tangled: phony " (string/join tangled-files " ")))
@@ -218,6 +236,7 @@
     (do
       (build-rt obj)
       (array/push default-targets "util/rt")))
+
 
 # (print "default tangled cantor")
 (print "default " (string/join default-targets " "))
