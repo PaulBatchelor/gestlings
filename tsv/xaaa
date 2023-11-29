@@ -2963,3 +2963,12 @@
 2023-11-26 00:25:35	78fdeef9-2968-4bb3-8157-3234829c7acb	$duration:>259
 -	78fdeef9-2968-4bb3-8157-3234829c7acb	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	78fdeef9-2968-4bb3-8157-3234829c7acb	#fe12e1ce-d230-4071-9aab-9968ff1f9bae
+2023-11-29 00:02:02	ecd47da5-0bcf-4d21-bb50-6303b8148db0	>create audiovisual proofsheet for toni
+-	ecd47da5-0bcf-4d21-bb50-6303b8148db0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-11-29 00:02:02	ecd47da5-0bcf-4d21-bb50-6303b8148db0	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-11-29 01:01:19	70c098fb-ec7c-426c-9d5d-611e7f4b05ee	>so close to getting this AV proof sheet right. FFMPEG sync issues, again. I think the workaround will involve using mnolth to generate the individual videos and the mkmp4 utility, then ffmpeg to concat them in the end.
+-	70c098fb-ec7c-426c-9d5d-611e7f4b05ee	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	70c098fb-ec7c-426c-9d5d-611e7f4b05ee	#ecd47da5-0bcf-4d21-bb50-6303b8148db0
+2023-11-29 01:01:21	aac6c194-558d-4f2f-8c9a-39fad336d201	$duration:>3546
+-	aac6c194-558d-4f2f-8c9a-39fad336d201	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	aac6c194-558d-4f2f-8c9a-39fad336d201	#ecd47da5-0bcf-4d21-bb50-6303b8148db0
