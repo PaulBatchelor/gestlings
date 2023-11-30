@@ -166,7 +166,7 @@ function render_word(w)
 end
 
 -- <@>
-function generate_sounds (words)
+function generate_sounds(words)
     local filenames = {}
     local word_wavs = {}
 
@@ -243,6 +243,93 @@ function mkglyph(fdata, wordpos, outdir, charname)
     return png
 end
 
+function mkglyph_v2(fdata, wordpos, outdir, charname)
+    local wx = wordpos[1]
+    local wy = wordpos[2]
+    local word = fdata[(wy - 1)*8 + wx]
+    local height = 6 -- bitrune fixed height
+    local width = word.width
+    local mp4 = string.format("%s/%s_%01d_%01d_ns.mp4", outdir, charname, wx, wy)
+    local h264 = string.format("%s/%s_%01d_%01d.h264", outdir, charname, wx, wy)
+    local bits = word.bits
+
+    local block_size = 12
+    local padding = 4
+    local glyph_width = 2*padding + width*block_size
+    local glyph_height = 2*padding + height*block_size
+    local canvas_width = 320
+    local canvas_height = 240
+    assert(glyph_width <= canvas_width)
+    assert(glyph_height <= canvas_height)
+    lilt {"bpnew", "bp", canvas_width, canvas_height}
+    lilt {
+        "bpset",
+        "[grab bp]", 0,
+        -- center glyph
+        (canvas_width - glyph_width) / 2,
+        (canvas_height - glyph_height) / 2,
+        glyph_width, glyph_height
+    }
+
+    lilt {"gfxnewz", "gfx", canvas_width, canvas_height, 2}
+    lilt {"grab gfx"}
+    lilt {"gfxopen", h264}
+    lilt {"[grab gfx]"}
+    lilt {"gfxclrset", 0, 1.0, 1.0, 1.0}
+    lilt {"gfxclrset", 1, 0.0, 0.0, 0.0}
+    lilt {"drop"}
+
+    lilt {"bpoutline", "[bpget [grab bp] 0]", 1}
+
+    for h=1,height do
+        local row = bits[h]
+        for w=1,width do
+            local c = string.byte(row, w)
+            c = string.char(c)
+            if c == "#" then
+                lilt {
+                    "bprectf",
+                    "[bpget [grab bp] 0]",
+                    padding + (w - 1)*block_size,
+                    padding + (h - 1)*block_size,
+                    block_size, block_size,
+                    1
+                }
+            end
+        end
+    end
+
+    local video_dur = 3.5
+    local fps = 60
+    local nframes = math.floor(video_dur * fps)
+
+    lilt {"grab gfx"}
+    lil("gfxfill 0")
+    lilt {
+        "bptr",
+        "[grab bp]",
+        0, 0,
+        canvas_width, canvas_height,
+        0, 0, 1
+    }
+
+    lilt {"grab gfx"}
+    lil("gfxzoomit")
+    lilt {"grab gfx"}
+    lilt {"gfxtransferz"}
+
+    for n=1,nframes do
+        lilt {"grab gfx"}
+        lilt {"gfxappend"}
+    end
+    -- lilt{"bppng", "[grab bp]", png}
+    lilt {"grab gfx"}
+    lilt {"gfxclose"}
+    lilt {"gfxmp4", h264, mp4}
+
+    return mp4
+end
+
 function generate_glyphs(words)
     local font_datafile = "vocab/toni/f_toni.b64"
     local outdir = "tmp/toni_proof"
@@ -251,7 +338,7 @@ function generate_glyphs(words)
     local filenames = {}
 
     for _,wp in pairs(words) do
-        local pngfile = mkglyph(fdata, wp, outdir, charname)
+        local pngfile = mkglyph_v2(fdata, wp, outdir, charname)
         table.insert(filenames, pngfile)
         mnoreset()
     end
@@ -268,11 +355,12 @@ function generate_videos(pngs, wavs, words, outdir, charname)
                 wp[1], wp[2])
         local mp4 = outdir .. "/" .. mp4_basename
         local ffmpeg_flags = {
-            "ffmpeg", "-y", "-loop", "1", "-r 60",
+            "ffmpeg", "-y",
             "-i", pngs[idx],
             "-i", wavs[idx],
-            "-c:v", "libx264",
-            "-tune stillimage",
+            "-c:v libx264",
+            "-preset", "slow",
+            "-crf", 10,
             "-c:a aac", "-b:a 256k",
             "-pix_fmt", "yuv420p",
             "-shortest",
@@ -320,5 +408,4 @@ local words = {
 
 local wav_files = generate_sounds(words)
 local png_files = generate_glyphs(words)
-
 generate_videos(png_files, wav_files, words, "tmp/toni_proof", "toni")
