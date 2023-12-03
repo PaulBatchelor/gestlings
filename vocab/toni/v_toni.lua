@@ -6,6 +6,9 @@ asset = asset:new {
 }
 local morpheme = require("morpheme/morpheme")
 
+-- PAUL DEBUGGING
+local json = require("util/json")
+
 -- corresponds to how symbols are
 -- arranged in tilemaker
 function coord(x, y)
@@ -47,6 +50,7 @@ end
 
 function clickpat (p)
     local gt = gest.behavior.gate_50
+    assert(gt ~= nil)
     local o = {}
 
     for _,x in pairs(p) do
@@ -358,6 +362,12 @@ function genvocab()
     voc(4, 1,
         m_clickpat {},
         "clickpat A")
+
+    -- -- PAUL DEBUGGING
+    -- local fp = io.open("tmp/debug.json", "w")
+    -- fp:write(json.encode(m_clickpat {}))
+    -- fp:close()
+
 
     voc(5, 1,
         m_clickpat {
