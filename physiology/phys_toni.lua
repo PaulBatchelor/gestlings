@@ -50,7 +50,6 @@ function whistle(lilts, pitch, trig, gate)
     }
 end
 
---function toniphys.excitation(sig, core, pitch, trig, gate)
 function toniphys.excitation(pt)
     local sig = pt.sig
     local core = pt.core
@@ -323,7 +322,7 @@ function gesture_param(name, msgscale)
 end
 
 function setup_shapemorf(gst, tubular, cnd, use_msgscale)
-    msgscale = nil
+    local msgscale = nil
     if use_msgscale == true then
         msgscale = "[val [grab msgscale]]"
     end
@@ -336,6 +335,20 @@ function setup_shapemorf(gst, tubular, cnd, use_msgscale)
             "[" .. table.concat(cnd:getstr(), " ") .. "]",
             msgscale
         },
+    }
+end
+
+function toniphys.tal_head(p)
+    return {
+        trig = function(words)
+            tal.interpolate(words, 0)
+        end,
+        tickpat = function(words)
+            tal.interpolate(words, 0)
+        end,
+        sync = function(words)
+            tal.interpolate(words, 0)
+        end,
     }
 end
 
@@ -430,6 +443,7 @@ function toniphys.physiology(p)
     gate:unhold()
     toniphys.postprocess()
     toniphys.clean(pt)
+
     return physdat
 end
 

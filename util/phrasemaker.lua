@@ -157,6 +157,12 @@ function genwords(data, phrase)
     local mouthshapes = asset:load("avatar/mouth/mouthshapes1.b64")
     local mouthlut = mkmouthlut(mouthshapes)
 
+    local head = nil
+
+    if data.gestlingphys.tal_head ~= nil then
+        head = gestlingphys.tal_head()
+    end
+
     local mono = {
         -- {phrase, neutral},
         {phrase, pros.meter_rise},
@@ -180,7 +186,8 @@ function genwords(data, phrase)
         monologue = mono,
         prosody = pros,
         shapelut = data.lookup,
-        mouthshapes = mouthlut
+        mouthshapes = mouthlut,
+        head = head,
     }
     return words
 end
@@ -220,7 +227,8 @@ function patch(words, data)
     local cnd = sig:new()
     cnd:hold()
 
-    data.gestlingphys.physiology {
+    valutil.set("msgscale", 1.0 / (3*60))
+    data.physdat = data.gestlingphys.physiology {
         gest = G,
         cnd = cnd,
         lilt = lilt,
@@ -233,7 +241,6 @@ function patch(words, data)
 
     G:done()
     cnd:unhold()
-    valutil.set("msgscale", 1.0 / (3*60))
 end
 -- </@>
 
@@ -281,22 +288,57 @@ function bitrune_setup(data, uf2_file, keyshapes_file, phrases_file)
     bitrune.terminal_setup(data.br)
 end
 
+-- explicitly provide character, phrasebook, and phrase files
+function argvars_triple(arg)
+    local charfile = arg[1]
+    local phrasebook_file = arg[2]
+    local phrases_file = arg[3]
+    return charfile, phrasebook_file, phrases_file
+end
 
--- TODO load from character data file via CLI
 
-if #arg < 3 then
+-- generate filepaths from character name
+function argvars_single(arg)
+    local charname = arg[1]
+    local charfile = "characters/" .. charname .. ".b64"
+    local phrasebook_file =
+        "vocab/" ..
+        charname ..
+        "/pb_" ..
+        charname ..
+        ".txt"
+
+    local phrases_file =
+        "vocab/" ..
+        charname ..
+        "/p_" ..
+        charname ..
+        ".b64"
+    return charfile, phrasebook_file, phrases_file
+end
+
+
+local arghandler = argvars_triple
+
+if #arg == 1 then
+    arghandler = argvars_single
+elseif #arg < 3 then
     print("Usage: phrasemaker characters/foo.b64 vocab/foo/pb_foo.txt vocab/foo/p_foo.b64")
     error("not enough args")
 end
 
-local charfile = arg[1]
+-- local charfile = arg[1]
+-- local phrasebook_file = arg[2]
+-- local phrases_file = arg[3]
+
+local charfile, phrasebook_file, phrases_file =
+arghandler(arg)
+
 local character = asset:load(charfile)
 --local character = asset:load("characters/junior.b64")
 -- TODO make this work with the character phrasebook
 --local phrasebook_file = "vocab/junior/pb_junior_verses.txt"
-local phrasebook_file = arg[2]
 --local phrases_file = "vocab/junior/p_junior_verses.b64"
-local phrases_file = arg[3]
 local vocab_filename = character.vocab
 local uf2_file = character.uf2
 local keyshapes_file = character.keyshapes

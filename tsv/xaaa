@@ -2987,3 +2987,15 @@
 2023-12-03 00:27:23	91d45bec-e5df-4eaa-bfa9-3e1865181dcc	$duration:>1508
 -	91d45bec-e5df-4eaa-bfa9-3e1865181dcc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	91d45bec-e5df-4eaa-bfa9-3e1865181dcc	#95af8005-756b-44b7-b6e3-eac1f85c60ea
+2023-12-06 23:36:49	22dffe10-e418-45a9-8ef4-0a78fd89edfd	>toni vocab debugging
+-	22dffe10-e418-45a9-8ef4-0a78fd89edfd	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-12-06 23:36:49	22dffe10-e418-45a9-8ef4-0a78fd89edfd	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-06 23:37:16	1a656f34-ba34-443f-bc04-930a5a5b7fcc	>basically, a word whistled when it should have clicked. looking into what could be causing that.
+-	1a656f34-ba34-443f-bc04-930a5a5b7fcc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1a656f34-ba34-443f-bc04-930a5a5b7fcc	#22dffe10-e418-45a9-8ef4-0a78fd89edfd
+2023-12-07 00:39:42	f2b985c8-9696-4ad0-82ae-e0028cfcf284	>some progress, but I'm turning up more bugs. I need to refactor phrasemaker and make it easier to test I think. That's for another night...
+-	f2b985c8-9696-4ad0-82ae-e0028cfcf284	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	f2b985c8-9696-4ad0-82ae-e0028cfcf284	#22dffe10-e418-45a9-8ef4-0a78fd89edfd
+2023-12-07 00:39:43	daed9705-f374-4f1a-8d1e-5631202c5374	$duration:>3735
+-	daed9705-f374-4f1a-8d1e-5631202c5374	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	daed9705-f374-4f1a-8d1e-5631202c5374	#22dffe10-e418-45a9-8ef4-0a78fd89edfd
