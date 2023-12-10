@@ -1,0 +1,7 @@
+weewiki export progress > _live/gestlings/progress/index.html
+weewiki export tasks > _live/gestlings/tasks/index.html
+cd _live
+git add gestlings/progress/index.html
+git add gestlings/tasks/index.html
+git commit -m "gestlings progress and tasks page"
+git push

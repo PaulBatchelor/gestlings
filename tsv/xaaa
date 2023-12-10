@@ -3005,3 +3005,5 @@
 2023-12-10 00:07:29	6b426759-80a5-4ddd-9b02-09631aab05d6	>it was a lua bug in genmel in toni vocab. I was checking for nil in the wrong variable (p, should have been m). Man I suck at variables.
 -	6b426759-80a5-4ddd-9b02-09631aab05d6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	6b426759-80a5-4ddd-9b02-09631aab05d6	#22dffe10-e418-45a9-8ef4-0a78fd89edfd
+2023-12-10 00:16:37	67f86be6-f61b-4917-8f7b-859764491c4f	>progress is a slow trickle. but it is a trickle. I've added some scripts to make it easier to update only the progress/tasks pages rather than re-render the entire gestlings site (takes time now)
+-	67f86be6-f61b-4917-8f7b-859764491c4f	#53a2e179-eb60-4c13-b749-59d5d3b893c5
