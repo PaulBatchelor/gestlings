@@ -2999,3 +2999,9 @@
 2023-12-07 00:39:43	daed9705-f374-4f1a-8d1e-5631202c5374	$duration:>3735
 -	daed9705-f374-4f1a-8d1e-5631202c5374	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	daed9705-f374-4f1a-8d1e-5631202c5374	#22dffe10-e418-45a9-8ef4-0a78fd89edfd
+2023-12-10 00:06:11	710ad8fc-88c5-42e8-8ebe-36718aa834a7	$duration:>1224
+-	710ad8fc-88c5-42e8-8ebe-36718aa834a7	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	710ad8fc-88c5-42e8-8ebe-36718aa834a7	#22dffe10-e418-45a9-8ef4-0a78fd89edfd
+2023-12-10 00:07:29	6b426759-80a5-4ddd-9b02-09631aab05d6	>it was a lua bug in genmel in toni vocab. I was checking for nil in the wrong variable (p, should have been m). Man I suck at variables.
+-	6b426759-80a5-4ddd-9b02-09631aab05d6	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	6b426759-80a5-4ddd-9b02-09631aab05d6	#22dffe10-e418-45a9-8ef4-0a78fd89edfd

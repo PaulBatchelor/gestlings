@@ -303,45 +303,11 @@ function debug_score(shapelut)
         {w.silence, dshort},
     }
 
-    local call_b = {
-        {w.wh_mel2, dshort},
-        {w.wh_long, dshort},
-        {w.wh_mel1, dlong},
-        {w.silence, dshort},
-    }
-
-    local call_c = {
-        {w.wh_mel2, dshorter},
-        {w.wh_mel2, dshorter},
-        {w.wh_mel2, dshorter},
-        {w.wh_mel1, dlong},
-        {w.wh_long, dshort},
-        {w.silence, dshort},
-    }
-
-    local call_d = {
-        {w.wh_mel4, dlong},
-        {w.wh_mel3, dshorter},
-        {w.silence, dshort},
-    }
-
-    local call_e = {
-        {w.wh_mel5, dlong},
-        {w.wh_long, dshorter},
-        {w.wh_mel4, dshorter},
-        {w.silence, dshort},
-    }
-
-    local call_f = {
-        {w.wh_mel5, dshorter},
-        {w.wh_mel1, dshorter},
-        {w.wh_mel1, dshorter},
-        {w.silence, dlong},
-    }
-
-    local call_g = {
-        {w.wh_rise, dlong},
-        {w.silence, dlong},
+    print(coord(7, 1))
+    local debug_call_2 = {
+        {7, {1, 2}},
+        -- {4, {1, 1}},
+        {1, {1, 1}},
     }
 
     local space = {
@@ -392,7 +358,7 @@ function debug_score(shapelut)
     }
 
     debug_sequence = {
-        debug_call, debug_call
+        debug_call_2, debug_call_2, debug_call_2
     }
 
     apply_call_sequence(debug_sequence, pros_sequence)

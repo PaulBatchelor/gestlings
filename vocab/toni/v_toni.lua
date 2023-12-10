@@ -37,7 +37,7 @@ function genmel(mel)
         local pitch = m[1] + base
         local dur = m[2]
 
-        if p[3] ~= nil then
+        if m[3] ~= nil then
             bhvr = m[3]
             last_behavior = bhvr
         end
@@ -398,7 +398,7 @@ function genvocab()
     voc(7, 1,
         m_whistle_pitched {
             pitch = genmel {
-                {9, 1}, {7, 1}, {0, 1}, {5, 4}
+                {9, 1, gl}, {7, 1, gl}, {0, 1, gl}, {5, 4, gl}
             }
         },
         "pitched whistle: melodic b")
