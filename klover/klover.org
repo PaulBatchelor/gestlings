@@ -1,5 +1,5 @@
 #+TITLE: Klover
-@!(img (respath "/res/klover_proofsheet.png"))!@
+@!(img "/res/klover_proofsheet.png")!@
 @!(tocgen "klover")!@
 * Overview
 (Pronounced like "clover", but with a K)
