@@ -2989,7 +2989,7 @@
 -	91d45bec-e5df-4eaa-bfa9-3e1865181dcc	#95af8005-756b-44b7-b6e3-eac1f85c60ea
 2023-12-06 23:36:49	22dffe10-e418-45a9-8ef4-0a78fd89edfd	>toni vocab debugging
 -	22dffe10-e418-45a9-8ef4-0a78fd89edfd	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-12-06 23:36:49	22dffe10-e418-45a9-8ef4-0a78fd89edfd	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-23 21:17:30	22dffe10-e418-45a9-8ef4-0a78fd89edfd	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-12-06 23:37:16	1a656f34-ba34-443f-bc04-930a5a5b7fcc	>basically, a word whistled when it should have clicked. looking into what could be causing that.
 -	1a656f34-ba34-443f-bc04-930a5a5b7fcc	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	1a656f34-ba34-443f-bc04-930a5a5b7fcc	#22dffe10-e418-45a9-8ef4-0a78fd89edfd
@@ -3007,3 +3007,9 @@
 -	6b426759-80a5-4ddd-9b02-09631aab05d6	#22dffe10-e418-45a9-8ef4-0a78fd89edfd
 2023-12-10 00:16:37	67f86be6-f61b-4917-8f7b-859764491c4f	>progress is a slow trickle. but it is a trickle. I've added some scripts to make it easier to update only the progress/tasks pages rather than re-render the entire gestlings site (takes time now)
 -	67f86be6-f61b-4917-8f7b-859764491c4f	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2023-12-23 21:34:36	ff709804-9cb3-4be5-8e29-00a7458fbb22	$duration:>1011
+-	ff709804-9cb3-4be5-8e29-00a7458fbb22	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	ff709804-9cb3-4be5-8e29-00a7458fbb22	#95af8005-756b-44b7-b6e3-eac1f85c60ea
+2023-12-23 21:53:44	145d7f56-3636-4ae6-8016-805906d2f5fe	$duration:>743
+-	145d7f56-3636-4ae6-8016-805906d2f5fe	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	145d7f56-3636-4ae6-8016-805906d2f5fe	#95af8005-756b-44b7-b6e3-eac1f85c60ea
