@@ -104,8 +104,6 @@ end
 
 -- <@>
 function genphrase_v2(sentence, vocab)
-    print("genphrase_v2")
-
     local sentence = sentence or { 1 }
     local phrase = {}
     local reg = {1, 1}
@@ -117,10 +115,8 @@ function genphrase_v2(sentence, vocab)
 
     words = split_up_words(sentence, vocab)
 
-    print(#words)
     for _, wrd in pairs(words) do
         local outword = process_word(wrd, vocab, durs)
-        pprint(outword)
         table.insert(phrase, outword)
     end
 
@@ -372,7 +368,6 @@ function altrun(vocab_filename)
     local br = dat.br
     local m = dat.m
     local zeroquad = {0, 0, 0, 0, 0, 0, 0, 0}
-    print("running bitrune")
 
     bitrune.start(br)
     bitrune.update_display(br)
@@ -380,7 +375,6 @@ function altrun(vocab_filename)
         local events = grid.get_input_events(m)
         for _,e in pairs(events) do
             if e[3] == 1 then
-                print(e[1], e[2])
                 bitrune.monome_press(br, e[1], e[2] - 8)
             end
         end
@@ -392,7 +386,7 @@ function altrun(vocab_filename)
 
         if bitrune.message_available(br) then
             local msg = bitrune.message_pop(br)
-            print(msg)
+            -- print(msg)
             msg = core.split(msg, " ")
             sentence = {}
             for _,word in pairs(msg) do
@@ -407,7 +401,6 @@ function altrun(vocab_filename)
             -- pprint(process_word(split_words[2], vocab))
             --genphrase_v2(sentence, dat.vocab)
             if #sentence > 0 then
-                print("eval")
                 eval_sentence(genphrase_v2(sentence, dat.vocab), vocab_filename)
             end
         end

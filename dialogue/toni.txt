@@ -15,11 +15,12 @@ usually pretty upbeat.
 @block
 My mind is tossing
 on the ocean, like some
-Devoted in search of
-truths with portly sail!
+Inspired in search of
+truths with Portly Sail!
 
 @block
-You know what.
+You know what. I think
+I know what I'm so sad.
 
 @block
 Perhaps it's because
@@ -30,6 +31,8 @@ Love those things.
 @block
 ...
 ...
+
+@block
 You don't know about
 Circle Spinners?!
 
