@@ -32,6 +32,7 @@ function main(script_txt, gestling_name)
     --events, character, phrases, phrasebook_name = parse_script(script_txt)
     -- setup_sound(gestling_name, character, phrases, phrasebook_name)
     local insp = inspire.init(script_txt, gestling_name)
+    inspire.setup(insp)
     inspire.setup_sound(insp)
     -- first pass to get duration
     nframes = inspire.process_video(insp, -1)

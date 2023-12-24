@@ -56,7 +56,8 @@ function messagebox.draw(buf, lheight)
 end
 
 function messagebox.loadfont(fontname, filepath)
-    lilt {"uf2load", fontname, filepath}
+    local uf2load_cmd = {"uf2load", fontname, filepath}
+    lil(table.concat(uf2load_cmd, " "))
 end
 
 function load_fonts()
@@ -105,22 +106,30 @@ function mkmouthidx(mouthshapes)
     return lut
 end
 
-function setup(inspire)
+function setup(inspire, modules)
     load_fonts()
+    modules = modules or {}
     local buf = messagebox.new()
     local gestling_name = inspire.gestling_name
+
+    local mod_sdfdraw = sdfdraw or modules.sdfdraw
+    local mod_json = json or modules.json
+    local mod_asset = asset or modules.asset
+    local mod_core = core or modules.core
+
+    local lilt = mod_core.lilt
 
     lil("sdfvmnew vm")
 
     lil("grab vm")
     vm = pop()
     inspire.vm = vm
-    syms = sdfdraw.load_symbols(json)
+    syms = mod_sdfdraw.load_symbols(mod_json)
 
     -- TODO rework placeholder avatar
-    local trixie = mktrixie(vm, syms, 1)
+    local trixie = mktrixie(vm, syms, 1, modules)
 
-    local mouthshapes = asset:load("avatar/mouth/mouthshapes1.b64")
+    local mouthshapes = mod_asset:load("avatar/mouth/mouthshapes1.b64")
     -- really only used to access specific shapes
     -- (right now it's "rest")
     trixie.mouthshapes = mkmouthtab(mouthshapes)
@@ -420,7 +429,7 @@ function Inspire.setup_sound(inspire)
 end
 
 
-function process_block(block, t, rate, events)
+function process_block(block, t, rate, events, split)
     clear(events, t)
     for i =2,#block do
         line = block[i]
@@ -437,7 +446,7 @@ function process_block(block, t, rate, events)
                     c = c + 1
                     ch = string.char(string.byte(line, c))
                 end
-                local cmd = core.split(cmdstr, " ")
+                local cmd = split(cmdstr, " ")
 
                 if cmd[1] == "PAUSE" then
                     pause(events, t)
@@ -488,10 +497,13 @@ function process_events(evdata, buf, n)
     end
 end
 
-function mktrixie(vm, syms, id)
+function mktrixie(vm, syms, id, modules)
+    local mod_mouth = mouth or modules.mouth
     local scale = 0.6
-    local sqrcirc = mouth:squirc()
-
+    local sqrcirc = mod_mouth:squirc()
+    local mod_avatar = avatar or modules.avatar
+    local mod_core = core or modules.core
+    local lilt = mod_core.lilt
     -- TODO: save to disk as data, and store in character data bundle
     local shader = {
         {
@@ -546,7 +558,7 @@ function mktrixie(vm, syms, id)
     -- asset:save(shader, "tmp/a_junior.b64")
     -- shader = asset:load("tmp/a_junior.b64")
     local singer =
-        avatar.mkavatar(sdfdraw, vm, syms, "trixie", id, 512)(shader)
+        mod_avatar.mkavatar(sdfdraw, vm, syms, "trixie", id, 512, lilt)(shader)
 
     singer.sqrcirc = sqrcirc
 
@@ -682,7 +694,8 @@ function Inspire.process_video(inspire, nframes)
     end
 end
 
-function parse_script(script_txt)
+function parse_script(script_txt, modules)
+    modules = modules or {}
     local events = {}
 
     fp = io.open(script_txt)
@@ -690,7 +703,10 @@ function parse_script(script_txt)
     script = fp:read("*all")
     fp:close()
 
-    local dialogue = descript.parse(script)
+    local mod_descript = descript or modules.descript
+    local dialogue = mod_descript.parse(script)
+    local mod_core = core or modules.core
+    local mod_asset = asset or modules.asset
 
     local t = 1
     local rate = 4
@@ -701,12 +717,13 @@ function parse_script(script_txt)
     local segmode = false
     local segments = {}
     local seglen = 1
+    local split = mod_core.split
     for _, block in pairs(dialogue) do
         -- TODO: convert into look-up table
         if block[1] == "block" then
             local start_time = t
             local start_pos = #events + 1
-            t, rate = process_block(block, t, rate, events)
+            t, rate = process_block(block, t, rate, events, split)
             local end_time = t
             local total_dur = end_time - start_time
 
@@ -724,6 +741,7 @@ function parse_script(script_txt)
             -- segment mode would explicitely turned on
             -- before adding phrases, then turned off
             -- after the block command
+            
 
             if segmode then
                 print("we are in segmode!")
@@ -788,34 +806,34 @@ function parse_script(script_txt)
             end
 
         elseif string.match(block[1], "^scale") ~= nil then
-            local cmd = core.split(block[1], " ")
+            local cmd = split(block[1], " ")
             textscale(events, t, tonumber(cmd[2]))
         elseif string.match(block[1], "^nphrases") ~= nil then
-            local cmd = core.split(block[1], " ")
+            local cmd = split(block[1], " ")
             last_nphrases = tonumber(cmd[2])
             nphrases(events, t, last_nphrases)
         elseif string.match(block[1], "^phrasebook") ~= nil then
-            local cmd = core.split(block[1], " ")
+            local cmd = split(block[1], " ")
             phrasebook_name = cmd[2]
         elseif string.match(block[1], "^phrase") ~= nil then
-            local cmd = core.split(block[1], " ")
+            local cmd = split(block[1], " ")
             table.insert(phrases, {cmd[2], cmd[3]})
             if segmode then
                 print("inserting segment of length " .. seglen)
                 table.insert(segments, seglen)
             end
         elseif string.match(block[1], "^character") ~= nil then
-            local cmd = core.split(block[1], " ")
+            local cmd = split(block[1], " ")
             print("using character '" .. cmd[2] .. "'")
-            character = asset:load("characters/" .. cmd[2] .. ".b64")
+            character = mod_asset:load("characters/" .. cmd[2] .. ".b64")
         elseif string.match(block[1], "^font") ~= nil then
-            local cmd = core.split(block[1], " ")
+            local cmd = split(block[1], " ")
             set_font(events, t, cmd[2])
         elseif string.match(block[1], "^segmode") ~= nil then
             segmode = true
             segments = {}
         elseif string.match(block[1], "^seglen") ~= nil then
-            local cmd = core.split(block[1], " ")
+            local cmd = split(block[1], " ")
             seglen = tonumber(cmd[2])
         elseif string.match(block[1], "^noavatar") ~= nil then
             set_draw_avatar(events, t, false)
@@ -864,17 +882,58 @@ function Inspire.generate_mp4(gestling_name)
     os.execute(table.concat(ffmpeg_args, " "))
 end
 
-function Inspire.init(script_txt, gestling_name)
+
+-- a quick and dirty way to load all the required modules
+-- simply dump them in a table and have the functions
+-- read from this as a fallback
+-- note that if a module name is globlly defined (assumed
+-- previously loaded), it will use that before loading
+function Inspire.load_modules()
+    local m = {}
+    m.descript = descript or require("descript/descript")
+    m.core = core or require("util/core")
+
+    if asset == nil then
+        local asset = require("asset/asset")
+        local asset = asset:new{
+            msgpack = require("util/MessagePack"),
+            base64 = require("util/base64")
+        }
+        m.asset = asset
+    else
+        m.asset = asset
+    end
+
+    m.sdfdraw = sdfraw or require("avatar/sdfdraw")
+    m.json = json or require("util/json")
+    m.mouth = mouth or require("avatar/mouth/mouth")
+    m.avatar = avatar or require("avatar/avatar")
+
+    return m
+end
+
+function Inspire.parse_script(script_txt, modules)
+    return parse_script(script_txt, modules)
+end
+
+function Inspire.init(script_txt, gestling_name, modules)
     local inspire = {}
-    local events, character, phrases, phrasebook_name = parse_script(script_txt)
+    modules = modules or {}
+    local events, character, phrases, phrasebook_name =
+        parse_script(script_txt, modules)
     inspire.buf = buf
     inspire.events = events
     inspire.character = character
     inspire.phrases = phrases
     inspire.phrasebook_name = phrasebook_name
     inspire.gestling_name = gestling_name
-    setup(inspire)
+    -- setup(inspire)
     return inspire
+end
+
+function Inspire.setup(inspire, modules)
+    modules = modules or {}
+    setup(inspire, modules)
 end
 
 return Inspire

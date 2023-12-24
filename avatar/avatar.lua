@@ -1,12 +1,12 @@
 Avatar = {}
 
-function Avatar.mkavatar(sdfdraw, vm, syms, name, id, bufsize)
+function Avatar.mkavatar(sdfdraw, vm, syms, name, id, bufsize, lilt)
     local singer = {
     }
 
     singer.id = id
 
-    singer.renderer = sdfdraw.mkrenderer(syms, singer.bufname, bufsize)
+    singer.renderer = sdfdraw.mkrenderer(syms, singer.bufname, bufsize, lilt)
     return function(program)
         singer.renderer:generate_bytecode(program)
         return singer

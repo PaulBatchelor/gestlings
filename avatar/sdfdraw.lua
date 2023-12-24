@@ -52,6 +52,7 @@ function SDFRenderer:new(o)
     o = o or {}
     local bufsize = o.bufsize or 256
     local bufname = o.bufname or "sdfdraw_buf"
+    local lilt = lilt or o.lilt
     o.bufname = bufname
     lilt {"bufnew", bufname, bufsize}
     lilt {"grab", bufname}
@@ -75,11 +76,12 @@ function SDFRenderer:draw(bpreg, vm)
     lil(table.concat(args, " "))
 end
 
-function sdfdraw.mkrenderer(syms, name, bufsize)
+function sdfdraw.mkrenderer(syms, name, bufsize, lilt)
     return SDFRenderer:new {
         syms = syms,
         bufname = name,
-        bufsize = bufsize
+        bufsize = bufsize,
+        lilt = lilt
     }
 end
 
