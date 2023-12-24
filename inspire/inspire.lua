@@ -37,7 +37,7 @@ function messagebox.clear(buf)
     buf.linepos = 1
 end
 
-function draw_textline(txt, ypos, font, scale)
+function draw_textline(txt, ypos, font, scale, lilt)
     lilt {
         "uf2txtln",
         "[bpget [grab bp] 0]",
@@ -48,10 +48,10 @@ function draw_textline(txt, ypos, font, scale)
     }
 end
 
-function messagebox.draw(buf, lheight)
+function messagebox.draw(buf, lheight, lilt)
     lilt {"bpfill", "[bpget [grab bp] 0]", 0}
     for idx, line in pairs(buf.lines) do
-        draw_textline(line, (idx-1)*lheight*buf.scale, buf.font, buf.scale)
+        draw_textline(line, (idx-1)*lheight*buf.scale, buf.font, buf.scale, lilt)
     end
 end
 
@@ -118,6 +118,8 @@ function setup(inspire, modules)
     local mod_core = core or modules.core
 
     local lilt = mod_core.lilt
+    local lilts = mod_core.lilts
+    local audio_only = inspire.audio_only
 
     lil("sdfvmnew vm")
 
@@ -145,12 +147,13 @@ function setup(inspire, modules)
     -- lilt {"bpnew", "bp", 240, 60}
     lilt {"bpnew", "bp", 240, 320}
     lilt {"gfxnewz", "gfx", 240, 320, 1}
-    lil("grab gfx; dup")
-    lil("gfxopen tmp/" .. gestling_name .. ".h264")
-    lil("gfxclrset 1 1.0 1.0 1.0")
-    lil("gfxclrset 0 0.0 0.0 0.0")
-
-    lil("drop")
+    if audio_only == false then
+        lil("grab gfx; dup")
+        lil("gfxopen tmp/" .. gestling_name .. ".h264")
+        lil("gfxclrset 1 1.0 1.0 1.0")
+        lil("gfxclrset 0 0.0 0.0 0.0")
+        lil("drop")
+    end
     msgbox_width = 224
     window_padding = 4
     padding = 4 + window_padding
@@ -581,13 +584,19 @@ function mktrixie(vm, syms, id, modules)
     return singer
 end
 
-function Inspire.process_video(inspire, nframes)
+function Inspire.process_video(inspire, nframes, modules)
     local evdata = {}
     local trixie = inspire.trixie
 
     local events = inspire.events
     local buf = inspire.buf
     local vm = inspire.vm
+
+    modules = modules or {}
+    local mod_core = core or modules.core
+    local lilt = mod_core.lilt
+    local mod_avatar = core or modules.avatar
+    local audio_only = inspire.audio_only
 
     local event_handler = {
         append = function(mb, data)
@@ -665,48 +674,47 @@ function Inspire.process_video(inspire, nframes)
         process_events(evdata, buf, n)
         lil("compute 15")
 
-        -- hard-coded line height for now
-        local lheight = 12
-        messagebox.draw(buf, lheight)
-        lil("grab gfx; dup")
-        lilt{"gfxrectf", xoff, yoff, 240, 320, 1}
-        lil("dup")
-        -- TODO padding info in data somewhere
-        -- right now, it's in two places (DRY)
-        window_padding = 4
-        lilt{
-            "bproundrect",
-            "[bpget [grab bp] 2]",
-            0, 0,
-            240 - 2*window_padding, 320 - 2*window_padding,
-            16, 1
-        }
+        if audio_only == false then
+            -- hard-coded line height for now
+            local lheight = 12
+            messagebox.draw(buf, lheight, lilt)
+            lil("grab gfx; dup")
+            lilt{"gfxrectf", xoff, yoff, 240, 320, 1}
+            lil("dup")
+            -- TODO padding info in data somewhere
+            -- right now, it's in two places (DRY)
+            window_padding = 4
+            lilt{
+                "bproundrect",
+                "[bpget [grab bp] 2]",
+                0, 0,
+                240 - 2*window_padding, 320 - 2*window_padding,
+                16, 1
+            }
 
-        msgbox_divider = (320 - 60 - 8)
-        lilt {
-            "bpline",
-            "[bpget [grab bp] 2]",
-            0, msgbox_divider,
-            240, msgbox_divider,
-            1
-        }
-        -- lil("bpoutline [bpget [grab bp] 1] 1")
-        if buf.draw_avatar == true then
-            avatar.draw(vm,
-                trixie,
-                inspire.physdat.mouth_x,
-                inspire.physdat.mouth_y,
-                inspire.avatar_dims,
-                n
-            )
+            msgbox_divider = (320 - 60 - 8)
+            lilt {
+                "bpline",
+                "[bpget [grab bp] 2]",
+                0, msgbox_divider,
+                240, msgbox_divider,
+                1
+            }
+            -- lil("bpoutline [bpget [grab bp] 1] 1")
+            if buf.draw_avatar == true then
+                mod_avatar.draw(vm,
+                    trixie,
+                    inspire.physdat.mouth_x,
+                    inspire.physdat.mouth_y,
+                    inspire.avatar_dims,
+                    n
+                )
+            end
+            lilt{"bptr", "[grab bp]", xoff, yoff, 240, 320, 0, 0, 0}
+            lil("gfxzoomit")
+            lil("grab gfx; dup")
+            lil("gfxtransferz; gfxappend")
         end
-        if (n == (60*1.7)) then
-            lil("bppng [grab bp] tmp/screenshot.png")
-        end
-        lilt{"bptr", "[grab bp]", xoff, yoff, 240, 320, 0, 0, 0}
-        lil("gfxzoomit")
-        lil("grab gfx; dup")
-        lil("gfxtransferz; gfxappend")
     end
 end
 
@@ -871,7 +879,9 @@ function parse_script(script_txt, modules)
     return events, character, phrases, phrasebook_name
 end
 
-function Inspire.close_video(gestling_name)
+function Inspire.close_video(gestling_name, modules)
+    local mod_core = core or modules.core
+    local lilts = mod_core.lilts
     lilts {
         {"grab", "gfx"},
         {"gfxclose"},
@@ -881,6 +891,10 @@ function Inspire.close_video(gestling_name)
             "tmp/" .. gestling_name .. "_nosound.mp4"
         },
     }
+end
+
+function Inspire.audio_only(inspire)
+    inspire.audio_only = true
 end
 
 function Inspire.generate_mp4(gestling_name)
@@ -950,6 +964,7 @@ function Inspire.init(script_txt, gestling_name, modules)
     inspire.phrases = phrases
     inspire.phrasebook_name = phrasebook_name
     inspire.gestling_name = gestling_name
+    inspire.audio_only = false
     -- setup(inspire)
     return inspire
 end

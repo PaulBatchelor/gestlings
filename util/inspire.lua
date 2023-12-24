@@ -35,9 +35,9 @@ function main(script_txt, gestling_name)
     inspire.setup(insp)
     inspire.setup_sound(insp)
     -- first pass to get duration
-    nframes = inspire.process_video(insp, -1)
-    inspire.process_video(insp, nframes)
-    inspire.close_video(gestling_name)
+    nframes = inspire.process_video(insp, -1, modules)
+    inspire.process_video(insp, nframes, modules)
+    inspire.close_video(gestling_name, modules)
     inspire.generate_mp4(gestling_name)
     ::bye::
 end

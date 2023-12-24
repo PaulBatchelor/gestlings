@@ -7,6 +7,7 @@ function Avatar.mkavatar(sdfdraw, vm, syms, name, id, bufsize, lilt)
     singer.id = id
 
     singer.renderer = sdfdraw.mkrenderer(syms, singer.bufname, bufsize, lilt)
+    singer.lilt = lilt
     return function(program)
         singer.renderer:generate_bytecode(program)
         return singer
@@ -18,6 +19,7 @@ function Avatar.draw(vm, singer, mouth_x, mouth_y, dims, framepos)
     local m1 = nil
     local m2 = nil
     local mouth = nil
+    local lilt = singer.lilt
 
     local mouthshapes = singer.mouthshapes
     local mouthvals = singer.mouthidx

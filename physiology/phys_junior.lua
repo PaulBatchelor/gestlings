@@ -1,5 +1,5 @@
 juniorphys = {}
-function gesture(sr, gst, name, cnd)
+function gesture(sr, gst, name, cnd, core)
     sr.node(gst:node()){
         name = name,
         conductor = core.liln(cnd:getstr()),
@@ -15,6 +15,7 @@ function juniorphys.physiology(p)
     local lilt = p.lilt
     local sigrunes = p.sigrunes
     local sig = p.sig
+    local core = p.core
 
     lilts {
         {"tubularnew", 8, 4},
@@ -32,7 +33,7 @@ function juniorphys.physiology(p)
             "[val [grab msgscale]]"
         },
     }
-    gesture(sigrunes, G, "pros_intensity", cnd)
+    gesture(sigrunes, G, "pros_intensity", cnd, core)
     lilts {
         {"mul", "zz", 1.0 / 0xFF},
     }
@@ -41,9 +42,9 @@ function juniorphys.physiology(p)
     intensity:hold()
 
     lilt {"regget", 4}
-    gesture(sigrunes, G, "inflection", cnd)
+    gesture(sigrunes, G, "inflection", cnd, core)
     lilt {"mul", "zz", 0.5}
-    gesture(sigrunes, G, "pros_pitch", cnd)
+    gesture(sigrunes, G, "pros_pitch", cnd, core)
     lilts {
         {"mul", "zz", 1.0 / 0xFF},
         {"scale", "zz", -14, 14},
@@ -53,7 +54,7 @@ function juniorphys.physiology(p)
         {"param", 63},
         {"add", "zz", "zz"},
     }
-    gesture(sigrunes, G, "vib", cnd)
+    gesture(sigrunes, G, "vib", cnd, core)
     lilts {
         {"mul", "zz", 1.0 / 0xFF},
     }
@@ -102,7 +103,7 @@ function juniorphys.physiology(p)
         {"mul", "zz", 0.5},
     }
 
-    gesture(sigrunes, G, "aspiration", cnd)
+    gesture(sigrunes, G, "aspiration", cnd, core)
     lilts {
         {"mul", "zz", 1.0 / 255.0},
         {"smoother", "zz", "0.005"},
@@ -147,7 +148,7 @@ function juniorphys.physiology(p)
     -- use balance filter to control resonances of tubular
     lilt{"balance", "zz", "zz"}
 
-    gesture(sigrunes, G, "gate", cnd)
+    gesture(sigrunes, G, "gate", cnd, core)
 
     lilts {
         {"envar", "zz", 0.05, 0.2},
@@ -162,11 +163,11 @@ function juniorphys.physiology(p)
     lil("dcblocker zz")
 
     -- mouth gestures, to be used for visuals
-    gesture(sigrunes, G, "mouth_x", cnd)
+    gesture(sigrunes, G, "mouth_x", cnd, core)
     lil("drop")
     lil("gestvmlast " .. G:get())
     physdat.mouth_x = pop()
-    gesture(sigrunes, G, "mouth_y", cnd)
+    gesture(sigrunes, G, "mouth_y", cnd, core)
     lil("drop")
     lil("gestvmlast " .. G:get())
     physdat.mouth_y = pop()
