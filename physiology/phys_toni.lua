@@ -222,7 +222,7 @@ function toniphys.create(p)
     p = p or {}
     local sig = sig or p.sig
     assert(sig ~= nil, "sig module not found")
-    lilts {
+    p.lilts {
         {"tubularnew", 4, 4},
     }
     tubular = sig:new()
@@ -288,7 +288,7 @@ function toniphys.fixed_tube_shape(sig, tubular, shape)
     tractdiams:unhold()
 end
 
-function toniphys.gate(gate, gst, cnd, msgscale)
+function toniphys.gate(gate, gst, cnd, msgscale, lilts)
     gate:get()
     gst:gesture("atk", cnd, msgscale)
     lilts {
@@ -321,7 +321,7 @@ function gesture_param(name, msgscale)
     end
 end
 
-function setup_shapemorf(gst, tubular, cnd, use_msgscale)
+function setup_shapemorf(gst, tubular, cnd, use_msgscale, lilts)
     local msgscale = nil
     if use_msgscale == true then
         msgscale = "[val [grab msgscale]]"
@@ -360,6 +360,8 @@ function toniphys.physiology(p)
     local cnd = p.cnd
     local msgscale = nil
     local use_msgscale = p.use_msgscale or false
+    local lilts = p.lilts
+    local lilt = p.lilt
 
     if use_msgscale == true then
         msgscale = "[val [grab msgscale]]"
@@ -370,6 +372,7 @@ function toniphys.physiology(p)
         core = core,
         cnd = cnd,
         gst = gst,
+        lilts = lilts,
         click_rate = gesture_param("click_rate", msgscale),
         whistle_amt = gesture_param("whistle_amt", msgscale),
         pulse_amt = gesture_param("pulse_amt", msgscale),
@@ -392,7 +395,7 @@ function toniphys.physiology(p)
     local use_shapemorf = true
 
     if use_shapemorf then
-        setup_shapemorf(gst, tubular, cnd, use_msgscale)
+        setup_shapemorf(gst, tubular, cnd, use_msgscale, lilts)
     else
         toniphys.fixed_tube_shape(sig, tubular, shape)
     end
@@ -439,7 +442,7 @@ function toniphys.physiology(p)
     local gate = sig:new()
     gst:gesture("gate", cnd, msgscale)
     gate:hold()
-    toniphys.gate(gate, gst, cnd, msgscale)
+    toniphys.gate(gate, gst, cnd, msgscale, lilts)
     gate:unhold()
     toniphys.postprocess()
     toniphys.clean(pt)

@@ -330,16 +330,28 @@ function poetic_phrase(sentence, vocab)
 end
 
 -- function setup_sound(gestling_name, character, phrases, phrasebook_id)
-function Inspire.setup_sound(inspire)
+function Inspire.setup_sound(inspire, modules)
     local gestling_name = inspire.gestling_name
     local character = inspire.character
     local phrases = inspire.phrases
     local phrasebook_id = inspire.phrasebook_name
+    modules = modules or {}
     lil("blkset 49")
     lil("valnew msgscale")
 
     phrasebook_id = phrasebook_id or "default"
     print("phrasebook: " .. phrasebook_id)
+    local mod_gest = gest or modules.gest
+    local mod_tal = tal or modules.tal
+    local mod_asset = asset or modules.asset
+    local mod_monologue = monologue or modules.monologue
+    local mod_morpheme = morpheme or modules.morpheme
+    local mod_path = path or modules.path
+    local mod_core = core or modules.core
+    local lilts = mod_core.lilts
+    local lilt = mod_core.lilt
+    local mod_sig = sig or modules.sig
+    local mod_sigrunes = sigrunes or modules.sigrunes
 
     lil("shapemorfnew lut " .. character.shapes)
     lil("grab lut")
@@ -348,8 +360,12 @@ function Inspire.setup_sound(inspire)
     local vocab = character.vocab
     local pb = character.phrasebook[phrasebook_id]
     local phrasebook = pb.phrases
-    local gst = gest:new()
-    local prostab = asset:load("prosody/prosody.b64")
+    local gst = mod_gest:new {
+        tal = mod_tal,
+        sigrunes = mod_sigrunes,
+        core = mod_core
+    }
+    local prostab = mod_asset:load("prosody/prosody.b64")
     gst:create()
 
     local mono = {}
@@ -389,10 +405,10 @@ function Inspire.setup_sound(inspire)
         table.insert(mono, {phrase, pros})
     end
 
-    local words = monologue.to_words {
-        tal = tal,
-        path = path,
-        morpheme = morpheme,
+    local words = mod_monologue.to_words {
+        tal = mod_tal,
+        path = mod_path,
+        morpheme = mod_morpheme,
         vocab = vocab,
         monologue = mono,
         shapelut = lookup,
@@ -405,7 +421,7 @@ function Inspire.setup_sound(inspire)
     lilts {
         {"phasor", 60, 0},
     }
-    local cnd = sig:new()
+    local cnd = mod_sig:new()
     cnd:hold()
 
     local phys = dofile(character.physiology)
@@ -414,9 +430,9 @@ function Inspire.setup_sound(inspire)
         cnd = cnd,
         lilt = lilt,
         lilts = lilts,
-        sigrunes = sigrunes,
-        sig = sig,
-        core = core,
+        sigrunes = mod_sigrunes,
+        sig = mod_sig,
+        core = mod_core,
         use_msgscale = true,
     }
 
@@ -908,6 +924,13 @@ function Inspire.load_modules()
     m.json = json or require("util/json")
     m.mouth = mouth or require("avatar/mouth/mouth")
     m.avatar = avatar or require("avatar/avatar")
+    m.tal = tal or require("tal/tal")
+    m.gest = gest or require("gest/gest")
+    m.monologue = monologue or require("monologue/monologue")
+    m.morpheme = monologue or require("morpheme/morpheme")
+    m.path = path or require("path/path")
+    m.sig = sig or require("sig/sig")
+    m.sigrunes = sigrunes or require("sigrunes/sigrunes")
 
     return m
 end
