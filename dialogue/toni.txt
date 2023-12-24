@@ -14,36 +14,36 @@
 <RATE 4>Um. Hello...
 ...<PAUSE 4>
 Ugh. You caught me at
-a weird time.<PAUSE 6>
+a weird time.<PAUSE 8>
 
 @nphrases 1
 @phrase not_sure_why_down neutral
 @block
-Honestly? Not sure why
-I'm down today. I'm
-usually pretty upbeat.<PAUSE 6>
+In truth,<PAUSE 6> I know not
+why I am so sad today.<PAUSE 8> I
+am usually pretty upbeat.<PAUSE 8>
 
 @nphrases 1
 @phrase mind_is_tossing neutral
 @block
 <RATE 3>My mind is tossing
 on the ocean,<PAUSE 4> like some
-<PAUSE 4><RATE 2>Inspired<RATE 3><PAUSE 2> in search of
-truths with <RATE 4>Portly Sail!<PAUSE 3>
+<PAUSE 4><RATE 2>Inspired<RATE 3><PAUSE 10> in search of
+truths with <RATE 4>Portly Sail!<PAUSE 6>
 
 @nphrases 1
 @phrase i_know_why_i_am_sad neutral
 @block
-<RATE 4>You know what. <PAUSE 4> I think
-I know what I'm so sad. <PAUSE 6>
+<RATE 3>You know what.<PAUSE 6> I think
+I know why I'm so sad.<PAUSE 8>
 
 @nphrases 1
 @phrase i_ran_out_of_circle_spinners neutral
 @block
 Perhaps it's because
 I ran out of Circle
-Spinners to sell today.<PAUSE 4>
-Love those things.<PAUSE 6>
+Spinners to sell today.<PAUSE 6>
+Love those things.<PAUSE 8>
 
 @nphrases 1
 @phrase silence neutral
@@ -53,36 +53,45 @@ Love those things.<PAUSE 6>
 
 @nphrases 1
 @phrase dont_know_about_circle_spinners neutral
+@scale 1
 @block
-You don't know about
-Circle Spinners?!
+<RATE 3>You mean to say<RATE 5>...<PAUSE 8>
+<RATE 3>You don't know about...<PAUSE 8>
+
+@nphrases 1
+@phrase dont_know_about_circle_spinners neutral
+@scale 2
+@block
+<RATE 4>Circle
+Spinners?!<PAUSE 10>
 
 @nphrases 1
 @phrase must_have_toy neutral
+@scale 1
 @block
-It's the must-have toy!
-Circle Spinners are tiny
-mechanisms. You wind
-them up, and they speak!
+<RATE 2>It's the must-have toy!<PAUSE 4>
+<RATE 3>Circle Spinners are tiny
+mechanisms.<PAUSE 5> You wind
+them up, and they speak!<PAUSE 8>
 
 @nphrases 1
 @phrase id_sell_you_one neutral
 @block
-I'd sell you one, but
-like I said, I'm out.
+I'd sell you one,<PAUSE 3> but
+like I said, I'm out.<PAUSE 8>
 
 @nphrases 1
 @phrase gestlings_are_clumsy neutral
 @block
 We Gestlings are clumsy
-and often drop things.
+and often drop things.<PAUSE 4>
 Maybe you'll find one
-on the ground.
+on the ground.<PAUSE 8>
 
 @nphrases 1
 @phrases back_to_upper_rings neutral
 @block
-Well. I guess I need
+Well.<PAUSE 4> I guess I need
 to head back to the
-Upper Rings. That's
-where my supplier is.
+Upper Rings.<PAUSE 4> That's
+where my supplier is.<PAUSE 8>
