@@ -1,57 +1,87 @@
-# in sooth I know not why I
-# am so sad...
+@# in sooth I know not why I
+@# am so sad... (TODO: make regular comments work again)
 
+@character toni
+@# TODO change
+@font fountain
+
+@noavatar
+
+@nphrases 3
+@phrase um_hello neutral
+@phrase silence neutral
+@phrase caught_me_at_weird_time neutral
 @block
-Um. Hello...
+<RATE 4>Um. Hello...
 ...
 Ugh. You caught me at
 a weird time.
 
+@nphrases 1
+@phrase not_sure_why_down neutral
 @block
 Honestly? Not sure why
 I'm down today. I'm
 usually pretty upbeat.
 
+@nphrases 1
+@phrase mind_is_tossing neutral
 @block
 My mind is tossing
 on the ocean, like some
 Inspired in search of
 truths with Portly Sail!
 
+@nphrases 1
+@phrase i_know_why_i_am_sad neutral
 @block
 You know what. I think
 I know what I'm so sad.
 
+@nphrases 1
+@phrase i_ran_out_of_circle_spinners neutral
 @block
 Perhaps it's because
 I ran out of Circle
 Spinners to sell today.
 Love those things.
 
+@nphrases 1
+@phrase silence neutral
 @block
 ...
 ...
 
+@nphrases 1
+@phrase dont_know_about_circle_spinners neutral
 @block
 You don't know about
 Circle Spinners?!
 
+@nphrases 1
+@phrase must_have_toy neutral
 @block
 It's the must-have toy!
 Circle Spinners are tiny
 mechanisms. You wind
 them up, and they speak!
 
+@nphrases 1
+@phrase id_sell_you_one neutral
 @block
 I'd sell you one, but
 like I said, I'm out.
 
+@nphrases 1
+@phrase gestlings_are_clumsy neutral
 @block
 We Gestlings are clumsy
 and often drop things.
 Maybe you'll find one
 on the ground.
 
+@nphrases 1
+@phrases back_to_upper_rings neutral
 @block
 Well. I guess I need
 to head back to the

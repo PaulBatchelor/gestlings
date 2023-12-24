@@ -23,6 +23,8 @@ monologue = require("monologue/monologue")
 sigrunes = require("sigrunes/sigrunes")
 sig = require("sig/sig")
 
+mnorealloc(10, 16)
+
 messagebox = {}
 function messagebox.new()
     local buf = {}
@@ -35,6 +37,7 @@ function messagebox.new()
     buf.scale = 1
     buf.font = "chicago"
     buf.nphrases = 4
+    buf.draw_avatar = true
     return buf
 end
 
@@ -172,7 +175,8 @@ function setup(inspire)
     ylift = 4
     xcenter = (240 // 2) - (msgbox_width // 2) + padding
     -- message box
-  
+ 
+    buf.draw_avatar = true
     lilt {
         "bpset",
         "[grab bp]", 0,
@@ -260,6 +264,10 @@ end
 
 function set_font(events, t, n)
     table.insert(events, new_event(t, "set_font", n))
+end
+
+function set_draw_avatar(events, t, n)
+    table.insert(events, new_event(t, "set_draw_avatar", n))
 end
 
 -- for this trailer, the symbols have virtually
@@ -425,6 +433,8 @@ function setup_sound(inspire)
         lilts = lilts,
         sigrunes = sigrunes,
         sig = sig,
+        core = core,
+        use_msgscale = true,
     }
 
     inspire.physdat = physdat
@@ -616,6 +626,10 @@ function process_video(inspire, nframes)
         set_font = function(mb, font)
             mb.font = font
         end,
+
+        set_draw_avatar = function(mb, state)
+            mb.draw_avatar = state
+        end,
     }
 
     evdata.events = events
@@ -675,13 +689,15 @@ function process_video(inspire, nframes)
             1
         }
         -- lil("bpoutline [bpget [grab bp] 1] 1")
-        avatar.draw(vm,
-            trixie,
-            inspire.physdat.mouth_x,
-            inspire.physdat.mouth_y,
-            inspire.avatar_dims,
-            n
-        )
+        if buf.draw_avatar == true then
+            avatar.draw(vm,
+                trixie,
+                inspire.physdat.mouth_x,
+                inspire.physdat.mouth_y,
+                inspire.avatar_dims,
+                n
+            )
+        end
         if (n == (60*1.7)) then
             lil("bppng [grab bp] tmp/screenshot.png")
         end
@@ -827,6 +843,11 @@ function parse_script(script_txt)
         elseif string.match(block[1], "^seglen") ~= nil then
             local cmd = core.split(block[1], " ")
             seglen = tonumber(cmd[2])
+        elseif string.match(block[1], "^noavatar") ~= nil then
+            set_draw_avatar(events, t, false)
+        elseif string.match(block[1], "^#") ~= nil then
+            -- comment (@#), the other one might be
+            -- broken?
         end
     end
 

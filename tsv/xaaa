@@ -3019,3 +3019,24 @@
 2023-12-24 11:17:04	402ff2cb-5609-4724-ae56-b44b1538f369	$duration:>710
 -	402ff2cb-5609-4724-ae56-b44b1538f369	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	402ff2cb-5609-4724-ae56-b44b1538f369	#95af8005-756b-44b7-b6e3-eac1f85c60ea
+2023-12-24 11:21:45	50540885-1e78-4e53-8d00-3b824410ee5d	>make it possible to render gestlings without avatar
+-	50540885-1e78-4e53-8d00-3b824410ee5d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-12-24 12:03:15	50540885-1e78-4e53-8d00-3b824410ee5d	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
+2023-12-24 11:40:24	78c4fd5a-7c06-4afa-969f-4ebed948e13d	>descript: comments might be broken?
+-	78c4fd5a-7c06-4afa-969f-4ebed948e13d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-12-24 11:40:24	78c4fd5a-7c06-4afa-969f-4ebed948e13d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-24 11:41:33	2c01edc3-a0b6-43ec-af60-13c9c14a742b	>see toni.txt. I have some comments in the header, and when they are there the character command never loads. however, when I switch to my command style comment hack @#, it works.
+-	2c01edc3-a0b6-43ec-af60-13c9c14a742b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	2c01edc3-a0b6-43ec-af60-13c9c14a742b	#78c4fd5a-7c06-4afa-969f-4ebed948e13d
+2023-12-24 11:58:11	4b461a2e-908d-41e5-a818-f0a2140faae4	>no avatar, but the noavatar command doesn't seem to have any effect
+-	4b461a2e-908d-41e5-a818-f0a2140faae4	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	4b461a2e-908d-41e5-a818-f0a2140faae4	#50540885-1e78-4e53-8d00-3b824410ee5d
+2023-12-24 12:03:01	fdf5538b-8be5-4c88-9141-d24d6496406d	$duration:>2464
+-	fdf5538b-8be5-4c88-9141-d24d6496406d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	fdf5538b-8be5-4c88-9141-d24d6496406d	#50540885-1e78-4e53-8d00-3b824410ee5d
+2023-12-24 12:03:39	c130b6b6-73d0-4041-b6b7-adfc45fe095e	>get toni dialogue to work with inspire
+-	c130b6b6-73d0-4041-b6b7-adfc45fe095e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-12-24 12:03:39	c130b6b6-73d0-4041-b6b7-adfc45fe095e	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-24 12:03:57	baab3277-cbc7-46e3-b37e-63f5c3cb906f	>as of writing, the phrases don't seem to be syncing up to the message boxes
+-	baab3277-cbc7-46e3-b37e-63f5c3cb906f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	baab3277-cbc7-46e3-b37e-63f5c3cb906f	#c130b6b6-73d0-4041-b6b7-adfc45fe095e

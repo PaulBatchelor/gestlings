@@ -54,11 +54,10 @@ function genphrasebook(phrasenames_fname, symbols_fname, notation)
 end
 
 toni.phrasebook = {}
--- TODO
--- toni.phrasebook.default =
---     genphrasebook("vocab/toni/pb_toni.txt",
---         "vocab/toni/p_toni.b64",
---         "simple")
+toni.phrasebook.default =
+    genphrasebook("vocab/toni/pb_toni.txt",
+        "vocab/toni/p_toni.b64",
+        "simple")
 
 toni.vocab = asset:load("vocab/toni/v_toni.b64")
 toni.tilemap = asset:load("vocab/toni/t_toni.b64")
