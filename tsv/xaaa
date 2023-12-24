@@ -1553,7 +1553,7 @@
 -	9e2c585f-d34b-43cf-bc6e-62478b839dff	#7017c66f-b0fc-416f-afe6-31dcea2a5d3b
 2023-08-05 02:46:35	c6676a27-d931-4d69-b3ef-82c67e55c1df	>work out initial eye designs
 -	c6676a27-d931-4d69-b3ef-82c67e55c1df	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-05 02:46:35	c6676a27-d931-4d69-b3ef-82c67e55c1df	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-24 11:04:59	c6676a27-d931-4d69-b3ef-82c67e55c1df	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-05 02:48:10	a13896d6-582e-4839-821d-ad7d2bcbb221	>depending on how far along the drawing pipeline is, include animation? I'm mainly thinking about ways eyes with an iris can look around at things. perhaps this includes eyes getting larger/smaller/thinner/wider too
 -	a13896d6-582e-4839-821d-ad7d2bcbb221	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	a13896d6-582e-4839-821d-ad7d2bcbb221	#c6676a27-d931-4d69-b3ef-82c67e55c1df
@@ -2736,7 +2736,7 @@
 -	2e1e91b3-d079-4ad2-8c42-71e0dd2726fa	#fe12e1ce-d230-4071-9aab-9968ff1f9bae
 2023-10-07 19:28:20	9e92ec7e-1113-49f9-9baf-c31f85246739	>second gestling dialogue
 -	9e92ec7e-1113-49f9-9baf-c31f85246739	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-10-07 19:28:20	9e92ec7e-1113-49f9-9baf-c31f85246739	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-24 11:20:36	9e92ec7e-1113-49f9-9baf-c31f85246739	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	9e92ec7e-1113-49f9-9baf-c31f85246739	#fe12e1ce-d230-4071-9aab-9968ff1f9bae
 2023-10-07 19:28:48	e4c919f9-8b22-45a0-bcb7-ef3533255d08	>second gestling anatomy
 -	e4c919f9-8b22-45a0-bcb7-ef3533255d08	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -2744,7 +2744,7 @@
 -	e4c919f9-8b22-45a0-bcb7-ef3533255d08	#fe12e1ce-d230-4071-9aab-9968ff1f9bae
 2023-10-07 19:29:10	95af8005-756b-44b7-b6e3-eac1f85c60ea	>second gestling phrases
 -	95af8005-756b-44b7-b6e3-eac1f85c60ea	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-10-07 19:29:10	95af8005-756b-44b7-b6e3-eac1f85c60ea	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-24 11:20:15	95af8005-756b-44b7-b6e3-eac1f85c60ea	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	95af8005-756b-44b7-b6e3-eac1f85c60ea	#fe12e1ce-d230-4071-9aab-9968ff1f9bae
 2023-10-07 19:31:30	3c0ba068-aedb-4fd0-9cf7-4105a8de2d83	$duration:>287
 -	3c0ba068-aedb-4fd0-9cf7-4105a8de2d83	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -3013,3 +3013,9 @@
 2023-12-23 21:53:44	145d7f56-3636-4ae6-8016-805906d2f5fe	$duration:>743
 -	145d7f56-3636-4ae6-8016-805906d2f5fe	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	145d7f56-3636-4ae6-8016-805906d2f5fe	#95af8005-756b-44b7-b6e3-eac1f85c60ea
+2023-12-24 11:04:44	704bbae7-49ce-451e-807b-ffde02f79f3b	>not exactly relevant anymore.
+-	704bbae7-49ce-451e-807b-ffde02f79f3b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	704bbae7-49ce-451e-807b-ffde02f79f3b	#c6676a27-d931-4d69-b3ef-82c67e55c1df
+2023-12-24 11:17:04	402ff2cb-5609-4724-ae56-b44b1538f369	$duration:>710
+-	402ff2cb-5609-4724-ae56-b44b1538f369	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	402ff2cb-5609-4724-ae56-b44b1538f369	#95af8005-756b-44b7-b6e3-eac1f85c60ea
