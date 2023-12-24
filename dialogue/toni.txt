@@ -12,44 +12,44 @@
 @phrase caught_me_at_weird_time neutral
 @block
 <RATE 4>Um. Hello...
-...
+...<PAUSE 4>
 Ugh. You caught me at
-a weird time.
+a weird time.<PAUSE 6>
 
 @nphrases 1
 @phrase not_sure_why_down neutral
 @block
 Honestly? Not sure why
 I'm down today. I'm
-usually pretty upbeat.
+usually pretty upbeat.<PAUSE 6>
 
 @nphrases 1
 @phrase mind_is_tossing neutral
 @block
-My mind is tossing
-on the ocean, like some
-Inspired in search of
-truths with Portly Sail!
+<RATE 3>My mind is tossing
+on the ocean,<PAUSE 4> like some
+<PAUSE 4><RATE 2>Inspired<RATE 3><PAUSE 2> in search of
+truths with <RATE 4>Portly Sail!<PAUSE 3>
 
 @nphrases 1
 @phrase i_know_why_i_am_sad neutral
 @block
-You know what. I think
-I know what I'm so sad.
+<RATE 4>You know what. <PAUSE 4> I think
+I know what I'm so sad. <PAUSE 6>
 
 @nphrases 1
 @phrase i_ran_out_of_circle_spinners neutral
 @block
 Perhaps it's because
 I ran out of Circle
-Spinners to sell today.
-Love those things.
+Spinners to sell today.<PAUSE 4>
+Love those things.<PAUSE 6>
 
 @nphrases 1
 @phrase silence neutral
 @block
-...
-...
+<RATE 6>...<PAUSE 8>
+...<PAUSE 8>
 
 @nphrases 1
 @phrase dont_know_about_circle_spinners neutral
