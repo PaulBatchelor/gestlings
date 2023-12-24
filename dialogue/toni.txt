@@ -2,8 +2,7 @@
 @# am so sad... (TODO: make regular comments work again)
 
 @character toni
-@# TODO change
-@font fountain
+@font plotter
 
 @noavatar
 

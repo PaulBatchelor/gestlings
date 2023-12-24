@@ -266,6 +266,7 @@ function sentence_to_phrase(sentence)
     for _,wrd in pairs(sentence) do
         table.insert(phrase, {wrd, dur})
     end
+    print("sentence to phrase")
     return phrase
 end
 
@@ -408,6 +409,13 @@ function Inspire.setup_sound(inspire, modules)
         table.insert(mono, {phrase, pros})
     end
 
+    local head = nil
+    local phys = dofile(character.physiology)
+
+    if phys.tal_head ~= nil then
+        head = phys.tal_head { tal = mod_tal }
+    end
+
     local words = mod_monologue.to_words {
         tal = mod_tal,
         path = mod_path,
@@ -415,7 +423,8 @@ function Inspire.setup_sound(inspire, modules)
         vocab = vocab,
         monologue = mono,
         shapelut = lookup,
-        mouthshapes = inspire.trixie.mouthlut
+        mouthshapes = inspire.trixie.mouthlut,
+        head = head
     }
 
     gst:compile(words)
@@ -427,7 +436,6 @@ function Inspire.setup_sound(inspire, modules)
     local cnd = mod_sig:new()
     cnd:hold()
 
-    local phys = dofile(character.physiology)
     local physdat = phys.physiology {
         gest = gst,
         cnd = cnd,

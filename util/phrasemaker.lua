@@ -120,6 +120,7 @@ function genphrase_v2(sentence, vocab)
         table.insert(phrase, outword)
     end
 
+    pprint(phrase)
     return phrase
 end
 -- </@>
@@ -160,19 +161,21 @@ function genwords(data, phrase)
     end
 
     local mono = {
-        -- {phrase, neutral},
-        {phrase, pros.meter_rise},
-        {phrase, pros.meter_fall},
-        {phrase, pros.meter_jumps_rise},
-        {phrase, pros.meter_jumps_fall},
-        {phrase, pros.meter_bigjumps_rise},
-        {phrase, pros.meter_jumps_fall},
+        {phrase, pros.neutral},
+        -- {phrase, pros.meter_rise},
+        -- {phrase, pros.meter_fall},
+        -- {phrase, pros.meter_jumps_rise},
+        -- {phrase, pros.meter_jumps_fall},
+        -- {phrase, pros.meter_bigjumps_rise},
+        -- {phrase, pros.meter_jumps_fall},
         -- {phrase, question},
         -- {phrase, some_jumps},
         -- {phrase, deflated},
         -- {phrase, excited},
         -- {phrase, whisper},
     }
+
+    pprint(mono)
 
     local words = monologue.to_words {
         tal = tal,
@@ -185,6 +188,11 @@ function genwords(data, phrase)
         mouthshapes = mouthlut,
         head = head,
     }
+
+    -- debug
+    local fp = io.open("phrasemaker_words.txt", "w")
+    fp:write(table.concat(words, "\n"))
+    fp:close()
     return words
 end
 -- <@>
@@ -395,7 +403,7 @@ function altrun(vocab_filename)
             local linepos = bitrune.linepos(br)
             local phrase = dat.phrasebook[linepos + 1]
             print(phrase)
-            -- pprint(sentence)
+            pprint(sentence)
             -- local split_words = split_up_words(sentence, dat.vocab)
             -- pprint(split_words)
             -- pprint(process_word(split_words[2], vocab))

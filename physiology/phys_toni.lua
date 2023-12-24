@@ -339,6 +339,7 @@ function setup_shapemorf(gst, tubular, cnd, use_msgscale, lilts)
 end
 
 function toniphys.tal_head(p)
+    local tal = tal or p.tal
     return {
         trig = function(words)
             tal.interpolate(words, 0)

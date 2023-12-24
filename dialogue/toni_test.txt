@@ -1,17 +1,12 @@
 @character toni
 @noavatar
 
-@nphrases 1
+@nphrases 3
+@phrase um_hello neutral
+@phrase silence neutral
 @phrase caught_me_at_weird_time neutral
 @block
 <RATE 4>Um. Hello...<PAUSE 10>
-<RATE 8>...<PAUSE 3>
+<RATE 4>...<PAUSE 3>
 <RATE 4>Ugh.<PAUSE 4> You caught me at
 a weird time. <PAUSE 8>
-
-@nphrases 1
-@phrase not_sure_why_down neutral
-@block
-<RATE 6>Honestly? Not sure why
-I'm down today. I'm
-usually pretty upbeat.
