@@ -132,8 +132,7 @@ function setup(inspire, modules)
     local trixie = mktrixie(vm, syms, 1, modules)
 
     local mouthshapes = mod_asset:load("avatar/mouth/mouthshapes1.b64")
-    -- really only used to access specific shapes
-    -- (right now it's "rest")
+    -- used to access specific shapes
     trixie.mouthshapes = mkmouthtab(mouthshapes)
 
     -- used to generate monologue
@@ -141,6 +140,10 @@ function setup(inspire, modules)
 
     -- used for shape lookup in avatar draw
     trixie.mouthidx = mkmouthidx(mouthshapes)
+
+    -- TODO: initialize mouthshape with rest
+    -- something like this:
+    -- av.sqrcirc:apply_shape(vm, av.mouthshapes.rest, 0.5)
 
     buf.font = "fountain"
 
@@ -973,7 +976,6 @@ function Inspire.init(script_txt, gestling_name, modules)
     inspire.phrasebook_name = phrasebook_name
     inspire.gestling_name = gestling_name
     inspire.audio_only = false
-    -- setup(inspire)
     return inspire
 end
 

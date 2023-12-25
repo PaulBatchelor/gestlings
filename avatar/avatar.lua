@@ -23,14 +23,16 @@ function Avatar.draw(vm, singer, mouth_x, mouth_y, dims, framepos)
 
     local mouthshapes = singer.mouthshapes
     local mouthvals = singer.mouthidx
+    local apply_shape = false
 
-    mouth = singer.mouthshapes.rest
+    -- mouth = singer.mouthshapes.rest
     if mouth_x ~= nil then
         local cur, nxt, pos = gestvm_last_values(mouth_x)
         -- print(cur, nxt)
         m1 = mouthvals[cur]
         m2 = mouthvals[nxt]
         mouth = singer.sqrcirc:interp(m1, m2, pos)
+        apply_shape = true
     end
 
     if mouth_y ~= nil then
@@ -39,9 +41,12 @@ function Avatar.draw(vm, singer, mouth_x, mouth_y, dims, framepos)
         nxt = nxt / 0xFF
         pos = (1 - pos)*cur + pos*nxt
         mouth = singer.sqrcirc:interp(mouthshapes.rest, mouth, pos)
+        apply_shape = true
     end
 
-    singer.sqrcirc:apply_shape(vm, mouth)
+    if apply_shape then
+        singer.sqrcirc:apply_shape(vm, mouth)
+    end
 
     if dims ~= nil then
         -- quick hack: LFO to add floating
