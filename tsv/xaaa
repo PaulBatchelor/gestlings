@@ -1559,11 +1559,11 @@
 -	a13896d6-582e-4839-821d-ad7d2bcbb221	#c6676a27-d931-4d69-b3ef-82c67e55c1df
 2023-08-05 02:49:03	ba6ecac3-0392-4fbc-b4b4-afd9a9cca206	>avatar drawing pipeline
 -	ba6ecac3-0392-4fbc-b4b4-afd9a9cca206	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-05 02:49:03	ba6ecac3-0392-4fbc-b4b4-afd9a9cca206	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-25 20:14:58	ba6ecac3-0392-4fbc-b4b4-afd9a9cca206	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	c6676a27-d931-4d69-b3ef-82c67e55c1df	#ba6ecac3-0392-4fbc-b4b4-afd9a9cca206
 2023-08-05 02:50:11	e3517d0d-1c2f-4f0c-9883-fdd208b27875	>work out initial body designs
 -	e3517d0d-1c2f-4f0c-9883-fdd208b27875	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-05 02:50:11	e3517d0d-1c2f-4f0c-9883-fdd208b27875	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-25 20:14:40	e3517d0d-1c2f-4f0c-9883-fdd208b27875	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-05 02:51:44	e3517d0d-1c2f-4f0c-9883-fdd208b27875	$blurb:>gestlings don't really have 'bodies', in the same way kirby and jigglypuff don't really have bodies. it's really more of a floating head in my mind. no time for limbs. but body is a little less ambiguous than something like 'head'
 -	e3517d0d-1c2f-4f0c-9883-fdd208b27875	#ba6ecac3-0392-4fbc-b4b4-afd9a9cca206
 2023-08-05 02:52:32	e85270e7-5835-42a6-96ed-d24401f3b936	>avatar integration with descript
@@ -1575,7 +1575,7 @@
 2023-08-05 02:53:55	8c0ab137-569b-4556-81f2-a0552cae87ca	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
 2023-08-05 02:55:01	ea0bec5a-9273-482e-94dd-ac26dddcabcd	>eyes, body, mouth, and sound
 -	ea0bec5a-9273-482e-94dd-ac26dddcabcd	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-08-05 02:55:01	ea0bec5a-9273-482e-94dd-ac26dddcabcd	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-25 20:14:36	ea0bec5a-9273-482e-94dd-ac26dddcabcd	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-08-05 02:56:26	ea0bec5a-9273-482e-94dd-ac26dddcabcd	$blurb:>a placeholder sound should be visualized with a gestling. eyes, mouth, and body should be animated. states should be parsed from a descript file.
 -	ea0bec5a-9273-482e-94dd-ac26dddcabcd	#ba6ecac3-0392-4fbc-b4b4-afd9a9cca206
 2023-08-05 02:56:59	4efd45b5-dd84-48ed-b927-0b12ebe0fd7f	>scope out phrasebank
@@ -2616,7 +2616,7 @@
 -	dac849d2-3230-4e2d-bb4b-917ae50c7c0a	#5ff398ff-7dd6-49be-8914-3807a9ec09fb
 2023-09-28 18:01:14	41ebd427-3175-4162-ae2a-a9372847d832	>create mouth abstraction
 -	41ebd427-3175-4162-ae2a-a9372847d832	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-09-28 18:01:15	41ebd427-3175-4162-ae2a-a9372847d832	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-25 20:14:29	41ebd427-3175-4162-ae2a-a9372847d832	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	41ebd427-3175-4162-ae2a-a9372847d832	#ba6ecac3-0392-4fbc-b4b4-afd9a9cca206
 2023-09-28 19:00:41	c54276c8-5a5f-466c-97af-16dd33737f32	>I need to make a mouth chart using the new mouth abstraction. I'm going to need to design a few shapes for this gestling to use.
 -	c54276c8-5a5f-466c-97af-16dd33737f32	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
