@@ -31,7 +31,7 @@ function Avatar.draw(vm, singer, mouth_x, mouth_y, dims, framepos)
         -- print(cur, nxt)
         m1 = mouthvals[cur]
         m2 = mouthvals[nxt]
-        mouth = singer.sqrcirc:interp(m1, m2, pos)
+        mouth = singer.mouth_controller:interp(m1, m2, pos)
         apply_shape = true
     end
 
@@ -40,12 +40,12 @@ function Avatar.draw(vm, singer, mouth_x, mouth_y, dims, framepos)
         cur = cur / 0xFF
         nxt = nxt / 0xFF
         pos = (1 - pos)*cur + pos*nxt
-        mouth = singer.sqrcirc:interp(mouthshapes.rest, mouth, pos)
+        mouth = singer.mouth_controller:interp(mouthshapes.rest, mouth, pos)
         apply_shape = true
     end
 
     if apply_shape then
-        singer.sqrcirc:apply_shape(vm, mouth)
+        singer.mouth_controller:apply_shape(vm, mouth)
     end
 
     if dims ~= nil then

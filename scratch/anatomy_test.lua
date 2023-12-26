@@ -8,6 +8,7 @@ local sdfdraw = require("avatar/sdfdraw")
 local json = require("util/json")
 local core = require("util/core")
 local pprint = require("util/pprint")
+local anatomy = require("avatar/anatomy")
 
 local lilt = core.lilt
 local scale = 0.6
@@ -19,36 +20,6 @@ asset = asset:new{
     base64 = require("util/base64")
 }
 
-
-function mkmouthtab(mouthshapes)
-    local lut = {}
-    for _, mth in pairs(mouthshapes) do
-        lut[mth.name] = mth.shape
-    end
-
-    return lut
-end
-
-function mkmouthlut(mouthshapes)
-    local lut = {}
-
-    for idx, mth in pairs(mouthshapes) do
-        lut[mth.name] = idx
-    end
-
-    return lut
-end
-
-function mkmouthidx(mouthshapes)
-    local lut = {}
-
-    for idx, mth in pairs(mouthshapes) do
-        lut[idx] = mth.shape
-    end
-
-    return lut
-end
-    
 lil("sdfvmnew vm")
 lil("grab vm")
 vm = pop()
@@ -105,23 +76,18 @@ local shader = {
     "gtz",
 }
 
--- "shader" can be stored as data as an asset
--- asset:save(shader, "tmp/a_junior2.b64")
--- shader = asset:load("tmp/a_junior2.b64")
+an = anatomy.new {
+    syms = syms,
+    vm = vm,
+    sdfdraw = sdfdraw,
+    avatar = avatar,
+    lilt = lilt,
+    shader = shader,
+    asset = asset,
+    mouth_controller = sqrcirc,
+}
 
-local av = avatar.mkavatar(sdfdraw,
-    vm,
-    syms,
-    "avatar",
-    id, 512, lilt)(shader)
-
--- sqrcirc: aka the logic for rigging the mouth
-av.sqrcirc = sqrcirc
-
-local mouthshapes = asset:load("avatar/mouth/mouthshapes1.b64")
-av.mouthshapes = mkmouthtab(mouthshapes)
-av.mouthlut = mkmouthlut(mouthshapes)
-av.mouthidx = mkmouthidx(mouthshapes)
+av = anatomy.generate_avatar(an)
 
 lil("bpnew bp 240 320")
 local window_padding = 4
@@ -134,7 +100,6 @@ local avatar_dims = {
     (320 - 60) - 2*avatar_padding
 }
 
-
 -- set up drawing region for avatar
 lilt {
     "bpset",
@@ -143,9 +108,6 @@ lilt {
     avatar_dims[3], avatar_dims[4]
 }
 
-av.sqrcirc:apply_shape(vm, av.mouthshapes.bigsqr, 0.5)
--- for just drawing stills, only these arguments are
--- needed. Animating the mouth will take more time
-avatar.draw(vm, av)
-
+anatomy.apply_shape(an, "rest", 0.5)
+anatomy.draw(an)
 lil("bppng [grab bp] tmp/anatomy_test.png")

@@ -87,8 +87,16 @@ function Squirc:new_shape()
 
 end
 
+function Squirc:load_shapes(asset, filename)
+    filename = filename or "avatar/mouth/mouthshapes1.b64"
+    local mouthshapes = asset:load(filename)
+    return mouthshapes
+end
+
 function Mouth.squirc(o)
-    return Squirc:new(o)
+    local sqc = Squirc:new(o)
+    sqc.mouth = Mouth
+    return sqc
 end
 
 function Mouth.mkmouthtab(mouthshapes)
