@@ -8,11 +8,11 @@ local sdfdraw = require("avatar/sdfdraw")
 local json = require("util/json")
 local core = require("util/core")
 local pprint = require("util/pprint")
-local anatomy = require("avatar/anatomy")
+local anatomy = require("avatar/anatomy/anatomy")
 
 local lilt = core.lilt
 local scale = 0.6
-local sqrcirc = mouth:squirc()
+-- local sqrcirc = mouth:squirc()
 local asset = require("asset/asset")
 msgpack = require("util/MessagePack")
 asset = asset:new{
@@ -26,55 +26,7 @@ vm = pop()
 syms = sdfdraw.load_symbols(json)
 id = 1
 
-local shader = {
-    {
-        "point",
-        "vec2", 0.45*scale, -0.33*scale, "add2",
-        "scalar", 0.4*scale, "circle"
-    },
-    "scalar 0 regset",
-    "scalar 0 regget",
-    {"scalar", 0.02*scale, "onion"},
-    {
-        "point",
-        "vec2", 0.45*scale, -0.33*scale, "add2",
-        "scalar", 0.15*scale, "circle",
-        "add"
-    },
-    "gtz",
-
-    {
-        "point",
-        "vec2", -0.45*scale, -0.33*scale, "add2",
-        "scalar", 0.4*scale, "circle"
-    },
-    "scalar 1 regset",
-    "scalar 1 regget",
-    {"scalar", 0.02*scale, "onion"},
-    {
-        "point",
-        "vec2", -0.45*scale, -0.33*scale, "add2",
-        "scalar", 0.15*scale, "circle",
-        "add"
-    },
-    "gtz",
-
-    "add",
-
-    "point",
-    {"vec2", 0.65*scale, 0.5*scale, "ellipse"},
-    {"scalar", 0.02*scale, "onion"},
-    "scalar 0 regget scalar 1 regget",
-    "add",
-    "swap subtract",
-    "add",
-
-    sqrcirc:generate(scale, 0.8, 0.05, {0, 0.3}),
-
-    "add",
-    -- "point vec2 0.75 0.6 ellipse gtz",
-    "gtz",
-}
+gestling_anatomy = asset:load("avatar/anatomy/a_junior.b64")
 
 an = anatomy.new {
     syms = syms,
@@ -82,31 +34,15 @@ an = anatomy.new {
     sdfdraw = sdfdraw,
     avatar = avatar,
     lilt = lilt,
-    shader = shader,
+    shader = gestling_anatomy.shader,
     asset = asset,
-    mouth_controller = sqrcirc,
+    mouth_controller = mouth.name_to_mouth(gestling_anatomy.mouth),
 }
 
 av = anatomy.generate_avatar(an)
 
 lil("bpnew bp 240 320")
-local window_padding = 4
-local avatar_padding = window_padding + 8
-
--- avatar
-local avatar_dims = {
-    avatar_padding, avatar_padding,
-    240 - 2*avatar_padding,
-    (320 - 60) - 2*avatar_padding
-}
-
--- set up drawing region for avatar
-lilt {
-    "bpset",
-    "[grab bp]", 1,
-    avatar_dims[1], avatar_dims[2],
-    avatar_dims[3], avatar_dims[4]
-}
+avatar.setup(lilt)
 
 anatomy.apply_shape(an, "rest", 0.5)
 anatomy.draw(an)

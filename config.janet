@@ -98,11 +98,9 @@
     @[["characters/toni.b64"]
       ["characters/toni.lua"]
       [
-       #"vocab/toni/p_toni.b64"
-       #"vocab/toni/p_toni_verses.b64"
+       "vocab/toni/p_toni.b64"
        "vocab/toni/t_toni.b64"
        "vocab/toni/pb_toni.txt"
-       # "vocab/toni/pb_toni_verses.txt"
        "vocab/toni/v_toni.b64"
        # "shapes/l_toni.b64"
        ]]
@@ -114,6 +112,10 @@
     @[["avatar/mouth/mouthshapes1.b64"]
       ["avatar/mouth/mouthshapes1.lua"]
       ["asset/asset.lua"]]
+
+    @[["avatar/anatomy/a_junior.b64"]
+      ["avatar/anatomy/a_junior.lua"]
+      ["asset/asset.lua" "avatar/mouth/mouth.lua"]]
 
 ])
 

@@ -8,3 +8,6 @@ uf2_foo.lua: script to generate uf2 font file
 v_foo.b64: vocabulary
 v_foo.lua: lua script to generate vocabulary
 s_foo.b64: tubesculpt shapes (usually found in shapes folder)
+a_foo.b64: gestling anatomy (see avatar/anatomy folder)
+l_foo.b64: shape lookup table, derived from s_foo.b64
+s_foo.b64: tract shapes file

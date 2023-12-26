@@ -87,6 +87,10 @@ function Squirc:new_shape()
 
 end
 
+function Squirc:name()
+    return "squirc"
+end
+
 function Squirc:load_shapes(asset, filename)
     filename = filename or "avatar/mouth/mouthshapes1.b64"
     local mouthshapes = asset:load(filename)
@@ -126,6 +130,16 @@ function Mouth.mkmouthidx(mouthshapes)
     end
 
     return lut
+end
+
+function Mouth.name_to_mouth(name)
+    if name == "squirc" then
+        return Mouth:squirc()
+    else
+        error("could not find mouth type: " .. name)
+    end
+
+    return nil
 end
 
 return Mouth

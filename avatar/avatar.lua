@@ -69,4 +69,24 @@ function Avatar.draw(vm, singer, mouth_x, mouth_y, dims, framepos)
     )
 end
 
+function Avatar.setup(lilt)
+    local window_padding = 4
+    local avatar_padding = window_padding + 8
+
+    -- avatar
+    local avatar_dims = {
+        avatar_padding, avatar_padding,
+        240 - 2*avatar_padding,
+        (320 - 60) - 2*avatar_padding
+    }
+
+    -- set up drawing region for avatar
+    lilt {
+        "bpset",
+        "[grab bp]", 1,
+        avatar_dims[1], avatar_dims[2],
+        avatar_dims[3], avatar_dims[4]
+    }
+end
+
 return Avatar
