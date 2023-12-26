@@ -6,6 +6,7 @@ json = require("util/json")
 mouth = require("avatar/mouth/mouth")
 sdfdraw = require("avatar/sdfdraw")
 avatar = require("avatar/avatar")
+anatomy = require("avatar/anatomy/anatomy")
 
 descript = require("descript/descript")
 

@@ -116,6 +116,7 @@ function setup(inspire, modules)
     local mod_json = json or modules.json
     local mod_asset = asset or modules.asset
     local mod_core = core or modules.core
+    local mod_anatomy = anatomy or modules.anatomy
 
     local lilt = mod_core.lilt
     local lilts = mod_core.lilts
@@ -128,18 +129,18 @@ function setup(inspire, modules)
     inspire.vm = vm
     syms = mod_sdfdraw.load_symbols(mod_json)
 
-    -- TODO rework placeholder avatar
-    local trixie = mktrixie(vm, syms, 1, modules)
+    -- -- TODO rework placeholder avatar
+    -- local trixie = mktrixie(vm, syms, 1, modules)
 
-    local mouthshapes = mod_asset:load("avatar/mouth/mouthshapes1.b64")
-    -- used to access specific shapes
-    trixie.mouthshapes = mkmouthtab(mouthshapes)
+    -- local mouthshapes = mod_asset:load("avatar/mouth/mouthshapes1.b64")
+    -- -- used to access specific shapes
+    -- trixie.mouthshapes = mkmouthtab(mouthshapes)
 
-    -- used to generate monologue
-    trixie.mouthlut = mkmouthlut(mouthshapes)
+    -- -- used to generate monologue
+    -- trixie.mouthlut = mkmouthlut(mouthshapes)
 
-    -- used for shape lookup in avatar draw
-    trixie.mouthidx = mkmouthidx(mouthshapes)
+    -- -- used for shape lookup in avatar draw
+    -- trixie.mouthidx = mkmouthidx(mouthshapes)
 
     -- TODO: initialize mouthshape with rest
     -- something like this:
@@ -174,25 +175,24 @@ function setup(inspire, modules)
         60 - 2*padding
     }
 
-    local avatar_padding = window_padding + 8
-    -- avatar
-    local avatar_dims = {
-        avatar_padding, avatar_padding,
-        240 - 2*avatar_padding,
-        (320 - 60) - 2*avatar_padding
-    }
+    -- local avatar_padding = window_padding + 8
+    -- -- avatar
+    -- local avatar_dims = {
+    --     avatar_padding, avatar_padding,
+    --     240 - 2*avatar_padding,
+    --     (320 - 60) - 2*avatar_padding
+    -- }
 
-    lilt {
-        "bpset",
-        "[grab bp]", 1,
-        avatar_dims[1], avatar_dims[2],
-        avatar_dims[3], avatar_dims[4]
-        -- avatar_padding, avatar_padding,
-        -- 240 - 2*avatar_padding,
-        -- (320 - 60) - 2*avatar_padding
-    }
+    -- lilt {
+    --     "bpset",
+    --     "[grab bp]", 1,
+    --     avatar_dims[1], avatar_dims[2],
+    --     avatar_dims[3], avatar_dims[4]
+    --     -- avatar_padding, avatar_padding,
+    --     -- 240 - 2*avatar_padding,
+    --     -- (320 - 60) - 2*avatar_padding
+    -- }
 
-    inspire.avatar_dims = avatar_dims
 
     -- window (canvas)
     lilt {
@@ -202,9 +202,21 @@ function setup(inspire, modules)
         240 - 2*window_padding, 320 - 2*window_padding
     }
 
+    inspire.avatar_dims = avatar.setup(lilt)
     inspire.buf = buf
-    inspire.trixie = trixie
-    inspire.mouth = sqrcirc
+    inspire.anatomy_controller = mod_anatomy.new({
+        syms = syms,
+        vm = vm,
+        sdfdraw = sdfdraw,
+        avatar = avatar,
+        lilt = lilt,
+        shader = inspire.character.anatomy.shader,
+        asset = asset,
+        mouth_controller =
+            mouth.name_to_mouth(inspire.character.anatomy.mouth),
+    })
+
+    mod_anatomy.generate_avatar(inspire.anatomy_controller)
 end
 
 function new_event(t, name, data)
@@ -419,6 +431,7 @@ function Inspire.setup_sound(inspire, modules)
         head = phys.tal_head { tal = mod_tal }
     end
 
+    local av = inspire.anatomy_controller.avatar_controller
     local words = mod_monologue.to_words {
         tal = mod_tal,
         path = mod_path,
@@ -426,7 +439,7 @@ function Inspire.setup_sound(inspire, modules)
         vocab = vocab,
         monologue = mono,
         shapelut = lookup,
-        mouthshapes = inspire.trixie.mouthlut,
+        mouthshapes = av.mouthlut,
         head = head
     }
 
@@ -597,17 +610,19 @@ end
 
 function Inspire.process_video(inspire, nframes, modules)
     local evdata = {}
-    local trixie = inspire.trixie
+    -- local trixie = inspire.trixie
 
     local events = inspire.events
     local buf = inspire.buf
     local vm = inspire.vm
+    local ac = inspire.anatomy_controller
 
     modules = modules or {}
     local mod_core = core or modules.core
     local lilt = mod_core.lilt
     local mod_avatar = core or modules.avatar
     local audio_only = inspire.audio_only
+    local mod_anatomy = anatomy or modules.anatomy
 
     local event_handler = {
         append = function(mb, data)
@@ -713,13 +728,20 @@ function Inspire.process_video(inspire, nframes, modules)
             }
             -- lil("bpoutline [bpget [grab bp] 1] 1")
             if buf.draw_avatar == true then
-                mod_avatar.draw(vm,
-                    trixie,
+                -- mod_avatar.draw(vm,
+                --     trixie,
+                --     inspire.physdat.mouth_x,
+                --     inspire.physdat.mouth_y,
+                --     inspire.avatar_dims,
+                --     n
+                -- )
+                mod_anatomy.draw(ac,
                     inspire.physdat.mouth_x,
                     inspire.physdat.mouth_y,
                     inspire.avatar_dims,
                     n
                 )
+
             end
             lilt{"bptr", "[grab bp]", xoff, yoff, 240, 320, 0, 0, 0}
             lil("gfxzoomit")
@@ -956,6 +978,7 @@ function Inspire.load_modules()
     m.path = path or require("path/path")
     m.sig = sig or require("sig/sig")
     m.sigrunes = sigrunes or require("sigrunes/sigrunes")
+    m.anatomy = anatomy or require("avatar/anatomy/anatomy")
 
     return m
 end

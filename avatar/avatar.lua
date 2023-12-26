@@ -87,6 +87,8 @@ function Avatar.setup(lilt)
         avatar_dims[1], avatar_dims[2],
         avatar_dims[3], avatar_dims[4]
     }
+
+    return avatar_dims
 end
 
 return Avatar

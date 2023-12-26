@@ -71,11 +71,11 @@ function anatomy.apply_shape(an, shape_name, scale)
     mc:apply_shape(vm, ms[shape_name], 0.5)
 end
 
-function anatomy.draw(an)
+function anatomy.draw(an, mouth_x, mouth_y, dims, framepos)
     local avatar = an.avatar
     local vm = an.vm
     local av = an.avatar_controller
-    avatar.draw(vm, av)
+    avatar.draw(vm, av, mouth_x, mouth_y, dims, framepos)
 end
 
 return anatomy

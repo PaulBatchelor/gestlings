@@ -62,6 +62,7 @@
        "vocab/junior/pb_junior_verses.txt"
        "vocab/junior/v_junior.b64"
        "shapes/l_junior.b64"
+       "avatar/anatomy/a_junior.b64"
        ]]
 
     @[["fonts/junior.uf2"
