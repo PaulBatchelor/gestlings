@@ -3080,7 +3080,7 @@
 -	5e7a489a-8822-486e-9dca-98b7c69829c0	#e4c919f9-8b22-45a0-bcb7-ef3533255d08
 2023-12-26 14:08:48	0ad477af-38bf-4233-b1d7-eb54a0d72376	>build out anatomy component
 -	0ad477af-38bf-4233-b1d7-eb54a0d72376	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-12-26 14:08:48	0ad477af-38bf-4233-b1d7-eb54a0d72376	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-26 19:40:33	0ad477af-38bf-4233-b1d7-eb54a0d72376	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-12-26 14:09:57	68590f40-6fe5-489a-a57b-bd095ac78ad8	>using the scratch code I made that extracted anatomy code from inspire, I'm going to build out an anatomy component that is more re-usable.
 -	68590f40-6fe5-489a-a57b-bd095ac78ad8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	68590f40-6fe5-489a-a57b-bd095ac78ad8	#0ad477af-38bf-4233-b1d7-eb54a0d72376
