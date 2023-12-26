@@ -4,8 +4,6 @@
 @character toni
 @font plotter
 
-@noavatar
-
 @nphrases 3
 @phrase um_hello neutral
 @phrase silence neutral

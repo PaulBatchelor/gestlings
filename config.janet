@@ -103,7 +103,8 @@
        "vocab/toni/t_toni.b64"
        "vocab/toni/pb_toni.txt"
        "vocab/toni/v_toni.b64"
-       # "shapes/l_toni.b64"
+       "shapes/l_toni.b64"
+       "avatar/anatomy/a_toni.b64"
        ]]
 
     @[["fonts/protorunes.uf2"]
@@ -117,6 +118,14 @@
     @[["avatar/anatomy/a_junior.b64"]
       ["avatar/anatomy/a_junior.lua"]
       ["asset/asset.lua" "avatar/mouth/mouth.lua"]]
+
+    @[["avatar/anatomy/a_toni.b64"]
+      ["avatar/anatomy/a_toni.lua"]
+      ["asset/asset.lua" "avatar/mouth/mouth.lua"]]
+
+    @[["shapes/l_toni.b64"]
+      ["shapes/l_toni.lua"]
+      ["shapes/s_toni.b64"]]
 
 ])
 

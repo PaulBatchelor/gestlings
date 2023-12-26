@@ -448,6 +448,16 @@ function toniphys.physiology(p)
     toniphys.postprocess()
     toniphys.clean(pt)
 
+    -- mouth gestures, to be used for visuals
+    gst:gesture("mouth_x", cnd, msgscale)
+    lil("drop")
+    lil("gestvmlast " .. gst:get())
+    physdat.mouth_x = pop()
+    gst:gesture("mouth_y", cnd, msgscale)
+    lil("drop")
+    lil("gestvmlast " .. gst:get())
+    physdat.mouth_y = pop()
+
     return physdat
 end
 

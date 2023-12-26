@@ -20,52 +20,51 @@ lil("grab vm")
 vm = pop()
 syms = sdfdraw.load_symbols(json)
 
--- gestling_anatomy = asset:load("avatar/anatomy/a_junior.b64")
+gestling_anatomy = asset:load("avatar/anatomy/a_toni.b64")
 
-local squirc = mouth:squirc()
-local scale = 0.6
-local squareoff = 0.5
-local shader = {
-    {
-        "point",
-        "vec2", 0.0, -0.3, "add2",
-        "scalar", 0.5, "circle"
-    },
-    {
-        "point",
-        "vec2", -0.5, 0.5 - 0.25,
-        "vec2", -0.5, -0.3 - 0.25,
-        "vec2", 0.5, -0.3 - 0.25,
-        "vec2", 0.5, 0.5 - 0.25,
-        "poly4"
-    },
-    "union",
-    "scalar 0 regset",
-    "scalar 0 regget",
-    {"scalar", 0.01, "onion"},
-
-    {
-        "point",
-        "vec2", 0.0, -0.3, "add2",
-        "vec2", 0.35, 0.25, "ellipse"
-    },
-    "scalar 0 regset",
-    "scalar 0 regget",
-    {"scalar", 0.01, "onion"},
-    "add",
-    {
-        "point",
-        "vec2", 0.0, -0.3, "add2",
-        "scalar", 0.1, "circle"
-    },
-    "add",
-    "gtz",
-
-    squirc:generate(scale, 2.0, 0.8, {0, 0.4}),
-
-    "gtz", "add",
-}
-
+--local squirc = mouth:squirc()
+-- local scale = 0.6
+-- local squareoff = 0.5
+-- local shader = {
+--     {
+--         "point",
+--         "vec2", 0.0, -0.3, "add2",
+--         "scalar", 0.5, "circle"
+--     },
+--     {
+--         "point",
+--         "vec2", -0.5, 0.5 - 0.25,
+--         "vec2", -0.5, -0.3 - 0.25,
+--         "vec2", 0.5, -0.3 - 0.25,
+--         "vec2", 0.5, 0.5 - 0.25,
+--         "poly4"
+--     },
+--     "union",
+--     "scalar 0 regset",
+--     "scalar 0 regget",
+--     {"scalar", 0.01, "onion"},
+-- 
+--     {
+--         "point",
+--         "vec2", 0.0, -0.3, "add2",
+--         "vec2", 0.35, 0.25, "ellipse"
+--     },
+--     "scalar 0 regset",
+--     "scalar 0 regget",
+--     {"scalar", 0.01, "onion"},
+--     "add",
+--     {
+--         "point",
+--         "vec2", 0.0, -0.3, "add2",
+--         "scalar", 0.1, "circle"
+--     },
+--     "add",
+--     "gtz",
+-- 
+--     squirc:generate(0.6, 2.0, 0.8, {0, 0.4}),
+-- 
+--     "add",
+-- }
 
 an = anatomy.new {
     syms = syms,
@@ -73,9 +72,11 @@ an = anatomy.new {
     sdfdraw = sdfdraw,
     avatar = avatar,
     lilt = lilt,
-    shader = shader,
+    --shader = shader,
+    shader = gestling_anatomy.shader,
     asset = asset,
-    mouth_controller = mouth.name_to_mouth(squirc:name()),
+    --mouth_controller = mouth.name_to_mouth(squirc:name()),
+    mouth_controller = mouth.name_to_mouth(gestling_anatomy.mouth),
 }
 
 
@@ -92,5 +93,6 @@ lilt {
 }
 
 anatomy.apply_shape(an, "tri", 0.5)
+anatomy.draw(an)
 anatomy.draw(an)
 lil("bppng [grab bp] tmp/toni_anatomy.png")

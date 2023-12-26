@@ -186,6 +186,13 @@ function genvocab()
         rel = {
             {0x80, 3, stp},
             {0x80, 1, gm},
+        },
+        mouth_x = {
+            {"tri", 1, gm},
+            {"close", 1, gm},
+        },
+        mouth_y = {
+            {0xFF, 1, gm},
         }
     })
 
