@@ -1,6 +1,7 @@
 @character junior
 @phrasebook mushroom_poem
 @font fountain
+@bouncereset 0.4 0.03
 
 @nphrases 1
 @phrase cap_taught_me some_jumps

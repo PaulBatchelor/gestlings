@@ -57,6 +57,7 @@ function anatomy.generate_avatar(an)
     av.mouthidx = mouth.mkmouthidx(mouthshapes)
     av.mouth_controller = mc
     an.avatar_controller = av
+    av.bouncer = avatar.mkbouncer()
     return av
 end
 
@@ -76,6 +77,16 @@ function anatomy.draw(an, mouth_x, mouth_y, dims, framepos)
     local vm = an.vm
     local av = an.avatar_controller
     avatar.draw(vm, av, mouth_x, mouth_y, dims, framepos)
+end
+
+function anatomy.update_bounce(an)
+    local av = an.avatar_controller
+    av.bouncer.update(av.bouncer)
+end
+
+function anatomy.bouncereset(an)
+    local av = an.avatar_controller
+    av.bouncer.reset(av.bouncer)
 end
 
 return anatomy

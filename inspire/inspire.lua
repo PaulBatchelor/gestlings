@@ -129,23 +129,6 @@ function setup(inspire, modules)
     inspire.vm = vm
     syms = mod_sdfdraw.load_symbols(mod_json)
 
-    -- -- TODO rework placeholder avatar
-    -- local trixie = mktrixie(vm, syms, 1, modules)
-
-    -- local mouthshapes = mod_asset:load("avatar/mouth/mouthshapes1.b64")
-    -- -- used to access specific shapes
-    -- trixie.mouthshapes = mkmouthtab(mouthshapes)
-
-    -- -- used to generate monologue
-    -- trixie.mouthlut = mkmouthlut(mouthshapes)
-
-    -- -- used for shape lookup in avatar draw
-    -- trixie.mouthidx = mkmouthidx(mouthshapes)
-
-    -- TODO: initialize mouthshape with rest
-    -- something like this:
-    -- av.sqrcirc:apply_shape(vm, av.mouthshapes.rest, 0.5)
-
     buf.font = "fountain"
 
     -- lilt {"bpnew", "bp", 240, 60}
@@ -175,25 +158,6 @@ function setup(inspire, modules)
         60 - 2*padding
     }
 
-    -- local avatar_padding = window_padding + 8
-    -- -- avatar
-    -- local avatar_dims = {
-    --     avatar_padding, avatar_padding,
-    --     240 - 2*avatar_padding,
-    --     (320 - 60) - 2*avatar_padding
-    -- }
-
-    -- lilt {
-    --     "bpset",
-    --     "[grab bp]", 1,
-    --     avatar_dims[1], avatar_dims[2],
-    --     avatar_dims[3], avatar_dims[4]
-    --     -- avatar_padding, avatar_padding,
-    --     -- 240 - 2*avatar_padding,
-    --     -- (320 - 60) - 2*avatar_padding
-    -- }
-
-
     -- window (canvas)
     lilt {
         "bpset",
@@ -204,6 +168,7 @@ function setup(inspire, modules)
 
     inspire.avatar_dims = avatar.setup(lilt)
     inspire.buf = buf
+    buf.inspire = inspire
     inspire.anatomy_controller = mod_anatomy.new({
         syms = syms,
         vm = vm,
@@ -269,6 +234,22 @@ end
 
 function set_draw_avatar(events, t, n)
     table.insert(events, new_event(t, "set_draw_avatar", n))
+end
+
+function set_varibounce(events, t, val)
+    table.insert(events, new_event(t, "set_varibounce", val))
+end
+
+function set_bouncerate(events, t, val)
+    table.insert(events, new_event(t, "set_bouncerate", val))
+end
+
+function set_bounceamp(events, t, val)
+    table.insert(events, new_event(t, "set_bounceamp", val))
+end
+
+function set_bouncereset(events, t, vals)
+    table.insert(events, new_event(t, "set_bouncereset", vals))
 end
 
 -- for this trailer, the symbols have virtually
@@ -667,6 +648,33 @@ function Inspire.process_video(inspire, nframes, modules)
         set_draw_avatar = function(mb, state)
             mb.draw_avatar = state
         end,
+
+        set_varibounce = function(mb, state)
+            mb.inspire.varibounce = state
+        end,
+
+        set_bouncerate = function(mb, val)
+            -- lots of deep reaching here...
+            local ac = mb.inspire.anatomy_controller
+            local av = ac.avatar_controller
+            local bouncer = av.bouncer
+            bouncer.set_rate(bouncer, val)
+        end,
+
+        set_bounceamp = function(mb, val)
+            -- lots of deep reaching here...
+            local ac = mb.inspire.anatomy_controller
+            local av = ac.avatar_controller
+            local bouncer = av.bouncer
+            bouncer.set_amp(bouncer, val)
+        end,
+
+        set_bouncereset = function(mb, vals)
+            local ac = mb.inspire.anatomy_controller
+            local av = ac.avatar_controller
+            local bouncer = av.bouncer
+            bouncer.reset(bouncer, vals.rate, vals.amp)
+        end,
     }
 
     evdata.events = events
@@ -692,6 +700,7 @@ function Inspire.process_video(inspire, nframes, modules)
     -- local yoff = 240//2 - 60//2
     local xoff = 0
     local yoff = 0
+
     for n=1,nframes do
         if (n % 60) == 0 then
             print(n, string.format("%02d%%", math.floor(n*100/nframes)))
@@ -735,6 +744,9 @@ function Inspire.process_video(inspire, nframes, modules)
                 --     inspire.avatar_dims,
                 --     n
                 -- )
+                if inspire.varibounce then
+                    mod_anatomy.update_bounce(ac)
+                end
                 mod_anatomy.draw(ac,
                     inspire.physdat.mouth_x,
                     inspire.physdat.mouth_y,
@@ -897,6 +909,23 @@ function parse_script(script_txt, modules)
         elseif string.match(block[1], "^#") ~= nil then
             -- comment (@#), the other one might be
             -- broken?
+        elseif string.match(block[1], "^varibounce") ~= nil then
+            set_varibounce(events, t, true)
+        elseif string.match(block[1], "^bouncerate") ~= nil then
+            local cmd = split(block[1], " ")
+            set_bouncerate(events, t, tonumber(cmd[2]))
+        elseif string.match(block[1], "^bounceamp") ~= nil then
+            local cmd = split(block[1], " ")
+            set_bounceamp(events, t, tonumber(cmd[2]))
+        elseif string.match(block[1], "^bouncereset") ~= nil then
+            local cmd = split(block[1], " ")
+            local vals = {}
+            vals.rate = tonumber(cmd[2])
+            vals.amp = tonumber(cmd[3])
+            set_bouncereset(events, t, vals)
+        else
+            local cmd = split(block[1], " ")
+            error("Invalid command: " .. cmd[1])
         end
     end
 
@@ -999,6 +1028,7 @@ function Inspire.init(script_txt, gestling_name, modules)
     inspire.phrasebook_name = phrasebook_name
     inspire.gestling_name = gestling_name
     inspire.audio_only = false
+    inspire.varibounce = false
     return inspire
 end
 

@@ -3,6 +3,8 @@
 
 @character toni
 @font plotter
+@varibounce
+@bouncereset 1.3 0.06
 
 @nphrases 3
 @segmode
@@ -17,6 +19,8 @@
 Ugh. <PAUSE 8>You caught me at
 a weird time.<PAUSE 10>
 
+@bouncerate 0.5
+@bounceamp 0.06
 @nphrases 1
 @phrase not_sure_why_down neutral
 @block
@@ -24,6 +28,8 @@ a weird time.<PAUSE 10>
 why I am so sad today.<PAUSE 8> I
 am usually pretty upbeat!<PAUSE 8>
 
+@bouncerate 0.8
+@bounceamp 0.1
 @nphrases 1
 @phrase mind_is_tossing neutral
 @block
@@ -32,6 +38,8 @@ on the ocean,<PAUSE 4> like some
 Inspired One in search of
 truths with <RATE 4>Portly Sail!<PAUSE 6>
 
+@bouncerate 0.5
+@bounceamp 0.06
 @nphrases 1
 @phrase i_know_why_i_am_sad neutral
 @block
@@ -46,6 +54,8 @@ I ran out of Circle
 Spinners to sell today.<PAUSE 6>
 Love those things.<PAUSE 8>
 
+@bouncerate 0.3
+@bounceamp 0.07
 @nphrases 2
 @phrase silence neutral
 @phrase silence neutral
@@ -53,6 +63,8 @@ Love those things.<PAUSE 8>
 <RATE 12>...<PAUSE 8>
 ...<PAUSE 10>
 
+@bouncerate 1.0
+@bounceamp 0.2
 @nphrases 1
 @phrase dont_know_about_circle_spinners neutral
 @scale 1
@@ -60,13 +72,17 @@ Love those things.<PAUSE 8>
 <RATE 3>You mean to say<RATE 8>...<PAUSE 10>
 <RATE 3>You don't know about...<RATE 4><PAUSE 10>
 
+@bouncerate 2.6
+@bounceamp 0.4
 @nphrases 1
 @phrase circle_spinners neutral
 @scale 2
 @block
 <RATE 4>Circle
-Spinners?!<PAUSE 20>
+Spinners?!<PAUSE 40>
 
+@bouncerate 0.7
+@bounceamp 0.06
 @nphrases 1
 @phrase must_have_toy neutral
 @scale 1
@@ -85,10 +101,10 @@ like I said, I'm out.<PAUSE 8>
 @nphrases 1
 @phrase gestlings_are_clumsy neutral
 @block
-We Gestlings are clumsy
-and often drop things.<PAUSE 4>
 Maybe you'll find one
 on the ground.<PAUSE 8>
+We Gestlings are clumsy
+and often drop things.<PAUSE 4>
 
 @nphrases 1
 @phrases back_to_upper_rings neutral
