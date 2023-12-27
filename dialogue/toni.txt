@@ -5,35 +5,38 @@
 @font plotter
 
 @nphrases 3
+@segmode
+@seglen 1
 @phrase um_hello neutral
+@seglen 1
 @phrase silence neutral
+@seglen 3
 @phrase caught_me_at_weird_time neutral
 @block
-<RATE 4>Um. Hello...
-...<PAUSE 4>
-Ugh. You caught me at
-a weird time.<PAUSE 8>
+<RATE 4>Um. Hello...<PAUSE 16>
+Ugh. <PAUSE 8>You caught me at
+a weird time.<PAUSE 10>
 
 @nphrases 1
 @phrase not_sure_why_down neutral
 @block
-In truth,<PAUSE 6> I know not
+<RATE 3>In truth,<PAUSE 6> I know not
 why I am so sad today.<PAUSE 8> I
-am usually pretty upbeat.<PAUSE 8>
+am usually pretty upbeat!<PAUSE 8>
 
 @nphrases 1
 @phrase mind_is_tossing neutral
 @block
 <RATE 3>My mind is tossing
 on the ocean,<PAUSE 4> like some
-<PAUSE 4><RATE 2>Inspired<RATE 3><PAUSE 10> in search of
+Inspired One in search of
 truths with <RATE 4>Portly Sail!<PAUSE 6>
 
 @nphrases 1
 @phrase i_know_why_i_am_sad neutral
 @block
-<RATE 3>You know what.<PAUSE 6> I think
-I know why I'm so sad.<PAUSE 8>
+<RATE 3>You know what?<PAUSE 6> I think
+I know why I'm so sad.<PAUSE 10>
 
 @nphrases 1
 @phrase i_ran_out_of_circle_spinners neutral
@@ -43,25 +46,26 @@ I ran out of Circle
 Spinners to sell today.<PAUSE 6>
 Love those things.<PAUSE 8>
 
-@nphrases 1
+@nphrases 2
+@phrase silence neutral
 @phrase silence neutral
 @block
-<RATE 6>...<PAUSE 8>
-...<PAUSE 8>
+<RATE 12>...<PAUSE 8>
+...<PAUSE 10>
 
 @nphrases 1
 @phrase dont_know_about_circle_spinners neutral
 @scale 1
 @block
-<RATE 3>You mean to say<RATE 5>...<PAUSE 8>
-<RATE 3>You don't know about...<PAUSE 8>
+<RATE 3>You mean to say<RATE 8>...<PAUSE 10>
+<RATE 3>You don't know about...<RATE 4><PAUSE 10>
 
 @nphrases 1
 @phrase dont_know_about_circle_spinners neutral
 @scale 2
 @block
 <RATE 4>Circle
-Spinners?!<PAUSE 10>
+Spinners?!<PAUSE 20>
 
 @nphrases 1
 @phrase must_have_toy neutral

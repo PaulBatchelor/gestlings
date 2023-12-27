@@ -348,6 +348,13 @@ function genvocab()
     -- Vocab Words
 
     voc(2, 1, pat_a {
+        mouth_x = {
+            {"wide", 2, gm},
+            {"close", 1, gm},
+        },
+        mouth_y = {
+            {0xFF, 1, gm},
+        }
     }, "test word.")
 
     voc(1, 1, pat_a {
@@ -359,21 +366,40 @@ function genvocab()
         },
         gate = {
             {0, 1, stp}
+        },
+        mouth_x = {
+            {"close", 1, gm},
+        },
+        mouth_y = {
+            {0x00, 1, gm},
         }
     }, "silence.")
 
     voc(3, 1,
-        m_whistle_pitched {},
+        m_whistle_pitched {
+            mouth_x = {
+                {"smallcirc", 2, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
+            }
+        },
         "pitched whistle. flat")
 
     voc(4, 1,
-        m_clickpat {},
+        m_clickpat {
+            mouth_x = {
+                {"bigsqr", 2, gm},
+                {"smallsqr", 2, gm},
+                {"bigsqr", 2, gm},
+                {"close", 2, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
+            }
+        },
         "clickpat A")
-
-    -- -- PAUL DEBUGGING
-    -- local fp = io.open("tmp/debug.json", "w")
-    -- fp:write(json.encode(m_clickpat {}))
-    -- fp:close()
 
 
     voc(5, 1,
@@ -390,6 +416,17 @@ function genvocab()
                 2, 2, 2,
                 2, 2, 1, 1,
                 6,
+            },
+            mouth_x = {
+                {"bigsqr", 2, gm},
+                {"smallsqr", 2, gm},
+                {"bigsqr", 1, gm},
+                {"smallsqr", 1, gm},
+                {"bigsqr", 2, gm},
+                {"close", 2, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
             }
         },
         "clickpat B")
@@ -398,6 +435,15 @@ function genvocab()
         m_whistle_pitched {
             pitch = genmel {
                 {0, 1, gl}, {9, 2}, {3, 2}
+            },
+            mouth_x = {
+                {"smallcirc", 1, gl},
+                {"bigcirc", 2, lin},
+                {"smallcirc", 2, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
             }
         },
         "pitched whistle: melodic a")
@@ -406,6 +452,16 @@ function genvocab()
         m_whistle_pitched {
             pitch = genmel {
                 {9, 1, gl}, {7, 1, gl}, {0, 1, gl}, {5, 4, gl}
+            },
+            mouth_x = {
+                {"bigcirc", 2, gm},
+                {"smallcirc", 2, gm},
+                {"bigcirc", 2, lin},
+                {"smallcirc", 2, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
             }
         },
         "pitched whistle: melodic b")
@@ -417,6 +473,15 @@ function genvocab()
                 {12, 1}, {10, 2},
                 {12, 1}, {10, 2},
                 {0, 3, exp}, {7, 6, gm},
+            },
+            mouth_x = {
+                {"bigcirc", 2, lin},
+                {"smallcirc", 1, exp},
+                {"bigcirc", 1, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
             }
         }, p_sh_a),
         "pitched whistle: melodic c")
@@ -427,6 +492,16 @@ function genvocab()
                 {0, 1, gm}, {9, 3, gm},
                 {4, 2, gm}, {9, 6, gm},
                 {2, 1, lin}, {0, 5, gm},
+            },
+            mouth_x = {
+                {"bigcirc", 2, gm},
+                {"smallcirc", 2, gm},
+                {"bigcirc", 2, exp},
+                {"smallcirc", 2, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
             }
         }, p_sh_a),
         "pitched whistle: melodic d")
@@ -437,6 +512,18 @@ function genvocab()
                 {0, 1, gm}, {2, 1, gm},
                 {4, 1, gm}, {0, 1, gm},
                 {11, 8, gm},
+            },
+            mouth_x = {
+                {"smallcirc", 1, stp},
+                {"smallsqr", 1, stp},
+                {"bigcirc", 1, stp},
+                {"smallcirc", 1, gm},
+                {"bigcirc", 4, lin},
+                {"smallcirc", 3, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
             }
         }, p_sh_a),
         "pitched whistle: melodic e")
@@ -445,11 +532,28 @@ function genvocab()
         merge(m_whistle_pitched {
             pitch = genmel {
                 {0, 4, exp}, {7, 2, gm},
+            },
+            mouth_x = {
+                {"smallcirc", 4, exp},
+                {"bigcirc", 1, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
             }
         }, p_sh_a),
         "pitch rise")
 
-    voc(4, 2, m_clicks {}, "upward clicks")
+    voc(4, 2, m_clicks {
+            mouth_x = {
+                {"triflip", 2, exp},
+                {"tri", 2, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
+            }
+    }, "upward clicks")
     voc(5, 2, m_clicks {
         click_rate = {
             {15, 3, exp},
@@ -473,6 +577,14 @@ function genvocab()
             {shE, 3, exp},
             {shA, 1, gm},
         },
+        mouth_x = {
+            {"tri", 2, gm},
+            {"triflip", 2, exp},
+            {"close", 1, gm},
+        },
+        mouth_y = {
+            {0xFF, 1, gm},
+        }
     }, "downward clicks")
 
     voc(6, 2, m_clicks {
@@ -510,6 +622,15 @@ function genvocab()
             {1, 7, stp},
             {0, 1, stp},
         },
+        mouth_x = {
+            {"open", 2, gm},
+            {"upwider", 2, gm},
+            {"wide", 1, gm},
+            {"close", 1, gm},
+        },
+        mouth_y = {
+            {0xFF, 1, gm},
+        }
     }, "3 ascending click rolls")
 
     voc(7, 2, m_clicks {
@@ -545,6 +666,14 @@ function genvocab()
             {1, 7, stp},
             {0, 1, stp},
         },
+        mouth_x = {
+            {"tri", 2, gm},
+            {"bigsqr", 2, gm},
+            {"close", 1, gm},
+        },
+        mouth_y = {
+            {0xFF, 1, gm},
+        }
     }, "various chitters")
 
     voc(8, 2,
@@ -565,12 +694,32 @@ function genvocab()
                 2, 4, 2,
                 1, 1, 1, 1,
                 1, 1, 1, 1,
+            },
+            mouth_x = {
+                {"bigsqr", 2, gm},
+                {"smallsqr", 2, gm},
+                {"bigsqr", 2, gm},
+                {"smallsqr", 1, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
             }
         },
         "clickpat C")
 
     voc(1, 3,
         m_whistleclick {
+            mouth_x = {
+                {"smallsqr", 2, gm},
+                {"bigsqr", 2, gm},
+                {"smallcirc", 2, lin},
+                {"bigcirc", 1, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
+            }
         },
         "whistleclick A")
     voc(2, 3,
@@ -591,6 +740,14 @@ function genvocab()
                 {shD, 1, gm},
                 {shA, 1, gm},
             },
+            mouth_x = {
+                {"bigsqr", 2, lin},
+                {"smallcirc", 2, gm},
+                {"close", 1, gm},
+            },
+            mouth_y = {
+                {0xFF, 1, gm},
+            }
         },
         "whistleclick B")
     voc(3, 3, {}, "word divider", "divider")
