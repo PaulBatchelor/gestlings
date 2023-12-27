@@ -47,12 +47,12 @@ function anatomy.generate_avatar(an)
     local mc = an.mouth_controller
     local mouth = mc.mouth
     local mouthshapes = mc:load_shapes(asset)
-
+    local shader_size = 1024
     local av = avatar.mkavatar(an.sdfdraw,
         an.vm,
         an.syms,
         an.avatar,
-        id, 512, an.lilt)(an.shader)
+        id, shader_size, an.lilt)(an.shader)
 
     av.mouthshapes = mouth.mkmouthtab(mouthshapes)
     av.mouthlut = mouth.mkmouthlut(mouthshapes)
@@ -61,8 +61,6 @@ function anatomy.generate_avatar(an)
     an.avatar_controller = av
     av.bouncer = avatar.mkbouncer()
 
-    -- hack
-    -- sdfvm.uniset_vec2(an.vm, 7, 0, 0)
     return av
 end
 

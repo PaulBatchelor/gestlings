@@ -5,7 +5,7 @@ local Cyclops = {}
 local cyclops_states = {
     center = {
         pupil_angle = 0,
-        pupil_radius = 0.9,
+        pupil_radius = 0.0,
     },
     east = {
         pupil_angle = 0,
@@ -108,16 +108,12 @@ function Cyclops:generate(offx, offy)
 
         -- pupil 
         "point",
-        --"vec2", offx + pupil_x, offy + pupil_y, "add2",
         "vec2", offx, offy, "add2",
-
-        -- TODO: why does this crash sdfvm
-        "vec2", 0, 0, "add2",
-        --"scalar", self.uniforms.pupil_coords, "uniform", add2",
+        "scalar", self.uniforms.pupil_coords, "uniform", "add2",
         "scalar", 0.1, "circle",
         -- "scalar", 0.1,
         -- "scalar", self.uniforms.pupil_scale, "uniform", "mul",
-        --"circle",
+        -- "circle",
         "scalar", -1, "mul",
         "scalar", 0, "regget",
         "subtract",
@@ -126,6 +122,30 @@ function Cyclops:generate(offx, offy)
         "scalar", 0.01, "onion",
         "union",
 
+        "gtz",
+    }
+
+    -- Debugging work, copying what is above, to what is
+    -- down here to trace where the program crashes
+    shader = {
+        "point",
+        "vec2", offx, offy, "add2",
+        "vec2", 0.35, 0.25, "ellipse",
+        "scalar 0 regset",
+
+        "point",
+        "vec2", offx, offy, "add2",
+        "scalar", self.uniforms.pupil_coords, "uniform", "add2",
+        "scalar", 0.1, "circle",
+
+        -- TODO: why does this cause problems?
+        -- "scalar", -1, "mul",
+        -- "scalar", 0, "regget",
+        -- "subtract",
+
+        "scalar", 0, "regget",
+        "scalar", 0.01, "onion",
+        "union",
         "gtz",
     }
 
@@ -158,6 +178,7 @@ end
 function Cyclops:apply_state(state)
     local tar = self.target
     local cur = self.params
+    local speed = self.speed
 
     local angle = nil
     local radius = nil

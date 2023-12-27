@@ -19,6 +19,7 @@ function sdfdraw.generate_bytecode(syms, script, bytebuf)
     end
 
     local program = tokenize(table.concat(input_script, "\n"))
+    -- error("size " .. #program)
 
     for _,p in pairs(program) do
         if #p == 0 then
