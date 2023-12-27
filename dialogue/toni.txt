@@ -61,7 +61,7 @@ Love those things.<PAUSE 8>
 <RATE 3>You don't know about...<RATE 4><PAUSE 10>
 
 @nphrases 1
-@phrase dont_know_about_circle_spinners neutral
+@phrase circle_spinners neutral
 @scale 2
 @block
 <RATE 4>Circle

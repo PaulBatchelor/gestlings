@@ -11,3 +11,4 @@ must_have_toy
 id_sell_you_one
 gestlings_are_clumsy
 back_to_upper_rings
+circle_spinners
