@@ -11,6 +11,7 @@ function anatomy.new(p)
     local shader = p.shader
     local asset = p.asset
     local mouth_controller = p.mouth_controller
+    local eye_controller = p.eye_controller
 
     assert(syms ~= nil, "Symbol table must be loaded")
     assert(vm ~= nil, "sdfvm instance not supplied")
@@ -34,6 +35,7 @@ function anatomy.new(p)
     an.mouth_controller = mouth_controller
     an.asset = asset
     an.syms = syms
+    an.eye_controller = eye_controller
 
     return an
 end
@@ -58,6 +60,9 @@ function anatomy.generate_avatar(an)
     av.mouth_controller = mc
     an.avatar_controller = av
     av.bouncer = avatar.mkbouncer()
+
+    -- hack
+    -- sdfvm.uniset_vec2(an.vm, 7, 0, 0)
     return av
 end
 
@@ -76,6 +81,12 @@ function anatomy.draw(an, mouth_x, mouth_y, dims, framepos)
     local avatar = an.avatar
     local vm = an.vm
     local av = an.avatar_controller
+    local ec = an.eye_controller
+
+    if ec ~= nil then
+        ec:update(vm)
+    end
+
     avatar.draw(vm, av, mouth_x, mouth_y, dims, framepos)
 end
 

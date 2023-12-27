@@ -117,6 +117,7 @@ function setup(inspire, modules)
     local mod_asset = asset or modules.asset
     local mod_core = core or modules.core
     local mod_anatomy = anatomy or modules.anatomy
+    local mod_eye = eye or modules.eye
 
     local lilt = mod_core.lilt
     local lilts = mod_core.lilts
@@ -169,6 +170,12 @@ function setup(inspire, modules)
     inspire.avatar_dims = avatar.setup(lilt)
     inspire.buf = buf
     buf.inspire = inspire
+    local ec = nil
+
+    if inspire.character.anatomy.eye ~= nil then
+        ec = mod_eye.name_to_eye(inspire.character.anatomy.eye)
+    end
+
     inspire.anatomy_controller = mod_anatomy.new({
         syms = syms,
         vm = vm,
@@ -179,6 +186,7 @@ function setup(inspire, modules)
         asset = asset,
         mouth_controller =
             mouth.name_to_mouth(inspire.character.anatomy.mouth),
+        eye_controller = ec,
     })
 
     mod_anatomy.generate_avatar(inspire.anatomy_controller)
@@ -250,6 +258,14 @@ end
 
 function set_bouncereset(events, t, vals)
     table.insert(events, new_event(t, "set_bouncereset", vals))
+end
+
+function set_eyespeed(events, t, speed)
+    table.insert(events, new_event(t, "set_eyespeed", speed))
+end
+
+function set_eyestate(events, t, state)
+    table.insert(events, new_event(t, "set_eyestate", state))
 end
 
 -- for this trailer, the symbols have virtually
@@ -484,6 +500,21 @@ function process_block(block, t, rate, events, split)
                     end
                 elseif cmd[1] == "RATE" then
                     rate = tonumber(cmd[2])
+                elseif cmd[1] == "EYESPEED" then
+                    -- TODO change eye speed
+                    local speed = tonumber(cmd[2])
+                    print("eyespeed " ..  tonumber(cmd[2]))
+                    set_eyespeed(events, t, speed)
+                elseif cmd[1] == "EYE" then
+                    -- apply eye states
+                    local eyestates = {}
+                    for i=2,#cmd do
+                        table.insert(eyestates, cmd[i])
+                    end
+                    pprint(eyestates)
+                    set_eyestate(events, t, eyestates)
+                else
+                    error("invalid inline command: " .. cmd[1])
                 end
 
                 c = c + 1
@@ -674,6 +705,21 @@ function Inspire.process_video(inspire, nframes, modules)
             local av = ac.avatar_controller
             local bouncer = av.bouncer
             bouncer.reset(bouncer, vals.rate, vals.amp)
+        end,
+
+        set_eyespeed = function(mb, speed)
+            local ac = mb.inspire.anatomy_controller
+            local ec = ac.eye_controller
+            if ec ~= nil then
+                ec:lerp_speed(speed)
+            end
+        end,
+        set_eyestate = function(mb, state)
+            local ac = mb.inspire.anatomy_controller
+            local ec = ac.eye_controller
+            if ec ~= nil then
+                ec:apply(state)
+            end
         end,
     }
 
@@ -1008,7 +1054,7 @@ function Inspire.load_modules()
     m.sig = sig or require("sig/sig")
     m.sigrunes = sigrunes or require("sigrunes/sigrunes")
     m.anatomy = anatomy or require("avatar/anatomy/anatomy")
-
+    m.eye = eye or require("avatar/eye/eye")
     return m
 end
 

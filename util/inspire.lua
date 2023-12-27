@@ -7,6 +7,7 @@ mouth = require("avatar/mouth/mouth")
 sdfdraw = require("avatar/sdfdraw")
 avatar = require("avatar/avatar")
 anatomy = require("avatar/anatomy/anatomy")
+eye = require("avatar/eye/eye")
 
 descript = require("descript/descript")
 

@@ -15,8 +15,8 @@
 @seglen 3
 @phrase caught_me_at_weird_time neutral
 @block
-<RATE 4>Um. Hello...<PAUSE 16>
-Ugh. <PAUSE 8>You caught me at
+<EYESPEED 0><EYE southwest><RATE 4>Um. Hello...<PAUSE 16>
+<EYESPEED 0.2>Ugh.<PAUSE 8> You<EYE center> caught me at
 a weird time.<PAUSE 10>
 
 @bouncerate 0.5
