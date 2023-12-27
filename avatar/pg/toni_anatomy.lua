@@ -5,6 +5,7 @@ local json = require("util/json")
 local core = require("util/core")
 local pprint = require("util/pprint")
 local anatomy = require("avatar/anatomy/anatomy")
+local eye = require("avatar/eye/eye")
 
 local lilt = core.lilt
 -- local sqrcirc = mouth:squirc()

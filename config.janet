@@ -121,7 +121,10 @@
 
     @[["avatar/anatomy/a_toni.b64"]
       ["avatar/anatomy/a_toni.lua"]
-      ["asset/asset.lua" "avatar/mouth/mouth.lua"]]
+      ["asset/asset.lua"
+       "avatar/mouth/mouth.lua"
+       "avatar/eye/eye.lua"
+       ]]
 
     @[["shapes/l_toni.b64"]
       ["shapes/l_toni.lua"]

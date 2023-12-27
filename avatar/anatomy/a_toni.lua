@@ -1,5 +1,6 @@
 local mouth = require("avatar/mouth/mouth")
 local sqrcirc = mouth:squirc()
+local eye = require("avatar/eye/eye")
 
 local asset = require("asset/asset")
 asset = asset:new{
@@ -8,6 +9,7 @@ asset = asset:new{
 }
 
 local squirc = mouth:squirc()
+local cyclops = eye:cyclops()
 local shader = {
     {
         "point",
@@ -28,20 +30,21 @@ local shader = {
     "scalar 0 regget",
     {"scalar", 0.01, "onion"},
 
-    {
-        "point",
-        "vec2", 0.0, -0.3, "add2",
-        "vec2", 0.35, 0.25, "ellipse"
-    },
-    "scalar 0 regset",
-    "scalar 0 regget",
-    {"scalar", 0.01, "onion"},
-    "add",
-    {
-        "point",
-        "vec2", 0.0, -0.3, "add2",
-        "scalar", 0.1, "circle"
-    },
+    -- {
+    --     "point",
+    --     "vec2", 0.0, -0.3, "add2",
+    --     "vec2", 0.35, 0.25, "ellipse"
+    -- },
+    -- "scalar 0 regset",
+    -- "scalar 0 regget",
+    -- {"scalar", 0.01, "onion"},
+    -- "add",
+    -- {
+    --     "point",
+    --     "vec2", 0.0, -0.3, "add2",
+    --     "scalar", 0.1, "circle"
+    -- },
+    cyclops:generate(0.0, -0.3),
     "add",
 
     "gtz",
