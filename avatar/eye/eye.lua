@@ -54,4 +54,16 @@ function Cyclops:generate(offx, offy)
     return shader
 end
 
+function Cyclops:name()
+    return "cyclops"
+end
+
+function Eye.name_to_eye(name)
+    if name == "cyclops" then
+        return Eye:cyclops()
+    else
+        error("could not find eye type: " .. name)
+    end
+end
+
 return Eye

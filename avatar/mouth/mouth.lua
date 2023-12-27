@@ -138,7 +138,6 @@ function Mouth.name_to_mouth(name)
     else
         error("could not find mouth type: " .. name)
     end
-
     return nil
 end
 

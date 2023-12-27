@@ -29,21 +29,6 @@ local shader = {
     "scalar 0 regset",
     "scalar 0 regget",
     {"scalar", 0.01, "onion"},
-
-    -- {
-    --     "point",
-    --     "vec2", 0.0, -0.3, "add2",
-    --     "vec2", 0.35, 0.25, "ellipse"
-    -- },
-    -- "scalar 0 regset",
-    -- "scalar 0 regget",
-    -- {"scalar", 0.01, "onion"},
-    -- "add",
-    -- {
-    --     "point",
-    --     "vec2", 0.0, -0.3, "add2",
-    --     "scalar", 0.1, "circle"
-    -- },
     cyclops:generate(0.0, -0.3),
     "add",
 
@@ -56,5 +41,6 @@ local gestling_anatomy = {}
 
 gestling_anatomy.shader = shader
 gestling_anatomy.mouth = squirc:name()
+gestling_anatomy.eye = cyclops:name()
 
 asset:save(gestling_anatomy, "avatar/anatomy/a_toni.b64")
