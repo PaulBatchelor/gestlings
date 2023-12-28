@@ -12,6 +12,7 @@ function anatomy.new(p)
     local asset = p.asset
     local mouth_controller = p.mouth_controller
     local eye_controller = p.eye_controller
+    local mouth_scale = p.mouth_scale
 
     assert(syms ~= nil, "Symbol table must be loaded")
     assert(vm ~= nil, "sdfvm instance not supplied")
@@ -36,6 +37,7 @@ function anatomy.new(p)
     an.asset = asset
     an.syms = syms
     an.eye_controller = eye_controller
+    an.mouth_scale = mouth_scale
 
     return an
 end
@@ -65,14 +67,13 @@ function anatomy.generate_avatar(an)
 end
 
 function anatomy.apply_shape(an, shape_name, scale)
-    scale = scale or 0.5
     local av = an.avatar_controller
     local ms = av.mouthshapes
     local mc = an.mouth_controller
 
     assert(ms[shape_name] ~= nil,
         "Could not find mouth shape: " .. shape_name)
-    mc:apply_shape(vm, ms[shape_name], 0.5)
+    mc:apply_shape(vm, ms[shape_name], an.mouth_scale)
 end
 
 function anatomy.draw(an, mouth_x, mouth_y, dims, framepos)
@@ -85,7 +86,7 @@ function anatomy.draw(an, mouth_x, mouth_y, dims, framepos)
         ec:update(vm)
     end
 
-    avatar.draw(vm, av, mouth_x, mouth_y, dims, framepos)
+    avatar.draw(vm, av, mouth_x, mouth_y, dims, framepos, an.mouth_scale)
 end
 
 function anatomy.update_bounce(an)

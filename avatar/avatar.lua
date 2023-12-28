@@ -53,7 +53,7 @@ function Avatar.mkbouncer()
     return bouncer
 end
 
-function Avatar.draw(vm, singer, mouth_x, mouth_y, dims, framepos)
+function Avatar.draw(vm, singer, mouth_x, mouth_y, dims, framepos, mouthscale)
     -- local mouth = singer.open
     local m1 = nil
     local m2 = nil
@@ -84,7 +84,7 @@ function Avatar.draw(vm, singer, mouth_x, mouth_y, dims, framepos)
     end
 
     if apply_shape then
-        singer.mouth_controller:apply_shape(vm, mouth)
+        singer.mouth_controller:apply_shape(vm, mouth, mouthscale)
     end
 
     if dims ~= nil then

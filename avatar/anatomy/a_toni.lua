@@ -19,10 +19,10 @@ local shader = {
     },
     {
         "point",
-        "vec2", -0.5, 0.5 - 0.25,
-        "vec2", -0.5, -0.3 - 0.25,
-        "vec2", 0.5, -0.3 - 0.25,
-        "vec2", 0.5, 0.5 - 0.25,
+        "vec2", -0.5, 0.5 - 0.22,
+        "vec2", -0.5, -0.3 - 0.22,
+        "vec2", 0.5, -0.3 - 0.22,
+        "vec2", 0.5, 0.5 - 0.22,
         "poly4"
     },
     "union",
@@ -34,47 +34,7 @@ local shader = {
     "add",
 
     "gtz",
-    squirc:generate(0.6, 2.0, 0.8, {0, 0.4}),
-    "add",
-}
-
--- debug_program = io.open("program.txt")
-
--- debug_shader = {}
--- for ln in debug_program:lines() do
---     if string.match(ln, "^#") == nil then
---         local words = core.split(ln, " ")
---         for _,w in pairs(words) do
---             if #w > 0 then
---                 table.insert(debug_shader, w)
---             end
---         end
---     end
--- end
-local debug_shader = {
-    {
-        "point",
-        "vec2", 0.0, -0.3, "add2",
-        "scalar", 0.5, "circle"
-    },
-    {
-        "point",
-        "vec2", -0.5, 0.5 - 0.25,
-        "vec2", -0.5, -0.3 - 0.25,
-        "vec2", 0.5, -0.3 - 0.25,
-        "vec2", 0.5, 0.5 - 0.25,
-        "poly4"
-    },
-    "union",
-
-    "scalar 0 regset",
-    "scalar 0 regget",
-    {"scalar", 0.01, "onion"},
-    cyclops:generate(0.0, -0.3),
-    "add",
-
-    "gtz",
-    squirc:generate(0.6, 2.0, 0.8, {0, 0.4}),
+    squirc:generate(0.4, 2.0, 0.8, {0, 0.6}),
     "add",
 }
 
@@ -82,6 +42,7 @@ local gestling_anatomy = {}
 
 gestling_anatomy.shader = shader
 gestling_anatomy.mouth = squirc:name()
+gestling_anatomy.mouth_scale = 0.5
 gestling_anatomy.eye = cyclops:name()
 
 asset:save(gestling_anatomy, "avatar/anatomy/a_toni.b64")

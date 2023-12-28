@@ -79,8 +79,8 @@ an = anatomy.new {
     --mouth_controller = mouth.name_to_mouth(squirc:name()),
     mouth_controller = mouth.name_to_mouth(gestling_anatomy.mouth),
     eye_controller = eye.name_to_eye(gestling_anatomy.eye),
+    mouth_scale = gestling_anatomy.mouth_scale
 }
-
 
 av = anatomy.generate_avatar(an)
 
@@ -94,7 +94,7 @@ lilt {
     0, 320-60, 240, 320 - 60, 1
 }
 
-anatomy.apply_shape(an, "tri", 0.5)
+anatomy.apply_shape(an, "tri")
 anatomy.draw(an)
 -- anatomy.draw(an)
 lil("bppng [grab bp] tmp/toni_anatomy.png")

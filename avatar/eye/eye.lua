@@ -39,6 +39,22 @@ local cyclops_states = {
         pupil_angle = -0.125,
         pupil_radius = 0.9,
     },
+
+    normal = {
+        pupil_scale = 1.0,
+    },
+
+    medium = {
+        pupil_scale = 1.5,
+    },
+
+    small = {
+        pupil_scale = 0.5,
+    },
+
+    large = {
+        pupil_scale = 2.0,
+    },
 }    
 
 function Cyclops:new(o)

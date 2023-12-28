@@ -187,6 +187,7 @@ function setup(inspire, modules)
         mouth_controller =
             mouth.name_to_mouth(inspire.character.anatomy.mouth),
         eye_controller = ec,
+        mouth_scale = inspire.character.anatomy.mouth_scale
     })
 
     mod_anatomy.generate_avatar(inspire.anatomy_controller)
@@ -511,7 +512,6 @@ function process_block(block, t, rate, events, split)
                     for i=2,#cmd do
                         table.insert(eyestates, cmd[i])
                     end
-                    pprint(eyestates)
                     set_eyestate(events, t, eyestates)
                 else
                     error("invalid inline command: " .. cmd[1])
