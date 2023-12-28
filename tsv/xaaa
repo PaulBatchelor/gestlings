@@ -2740,7 +2740,7 @@
 -	9e92ec7e-1113-49f9-9baf-c31f85246739	#fe12e1ce-d230-4071-9aab-9968ff1f9bae
 2023-10-07 19:28:48	e4c919f9-8b22-45a0-bcb7-ef3533255d08	>second gestling anatomy
 -	e4c919f9-8b22-45a0-bcb7-ef3533255d08	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-10-07 19:28:48	e4c919f9-8b22-45a0-bcb7-ef3533255d08	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-28 17:58:31	e4c919f9-8b22-45a0-bcb7-ef3533255d08	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 -	e4c919f9-8b22-45a0-bcb7-ef3533255d08	#fe12e1ce-d230-4071-9aab-9968ff1f9bae
 2023-10-07 19:29:10	95af8005-756b-44b7-b6e3-eac1f85c60ea	>second gestling phrases
 -	95af8005-756b-44b7-b6e3-eac1f85c60ea	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
@@ -3166,3 +3166,6 @@
 2023-12-28 17:44:37	227fe705-8f5b-4f87-9f62-46e6822134f1	>Tracked the issue all the way down to sdf2d (sdfvm). There was a program that was truncating an integer because it was accintally a uint8_t when it should have been a size_t.
 -	227fe705-8f5b-4f87-9f62-46e6822134f1	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	227fe705-8f5b-4f87-9f62-46e6822134f1	#b6965890-3fa3-444d-a1eb-c33356ab8d75
+2023-12-28 18:56:08	2a651320-cc74-4f0c-b64f-139bdfbf56f8	$duration:>3452
+-	2a651320-cc74-4f0c-b64f-139bdfbf56f8	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	2a651320-cc74-4f0c-b64f-139bdfbf56f8	#32562c1b-70ee-43a7-8c41-7bc23524e7eb
