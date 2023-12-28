@@ -78,6 +78,7 @@ an = anatomy.new {
     asset = asset,
     --mouth_controller = mouth.name_to_mouth(squirc:name()),
     mouth_controller = mouth.name_to_mouth(gestling_anatomy.mouth),
+    eye_controller = eye.name_to_eye(gestling_anatomy.eye),
 }
 
 

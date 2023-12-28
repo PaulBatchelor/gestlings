@@ -3142,3 +3142,15 @@
 2023-12-27 22:26:57	31e9fa71-1c76-48ba-aaa2-0e6d2b089cda	$duration:>1195
 -	31e9fa71-1c76-48ba-aaa2-0e6d2b089cda	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	31e9fa71-1c76-48ba-aaa2-0e6d2b089cda	#b6965890-3fa3-444d-a1eb-c33356ab8d75
+2023-12-28 11:37:40	cb45ec27-5901-476c-ab60-4780b9a257ca	>last night, it seemed like add2 might not be the issue, but union.
+-	cb45ec27-5901-476c-ab60-4780b9a257ca	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	cb45ec27-5901-476c-ab60-4780b9a257ca	#b6965890-3fa3-444d-a1eb-c33356ab8d75
+2023-12-28 11:39:28	9b8a08ed-18c1-45ac-86c2-105691794088	>sorry, looks like I have "subtract" commented out, not union
+-	9b8a08ed-18c1-45ac-86c2-105691794088	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9b8a08ed-18c1-45ac-86c2-105691794088	#b6965890-3fa3-444d-a1eb-c33356ab8d75
+2023-12-28 12:13:43	7f7f733a-88b5-4aa7-8144-12d4a285a06e	>it doesn't seem to be any one opcode. disabling combinations of mouth and eye will cause crashes to happen that I'm pretty sure shouldn't happen.
+-	7f7f733a-88b5-4aa7-8144-12d4a285a06e	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	7f7f733a-88b5-4aa7-8144-12d4a285a06e	#b6965890-3fa3-444d-a1eb-c33356ab8d75
+2023-12-28 12:35:37	69727493-b72a-4293-8a6b-fcfb6820afc0	$duration:>3523
+-	69727493-b72a-4293-8a6b-fcfb6820afc0	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	69727493-b72a-4293-8a6b-fcfb6820afc0	#b6965890-3fa3-444d-a1eb-c33356ab8d75

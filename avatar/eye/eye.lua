@@ -139,15 +139,25 @@ function Cyclops:generate(offx, offy)
         "scalar", 0.1, "circle",
 
         -- TODO: why does this cause problems?
+        "scalar", -1, "mul",
+        "scalar", 0, "regget",
+        "subtract",
+        
+        
         -- "scalar", -1, "mul",
-        -- "scalar", 0, "regget",
-        -- "subtract",
+        -- "scalar", 0,
+        -- "add",
 
         "scalar", 0, "regget",
         "scalar", 0.01, "onion",
         "union",
         "gtz",
     }
+
+    -- shader = {
+    --     "scalar 0",
+    --     "stackpos"
+    -- }
 
     return shader
 end
