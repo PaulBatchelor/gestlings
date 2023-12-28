@@ -19,11 +19,9 @@ function sdfdraw.generate_bytecode(syms, script, bytebuf)
     end
 
     local program = tokenize(table.concat(input_script, "\n"))
-    print ("program size " .. #program)
     -- local debuglog = io.open("program.txt", "w")
     -- debuglog:write(table.concat(program, " "))
     -- debuglog:close()
-
 
     for _,p in pairs(program) do
         if #p == 0 then

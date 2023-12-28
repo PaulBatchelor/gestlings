@@ -110,10 +110,9 @@ function Cyclops:generate(offx, offy)
         "point",
         "vec2", offx, offy, "add2",
         "scalar", self.uniforms.pupil_coords, "uniform", "add2",
-        "scalar", 0.1, "circle",
-        -- "scalar", 0.1,
-        -- "scalar", self.uniforms.pupil_scale, "uniform", "mul",
-        -- "circle",
+        "scalar", 0.1,
+        "scalar", self.uniforms.pupil_scale, "uniform", "mul",
+        "circle",
         "scalar", -1, "mul",
         "scalar", 0, "regget",
         "subtract",
@@ -125,39 +124,6 @@ function Cyclops:generate(offx, offy)
         "gtz",
     }
 
-    -- Debugging work, copying what is above, to what is
-    -- down here to trace where the program crashes
-    shader = {
-        "point",
-        "vec2", offx, offy, "add2",
-        "vec2", 0.35, 0.25, "ellipse",
-        "scalar 0 regset",
-
-        "point",
-        "vec2", offx, offy, "add2",
-        "scalar", self.uniforms.pupil_coords, "uniform", "add2",
-        "scalar", 0.1, "circle",
-
-        -- TODO: why does this cause problems?
-        "scalar", -1, "mul",
-        "scalar", 0, "regget",
-        "subtract",
-        
-        
-        -- "scalar", -1, "mul",
-        -- "scalar", 0,
-        -- "add",
-
-        "scalar", 0, "regget",
-        "scalar", 0.01, "onion",
-        "union",
-        "gtz",
-    }
-
-    -- shader = {
-    --     "scalar 0",
-    --     "stackpos"
-    -- }
 
     return shader
 end

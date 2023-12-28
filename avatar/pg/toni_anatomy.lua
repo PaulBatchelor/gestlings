@@ -96,5 +96,5 @@ lilt {
 
 anatomy.apply_shape(an, "tri", 0.5)
 anatomy.draw(an)
-anatomy.draw(an)
+-- anatomy.draw(an)
 lil("bppng [grab bp] tmp/toni_anatomy.png")
