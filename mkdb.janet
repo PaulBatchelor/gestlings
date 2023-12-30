@@ -54,6 +54,7 @@ Tasks for Gestlings. Updated automatically using [[/wiki/zetdo][zetdo]].
 @!(img "/res/ref_junior_02.png")!@`)
 (ww-add-page "ref_toni" `#+TITLE: Toni Reference (WIP)
 @!(img "/res/ref_toni_01.png")!@`)
+(ww-add-page "toni" `@!(gestlingpage "toni")!@`)
 
 # linked pages
 
