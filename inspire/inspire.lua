@@ -952,9 +952,6 @@ function parse_script(script_txt, modules)
             seglen = tonumber(cmd[2])
         elseif string.match(block[1], "^noavatar") ~= nil then
             set_draw_avatar(events, t, false)
-        elseif string.match(block[1], "^#") ~= nil then
-            -- comment (@#), the other one might be
-            -- broken?
         elseif string.match(block[1], "^varibounce") ~= nil then
             set_varibounce(events, t, true)
         elseif string.match(block[1], "^bouncerate") ~= nil then

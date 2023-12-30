@@ -3176,3 +3176,21 @@
 2023-12-30 15:14:11	7cdbbfcf-aaab-4be1-9306-bda61501da1f	$duration:>168
 -	7cdbbfcf-aaab-4be1-9306-bda61501da1f	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	7cdbbfcf-aaab-4be1-9306-bda61501da1f	#2f813d60-7c9b-4349-a39a-a5e828d693e7
+2023-12-30 18:38:36	1b8e1c4d-7d82-4233-9e73-08508b85db2a	>this is actually working as expected. A comment can't exist outside a block.
+-	1b8e1c4d-7d82-4233-9e73-08508b85db2a	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	1b8e1c4d-7d82-4233-9e73-08508b85db2a	#2c01edc3-a0b6-43ec-af60-13c9c14a742b
+2023-12-30 18:44:03	0193f69e-2c98-45bb-83e9-7b19cea2ad1c	$duration:>990
+-	0193f69e-2c98-45bb-83e9-7b19cea2ad1c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	0193f69e-2c98-45bb-83e9-7b19cea2ad1c	#78c4fd5a-7c06-4afa-969f-4ebed948e13d
+2023-12-30 18:46:02	9d6bd9aa-cbc6-4242-b346-7409dc9e4a75	>actually, '@#' works perfectly as a comment in descript, even though I didn't mean for it to work this way. Because the block starts with a '#', the line is ignored. I wonder if it'll work for multi-lines though.
+-	9d6bd9aa-cbc6-4242-b346-7409dc9e4a75	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	9d6bd9aa-cbc6-4242-b346-7409dc9e4a75	#2c01edc3-a0b6-43ec-af60-13c9c14a742b
+2023-12-30 18:47:02	160a18ad-1e12-4a5f-827c-8d00439b629c	$duration:>50
+-	160a18ad-1e12-4a5f-827c-8d00439b629c	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	160a18ad-1e12-4a5f-827c-8d00439b629c	#78c4fd5a-7c06-4afa-969f-4ebed948e13d
+2023-12-30 18:47:25	d85b21cd-f7d6-48af-9f74-da5e06409f04	>comments that only start with '#' do not work. Oh well, this is good enough.
+-	d85b21cd-f7d6-48af-9f74-da5e06409f04	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	d85b21cd-f7d6-48af-9f74-da5e06409f04	#2c01edc3-a0b6-43ec-af60-13c9c14a742b
+2023-12-30 18:49:53	b64c0e2b-1523-4ae6-abc6-b77b3979ada2	>this is actually working as intended. comments have to go after a header @ block is declared. You can't have comments that are standalone. Incidentally, '@#' is ignored by the parser. All lines that start with '#' are ignored, even the the header line that is prepended with "@". This to me is good enough.
+-	b64c0e2b-1523-4ae6-abc6-b77b3979ada2	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	b64c0e2b-1523-4ae6-abc6-b77b3979ada2	#78c4fd5a-7c06-4afa-969f-4ebed948e13d

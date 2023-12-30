@@ -1,5 +1,4 @@
-@# in sooth I know not why I
-@# am so sad... (TODO: make regular comments work again)
+@# in sooth, I know not why I am so sad...
 
 @character toni
 @font plotter
