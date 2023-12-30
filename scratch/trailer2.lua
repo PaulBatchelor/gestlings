@@ -252,6 +252,7 @@ function setup_sound(character, phrases)
         lilts = lilts,
         sigrunes = sigrunes,
         sig = sig,
+        core = core,
     }
 
     gst:done()

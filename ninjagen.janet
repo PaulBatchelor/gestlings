@@ -221,6 +221,7 @@
    (string/join pdfs " "))))
 
 (gestling "dialogue/junior_mushrooms.txt" "junior")
+(gestling "dialogue/toni.txt" "toni")
 (genref
  "res/ref_toni.pdf"
  (array
