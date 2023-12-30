@@ -3024,7 +3024,7 @@
 2023-12-24 12:03:15	50540885-1e78-4e53-8d00-3b824410ee5d	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-12-24 11:40:24	78c4fd5a-7c06-4afa-969f-4ebed948e13d	>descript: comments might be broken?
 -	78c4fd5a-7c06-4afa-969f-4ebed948e13d	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-12-24 11:40:24	78c4fd5a-7c06-4afa-969f-4ebed948e13d	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-30 18:50:04	78c4fd5a-7c06-4afa-969f-4ebed948e13d	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-12-24 11:41:33	2c01edc3-a0b6-43ec-af60-13c9c14a742b	>see toni.txt. I have some comments in the header, and when they are there the character command never loads. however, when I switch to my command style comment hack @#, it works.
 -	2c01edc3-a0b6-43ec-af60-13c9c14a742b	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	2c01edc3-a0b6-43ec-af60-13c9c14a742b	#78c4fd5a-7c06-4afa-969f-4ebed948e13d
@@ -3194,3 +3194,9 @@
 2023-12-30 18:49:53	b64c0e2b-1523-4ae6-abc6-b77b3979ada2	>this is actually working as intended. comments have to go after a header @ block is declared. You can't have comments that are standalone. Incidentally, '@#' is ignored by the parser. All lines that start with '#' are ignored, even the the header line that is prepended with "@". This to me is good enough.
 -	b64c0e2b-1523-4ae6-abc6-b77b3979ada2	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	b64c0e2b-1523-4ae6-abc6-b77b3979ada2	#78c4fd5a-7c06-4afa-969f-4ebed948e13d
+2023-12-30 18:56:09	8b27eb17-993a-4f8b-8ff1-82ff9ebc4fea	>experiment with pixel operator font in CSS
+-	8b27eb17-993a-4f8b-8ff1-82ff9ebc4fea	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2023-12-30 18:56:09	8b27eb17-993a-4f8b-8ff1-82ff9ebc4fea	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2023-12-30 19:14:55	873dc629-3b08-4de4-90b9-e45a1c1be2ee	$duration:>1121
+-	873dc629-3b08-4de4-90b9-e45a1c1be2ee	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+-	873dc629-3b08-4de4-90b9-e45a1c1be2ee	#8b27eb17-993a-4f8b-8ff1-82ff9ebc4fea
