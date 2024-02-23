@@ -1,8 +1,43 @@
-Wait we're not ready yet! Come back soon.
+You awaken to an incomplete world called Cauldronia,
+a celestial body drifting about in a birthing universe.
+
+You find yourself at the Depths of the deep sea floor. It
+is far away from the comforts of the Gestletree.
+
+In front of you is a heavy door of bronze and marble with
+mysterious writing over the top. It creaks open ever
+so slightly. Bright white light emits from the cracks.
+
+A tiny clump of a creature scampers in your direction,
+and closes the door like a refrigerator. As it approaches,
+you notice that there are clumps of dust and twigs over
+its body.
+
+Surely, this must be a Gestling?
+
+The critter-that-could-be-a-Gestling looks at you and
+shrieks: "We're not ready yet!".
 
 @!(img "/res/hello_there_gestling.png")!@
 
+It scurries back towards the door. It must be in a hurry.
+
+The door is once again opened, releasing more beams of
+light. It is quickly shut, but not before some of the rays
+hit you.
+
+Fragments of things begin to form in your mind.
+
+A strange welcoming comittee of singing blobs:
+
 @!(video "/res/welcome_to_gestleton_small.mp4")!@
+
+A @!(ref "toni" "Spiral Mechanism Salesman")!@?! Huh.
+
+A bouncy someone named @!(ref "junior")!@ telling you about
+a poem they learned at Camp Gestletree.
+
+Junior also wrote a letter home:
 
 @!(video "/res/trailer2_small.mp4")!@
 
