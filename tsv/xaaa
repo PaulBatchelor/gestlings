@@ -3196,7 +3196,7 @@
 -	b64c0e2b-1523-4ae6-abc6-b77b3979ada2	#78c4fd5a-7c06-4afa-969f-4ebed948e13d
 2023-12-30 18:56:09	8b27eb17-993a-4f8b-8ff1-82ff9ebc4fea	>experiment with pixel operator font in CSS
 -	8b27eb17-993a-4f8b-8ff1-82ff9ebc4fea	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
-2023-12-30 18:56:09	8b27eb17-993a-4f8b-8ff1-82ff9ebc4fea	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2024-04-24 00:06:16	8b27eb17-993a-4f8b-8ff1-82ff9ebc4fea	$state:#c01ea65f-289f-4fa3-a6f6-17e7fdcb68cd
 2023-12-30 19:14:55	873dc629-3b08-4de4-90b9-e45a1c1be2ee	$duration:>1121
 -	873dc629-3b08-4de4-90b9-e45a1c1be2ee	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
 -	873dc629-3b08-4de4-90b9-e45a1c1be2ee	#8b27eb17-993a-4f8b-8ff1-82ff9ebc4fea
@@ -3314,3 +3314,7 @@
 -	e9d76412-18bb-420c-b6ff-62dda7fe1f52	#df34c3d3-f837-41a3-a29d-517bba5dd2f2
 2024-02-23 13:52:29	c642fd6d-03c8-4bbc-8837-76cfa58b687b	>Going to be writing more before I get back into making sounds. I have updated the temporary homepage to have more lore in it. (I should probably save this page for documentation reasons).
 -	c642fd6d-03c8-4bbc-8837-76cfa58b687b	#53a2e179-eb60-4c13-b749-59d5d3b893c5
+2024-04-24 00:07:24	cae453c5-6df9-4053-91ea-0f34812680a3	>scope out tooling for building up text-driven story with links
+-	cae453c5-6df9-4053-91ea-0f34812680a3	#e6a96e1d-fe3a-481c-9e6a-c0d500e76aa4
+2024-04-24 00:07:24	cae453c5-6df9-4053-91ea-0f34812680a3	$state:#71c823a3-5c4c-4d50-a206-e323f3115f7e
+2024-04-24 00:08:30	cae453c5-6df9-4053-91ea-0f34812680a3	$blurb:>In other words, get tooling set up so that it is trivial to build a text-only version of the Gestlings. No sound, video, or graphics.
